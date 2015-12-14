@@ -1,0 +1,5 @@
+rootProject.name = 'kanttiinit'
+
+include ':app'
+include ':RNMaterialKit'
+project(':RNMaterialKit').projectDir = file('../node_modules/react-native-material-kit/android')

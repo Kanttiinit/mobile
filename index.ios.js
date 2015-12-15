@@ -14,10 +14,10 @@ const {
 
 class TabButton extends React.Component {
    render() {
-      const {data, changeScene} = this.props;
+      const {data, changeScene, parent} = this.props;
       return (
-         <TouchableHighlight onPress={changeScene.bind(this, data)}>
-            <Text>{title}</Text>
+         <TouchableHighlight onPress={changeScene.bind(parent, data)}>
+            <Text>{data.title}</Text>
          </TouchableHighlight>
       );
    }
@@ -41,7 +41,7 @@ class Kanttiinit extends React.Component {
    }
    changeScene(data) {
       this.refs.navigator.replace(data);
-   },
+   }
    renderScene(route, navigator) {
       return React.createElement(route.component);
    }
@@ -53,7 +53,7 @@ class Kanttiinit extends React.Component {
                initialRoute={this.state.views[0]}
                renderScene={this.renderScene} />
             <View style={styles.tabBar}>
-               {this.state.views.map(v => <TabButton changeScene={this.changeScene} key={v.title} data={v} />)}
+               {this.state.views.map(v => <TabButton changeScene={this.changeScene} parent={this} key={v.title} data={v} />)}
             </View>
          </View>
       );

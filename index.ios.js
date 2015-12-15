@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react-native';
+import Material from 'react-native-material-kit';
 import Menu from './views/Menu';
 import Favourites from './views/Favourites';
 const {
@@ -12,13 +13,20 @@ const {
    TouchableHighlight
 } = React;
 
+const {
+   MKButton,
+   MKColor
+} = Material;
+
 class TabButton extends React.Component {
    render() {
-      const {data, changeScene} = this.props;
+      const {data, changeScene, parent, current} = this.props;
       return (
-         <TouchableHighlight onPress={changeScene.bind(this, data)}>
-            <Text>{title}</Text>
-         </TouchableHighlight>
+         <MKButton
+            backgroundColor={current ? MKColor.Teal : MKColor.Grey}
+            onPress={() => changeScene(data)} style={styles.tabButton}>
+            <Text style={{fontSize: 14, color: MKColor.Silver}}>{data.title}</Text>
+         </MKButton>
       );
    }
 }
@@ -28,20 +36,17 @@ class Kanttiinit extends React.Component {
       super();
       this.state = {
          views: [
-            {
-               title: 'Menu',
-               component: Menu
-            },
-            {
-               title: 'Favourites',
-               component: Favourites
-            }
-         ]
+            { title: 'Menu', component: Menu },
+            { title: 'Favourites', component: Favourites },
+            { title: 'Restaurants', component: null }
+         ],
+         currentView: 'Menu'
       };
    }
    changeScene(data) {
       this.refs.navigator.replace(data);
-   },
+      this.setState({currentView: data.title});
+   }
    renderScene(route, navigator) {
       return React.createElement(route.component);
    }
@@ -53,7 +58,13 @@ class Kanttiinit extends React.Component {
                initialRoute={this.state.views[0]}
                renderScene={this.renderScene} />
             <View style={styles.tabBar}>
-               {this.state.views.map(v => <TabButton changeScene={this.changeScene} key={v.title} data={v} />)}
+               {this.state.views.map(v =>
+                  <TabButton
+                     current={this.state.currentView === v.title}
+                     changeScene={this.changeScene.bind(this)}
+                     key={v.title}
+                     data={v} />
+               )}
             </View>
          </View>
       );
@@ -66,7 +77,14 @@ const styles = StyleSheet.create({
       flex: 1
    },
    tabBar: {
-      flexDirection: 'row'
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center'
+   },
+   tabButton: {
+     flex: 1,
+     padding: 20,
+     alignItems: 'center'
    }
 });
 

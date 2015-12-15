@@ -46,7 +46,6 @@ class Kanttiinit extends React.Component {
       };
    }
    componentDidMount() {
-      console.log(Navigator.SceneConfigs);
       this.changeScene(this.state.views[0]);
    }
    changeScene(data) {

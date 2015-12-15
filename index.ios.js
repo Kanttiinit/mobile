@@ -1,9 +1,7 @@
 'use strict';
 
 import React from 'react-native';
-import TabView from 'react-native-scrollable-tab-view';
 import Menu from './views/Menu';
-import Favourites from './views/Favourites';
 const {
    AppRegistry,
    StyleSheet,
@@ -11,34 +9,21 @@ const {
    View,
 } = React;
 
-const kanttiinit = React.createClass({
+class Kanttiinit extends React.Component {
    render() {
       return (
-         <TabView>
-            <Menu tabLabel="Menu" />
-            <Favourites tabLabel="Favs" />
-         </TabView>
+         <View style={styles.wrapper}>
+            <Menu />
+         </View>
       );
+   }
+};
+
+const styles = StyleSheet.create({
+   wrapper: {
+      marginTop: 24,
+      flex: 1
    }
 });
 
-const styles = StyleSheet.create({
-   container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#F5FCFF',
-   },
-   welcome: {
-      fontSize: 20,
-      textAlign: 'center',
-      margin: 10,
-   },
-   instructions: {
-      textAlign: 'center',
-      color: '#333333',
-      marginBottom: 5,
-   },
-});
-
-AppRegistry.registerComponent('kanttiinit', () => kanttiinit);
+AppRegistry.registerComponent('kanttiinit', () => Kanttiinit);

@@ -29,7 +29,6 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
                 .addPackage(new MainReactPackage())
                 .setUseDeveloperSupport(BuildConfig.DEBUG)
                 .setInitialLifecycleState(LifecycleState.RESUMED)
-                .addPackage(new MainReactPackage())
                 .addPackage(new ReactMaterialKitPackage())
                 .build();
 

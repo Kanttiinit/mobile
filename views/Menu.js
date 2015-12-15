@@ -3,6 +3,7 @@
 import React from 'react-native';
 import Material from 'react-native-material-kit';
 import moment from 'moment';
+import Swiper from 'react-native-swiper2';
 
 const {
    ScrollView,
@@ -13,13 +14,13 @@ const {
 
 const {
    MKCardStyles,
-   MKButton
+   MKButton,
+   MKColor
 } = Material;
 
 class Course extends React.Component {
    render() {
       const {course} = this.props;
-      console.log(course);
       return (
          <View>
             <Text key={course.title}>
@@ -50,16 +51,22 @@ class Day extends React.Component {
    }
    filter(restaurants) {
       return restaurants.map(r => {
-         r.courses = r.Menus.find(c => moment(c.date).startOf('day').isSame(this.props.date)).courses;
+         const courses = r.Menus.find(c => moment(c.date).startOf('day').isSame(this.props.date));
+         r.courses = courses ? courses.courses : [];
          return r;
       });
    }
    render() {
       const {date, restaurants} = this.props;
       return (
-         <ScrollView style={{flex: 1}}>
-            {restaurants ? this.filter(restaurants).map(r => <MenuItem key={r.id} restaurant={r} />) : null}
-         </ScrollView>
+         <View style={{flex: 1, paddingBottom: 96}}>
+            <View style={styles.daySelector}>
+               <Text style={styles.dayTitle}>{date.format('ddd DD.MM.')}</Text>
+            </View>
+            <ScrollView>
+               {restaurants ? this.filter(restaurants).map(r => <MenuItem key={r.id} restaurant={r} />) : null}
+            </ScrollView>
+         </View>
       );
    }
 }
@@ -67,7 +74,9 @@ class Day extends React.Component {
 class Menu extends React.Component {
    constructor() {
       super();
-      this.state = {};
+      this.state = {
+         today: moment().startOf('day')
+      };
    }
    componentDidMount() {
       fetch('http://api.kanttiinit.fi/areas/1/menus')
@@ -76,11 +85,22 @@ class Menu extends React.Component {
          this.setState({restaurants: response});
       });
    }
+   changeDay(offset) {
+
+   }
    render() {
       return(
          <View style={styles.container}>
-            <Text style={styles.dayTitle}>{moment().startOf('day').format('dddd')}</Text>
-            <Day date={moment().startOf('day')} restaurants={this.state.restaurants} />
+            <Swiper
+               style={{position: 'relative'}}
+               loop={false}>
+               {Array(7).fill(1).map((n, i) => moment(this.state.today).add(i, 'days')).map(date =>
+                  (<Day
+                     key={date}
+                     date={date}
+                     restaurants={this.state.restaurants} />)
+               )}
+            </Swiper>
          </View>
       );
    }
@@ -88,18 +108,26 @@ class Menu extends React.Component {
 
 const styles = StyleSheet.create({
    container: {
-      backgroundColor: '#f6f6f6',
+      backgroundColor: MKColor.Silver,
       flex: 1
    },
+   daySelector: {
+      flexDirection: 'row',
+      padding: 14
+   },
    dayTitle: {
+      flex: 1,
       fontSize: 24,
-      padding: 8,
-      textAlign: 'center'
+      textAlign: 'center',
+      fontWeight: '300'
+   },
+   dayChangeButton: {
+      padding: 8
    },
    menuItem: {
-      marginLeft: 10,
-      marginRight: 10,
-      marginBottom: 10,
+      marginLeft: 14,
+      marginRight: 14,
+      marginBottom: 14,
       padding: 8
    }
 });

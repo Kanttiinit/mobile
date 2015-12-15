@@ -58,7 +58,7 @@ class Kanttiinit extends React.Component {
    }
    render() {
       return (
-         <View style={[styles.wrapper, Platform.OS === 'ios' && {marginTop: 42}]}>
+         <View style={[styles.wrapper, Platform.OS === 'ios' && {paddingTop: 24}]}>
             <Navigator
                ref="navigator"
                initialRouteStack={this.state.views}
@@ -79,7 +79,8 @@ class Kanttiinit extends React.Component {
 
 const styles = StyleSheet.create({
    wrapper: {
-      flex: 1
+      flex: 1,
+      backgroundColor: MKColor.Silver
    },
    tabBar: {
       flexDirection: 'row',

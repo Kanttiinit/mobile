@@ -3,6 +3,7 @@
 import React from 'react-native';
 import Material from 'react-native-material-kit';
 import moment from 'moment';
+import Swiper from 'react-native-swiper2';
 
 const {
    ScrollView,
@@ -58,9 +59,14 @@ class Day extends React.Component {
    render() {
       const {date, restaurants} = this.props;
       return (
-         <ScrollView style={{flex: 1}}>
-            {restaurants ? this.filter(restaurants).map(r => <MenuItem key={r.id} restaurant={r} />) : null}
-         </ScrollView>
+         <View style={{flex: 1, paddingBottom: 96}}>
+            <View style={styles.daySelector}>
+               <Text style={styles.dayTitle}>{date.format('ddd DD.MM.')}</Text>
+            </View>
+            <ScrollView>
+               {restaurants ? this.filter(restaurants).map(r => <MenuItem key={r.id} restaurant={r} />) : null}
+            </ScrollView>
+         </View>
       );
    }
 }
@@ -69,7 +75,7 @@ class Menu extends React.Component {
    constructor() {
       super();
       this.state = {
-         selectedDay: moment().startOf('day')
+         today: moment().startOf('day')
       };
    }
    componentDidMount() {
@@ -80,23 +86,21 @@ class Menu extends React.Component {
       });
    }
    changeDay(offset) {
-      this.setState({
-         selectedDay: this.state.selectedDay.add(offset, 'day')
-      });
+
    }
    render() {
       return(
          <View style={styles.container}>
-            <View style={styles.daySelector}>
-               <MKButton backgroundColor={MKColor.Grey} style={styles.dayChangeButton} onPress={() => this.changeDay(-1)}>
-                  <Text style={{color: MKColor.Silver}}>Prev</Text>
-               </MKButton>
-               <Text style={styles.dayTitle}>{this.state.selectedDay.format('dddd')}</Text>
-               <MKButton backgroundColor={MKColor.Grey} style={styles.dayChangeButton} onPress={() => this.changeDay(1)}>
-                  <Text style={{color: MKColor.Silver}}>Next</Text>
-               </MKButton>
-            </View>
-            <Day date={this.state.selectedDay} restaurants={this.state.restaurants} />
+            <Swiper
+               style={{position: 'relative'}}
+               loop={false}>
+               {Array(7).fill(1).map((n, i) => moment(this.state.today).add(i, 'days')).map(date =>
+                  (<Day
+                     key={date}
+                     date={date}
+                     restaurants={this.state.restaurants} />)
+               )}
+            </Swiper>
          </View>
       );
    }
@@ -114,7 +118,8 @@ const styles = StyleSheet.create({
    dayTitle: {
       flex: 1,
       fontSize: 24,
-      textAlign: 'center'
+      textAlign: 'center',
+      fontWeight: '300'
    },
    dayChangeButton: {
       padding: 8

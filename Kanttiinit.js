@@ -4,13 +4,15 @@ import React from 'react-native';
 import Material from 'react-native-material-kit';
 import Menu from './views/Menu';
 import Favourites from './views/Favourites';
+import Restaurants from './views/Restaurants';
 const {
    AppRegistry,
    StyleSheet,
    Text,
    View,
    Navigator,
-   TouchableHighlight
+   TouchableHighlight,
+   Platform
 } = React;
 
 const {
@@ -36,15 +38,19 @@ class Kanttiinit extends React.Component {
       super();
       this.state = {
          views: [
-            { title: 'Menu', component: Menu },
-            { title: 'Favourites', component: Favourites },
-            { title: 'Restaurants', component: null }
+            { title: 'MENU', component: Menu },
+            { title: 'SUOSIKIT', component: Favourites },
+            { title: 'RAVINTOLAT', component: Restaurants }
          ],
          currentView: 'Menu'
       };
    }
+   componentDidMount() {
+      console.log(Navigator.SceneConfigs);
+      this.changeScene(this.state.views[0]);
+   }
    changeScene(data) {
-      this.refs.navigator.replace(data);
+      this.refs.navigator.jumpTo(data);
       this.setState({currentView: data.title});
    }
    renderScene(route, navigator) {
@@ -52,10 +58,10 @@ class Kanttiinit extends React.Component {
    }
    render() {
       return (
-         <View style={styles.wrapper}>
+         <View style={[styles.wrapper, Platform.OS === 'ios' && {marginTop: 42}]}>
             <Navigator
                ref="navigator"
-               initialRoute={this.state.views[0]}
+               initialRouteStack={this.state.views}
                renderScene={this.renderScene} />
             <View style={styles.tabBar}>
                {this.state.views.map(v =>
@@ -73,7 +79,6 @@ class Kanttiinit extends React.Component {
 
 const styles = StyleSheet.create({
    wrapper: {
-      marginTop: 24,
       flex: 1
    },
    tabBar: {
@@ -83,7 +88,7 @@ const styles = StyleSheet.create({
    },
    tabButton: {
      flex: 1,
-     padding: 20,
+     padding: 16,
      alignItems: 'center'
    }
 });

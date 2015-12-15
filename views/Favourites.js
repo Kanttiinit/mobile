@@ -40,7 +40,8 @@ class Favourites extends React.Component {
 const styles = StyleSheet.create({
    container: {
       flex: 1,
-      padding: 14
+      padding: 14,
+      backgroundColor: MKColor.Silver
    },
    newFood: {
       flexDirection: 'row',

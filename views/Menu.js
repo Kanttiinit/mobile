@@ -13,13 +13,13 @@ const {
 
 const {
    MKCardStyles,
-   MKButton
+   MKButton,
+   MKColor
 } = Material;
 
 class Course extends React.Component {
    render() {
       const {course} = this.props;
-      console.log(course);
       return (
          <View>
             <Text key={course.title}>
@@ -50,7 +50,8 @@ class Day extends React.Component {
    }
    filter(restaurants) {
       return restaurants.map(r => {
-         r.courses = r.Menus.find(c => moment(c.date).startOf('day').isSame(this.props.date)).courses;
+         const courses = r.Menus.find(c => moment(c.date).startOf('day').isSame(this.props.date));
+         r.courses = courses ? courses.courses : [];
          return r;
       });
    }
@@ -67,7 +68,9 @@ class Day extends React.Component {
 class Menu extends React.Component {
    constructor() {
       super();
-      this.state = {};
+      this.state = {
+         selectedDay: moment().startOf('day')
+      };
    }
    componentDidMount() {
       fetch('http://api.kanttiinit.fi/areas/1/menus')
@@ -76,11 +79,24 @@ class Menu extends React.Component {
          this.setState({restaurants: response});
       });
    }
+   changeDay(offset) {
+      this.setState({
+         selectedDay: this.state.selectedDay.add(offset, 'day')
+      });
+   }
    render() {
       return(
          <View style={styles.container}>
-            <Text style={styles.dayTitle}>{moment().startOf('day').format('dddd')}</Text>
-            <Day date={moment().startOf('day')} restaurants={this.state.restaurants} />
+            <View style={styles.daySelector}>
+               <MKButton backgroundColor={MKColor.Grey} style={styles.dayChangeButton} onPress={() => this.changeDay(-1)}>
+                  <Text style={{color: MKColor.Silver}}>Prev</Text>
+               </MKButton>
+               <Text style={styles.dayTitle}>{this.state.selectedDay.format('dddd')}</Text>
+               <MKButton backgroundColor={MKColor.Grey} style={styles.dayChangeButton} onPress={() => this.changeDay(1)}>
+                  <Text style={{color: MKColor.Silver}}>Next</Text>
+               </MKButton>
+            </View>
+            <Day date={this.state.selectedDay} restaurants={this.state.restaurants} />
          </View>
       );
    }
@@ -88,18 +104,25 @@ class Menu extends React.Component {
 
 const styles = StyleSheet.create({
    container: {
-      backgroundColor: '#f6f6f6',
+      backgroundColor: MKColor.Silver,
       flex: 1
    },
+   daySelector: {
+      flexDirection: 'row',
+      padding: 14
+   },
    dayTitle: {
+      flex: 1,
       fontSize: 24,
-      padding: 8,
       textAlign: 'center'
    },
+   dayChangeButton: {
+      padding: 8
+   },
    menuItem: {
-      marginLeft: 10,
-      marginRight: 10,
-      marginBottom: 10,
+      marginLeft: 14,
+      marginRight: 14,
+      marginBottom: 14,
       padding: 8
    }
 });

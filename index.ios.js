@@ -16,7 +16,7 @@ class TabButton extends React.Component {
    render() {
       const {data, changeScene, parent} = this.props;
       return (
-         <TouchableHighlight onPress={changeScene.bind(parent, data)}>
+         <TouchableHighlight onPress={changeScene.bind(parent, data)} style={styles.tabButton}>
             <Text>{data.title}</Text>
          </TouchableHighlight>
       );
@@ -66,7 +66,12 @@ const styles = StyleSheet.create({
       flex: 1
    },
    tabBar: {
-      flexDirection: 'row'
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center'
+   },
+   tabButton: {
+     margin: 20
    }
 });
 

@@ -6,6 +6,7 @@
     "start": "react-native start"
   },
   "dependencies": {
+    "geolib": "^2.0.18",
     "moment": "^2.10.6",
     "react-native": "^0.16.0",
     "react-native-material-kit": "^0.2.4",

@@ -35,15 +35,23 @@ class Course extends React.Component {
 }
 
 class MenuItem extends React.Component {
+   formatOpeningHours(openingHours) {
+      if (!openingHours.hours)
+         return 'suljettu';
+      const {hours} = openingHours;
+      return String(hours[0]).substr(0, 2) + ':' + String(hours[0]).substr(2) + ' - ' + String(hours[1]).substr(0, 2) + ':' + String(hours[1]).substr(2);
+   }
    render() {
-      const {restaurant} = this.props;
+      const {date, restaurant} = this.props;
+      const openingHours = Service.getOpeningHours(restaurant, date);
       return (
          <View style={[MKCardStyles.card, styles.menuItem]}>
             <View style={styles.restaurantHeader}>
-               <Text style={{fontSize: 20, flex: 1, paddingBottom: 4}}>{restaurant.name}</Text>
+               <Text style={{fontSize: 20, paddingBottom: 4}}>{restaurant.name}</Text>
                {restaurant.distance ?
-               <Text style={{color: MKColor.Grey}}>{(restaurant.distance / 1000).toFixed(1) + ' km'}</Text>
+               <Text style={{color: MKColor.Grey, fontSize: 12, marginLeft: 4}}>{(restaurant.distance / 1000).toFixed(1) + ' km'}</Text>
                : null}
+               <Text style={{flex: 1, textAlign: 'right', color: openingHours.isOpen ? MKColor.Green : MKColor.Red}}>{this.formatOpeningHours(openingHours)}</Text>
             </View>
             {restaurant.courses.map(c => <Course key={c.title} course={c} />)}
          </View>
@@ -71,7 +79,7 @@ class Day extends React.Component {
                <Text style={styles.dayTitle}>{date.format('ddd DD.MM.')}</Text>
             </View>
             <ScrollView>
-               {restaurants ? this.filter(restaurants).map(r => <MenuItem key={r.id} restaurant={r} />) : null}
+               {restaurants ? this.filter(restaurants).map(r => <MenuItem key={r.id} date={date} restaurant={r} />) : null}
             </ScrollView>
          </View>
       );

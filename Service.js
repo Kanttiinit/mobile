@@ -1,5 +1,6 @@
 import React from 'react-native';
 import geolib from 'geolib';
+import moment from 'moment';
 
 const {
    AsyncStorage
@@ -41,6 +42,21 @@ export default {
    onRestaurantsUpdated() {
       if (this.data.restaurantUpdateListener)
          this.data.restaurantUpdateListener(this.sortedRestaurants());
+   },
+   getOpeningHours(restaurant, date) {
+      const weekdays = JSON.parse(restaurant.openingHours);
+      const now = Number(moment().format('HHmm'));
+      let dayNumber = date.day() - 1;
+      let hours = weekdays[dayNumber];
+      if (hours && !hours.length) {
+         while (dayNumber--) {
+            if (weekdays[dayNumber] && weekdays[dayNumber].length) {
+               hours = weekdays[dayNumber];
+               break;
+            }
+         }
+      }
+      return {hours, isOpen: hours && now >= hours[0] && now < hours[1]};
    },
    // download restaurants or serve from cache
    getRestaurants(forceFetch) {

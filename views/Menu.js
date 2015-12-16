@@ -80,11 +80,11 @@ class Menu extends React.Component {
       };
    }
    componentDidMount() {
+      Service.addRestaurantUpdateListener(restaurants => {
+         this.setState({restaurants});
+      });
       Service.updateLocation()
-      .then(l => Service.getRestaurants())
-      .then(response => {
-         this.setState({restaurants: response});
-      }).catch(err => console.log(err));
+      .then(l => Service.getRestaurants());
    }
    changeDay(offset) {
 

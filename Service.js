@@ -3,9 +3,12 @@ import geolib from 'geolib';
 export default {
    data: {
       currentLocation: undefined,
-      restaurants: undefined
+      restaurants: undefined,
+      userRestaurantIds: [1, 2, 3, 4, 5],
+      restaurantUpdateListener: undefined
    },
-   addDistances() {
+   // add distance property to this.data.restaurants if user location is defined
+   updateRestaurantDistances() {
       const {currentLocation, restaurants} = this.data;
       if (currentLocation && restaurants)
          this.data.restaurants = restaurants.map(r => {
@@ -16,30 +19,43 @@ export default {
                );
             return r;
          });
+      if (restaurants)
+         this.onRestaurantsUpdated();
    },
+   // return restaurants sorted by distance and favourite foods
    sortedRestaurants() {
       return this.data.restaurants.sort((a, b) => {
          return a.distance - b.distance;
       });
    },
-   getRestaurants() {
-      if (this.data.restaurants)
+   addRestaurantUpdateListener(listener) {
+      this.data.restaurantUpdateListener = listener;
+   },
+   // called when this.data.restaurants is updated
+   onRestaurantsUpdated() {
+      if (this.data.restaurantUpdateListener)
+         this.data.restaurantUpdateListener(this.sortedRestaurants());
+   },
+   // download restaurants or serve from cache
+   getRestaurants(forceFetch) {
+      if (this.data.restaurants && !forceFetch)
          return new Promise(resolve => resolve(this.sortedRestaurants()));
 
-      return fetch('http://api.kanttiinit.fi/areas/1/menus')
+      return fetch('http://api.kanttiinit.fi/menus/' + this.data.userRestaurantIds.join(','))
       .then(r => r.json())
       .then(json => {
          this.data.restaurants = json;
-         this.addDistances();
+         this.updateRestaurantDistances();
          return this.sortedRestaurants();
       });
    },
+   // fetch user location
    updateLocation() {
       return new Promise((resolve, reject) => {
          navigator.geolocation.getCurrentPosition(
             position => {
                this.data.currentLocation = position.coords;
-               this.addDistances();
+               this.updateRestaurantDistances();
                resolve(this.data.currentLocation);
             },
             error => resolve(error.message),

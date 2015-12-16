@@ -38,9 +38,9 @@ class Kanttiinit extends React.Component {
       super();
       this.state = {
          views: [
-            { title: 'MENU', component: Menu },
-            { title: 'SUOSIKIT', component: Favourites },
-            { title: 'RAVINTOLAT', component: Restaurants }
+            { title: 'MENU', component: React.createElement(Menu) },
+            { title: 'SUOSIKIT', component: React.createElement(Favourites) },
+            { title: 'RAVINTOLAT', component: React.createElement(Restaurants) }
          ],
          currentView: 'Menu'
       };
@@ -49,18 +49,22 @@ class Kanttiinit extends React.Component {
       this.changeScene(this.state.views[0]);
    }
    changeScene(data) {
-      this.refs.navigator.jumpTo(data);
-      //this.setState({currentView: data.title});
+      if (this.refs.navigator.getCurrentRoutes().find(r => r.title === data.title))
+         this.refs.navigator.jumpTo(data);
+      else
+         this.refs.navigator.push(data);
+      this.setState({currentView: data.title});
    }
    renderScene(route, navigator) {
-      return React.createElement(route.component);
+      return route.component;
    }
    render() {
       return (
          <View style={[styles.wrapper, Platform.OS === 'ios' && {paddingTop: 24}]}>
             <Navigator
                ref="navigator"
-               initialRouteStack={this.state.views}
+               style={{flex: 1}}
+               initialRoute={this.state.views[0]}
                renderScene={this.renderScene} />
             <View style={styles.tabBar}>
                {this.state.views.map(v =>

@@ -16,7 +16,8 @@ const {
 const {
    MKCardStyles,
    MKButton,
-   MKColor
+   MKColor,
+   mdl
 } = Material;
 
 class Course extends React.Component {
@@ -91,22 +92,26 @@ class Menu extends React.Component {
       Service.getRestaurants();
       Service.updateLocation();
    }
-   changeDay(offset) {
-
-   }
    render() {
-      return(
-         <View style={styles.container}>
-            <Swiper
-               style={{position: 'relative'}}
-               loop={false}>
-               {Array(7).fill(1).map((n, i) => moment(this.state.today).add(i, 'days')).map(date =>
-                  (<Day
-                     key={date}
-                     date={date}
-                     restaurants={this.state.restaurants} />)
-               )}
-            </Swiper>
+      if (this.state.restaurants)
+         return (
+            <View style={styles.container}>
+               <Swiper
+                  style={{position: 'relative'}}
+                  loop={false}>
+                  {Array(7).fill(1).map((n, i) => moment(this.state.today).add(i, 'days')).map(date =>
+                     (<Day
+                        key={date}
+                        date={date}
+                        restaurants={this.state.restaurants} />)
+                  )}
+               </Swiper>
+            </View>
+         );
+
+      return (
+         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <mdl.Spinner />
          </View>
       );
    }

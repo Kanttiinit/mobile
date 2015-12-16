@@ -1,10 +1,14 @@
+import React from 'react-native';
 import geolib from 'geolib';
+
+const {
+   AsyncStorage
+} = React;
 
 export default {
    data: {
       currentLocation: undefined,
       restaurants: undefined,
-      userRestaurantIds: [1, 2, 3, 4, 5],
       restaurantUpdateListener: undefined
    },
    // add distance property to this.data.restaurants if user location is defined
@@ -41,7 +45,8 @@ export default {
       if (this.data.restaurants && !forceFetch)
          return new Promise(resolve => resolve(this.sortedRestaurants()));
 
-      return fetch('http://api.kanttiinit.fi/menus/' + this.data.userRestaurantIds.join(','))
+      return this.getSelectedRestaurants()
+      .then(selected => fetch('http://api.kanttiinit.fi/menus/' + selected.join(',')))
       .then(r => r.json())
       .then(json => {
          this.data.restaurants = json;
@@ -61,6 +66,44 @@ export default {
             error => resolve(error.message),
             {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
          );
+      });
+   },
+   getAreas() {
+      return fetch('http://api.kanttiinit.fi/areas')
+      .then(r => r.json());
+   },
+   getSelectedRestaurants() {
+      return AsyncStorage.getItem('selectedRestaurants')
+      .then(selectedRestaurants => {
+         if (selectedRestaurants)
+            return selectedRestaurants;
+         return AsyncStorage.setItem('selectedRestaurants', '[1,2,3,4,5]');
+      })
+      .then(s => JSON.parse(s));
+   },
+   setSelectedRestaurants(selected) {
+      return AsyncStorage.setItem('selectedRestaurants', JSON.stringify(selected));
+   },
+   selectRestaurant(r) {
+      return this.getSelectedRestaurants()
+      .then(selected => {
+         selected.push(r.id);
+         return this.setSelectedRestaurants(selected);
+      })
+      .then(r => {
+         this.getRestaurants(true);
+         return r;
+      });
+   },
+   deselectRestaurant(r) {
+      return this.getSelectedRestaurants()
+      .then(selected => {
+         selected.splice(selected.indexOf(r.id), 1);
+         return this.setSelectedRestaurants(selected);
+      })
+      .then(r => {
+         this.getRestaurants(true);
+         return r;
       });
    }
 };

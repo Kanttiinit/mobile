@@ -41,7 +41,7 @@ class MenuItem extends React.Component {
             <View style={styles.restaurantHeader}>
                <Text style={{fontSize: 20, flex: 1, paddingBottom: 4}}>{restaurant.name}</Text>
                {restaurant.distance ?
-               <Text style={{color: '#999'}}>{(restaurant.distance / 1000).toFixed(1) + ' km'}</Text>
+               <Text style={{color: MKColor.Grey}}>{(restaurant.distance / 1000).toFixed(1) + ' km'}</Text>
                : null}
             </View>
             {restaurant.courses.map(c => <Course key={c.title} course={c} />)}

@@ -41,13 +41,19 @@ class Area extends Component {
       const {selected} = this.state;
       if (selected)
          return (
-            <View style={[MKCardStyles.card, styles.area]}>
-               <Text style={styles.areaTitle}>{area.name}</Text>
-               {area.Restaurants.sort((a, b) => a.name > b.name ? 1 : -1).map(r =>
-                  <View key={r.id} style={styles.restaurant}>
-                     <Text style={{fontSize: 20, flex: 1}}>{r.name}</Text>
+            <View style={[MKCardStyles.card]}>
+               <View style={styles.area}>
+                  <Text style={styles.areaTitle}>{area.name}</Text>
+               </View>
+               {area.Restaurants.sort((a, b) => a.name > b.name ? 1 : -1).map((r, i) =>
+                  <View key={r.id} style={[styles.restaurant, i > 0 && styles.borderTop]}>
+                     <Text style={{fontSize: 18, flex: 1}}>{r.name}</Text>
                      <mdl.Switch
+                        trackSize={12}
+                        trackLength={32}
+                        thumbRadius={10}
                         thumbOnColor={MKColor.Teal}
+                        onColor="rgba(5, 182, 166, 0.5)"
                         onCheckedChange={this.checkedChange.bind(this, r)}
                         checked={!!selected.find(id => id === r.id)} />
                   </View>
@@ -84,17 +90,24 @@ const styles = StyleSheet.create({
       padding: 14
    },
    area: {
-      padding: 10
+      padding: 8,
+      backgroundColor: MKColor.Teal
    },
    areaTitle: {
-      fontSize: 28,
+      fontSize: 24,
       fontWeight: '300',
-      marginBottom: 5
+      color: MKColor.Silver
    },
    restaurant: {
       padding: 6,
+      marginLeft: 6,
+      marginRight: 6,
       flexDirection: 'row',
       alignItems: 'center'
+   },
+   borderTop: {
+      borderTopWidth: 1,
+      borderTopColor: '#eee'
    }
 });
 

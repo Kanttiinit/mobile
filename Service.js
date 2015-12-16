@@ -29,7 +29,9 @@ export default {
    // return restaurants sorted by distance and favourite foods
    sortedRestaurants() {
       return this.data.restaurants.sort((a, b) => {
-         return a.distance - b.distance;
+         if (this.data.currentLocation)
+            return a.distance - b.distance;
+         return a.name > b.name ? 1 : -1;
       });
    },
    addRestaurantUpdateListener(listener) {

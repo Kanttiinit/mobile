@@ -38,7 +38,12 @@ class MenuItem extends React.Component {
       const {restaurant} = this.props;
       return (
          <View style={[MKCardStyles.card, styles.menuItem]}>
-            <Text style={{fontSize: 20, paddingBottom: 4}}>{restaurant.name} - {restaurant.distance ? (restaurant.distance / 1000).toFixed(1) + ' km' : null}</Text>
+            <View style={styles.restaurantHeader}>
+               <Text style={{fontSize: 20, flex: 1, paddingBottom: 4}}>{restaurant.name}</Text>
+               {restaurant.distance ?
+               <Text style={{color: '#999'}}>{(restaurant.distance / 1000).toFixed(1) + ' km'}</Text>
+               : null}
+            </View>
             {restaurant.courses.map(c => <Course key={c.title} course={c} />)}
          </View>
       );
@@ -83,8 +88,8 @@ class Menu extends React.Component {
       Service.addRestaurantUpdateListener(restaurants => {
          this.setState({restaurants});
       });
-      Service.updateLocation()
-      .then(l => Service.getRestaurants());
+      Service.getRestaurants();
+      Service.updateLocation();
    }
    changeDay(offset) {
 
@@ -130,6 +135,10 @@ const styles = StyleSheet.create({
       marginRight: 14,
       marginBottom: 14,
       padding: 8
+   },
+   restaurantHeader: {
+      flexDirection: 'row',
+      alignItems: 'center'
    }
 });
 

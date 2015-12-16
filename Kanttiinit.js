@@ -50,7 +50,7 @@ class Kanttiinit extends React.Component {
    }
    changeScene(data) {
       this.refs.navigator.jumpTo(data);
-      this.setState({currentView: data.title});
+      //this.setState({currentView: data.title});
    }
    renderScene(route, navigator) {
       return React.createElement(route.component);
@@ -65,6 +65,7 @@ class Kanttiinit extends React.Component {
             <View style={styles.tabBar}>
                {this.state.views.map(v =>
                   <TabButton
+                     ref={'tabButton' + v.title}
                      current={this.state.currentView === v.title}
                      changeScene={this.changeScene.bind(this)}
                      key={v.title}

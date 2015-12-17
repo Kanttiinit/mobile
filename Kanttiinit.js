@@ -6,6 +6,7 @@ import Menu from './views/Menu';
 import Favourites from './views/Favourites';
 import Restaurants from './views/Restaurants';
 import Icon from 'react-native-vector-icons/Ionicons';
+
 const {
    AppRegistry,
    StyleSheet,
@@ -39,18 +40,31 @@ class TabButton extends React.Component {
 class Kanttiinit extends React.Component {
    constructor() {
       super();
-      this.state = {};
+      this.events = {
+         eventListeners: [],
+         on(event, cb) {
+            this.eventListeners.push({event, cb});
+         },
+         fire(event, data) {
+            this.eventListeners.filter(l => l.event === event).forEach(l => l.cb(data));
+         }
+      };
+      this.state = {
+         views: [
+            { title: 'MENU', icon: 'android-restaurant', component: React.createElement(Menu, {events: this.events}) },
+            { title: 'SUOSIKIT', icon: 'android-favorite', component: React.createElement(Favourites, {events: this.events}) },
+            { title: 'RAVINTOLAT', icon: 'ios-list', component: React.createElement(Restaurants, {events: this.events}) }
+         ],
+         currentView: 'MENU'
+      };
+
       Platform.OS == 'ios' && StatusBarIOS.setStyle('light-content');
    }
    componentDidMount() {
-      this.setState({
-         views: [
-            { title: 'MENU', icon: 'android-restaurant', component: React.createElement(Menu) },
-            { title: 'SUOSIKIT', icon: 'android-favorite', component: React.createElement(Favourites) },
-            { title: 'RAVINTOLAT', icon: 'ios-list', component: React.createElement(Restaurants) }
-         ],
-         currentView: 'MENU'
+      this.refs.navigator.navigationContext.addListener('didfocus', event => {
+         this.events.fire(event.data.route.title);
       });
+      this.events.fire('MENU');
    }
    changeScene(data) {
       this.refs.navigator.jumpTo(data);
@@ -60,30 +74,27 @@ class Kanttiinit extends React.Component {
       return route.component;
    }
    render() {
-      if (this.state.views)
-         return (
-            <View style={[styles.wrapper, Platform.OS === 'ios' && {paddingTop: 24}]}>
-               <Navigator
-                  ref="navigator"
-                  style={{flex: 1}}
-                  initialRoute={this.state.views[0]}
-                  initialRouteStack={this.state.views}
-                  renderScene={this.renderScene} />
-               <View style={styles.tabBar}>
-                  {this.state.views.map(v =>
-                     <TabButton
-                        ref={'tabButton' + v.title}
-                        current={this.state.currentView === v.title}
-                        changeScene={this.changeScene.bind(this)}
-                        icon={v.icon}
-                        key={v.title}
-                        data={v} />
-                  )}
-               </View>
+      return (
+         <View style={[styles.wrapper, Platform.OS === 'ios' && {paddingTop: 24}]}>
+            <Navigator
+               ref="navigator"
+               style={{flex: 1}}
+               initialRoute={this.state.views[0]}
+               initialRouteStack={this.state.views}
+               renderScene={this.renderScene} />
+            <View style={styles.tabBar}>
+               {this.state.views.map(v =>
+                  <TabButton
+                     ref={'tabButton' + v.title}
+                     current={this.state.currentView === v.title}
+                     changeScene={this.changeScene.bind(this)}
+                     icon={v.icon}
+                     key={v.title}
+                     data={v} />
+               )}
             </View>
-         );
-
-      return <View />;
+         </View>
+      );
    }
 };
 

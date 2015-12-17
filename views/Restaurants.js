@@ -34,9 +34,6 @@ class Area extends Component {
       else
          RestaurantsManager.deselectRestaurant(restaurant);
    }
-   onShow() {
-      console.log('showed');
-   }
    render() {
       const {area} = this.props;
       const {selected} = this.state;
@@ -48,7 +45,7 @@ class Area extends Component {
                </View>
                {area.Restaurants.sort((a, b) => a.name > b.name ? 1 : -1).map((r, i) =>
                   <View key={r.id} style={[styles.restaurant, i > 0 && styles.borderTop]}>
-                     <Text style={{fontSize: 18, flex: 1}}>{r.name}</Text>
+                     <Text style={{fontSize: 14, flex: 1}}>{r.name}</Text>
                      <mdl.Switch
                         trackSize={12}
                         trackLength={32}
@@ -72,8 +69,10 @@ class Restaurants extends Component {
       this.state = {areas: []};
    }
    componentDidMount() {
-      Service.getAreas()
-      .then(areas => this.setState({areas}));
+      this.props.events.on('RAVINTOLAT', () => {
+         Service.getAreas()
+         .then(areas => this.setState({areas}));
+      });
    }
    render() {
       return (
@@ -97,11 +96,10 @@ const styles = StyleSheet.create({
       backgroundColor: MKColor.Teal
    },
    areaTitle: {
-      fontSize: 24,
+      fontSize: 20,
       color: '#fff'
    },
    restaurant: {
-      padding: 6,
       marginLeft: 6,
       marginRight: 6,
       flexDirection: 'row',

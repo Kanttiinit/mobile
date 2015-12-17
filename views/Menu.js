@@ -39,14 +39,14 @@ class Property extends React.Component {
       const p = this.props.children;
       return (
          <View key={p} style={{
-               width: 18,
-               height: 18,
+               width: 16,
+               height: 16,
                marginLeft: 3,
-               borderRadius: 9,
+               borderRadius: 8,
                alignItems: 'center',
                justifyContent: 'center',
                backgroundColor: this.getColor(p)}}>
-            <Text style={{fontSize: 10, fontWeight: 'bold', color: '#fff'}}>{p}</Text>
+            <Text style={{fontSize: 8, fontWeight: 'bold', color: '#fff'}}>{p}</Text>
          </View>
       )
    }
@@ -57,7 +57,7 @@ class Course extends React.Component {
       const {course, isFirst} = this.props;
       return (
          <View style={[styles.course, !isFirst && styles.borderTop]}>
-            <Text key={course.title} style={{flex: 1}}>{course.title}</Text>
+            <Text key={course.title} style={{flex: 1, fontSize: 12}}>{course.title}</Text>
             {course.properties ? course.properties.map(p => <Property key={p}>{p}</Property>) : null}
          </View>
       );
@@ -74,26 +74,21 @@ class Restaurant extends React.Component {
       return (
          <View style={[MKCardStyles.card, styles.restaurant]}>
             <View style={styles.restaurantHeader}>
-               <Text style={{fontSize: 20, color: '#fff', paddingBottom: 4}}>{restaurant.name}</Text>
-               {restaurant.distance ?
-               <Text style={{color: MKColor.Silver, fontSize: 12, marginLeft: 4}}>{(restaurant.distance / 1000).toFixed(1) + ' km'}</Text>
-               : null}
+               <View>
+                  <Text style={{fontSize: 14, color: '#fff', paddingBottom: 4}}>{restaurant.name}</Text>
+                  {restaurant.distance ?
+                  <Text style={{color: MKColor.Silver, fontSize: 10}}>{(restaurant.distance / 1000).toFixed(1) + ' km'}</Text>
+                  : null}
+               </View>
                <Text
                   style={{
                      flex: 1,
                      textAlign: 'right',
-                     color: restaurant.hours ? MKColor.Silver : '#80CBC4'
+                     color: restaurant.hours ? MKColor.Silver : '#80CBC4',
+                     fontSize: 12
                   }}>
                   {restaurant.hours ? this.formatOpeningHours(restaurant.hours) : 'suljettu'}
                </Text>
-
-               <View style={{
-                  width: 10,
-                  height: 10,
-                  borderRadius: 5,
-                  marginLeft: 4,
-                  backgroundColor: restaurant.isOpen ? '#64DD17' : '#D50000'
-               }} />
             </View>
             {restaurant.courses.map((c, i) => <Course key={c.title} isFirst={i === 0} course={c} />)}
          </View>
@@ -109,8 +104,11 @@ class Menu extends React.Component {
       };
    }
    componentDidMount() {
-      Service.getRestaurants().then(restaurants => this.setState({restaurants}));
       Service.updateLocation();
+      this.props.events.on('MENU', route => {
+         this.setState({restaurants: undefined});
+         Service.getRestaurants(true).then(restaurants => this.setState({restaurants}));
+      });
    }
    renderDay(date) {
       const restaurants = this.state.restaurants;
@@ -153,11 +151,11 @@ const styles = StyleSheet.create({
    },
    daySelector: {
       flexDirection: 'row',
-      padding: 14
+      padding: 10
    },
    dayTitle: {
       flex: 1,
-      fontSize: 24,
+      fontSize: 20,
       textAlign: 'center',
       fontWeight: '300'
    },
@@ -178,7 +176,11 @@ const styles = StyleSheet.create({
    },
    course: {
       flexDirection: 'row',
-      padding: 8
+      paddingTop: 8,
+      paddingBottom: 8,
+      alignItems: 'center',
+      marginLeft: 8,
+      marginRight: 8
    },
    borderTop: {
       borderTopWidth: 1,

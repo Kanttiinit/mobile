@@ -41,6 +41,10 @@ class Restaurant extends React.Component {
       const {hours} = openingHours;
       return String(hours[0]).substr(0, 2) + ':' + String(hours[0]).substr(2) + ' - ' + String(hours[1]).substr(0, 2) + ':' + String(hours[1]).substr(2);
    }
+   getCourses() {
+      const courses = this.props.restaurant.Menus.find(m => moment(m.date).isSame(this.props.date, 'day'));
+      return courses ? courses.courses : [];
+   }
    render() {
       const {date, restaurant} = this.props;
       const openingHours = Service.getOpeningHours(restaurant, date);
@@ -62,7 +66,7 @@ class Restaurant extends React.Component {
                   {this.formatOpeningHours(openingHours)}
                </Text>
             </View>
-            {restaurant.courses.map(c => <Course key={c.title} course={c} />)}
+            {this.getCourses.apply(this).map(c => <Course key={c.title} course={c} />)}
          </View>
       );
    }
@@ -79,13 +83,6 @@ class Menu extends React.Component {
       Service.getRestaurants().then(restaurants => this.setState({restaurants}));
       Service.updateLocation();
    }
-   filter(date) {
-      return this.state.restaurants.map(r => {
-         const courses = r.Menus.find(m => moment(m.date).isSame(date, 'day'));
-         r.courses = courses ? courses.courses : [];
-         return r;
-      });
-   }
    renderDay(date) {
       const restaurants = this.state.restaurants;
       return (
@@ -94,7 +91,7 @@ class Menu extends React.Component {
                <Text style={styles.dayTitle}>{date.format('ddd DD.MM.')}</Text>
             </View>
             <ScrollView>
-               {this.filter.apply(this, date).map(r => <Restaurant key={r.id} date={date} restaurant={r} />)}
+               {this.state.restaurants.map(r => <Restaurant key={r.id} date={date} restaurant={r} />)}
             </ScrollView>
          </View>
       );

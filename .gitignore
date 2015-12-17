@@ -17,6 +17,8 @@ xcuserdata
 *.xccheckout
 *.moved-aside
 DerivedData
+AppDelegate.m
+RCTWebSocketExecutor.m
 *.hmap
 *.ipa
 *.xcuserstate

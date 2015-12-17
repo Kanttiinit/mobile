@@ -20,15 +20,43 @@ const {
    mdl
 } = Material;
 
+class Property extends React.Component {
+   getColor(p) {
+      const colors = {
+         'L': MKColor.Brown,
+         'G': MKColor.Amber,
+         'V': MKColor.Green,
+         'M': MKColor.Black
+      };
+      if (colors[p])
+         return colors[p];
+
+      return MKColor.Grey;
+   }
+   render() {
+      const p = this.props.children;
+      return (
+         <View key={p} style={{
+               width: 18,
+               height: 18,
+               marginLeft: 3,
+               borderRadius: 9,
+               alignItems: 'center',
+               justifyContent: 'center',
+               backgroundColor: this.getColor(p)}}>
+            <Text style={{fontSize: 10, fontWeight: 'bold', color: MKColor.Silver}}>{p}</Text>
+         </View>
+      )
+   }
+}
+
 class Course extends React.Component {
    render() {
       const {course} = this.props;
       return (
-         <View>
-            <Text key={course.title}>
-               {course.title}
-               {course.properties ? ' (' + course.properties.join(', ') + ')' : null}
-            </Text>
+         <View style={{flexDirection: 'row'}}>
+            <Text key={course.title} style={{flex: 1, marginBottom: 8}}>{course.title}</Text>
+            {course.properties ? course.properties.map(p =><Property key={p}>{p}</Property>) : null}
          </View>
       );
    }

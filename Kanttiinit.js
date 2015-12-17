@@ -50,7 +50,6 @@ class Kanttiinit extends React.Component {
       this.changeScene(this.state.views[0]);
    }
    changeScene(data) {
-      console.log(arguments);
       this.refs.navigator.jumpTo(data);
       this.setState({currentView: data.title});
    }
@@ -93,7 +92,7 @@ const styles = StyleSheet.create({
    },
    tabButton: {
      flex: 1,
-     padding: 16,
+     padding: 12,
      alignItems: 'center'
    }
 });

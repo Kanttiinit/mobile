@@ -2,7 +2,8 @@
 
 import React from 'react-native';
 import Material from 'react-native-material-kit';
-import Service from '../Service';
+import RestaurantsManager from '../managers/Restaurants';
+import Service from '../managers/Service';
 const {
    Component,
    Text,
@@ -24,14 +25,14 @@ class Area extends Component {
       this.state = {};
    }
    componentDidMount() {
-      Service.getSelectedRestaurants()
+      RestaurantsManager.getSelectedRestaurants()
       .then(selected => this.setState({selected}));
    }
    checkedChange(restaurant, state) {
       if (state.checked)
-         Service.selectRestaurant(restaurant);
+         RestaurantsManager.selectRestaurant(restaurant);
       else
-         Service.deselectRestaurant(restaurant);
+         RestaurantsManager.deselectRestaurant(restaurant);
    }
    onShow() {
       console.log('showed');

@@ -4,7 +4,7 @@ import React from 'react-native';
 import Material from 'react-native-material-kit';
 import moment from 'moment';
 import Swiper from 'react-native-swiper2';
-import Service from '../Service';
+import Service from '../managers/Service';
 
 const {
    ScrollView,
@@ -76,10 +76,7 @@ class Menu extends React.Component {
       };
    }
    componentDidMount() {
-      Service.addRestaurantUpdateListener(restaurants => {
-         this.setState({restaurants});
-      });
-      Service.getRestaurants();
+      Service.getRestaurants().then(restaurants => this.setState({restaurants}));
       Service.updateLocation();
    }
    filter(date) {

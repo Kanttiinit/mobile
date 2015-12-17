@@ -81,9 +81,6 @@ class Menu extends React.Component {
       });
       Service.getRestaurants();
       Service.updateLocation();
-      // this.props.navigator.navigationContext.addListener('didfocus', event => {
-      //
-      // });
    }
    filter(date) {
       return this.state.restaurants.map(r => {

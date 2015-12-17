@@ -81,7 +81,7 @@ class Menu extends React.Component {
    renderDay(date) {
       const restaurants = this.state.restaurants;
       return (
-         <View key={date} style={{flex: 1, paddingBottom: 70}}>
+         <View key={date} style={{flex: 1, paddingBottom: 90}}>
             <View style={styles.daySelector}>
                <Text style={styles.dayTitle}>{date.format('ddd DD.MM.')}</Text>
             </View>

@@ -2,6 +2,8 @@
 
 import React from 'react-native';
 import Material from 'react-native-material-kit';
+import Favorite from '../managers/Favorite';
+
 const {
    View,
    Text,
@@ -26,6 +28,7 @@ class Favourites extends React.Component {
                   style={{flex: 3}}
                   placeholder="New favourite food" />
                <MKButton
+                  onPress={Favorite.addFavorite("sun mutsi")}
                   style={styles.addButton}
                   backgroundColor={MKColor.Teal}>
                   <Text style={{color: MKColor.Silver, fontSize: 18}}>Add</Text>

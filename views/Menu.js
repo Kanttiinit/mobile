@@ -46,7 +46,7 @@ class Property extends React.Component {
                alignItems: 'center',
                justifyContent: 'center',
                backgroundColor: this.getColor(p)}}>
-            <Text style={{fontSize: 10, fontWeight: 'bold', color: MKColor.Silver}}>{p}</Text>
+            <Text style={{fontSize: 10, fontWeight: 'bold', color: '#fff'}}>{p}</Text>
          </View>
       )
    }
@@ -115,7 +115,7 @@ class Menu extends React.Component {
    renderDay(date) {
       const restaurants = this.state.restaurants;
       return (
-         <View key={date} style={{flex: 1, paddingBottom: 90}}>
+         <View key={date} style={{flex: 1, paddingBottom: 75}}>
             <View style={styles.daySelector}>
                <Text style={styles.dayTitle}>{date.format('ddd DD.MM.')}</Text>
             </View>

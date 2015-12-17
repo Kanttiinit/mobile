@@ -4,6 +4,9 @@ import android.app.Activity;
 import com.oblador.vectoricons.VectorIconsPackage;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.graphics.Color;
+import android.view.WindowManager;
+import android.view.Window;
 
 import com.facebook.react.LifecycleState;
 import com.facebook.react.ReactInstanceManager;
@@ -35,6 +38,12 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
                 .build();
 
         mReactRootView.startReactApplication(mReactInstanceManager, "kanttiinit", null);
+
+        // status bar color
+        Window window = getWindow();
+         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+         window.setStatusBarColor(Color.parseColor("#00796B"));
 
         setContentView(mReactRootView);
     }

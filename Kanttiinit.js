@@ -27,10 +27,10 @@ class TabButton extends React.Component {
       const {data, changeScene, parent, current, icon} = this.props;
       return (
          <MKButton
-            backgroundColor={current ? MKColor.Teal : MKColor.Grey}
+            backgroundColor={current ? '#00796B' : MKColor.Grey}
             onPress={() => changeScene(data)} style={styles.tabButton}>
-            <Icon name={icon} size={24} color={MKColor.Silver} />
-            <Text style={{fontSize: 14, color: MKColor.Silver}}>{data.title}</Text>
+            <Icon name={icon} size={18} color={current ? '#fff' : MKColor.Silver} />
+            <Text style={{fontSize: 12, color: current ? '#fff' : MKColor.Silver}}>{data.title}</Text>
          </MKButton>
       );
    }
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
    },
    tabButton: {
      flex: 1,
-     padding: 12,
+     padding: 8,
      alignItems: 'center'
    }
 });

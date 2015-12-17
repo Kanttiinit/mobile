@@ -98,8 +98,7 @@ const styles = StyleSheet.create({
    },
    areaTitle: {
       fontSize: 24,
-      fontWeight: '300',
-      color: MKColor.Silver
+      color: '#fff'
    },
    restaurant: {
       padding: 6,

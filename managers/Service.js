@@ -82,7 +82,7 @@ export default {
                resolve(this.data.currentLocation);
             },
             error => resolve(error.message),
-            {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+            {timeout: 3000, maximumAge: 10000}
          );
       });
    },

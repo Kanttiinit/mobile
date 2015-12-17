@@ -44,19 +44,14 @@ class Kanttiinit extends React.Component {
    }
    componentDidMount() {
       this.setState({
-      this.state = {
          views: [
-            { title: 'MENU', icon: 'android-restaurant', component: React.createElement(Menu) },
+            { title: 'MENU', icon: 'android-restaurant', component: React.createElement(Menu, {navigator: this.refs.navigator}) },
             { title: 'SUOSIKIT', icon: 'android-favorite', component: React.createElement(Favourites) },
             { title: 'RAVINTOLAT', icon: 'ios-list', component: React.createElement(Restaurants) }
          ]
-      };
-   }
-   componentDidMount() {
-      this.changeScene(this.state.views[0]);
+      });
    }
    changeScene(data) {
-      console.log(arguments);
       this.refs.navigator.jumpTo(data);
       this.setState({currentView: data.title});
    }
@@ -64,26 +59,29 @@ class Kanttiinit extends React.Component {
       return route.component;
    }
    render() {
-      return (
-         <View style={[styles.wrapper, Platform.OS === 'ios' && {paddingTop: 24}]}>
-            <Navigator
-               ref="navigator"
-               style={{flex: 1}}
-               initialRouteStack={this.state.views}
-               renderScene={this.renderScene} />
-            <View style={styles.tabBar}>
-               {this.state.views.map(v =>
-                  <TabButton
-                     ref={'tabButton' + v.title}
-                     current={this.state.currentView === v.title}
-                     changeScene={this.changeScene.bind(this)}
-                     icon={v.icon}
-                     key={v.title}
-                     data={v} />
-               )}
+      if (this.state.views)
+         return (
+            <View style={[styles.wrapper, Platform.OS === 'ios' && {paddingTop: 24}]}>
+               <Navigator
+                  ref="navigator"
+                  style={{flex: 1}}
+                  initialRouteStack={this.state.views}
+                  renderScene={this.renderScene} />
+               <View style={styles.tabBar}>
+                  {this.state.views.map(v =>
+                     <TabButton
+                        ref={'tabButton' + v.title}
+                        current={this.state.currentView === v.title}
+                        changeScene={this.changeScene.bind(this)}
+                        icon={v.icon}
+                        key={v.title}
+                        data={v} />
+                  )}
+               </View>
             </View>
-         </View>
-      );
+         );
+
+      return <View />;
    }
 };
 

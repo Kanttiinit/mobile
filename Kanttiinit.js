@@ -13,6 +13,7 @@ const {
    View,
    Navigator,
    TouchableHighlight,
+   StatusBarIOS,
    Platform
 } = React;
 
@@ -39,6 +40,7 @@ class Kanttiinit extends React.Component {
    constructor() {
       super();
       this.state = {};
+      Platform.OS == 'ios' && StatusBarIOS.setStyle('light-content');
    }
    componentDidMount() {
       this.setState({

@@ -34,7 +34,7 @@ class Course extends React.Component {
    }
 }
 
-class MenuItem extends React.Component {
+class Restaurant extends React.Component {
    formatOpeningHours(openingHours) {
       if (!openingHours.hours)
          return 'suljettu';
@@ -51,36 +51,18 @@ class MenuItem extends React.Component {
                {restaurant.distance ?
                <Text style={{color: MKColor.Grey, fontSize: 12, marginLeft: 4}}>{(restaurant.distance / 1000).toFixed(1) + ' km'}</Text>
                : null}
-               <Text style={{flex: 1, textAlign: 'right', color: openingHours.isOpen ? MKColor.Green : MKColor.Red}}>{this.formatOpeningHours(openingHours)}</Text>
+               <Text
+                  style={{
+                     flex: 1,
+                     textAlign: 'right',
+                     color: !date.isSame(moment(), 'day') ? MKColor.Grey
+                        : openingHours.isOpen ? MKColor.Green
+                        : MKColor.Red
+                  }}>
+                  {this.formatOpeningHours(openingHours)}
+               </Text>
             </View>
             {restaurant.courses.map(c => <Course key={c.title} course={c} />)}
-         </View>
-      );
-   }
-}
-
-class Day extends React.Component {
-   constructor() {
-      super();
-      this.state = {menus: []};
-   }
-   filter(restaurants) {
-      return restaurants.map(r => {
-         const courses = r.Menus.find(c => moment(c.date).startOf('day').isSame(this.props.date));
-         r.courses = courses ? courses.courses : [];
-         return r;
-      });
-   }
-   render() {
-      const {date, restaurants} = this.props;
-      return (
-         <View style={{flex: 1, paddingBottom: 70}}>
-            <View style={styles.daySelector}>
-               <Text style={styles.dayTitle}>{date.format('ddd DD.MM.')}</Text>
-            </View>
-            <ScrollView>
-               {restaurants ? this.filter(restaurants).map(r => <MenuItem key={r.id} date={date} restaurant={r} />) : null}
-            </ScrollView>
          </View>
       );
    }
@@ -90,7 +72,7 @@ class Menu extends React.Component {
    constructor() {
       super();
       this.state = {
-         today: moment().startOf('day')
+         today: moment()
       };
    }
    componentDidMount() {
@@ -100,19 +82,35 @@ class Menu extends React.Component {
       Service.getRestaurants();
       Service.updateLocation();
    }
+   filter(date) {
+      return this.state.restaurants.map(r => {
+         const courses = r.Menus.find(m => moment(m.date).isSame(date, 'day'));
+         r.courses = courses ? courses.courses : [];
+         return r;
+      });
+   }
+   renderDay(date) {
+      const restaurants = this.state.restaurants;
+      return (
+         <View key={date} style={{flex: 1, paddingBottom: 70}}>
+            <View style={styles.daySelector}>
+               <Text style={styles.dayTitle}>{date.format('ddd DD.MM.')}</Text>
+            </View>
+            <ScrollView>
+               {this.filter.apply(this, date).map(r => <Restaurant key={r.id} date={date} restaurant={r} />)}
+            </ScrollView>
+         </View>
+      );
+   }
    render() {
       if (this.state.restaurants)
          return (
             <View style={styles.container}>
                <Swiper
-                  style={{position: 'relative'}}
+                  showsPagination={false}
+                  style={{flex: 1, position: 'relative'}}
                   loop={false}>
-                  {Array(7).fill(1).map((n, i) => moment(this.state.today).add(i, 'days')).map(date =>
-                     (<Day
-                        key={date}
-                        date={date}
-                        restaurants={this.state.restaurants} />)
-                  )}
+                  {Array(7).fill(1).map((n, i) => moment(this.state.today).add(i, 'days')).map(date => this.renderDay(date))}
                </Swiper>
             </View>
          );

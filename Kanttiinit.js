@@ -49,10 +49,7 @@ class Kanttiinit extends React.Component {
       this.changeScene(this.state.views[0]);
    }
    changeScene(data) {
-      if (this.refs.navigator.getCurrentRoutes().find(r => r.title === data.title))
-         this.refs.navigator.jumpTo(data);
-      else
-         this.refs.navigator.push(data);
+      this.refs.navigator.jumpTo(data);
       this.setState({currentView: data.title});
    }
    renderScene(route, navigator) {
@@ -64,7 +61,7 @@ class Kanttiinit extends React.Component {
             <Navigator
                ref="navigator"
                style={{flex: 1}}
-               initialRoute={this.state.views[0]}
+               initialRouteStack={this.state.views}
                renderScene={this.renderScene} />
             <View style={styles.tabBar}>
                {this.state.views.map(v =>

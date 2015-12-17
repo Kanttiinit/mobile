@@ -4,7 +4,7 @@ import React from 'react-native';
 import Material from 'react-native-material-kit';
 import moment from 'moment';
 import Swiper from 'react-native-swiper2';
-import Service from '../Service';
+import Service from '../managers/Service';
 
 const {
    ScrollView,
@@ -20,30 +20,57 @@ const {
    mdl
 } = Material;
 
+class Property extends React.Component {
+   getColor(p) {
+      const colors = {
+         'L': MKColor.Brown,
+         'G': MKColor.Amber,
+         'V': MKColor.Green,
+         'M': MKColor.Black
+      };
+      if (colors[p])
+         return colors[p];
+
+      return MKColor.Grey;
+   }
+   render() {
+      const p = this.props.children;
+      return (
+         <View key={p} style={{
+               width: 18,
+               height: 18,
+               marginLeft: 3,
+               borderRadius: 9,
+               alignItems: 'center',
+               justifyContent: 'center',
+               backgroundColor: this.getColor(p)}}>
+            <Text style={{fontSize: 10, fontWeight: 'bold', color: MKColor.Silver}}>{p}</Text>
+         </View>
+      )
+   }
+}
+
 class Course extends React.Component {
    render() {
       const {course} = this.props;
       return (
-         <View>
-            <Text key={course.title}>
-               {course.title}
-               {course.properties ? ' (' + course.properties.join(', ') + ')' : null}
-            </Text>
+         <View style={{flexDirection: 'row'}}>
+            <Text key={course.title} style={{flex: 1, marginBottom: 8}}>{course.title}</Text>
+            {course.properties ? course.properties.map(p =><Property key={p}>{p}</Property>) : null}
          </View>
       );
    }
 }
 
 class Restaurant extends React.Component {
-   formatOpeningHours(openingHours) {
-      if (!openingHours.hours)
+   formatOpeningHours(hours) {
+      if (!hours)
          return 'suljettu';
-      const {hours} = openingHours;
       return String(hours[0]).substr(0, 2) + ':' + String(hours[0]).substr(2) + ' - ' + String(hours[1]).substr(0, 2) + ':' + String(hours[1]).substr(2);
    }
    render() {
-      const {date, restaurant} = this.props;
-      const openingHours = Service.getOpeningHours(restaurant, date);
+      const {date} = this.props;
+      const restaurant = Service.formatRestaurant(this.props.restaurant, date);
       return (
          <View style={[MKCardStyles.card, styles.menuItem]}>
             <View style={styles.restaurantHeader}>
@@ -56,10 +83,10 @@ class Restaurant extends React.Component {
                      flex: 1,
                      textAlign: 'right',
                      color: !date.isSame(moment(), 'day') ? MKColor.Grey
-                        : openingHours.isOpen ? MKColor.Green
+                        : restaurant.isOpen ? MKColor.Green
                         : MKColor.Red
                   }}>
-                  {this.formatOpeningHours(openingHours)}
+                  {this.formatOpeningHours(restaurant.hours)}
                </Text>
             </View>
             {restaurant.courses.map(c => <Course key={c.title} course={c} />)}
@@ -76,28 +103,18 @@ class Menu extends React.Component {
       };
    }
    componentDidMount() {
-      Service.addRestaurantUpdateListener(restaurants => {
-         this.setState({restaurants});
-      });
-      Service.getRestaurants();
+      Service.getRestaurants().then(restaurants => this.setState({restaurants}));
       Service.updateLocation();
-   }
-   filter(date) {
-      return this.state.restaurants.map(r => {
-         const courses = r.Menus.find(m => moment(m.date).isSame(date, 'day'));
-         r.courses = courses ? courses.courses : [];
-         return r;
-      });
    }
    renderDay(date) {
       const restaurants = this.state.restaurants;
       return (
-         <View key={date} style={{flex: 1, paddingBottom: 70}}>
+         <View key={date} style={{flex: 1, paddingBottom: 90}}>
             <View style={styles.daySelector}>
                <Text style={styles.dayTitle}>{date.format('ddd DD.MM.')}</Text>
             </View>
             <ScrollView>
-               {this.filter.apply(this, date).map(r => <Restaurant key={r.id} date={date} restaurant={r} />)}
+               {this.state.restaurants.map(r => <Restaurant key={r.id} date={date} restaurant={r} />)}
             </ScrollView>
          </View>
       );

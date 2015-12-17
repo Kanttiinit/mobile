@@ -45,10 +45,11 @@ class Kanttiinit extends React.Component {
    componentDidMount() {
       this.setState({
          views: [
-            { title: 'MENU', icon: 'android-restaurant', component: React.createElement(Menu, {navigator: this.refs.navigator}) },
+            { title: 'MENU', icon: 'android-restaurant', component: React.createElement(Menu) },
             { title: 'SUOSIKIT', icon: 'android-favorite', component: React.createElement(Favourites) },
             { title: 'RAVINTOLAT', icon: 'ios-list', component: React.createElement(Restaurants) }
-         ]
+         ],
+         currentView: 'MENU'
       });
    }
    changeScene(data) {
@@ -65,6 +66,7 @@ class Kanttiinit extends React.Component {
                <Navigator
                   ref="navigator"
                   style={{flex: 1}}
+                  initialRoute={this.state.views[0]}
                   initialRouteStack={this.state.views}
                   renderScene={this.renderScene} />
                <View style={styles.tabBar}>
@@ -97,7 +99,7 @@ const styles = StyleSheet.create({
    },
    tabButton: {
      flex: 1,
-     padding: 16,
+     padding: 12,
      alignItems: 'center'
    }
 });

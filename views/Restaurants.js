@@ -2,7 +2,8 @@
 
 import React from 'react-native';
 import Material from 'react-native-material-kit';
-import Service from '../Service';
+import RestaurantsManager from '../managers/Restaurants';
+import Service from '../managers/Service';
 const {
    Component,
    Text,
@@ -24,14 +25,14 @@ class Area extends Component {
       this.state = {};
    }
    componentDidMount() {
-      Service.getSelectedRestaurants()
+      RestaurantsManager.getSelectedRestaurants()
       .then(selected => this.setState({selected}));
    }
    checkedChange(restaurant, state) {
       if (state.checked)
-         Service.selectRestaurant(restaurant);
+         RestaurantsManager.selectRestaurant(restaurant);
       else
-         Service.deselectRestaurant(restaurant);
+         RestaurantsManager.deselectRestaurant(restaurant);
    }
    onShow() {
       console.log('showed');
@@ -76,9 +77,11 @@ class Restaurants extends Component {
    }
    render() {
       return (
-         <ScrollView style={styles.container}>
-            {this.state.areas.map(area => <Area key={area.id} area={area} />)}
-         </ScrollView>
+         <View style={styles.container}>
+            <ScrollView style={{padding: 14}}>
+               {this.state.areas.map(area => <Area key={area.id} area={area} />)}
+            </ScrollView>
+         </View>
       );
    }
 }
@@ -87,7 +90,7 @@ const styles = StyleSheet.create({
    container: {
       flex: 1,
       backgroundColor: MKColor.Silver,
-      padding: 14
+      paddingBottom: 14
    },
    area: {
       padding: 8,

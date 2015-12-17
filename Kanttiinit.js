@@ -84,7 +84,7 @@ class Kanttiinit extends React.Component {
 const styles = StyleSheet.create({
    wrapper: {
       flex: 1,
-      backgroundColor: MKColor.Silver
+      backgroundColor: MKColor.Teal
    },
    tabBar: {
       flexDirection: 'row',

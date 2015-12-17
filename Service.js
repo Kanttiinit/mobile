@@ -16,22 +16,22 @@ export default {
    updateRestaurantDistances() {
       const {currentLocation, restaurants} = this.data;
       if (currentLocation && restaurants)
-         this.data.restaurants = restaurants.map(r => {
-            if (r.latitude && r.longitude)
-               r.distance = geolib.getDistance(
-                  {latitude: currentLocation.latitude, longitude: currentLocation.longitude},
-                  {latitude: r.latitude, longitude: r.longitude}
-               );
-            return r;
-         });
+      this.data.restaurants = restaurants.map(r => {
+         if (r.latitude && r.longitude)
+         r.distance = geolib.getDistance(
+            {latitude: currentLocation.latitude, longitude: currentLocation.longitude},
+            {latitude: r.latitude, longitude: r.longitude}
+         );
+         return r;
+      });
       if (restaurants)
-         this.onRestaurantsUpdated();
+      this.onRestaurantsUpdated();
    },
    // return restaurants sorted by distance and favourite foods
    sortedRestaurants() {
       return this.data.restaurants.sort((a, b) => {
          if (this.data.currentLocation)
-            return a.distance - b.distance;
+         return a.distance - b.distance;
          return a.name > b.name ? 1 : -1;
       });
    },
@@ -41,7 +41,7 @@ export default {
    // called when this.data.restaurants is updated
    onRestaurantsUpdated() {
       if (this.data.restaurantUpdateListener)
-         this.data.restaurantUpdateListener(this.sortedRestaurants());
+      this.data.restaurantUpdateListener(this.sortedRestaurants());
    },
    getOpeningHours(restaurant, date) {
       const weekdays = JSON.parse(restaurant.openingHours);
@@ -61,7 +61,7 @@ export default {
    // download restaurants or serve from cache
    getRestaurants(forceFetch) {
       if (this.data.restaurants && !forceFetch)
-         return new Promise(resolve => resolve(this.sortedRestaurants()));
+      return new Promise(resolve => resolve(this.sortedRestaurants()));
 
       return this.getSelectedRestaurants()
       .then(selected => fetch('http://api.kanttiinit.fi/menus/' + selected.join(',')))
@@ -94,7 +94,7 @@ export default {
       return AsyncStorage.getItem('selectedRestaurants')
       .then(selectedRestaurants => {
          if (selectedRestaurants)
-            return selectedRestaurants;
+         return selectedRestaurants;
          return AsyncStorage.setItem('selectedRestaurants', '[1,2,3,4,5]');
       })
       .then(s => JSON.parse(s));

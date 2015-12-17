@@ -26,8 +26,8 @@ class Favourites extends React.Component {
                   style={{flex: 3}}
                   placeholder="New favourite food" />
                <MKButton
-                  style={{padding: 8, marginLeft: 8, flex: 1, alignItems: 'center', justifyContent: 'center'}}
-                  backgroundColor={MKColor.Cyan}>
+                  style={styles.addButton}
+                  backgroundColor={MKColor.Teal}>
                   <Text style={{color: MKColor.Silver, fontSize: 18}}>Add</Text>
                </MKButton>
             </View>
@@ -46,6 +46,13 @@ const styles = StyleSheet.create({
    newFood: {
       flexDirection: 'row',
       height: 48
+  },
+   addButton: {
+       padding: 8,
+       marginLeft: 8,
+       flex: 1,
+       alignItems: 'center',
+       justifyContent: 'center'
    }
 });
 

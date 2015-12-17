@@ -9,7 +9,7 @@ export default {
       console.log("add favorite " + name);
    },
    getFavorites() {
-      var arr = [{name:'SPAGETTIJAVA'}, {name:'TORTILLAC++'}];
+      var arr = [{name:'Spagetti'}, {name:'Pizza'}, {name: 'Tortillat'}];
       console.log("returning favs: " + arr);
       return arr;
    }

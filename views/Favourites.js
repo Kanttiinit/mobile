@@ -23,7 +23,7 @@ class Food extends React.Component {
       const {favorite} = this.props;
       return (
          <View style={[MKCardStyles.card, styles.food]} >
-            <Text style={{fontSize: 16, paddingBottom: 4}} key={favorite.name}>
+            <Text style={styles.foodTitle} key={favorite.name}>
                {favorite.name}
             </Text>
          </View>
@@ -83,11 +83,15 @@ const styles = StyleSheet.create({
        alignItems: 'center',
        justifyContent: 'center'
    },
+   foodTitle: {
+      fontSize: 20,
+      paddingBottom: 4
+   },
    food: {
-      height: 40,
+      height: 60,
       marginLeft: 14,
       marginRight: 14,
-      marginBottom: 14,
+      marginBottom: 8,
       padding: 8
    }
 });

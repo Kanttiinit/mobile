@@ -24,11 +24,13 @@ class Property extends React.Component {
    getColor(p) {
       const colors = {
          'L': MKColor.Brown,
-         'G': MKColor.Amber,
+         'G': MKColor.DeepOrange,
          'V': MKColor.Green,
-         'M': MKColor.Black
+         'M': MKColor.Pink,
+         'VL': MKColor.Indigo,
+         'A': MKColor.BlueGrey
       };
-      if (colors[p])
+      if (p in colors)
          return colors[p];
 
       return MKColor.Grey;
@@ -52,11 +54,11 @@ class Property extends React.Component {
 
 class Course extends React.Component {
    render() {
-      const {course} = this.props;
+      const {course, isFirst} = this.props;
       return (
-         <View style={{flexDirection: 'row'}}>
-            <Text key={course.title} style={{flex: 1, marginBottom: 8}}>{course.title}</Text>
-            {course.properties ? course.properties.map(p =><Property key={p}>{p}</Property>) : null}
+         <View style={[styles.course, !isFirst && styles.borderTop]}>
+            <Text key={course.title} style={{flex: 1}}>{course.title}</Text>
+            {course.properties ? course.properties.map(p => <Property key={p}>{p}</Property>) : null}
          </View>
       );
    }
@@ -64,32 +66,36 @@ class Course extends React.Component {
 
 class Restaurant extends React.Component {
    formatOpeningHours(hours) {
-      if (!hours)
-         return 'suljettu';
       return String(hours[0]).substr(0, 2) + ':' + String(hours[0]).substr(2) + ' - ' + String(hours[1]).substr(0, 2) + ':' + String(hours[1]).substr(2);
    }
    render() {
       const {date} = this.props;
       const restaurant = Service.formatRestaurant(this.props.restaurant, date);
       return (
-         <View style={[MKCardStyles.card, styles.menuItem]}>
+         <View style={[MKCardStyles.card, styles.restaurant]}>
             <View style={styles.restaurantHeader}>
-               <Text style={{fontSize: 20, paddingBottom: 4}}>{restaurant.name}</Text>
+               <Text style={{fontSize: 20, color: '#fff', paddingBottom: 4}}>{restaurant.name}</Text>
                {restaurant.distance ?
-               <Text style={{color: MKColor.Grey, fontSize: 12, marginLeft: 4}}>{(restaurant.distance / 1000).toFixed(1) + ' km'}</Text>
+               <Text style={{color: MKColor.Silver, fontSize: 12, marginLeft: 4}}>{(restaurant.distance / 1000).toFixed(1) + ' km'}</Text>
                : null}
                <Text
                   style={{
                      flex: 1,
                      textAlign: 'right',
-                     color: !date.isSame(moment(), 'day') ? MKColor.Grey
-                        : restaurant.isOpen ? MKColor.Green
-                        : MKColor.Red
+                     color: restaurant.hours ? MKColor.Silver : '#80CBC4'
                   }}>
-                  {this.formatOpeningHours(restaurant.hours)}
+                  {restaurant.hours ? this.formatOpeningHours(restaurant.hours) : 'suljettu'}
                </Text>
+
+               <View style={{
+                  width: 10,
+                  height: 10,
+                  borderRadius: 5,
+                  marginLeft: 4,
+                  backgroundColor: restaurant.isOpen ? '#64DD17' : '#D50000'
+               }} />
             </View>
-            {restaurant.courses.map(c => <Course key={c.title} course={c} />)}
+            {restaurant.courses.map((c, i) => <Course key={c.title} isFirst={i === 0} course={c} />)}
          </View>
       );
    }
@@ -158,15 +164,25 @@ const styles = StyleSheet.create({
    dayChangeButton: {
       padding: 8
    },
-   menuItem: {
+   restaurant: {
       marginLeft: 14,
       marginRight: 14,
       marginBottom: 14,
-      padding: 8
+      paddingBottom: 0
    },
    restaurantHeader: {
       flexDirection: 'row',
-      alignItems: 'center'
+      alignItems: 'center',
+      backgroundColor: MKColor.Teal,
+      padding: 8
+   },
+   course: {
+      flexDirection: 'row',
+      padding: 8
+   },
+   borderTop: {
+      borderTopWidth: 1,
+      borderTopColor: '#eee'
    }
 });
 

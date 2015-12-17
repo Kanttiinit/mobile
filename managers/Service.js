@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react-native';
 import geolib from 'geolib';
 import moment from 'moment';
@@ -47,6 +49,14 @@ export default {
          }
       }
       return {hours, isOpen: hours && now >= hours[0] && now < hours[1]};
+   },
+   formatRestaurant(restaurant, date) {
+      const courses = restaurant.Menus.find(m => moment(m.date).isSame(date, 'day'));
+      restaurant.courses = courses ? courses.courses : [];
+      const openingHours = this.getOpeningHours(restaurant, date);
+      restaurant.hours = openingHours.hours;
+      restaurant.isOpen = openingHours.isOpen;
+      return restaurant;
    },
    // download restaurants or serve from cache
    getRestaurants(forceFetch) {

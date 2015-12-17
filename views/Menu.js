@@ -35,19 +35,14 @@ class Course extends React.Component {
 }
 
 class Restaurant extends React.Component {
-   formatOpeningHours(openingHours) {
-      if (!openingHours.hours)
+   formatOpeningHours(hours) {
+      if (!hours)
          return 'suljettu';
-      const {hours} = openingHours;
       return String(hours[0]).substr(0, 2) + ':' + String(hours[0]).substr(2) + ' - ' + String(hours[1]).substr(0, 2) + ':' + String(hours[1]).substr(2);
    }
-   getCourses() {
-      const courses = this.props.restaurant.Menus.find(m => moment(m.date).isSame(this.props.date, 'day'));
-      return courses ? courses.courses : [];
-   }
    render() {
-      const {date, restaurant} = this.props;
-      const openingHours = Service.getOpeningHours(restaurant, date);
+      const {date} = this.props;
+      const restaurant = Service.formatRestaurant(this.props.restaurant, date);
       return (
          <View style={[MKCardStyles.card, styles.menuItem]}>
             <View style={styles.restaurantHeader}>
@@ -60,13 +55,13 @@ class Restaurant extends React.Component {
                      flex: 1,
                      textAlign: 'right',
                      color: !date.isSame(moment(), 'day') ? MKColor.Grey
-                        : openingHours.isOpen ? MKColor.Green
+                        : restaurant.isOpen ? MKColor.Green
                         : MKColor.Red
                   }}>
-                  {this.formatOpeningHours(openingHours)}
+                  {this.formatOpeningHours(restaurant.hours)}
                </Text>
             </View>
-            {this.getCourses.apply(this).map(c => <Course key={c.title} course={c} />)}
+            {restaurant.courses.map(c => <Course key={c.title} course={c} />)}
          </View>
       );
    }

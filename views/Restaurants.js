@@ -70,8 +70,9 @@ class Restaurants extends Component {
    }
    componentDidMount() {
       this.props.events.on('RAVINTOLAT', () => {
-         Service.getAreas()
-         .then(areas => this.setState({areas}));
+         if (!this.state.areas.length)
+            Service.getAreas()
+            .then(areas => this.setState({areas}));
       });
    }
    render() {

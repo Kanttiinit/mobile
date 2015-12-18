@@ -73,8 +73,8 @@ class Restaurant extends React.Component {
    render() {
       const {date, restaurant} = this.props;
       return (
-         <View style={[MKCardStyles.card, styles.restaurant, !restaurant.isOpen && moment().isSame(date, 'day') && {opacity: 0.5}]}>
-            <View style={styles.restaurantHeader}>
+         <View style={[MKCardStyles.card, styles.restaurant]}>
+            <View style={[styles.restaurantHeader, !restaurant.isOpen && moment().isSame(date, 'day') && {backgroundColor: '#D32F2F'}]}>
                <View>
                   <Text style={{fontSize: 14, color: '#fff'}}>{restaurant.name}</Text>
                   {restaurant.distance ?
@@ -93,6 +93,7 @@ class Restaurant extends React.Component {
                </View>
             </View>
             {restaurant.courses.map((c, i) => <Course key={c.title} isFirst={i === 0} course={c} />)}
+            {!restaurant.courses.length ? <Text style={{color: MKColor.Grey, fontSize: 12, padding: 8, textAlign: 'center'}}>Ei menua saatavilla.</Text> : null}
          </View>
       );
    }
@@ -108,8 +109,10 @@ class Menu extends React.Component {
    componentDidMount() {
       Service.updateLocation();
       this.props.events.on('MENU', route => {
-         this.setState({restaurants: undefined});
-         Service.getRestaurants(true).then(restaurants => this.setState({restaurants}));
+         Service.getRestaurants(true).then(restaurants => this.setState({restaurants}))
+         .catch(err => {
+            console.error(err);
+         });
       });
    }
    renderDay(date) {

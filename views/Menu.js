@@ -6,6 +6,8 @@ import moment from 'moment';
 import Swiper from 'react-native-swiper2';
 import Service from '../managers/Service';
 
+moment.locale('fi');
+
 const {
    ScrollView,
    View,
@@ -69,26 +71,26 @@ class Restaurant extends React.Component {
       return String(hours[0]).substr(0, 2) + ':' + String(hours[0]).substr(2) + ' - ' + String(hours[1]).substr(0, 2) + ':' + String(hours[1]).substr(2);
    }
    render() {
-      const {date} = this.props;
-      const restaurant = Service.formatRestaurant(this.props.restaurant, date);
+      const {date, restaurant} = this.props;
       return (
-         <View style={[MKCardStyles.card, styles.restaurant]}>
+         <View style={[MKCardStyles.card, styles.restaurant, !restaurant.isOpen && moment().isSame(date, 'day') && {opacity: 0.5}]}>
             <View style={styles.restaurantHeader}>
                <View>
-                  <Text style={{fontSize: 14, color: '#fff', paddingBottom: 4}}>{restaurant.name}</Text>
+                  <Text style={{fontSize: 14, color: '#fff'}}>{restaurant.name}</Text>
                   {restaurant.distance ?
-                  <Text style={{color: MKColor.Silver, fontSize: 10}}>{(restaurant.distance / 1000).toFixed(1) + ' km'}</Text>
+                  <Text style={{color: MKColor.Silver, fontSize: 10, paddingTop: 4}}>{(restaurant.distance / 1000).toFixed(1) + ' km'}</Text>
                   : null}
                </View>
-               <Text
-                  style={{
-                     flex: 1,
-                     textAlign: 'right',
-                     color: restaurant.hours ? MKColor.Silver : '#80CBC4',
-                     fontSize: 12
-                  }}>
-                  {restaurant.hours ? this.formatOpeningHours(restaurant.hours) : 'suljettu'}
-               </Text>
+               <View style={{flex: 1}}>
+                  <Text
+                     style={{
+                        textAlign: 'right',
+                        color: restaurant.hours ? '#fff' : '#80CBC4',
+                        fontSize: 12
+                     }}>
+                     {restaurant.hours ? this.formatOpeningHours(restaurant.hours) : 'suljettu'}
+                  </Text>
+               </View>
             </View>
             {restaurant.courses.map((c, i) => <Course key={c.title} isFirst={i === 0} course={c} />)}
          </View>
@@ -111,14 +113,14 @@ class Menu extends React.Component {
       });
    }
    renderDay(date) {
-      const restaurants = this.state.restaurants;
+      const restaurants = Service.formatRestaurants(this.state.restaurants, date);
       return (
          <View key={date} style={{flex: 1, paddingBottom: 75}}>
             <View style={styles.daySelector}>
-               <Text style={styles.dayTitle}>{date.format('ddd DD.MM.')}</Text>
+               <Text style={styles.dayTitle}>{date.format('dddd DD.MM.')}</Text>
             </View>
             <ScrollView>
-               {this.state.restaurants.map(r => <Restaurant key={r.id} date={date} restaurant={r} />)}
+               {restaurants.map(r => <Restaurant key={r.id} date={date} restaurant={r} />)}
             </ScrollView>
          </View>
       );
@@ -131,7 +133,7 @@ class Menu extends React.Component {
                   showsPagination={false}
                   style={{flex: 1, position: 'relative'}}
                   loop={false}>
-                  {Array(7).fill(1).map((n, i) => moment(this.state.today).add(i, 'days')).map(date => this.renderDay(date))}
+                  {Array(5).fill(1).map((n, i) => moment(this.state.today).add(i, 'days')).map(date => this.renderDay(date))}
                </Swiper>
             </View>
          );

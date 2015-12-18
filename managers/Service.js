@@ -28,8 +28,14 @@ export default {
          });
    },
    // return restaurants sorted by distance and favourite foods
-   sortedRestaurants() {
-      return this.data.restaurants.sort((a, b) => {
+   sortedRestaurants(restaurants, date) {
+      return restaurants.sort((a, b) => {
+         if (!b.courses.length || !a.courses.length)
+            return !b.courses.length ? -1 : 1;
+
+         if (b.isOpen !== a.isOpen)
+            return b.isOpen ? 1 : -1;
+
          if (this.data.currentLocation)
             return a.distance - b.distance;
          return a.name > b.name ? 1 : -1;
@@ -52,11 +58,16 @@ export default {
    },
    formatRestaurant(restaurant, date) {
       const courses = restaurant.Menus.find(m => moment(m.date).isSame(date, 'day'));
-      restaurant.courses = courses ? courses.courses : [];
       const openingHours = this.getOpeningHours(restaurant, date);
-      restaurant.hours = openingHours.hours;
-      restaurant.isOpen = openingHours.isOpen;
-      return restaurant;
+      return {
+         ...restaurant, 
+         hours: openingHours.hours, 
+         isOpen: openingHours.isOpen,
+         courses: courses ? courses.courses : []
+      };
+   },
+   formatRestaurants(restaurants, date) {
+      return this.sortedRestaurants(restaurants.map(r => this.formatRestaurant(r, date)), date);
    },
    // download restaurants or serve from cache
    getRestaurants(forceFetch) {
@@ -69,7 +80,7 @@ export default {
       .then(json => {
          this.data.restaurants = json;
          this.updateRestaurantDistances();
-         return this.sortedRestaurants();
+         return this.data.restaurants;
       });
    },
    // fetch user location

@@ -54,7 +54,8 @@ class Favourites extends React.Component {
             </ScrollView>
             <MKButton
                style={styles.fab}
-               fab={true}>
+               fab={true}
+               onPress={this.openModal.bind(this)}>
                <Icon name={'plus-round'} size={22} color={MKColor.Silver} />
             </MKButton>
             <Modal style={styles.modal} ref={"modal"} onClosed={this.onClose} onOpened={this.onOpen}

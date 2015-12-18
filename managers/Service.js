@@ -4,6 +4,7 @@ import React from 'react-native';
 import geolib from 'geolib';
 import moment from 'moment';
 import RestaurantsManager from './Restaurants';
+import HttpCache from './HttpCache';
 
 const {
    AsyncStorage
@@ -11,14 +12,13 @@ const {
 
 export default {
    data: {
-      currentLocation: undefined,
-      restaurants: undefined
+      currentLocation: undefined
    },
    // add distance property to this.data.restaurants if user location is defined
-   updateRestaurantDistances() {
-      const {currentLocation, restaurants} = this.data;
+   updateRestaurantDistances(restaurants) {
+      const {currentLocation} = this.data;
       if (currentLocation && restaurants)
-         this.data.restaurants = restaurants.map(r => {
+         restaurants = restaurants.map(r => {
             if (r.latitude && r.longitude)
                r.distance = geolib.getDistance(
                   {latitude: currentLocation.latitude, longitude: currentLocation.longitude},
@@ -26,6 +26,8 @@ export default {
                );
             return r;
          });
+
+      return restaurants;
    },
    // return restaurants sorted by distance and favourite foods
    sortedRestaurants(restaurants, date) {
@@ -60,8 +62,8 @@ export default {
       const courses = restaurant.Menus.find(m => moment(m.date).isSame(date, 'day'));
       const openingHours = this.getOpeningHours(restaurant, date);
       return {
-         ...restaurant, 
-         hours: openingHours.hours, 
+         ...restaurant,
+         hours: openingHours.hours,
          isOpen: openingHours.isOpen,
          courses: courses ? courses.courses : []
       };
@@ -71,17 +73,9 @@ export default {
    },
    // download restaurants or serve from cache
    getRestaurants(forceFetch) {
-      if (this.data.restaurants && !forceFetch)
-         return new Promise(resolve => resolve(this.sortedRestaurants()));
-
       return RestaurantsManager.getSelectedRestaurants()
-      .then(selected => fetch('http://api.kanttiinit.fi/menus/' + selected.join(',')))
-      .then(r => r.json())
-      .then(json => {
-         this.data.restaurants = json;
-         this.updateRestaurantDistances();
-         return this.data.restaurants;
-      });
+      .then(selected => HttpCache.get('http://api.kanttiinit.fi/menus/' + selected.join(','), {days: '1'}))
+      .then(json => this.updateRestaurantDistances(json));
    },
    // fetch user location
    updateLocation() {
@@ -89,7 +83,6 @@ export default {
          navigator.geolocation.getCurrentPosition(
             position => {
                this.data.currentLocation = position.coords;
-               this.updateRestaurantDistances();
                resolve(this.data.currentLocation);
             },
             error => resolve(error.message),
@@ -98,7 +91,6 @@ export default {
       });
    },
    getAreas() {
-      return fetch('http://api.kanttiinit.fi/areas')
-      .then(r => r.json());
+      return HttpCache.get('http://api.kanttiinit.fi/areas', {days: '1'});
    }
 };

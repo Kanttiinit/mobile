@@ -109,7 +109,10 @@ class Menu extends React.Component {
       Service.updateLocation();
       this.props.events.on('MENU', route => {
          this.setState({restaurants: undefined});
-         Service.getRestaurants(true).then(restaurants => this.setState({restaurants}));
+         Service.getRestaurants(true).then(restaurants => this.setState({restaurants}))
+         .catch(err => {
+            console.error(err);
+         });
       });
    }
    renderDay(date) {

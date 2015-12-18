@@ -5,6 +5,8 @@ import Material from 'react-native-material-kit';
 import moment from 'moment';
 import Swiper from 'react-native-swiper2';
 import Service from '../managers/Service';
+import Modal from 'react-native-modalbox';
+import Loader from '../components/Loader';
 
 moment.locale('fi');
 
@@ -138,14 +140,11 @@ class Menu extends React.Component {
                   loop={false}>
                   {Array(5).fill(1).map((n, i) => moment(this.state.today).add(i, 'days')).map(date => this.renderDay(date))}
                </Swiper>
+               <Modal></Modal>
             </View>
          );
 
-      return (
-         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <mdl.Spinner />
-         </View>
-      );
+      return <Loader />;
    }
 }
 

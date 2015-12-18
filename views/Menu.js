@@ -52,18 +52,18 @@ class Property extends React.Component {
                backgroundColor: this.getColor(p)}}>
             <Text style={{fontSize: 8, fontWeight: 'bold', color: '#fff'}}>{p}</Text>
          </View>
-      )
+      );
    }
 }
 
 class Course extends React.Component {
    render() {
-      const {course, isFirst} = this.props;
+      const {course, isFirst, openModal} = this.props;
       return (
-         <View style={[styles.course, !isFirst && styles.borderTop]}>
+         <MKButton rippleColor="rgba(100, 100, 100, 0.1)" onPress={openModal.bind(null, course)} style={[styles.course, !isFirst && styles.borderTop]}>
             <Text key={course.title} style={{flex: 1, fontSize: 12}}>{course.title}</Text>
             {course.properties ? course.properties.map(p => <Property key={p}>{p}</Property>) : null}
-         </View>
+         </MKButton>
       );
    }
 }
@@ -73,7 +73,7 @@ class Restaurant extends React.Component {
       return String(hours[0]).substr(0, 2) + ':' + String(hours[0]).substr(2) + ' - ' + String(hours[1]).substr(0, 2) + ':' + String(hours[1]).substr(2);
    }
    render() {
-      const {date, restaurant} = this.props;
+      const {date, restaurant, openModal} = this.props;
       return (
          <View style={[MKCardStyles.card, styles.restaurant]}>
             <View style={[styles.restaurantHeader, !restaurant.isOpen && moment().isSame(date, 'day') && {backgroundColor: '#D32F2F'}]}>
@@ -94,7 +94,7 @@ class Restaurant extends React.Component {
                   </Text>
                </View>
             </View>
-            {restaurant.courses.map((c, i) => <Course key={c.title} isFirst={i === 0} course={c} />)}
+            {restaurant.courses.map((c, i) => <Course openModal={openModal} key={c.title} isFirst={i === 0} course={c} />)}
             {!restaurant.courses.length ? <Text style={{color: MKColor.Grey, fontSize: 12, padding: 8, textAlign: 'center'}}>Ei menua saatavilla.</Text> : null}
          </View>
       );
@@ -125,10 +125,16 @@ class Menu extends React.Component {
                <Text style={styles.dayTitle}>{date.format('dddd DD.MM.')}</Text>
             </View>
             <ScrollView>
-               {restaurants.map(r => <Restaurant key={r.id} date={date} restaurant={r} />)}
+               {restaurants.map(r => <Restaurant key={r.id} date={date} restaurant={r} openModal={this.openModal.bind(this)} />)}
             </ScrollView>
          </View>
       );
+   }
+   openModal(course) {
+      this.refs.modal.open();
+      setTimeout(() => {
+         this.setState({course});
+      }, 500);
    }
    render() {
       if (this.state.restaurants)
@@ -140,7 +146,9 @@ class Menu extends React.Component {
                   loop={false}>
                   {Array(5).fill(1).map((n, i) => moment(this.state.today).add(i, 'days')).map(date => this.renderDay(date))}
                </Swiper>
-               <Modal></Modal>
+               <Modal ref="modal" style={styles.modal}>
+                  <Text>{this.state.course ? this.state.course.title : null}</Text>
+               </Modal>
             </View>
          );
 
@@ -189,6 +197,9 @@ const styles = StyleSheet.create({
    borderTop: {
       borderTopWidth: 1,
       borderTopColor: '#eee'
+   },
+   modal: {
+      height: 300
    }
 });
 

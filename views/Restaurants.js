@@ -4,6 +4,7 @@ import React from 'react-native';
 import Material from 'react-native-material-kit';
 import RestaurantsManager from '../managers/Restaurants';
 import Service from '../managers/Service';
+import Loader from '../components/Loader';
 const {
    Component,
    Text,
@@ -59,7 +60,7 @@ class Area extends Component {
             </View>
          );
 
-      return <mdl.Spinner />
+      return <View />;
    }
 }
 
@@ -76,13 +77,16 @@ class Restaurants extends Component {
       });
    }
    render() {
-      return (
-         <View style={styles.container}>
-            <ScrollView style={{padding: 14}}>
-               {this.state.areas.map(area => <Area key={area.id} area={area} />)}
-            </ScrollView>
-         </View>
-      );
+      if (this.state.areas.length)
+         return (
+            <View style={styles.container}>
+               <ScrollView style={{padding: 14}}>
+                  {this.state.areas.map(area => <Area key={area.id} area={area} />)}
+               </ScrollView>
+            </View>
+         );
+
+      return <Loader />;
    }
 }
 

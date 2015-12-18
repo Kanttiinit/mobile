@@ -9,6 +9,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-modalbox';
 import Loader from '../components/Loader';
 
+import Property from '../components/Property';
+
 moment.locale('fi');
 
 const {
@@ -26,45 +28,13 @@ const {
    mdl
 } = Material;
 
-class Property extends React.Component {
-   getColor(p) {
-      const colors = {
-         'L': MKColor.Brown,
-         'G': MKColor.DeepOrange,
-         'V': MKColor.Green,
-         'M': MKColor.Pink,
-         'VL': MKColor.Indigo,
-         'A': MKColor.BlueGrey
-      };
-      if (p in colors)
-         return colors[p];
-
-      return MKColor.Grey;
-   }
-   render() {
-      const p = this.props.children;
-      return (
-         <View key={p} style={{
-               width: 16,
-               height: 16,
-               marginLeft: 3,
-               borderRadius: 8,
-               alignItems: 'center',
-               justifyContent: 'center',
-               backgroundColor: this.getColor(p)}}>
-            <Text style={{fontSize: 8, fontWeight: 'bold', color: '#fff'}}>{p}</Text>
-         </View>
-      );
-   }
-}
-
 class Course extends React.Component {
    render() {
       const {course, isFirst} = this.props;
       return (
          <View style={[styles.course, !isFirst && styles.borderTop]}>
             <Text key={course.title} style={{flex: 1, fontSize: 12}}>{course.title}</Text>
-            {course.properties ? course.properties.map(p => <Property key={p}>{p}</Property>) : null}
+            {course.properties ? course.properties.map(p => <Property style={{marginLeft: 2}} key={p}>{p}</Property>) : null}
          </View>
       );
    }
@@ -75,11 +45,7 @@ class Restaurant extends React.Component {
       return String(hours[0]).substr(0, 2) + ':' + String(hours[0]).substr(2) + ' - ' + String(hours[1]).substr(0, 2) + ':' + String(hours[1]).substr(2);
    }
    formatDistance(distance) {
-      if (distance <= 1000) {
-         return distance + ' m';
-      } else {
-         return (distance / 1000).toFixed(1) + ' km';
-      }
+      return distance < 1000 ? distance + ' m' : (distance / 1000).toFixed(1) + ' km';
    }
    render() {
       const {date, restaurant, openModal} = this.props;
@@ -111,7 +77,11 @@ class Restaurant extends React.Component {
                   <Course isFirst={i === 0} course={c} />
                </MKButton>
             ))}
-            {!restaurant.courses.length ? <Text style={{color: MKColor.Grey, fontSize: 12, padding: 8, textAlign: 'center'}}>Ei menua saatavilla.</Text> : null}
+            {!restaurant.courses.length ?
+               <View style={{padding: 10}}>
+                  <Text style={{color: MKColor.Grey, fontSize: 12, textAlign: 'center'}}>Ei menua saatavilla.</Text>
+               </View>
+            : null}
          </View>
       );
    }
@@ -121,13 +91,18 @@ class Menu extends React.Component {
    constructor() {
       super();
       this.state = {
-         today: moment()
+         days: Array(5).fill(1).map((n, i) => moment().add(i, 'days'))
       };
    }
    componentDidMount() {
-      Service.updateLocation();
+      Service.updateLocation()
+      .then(location => {
+         console.log(location);
+      });
+
       this.props.events.on('MENU', route => {
-         Service.getRestaurants(true).then(restaurants => this.setState({restaurants}))
+         Service.getRestaurants()
+         .then(restaurants => this.setState({restaurants}))
          .catch(err => {
             console.error(err);
          });
@@ -157,27 +132,26 @@ class Menu extends React.Component {
       this.setState({course: undefined});
    }
    render() {
-      if (this.state.restaurants)
-         return (
-            <View style={styles.container}>
-               <Swiper
-                  showsPagination={false}
-                  style={{flex: 1, position: 'relative'}}
-                  loop={false}>
-                  {Array(5).fill(1).map((n, i) => moment(this.state.today).add(i, 'days')).map(date => this.renderDay(date))}
-               </Swiper>
-               <Modal ref="modal"
-                  onOpened={this.onModalOpened.bind(this)}
-                  onClosed={this.onModalClosed.bind(this)}
-                  style={styles.modal}>
-                  {this.state.course ?
-                  <Text style={{fontSize: 18, padding: 10, backgroundColor: MKColor.Silver}}>{this.state.course.title}</Text>
-                  : null}
-               </Modal>
-            </View>
-         );
-
-      return <Loader />;
+      const {restaurants, days} = this.state;
+      const course = this.state.course || {};
+      return (
+         <View style={styles.container}>
+            {restaurants ?
+            <Swiper
+               showsPagination={false}
+               style={{flex: 1, position: 'relative'}}
+               loop={false}>
+               {days.map(date => this.renderDay(date))}
+            </Swiper>
+            : <Loader color={MKColor.Teal} />}
+            <Modal ref="modal"
+               onOpened={this.onModalOpened.bind(this)}
+               onClosed={this.onModalClosed.bind(this)}
+               style={styles.modal}>
+               <Text style={{fontSize: 18, padding: 10, backgroundColor: MKColor.Silver}}>{course.title}</Text>
+            </Modal>
+         </View>
+      );
    }
 }
 

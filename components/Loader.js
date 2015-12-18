@@ -14,7 +14,7 @@ class Loader extends Component {
    render() {
       return (
          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <mdl.Spinner strokeColor='#fff' />
+            <mdl.Spinner strokeColor={this.props.color || '#fff'} />
          </View>
       );
    }

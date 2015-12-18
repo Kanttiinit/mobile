@@ -72,10 +72,9 @@ export default {
       return this.sortedRestaurants(restaurants.map(r => this.formatRestaurant(r, date)), date);
    },
    // download restaurants or serve from cache
-   getRestaurants(forceFetch) {
+   getRestaurants() {
       return RestaurantsManager.getSelectedRestaurants()
-      .then(selected => HttpCache.get('http://api.kanttiinit.fi/menus/' + selected.join(','), {days: '1'}))
-      .then(json => this.updateRestaurantDistances(json));
+      .then(selected => HttpCache.get('http://api.kanttiinit.fi/menus/' + selected.join(','), {days: '1'}));
    },
    // fetch user location
    updateLocation() {

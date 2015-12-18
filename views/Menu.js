@@ -5,6 +5,7 @@ import Material from 'react-native-material-kit';
 import moment from 'moment';
 import Swiper from 'react-native-swiper2';
 import Service from '../managers/Service';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 moment.locale('fi');
 
@@ -70,6 +71,13 @@ class Restaurant extends React.Component {
    formatOpeningHours(hours) {
       return String(hours[0]).substr(0, 2) + ':' + String(hours[0]).substr(2) + ' - ' + String(hours[1]).substr(0, 2) + ':' + String(hours[1]).substr(2);
    }
+   formatDistance(distance) {
+      if (distance <= 1000) {
+         return distance + ' m';
+      } else {
+         return (distance / 1000).toFixed(1) + ' km';
+      }
+   }
    render() {
       const {date, restaurant} = this.props;
       return (
@@ -78,7 +86,10 @@ class Restaurant extends React.Component {
                <View>
                   <Text style={{fontSize: 14, color: '#fff'}}>{restaurant.name}</Text>
                   {restaurant.distance ?
-                  <Text style={{color: MKColor.Silver, fontSize: 10, paddingTop: 4}}>{(restaurant.distance / 1000).toFixed(1) + ' km'}</Text>
+                  <Text style={{color: MKColor.Silver, fontSize: 10, paddingTop: 4}}>
+                  <Icon name="ios-location">{"  "}</Icon>
+                  {this.formatDistance(restaurant.distance)}
+                  </Text>
                   : null}
                </View>
                <View style={{flex: 1}}>

@@ -15,7 +15,8 @@ const {
    Navigator,
    TouchableHighlight,
    StatusBarIOS,
-   Platform
+   Platform,
+   BackAndroid
 } = React;
 
 const {
@@ -65,6 +66,14 @@ class Kanttiinit extends React.Component {
          this.events.fire(event.data.route.title);
       });
       this.events.fire('MENU');
+
+      BackAndroid.addEventListener('hardwareBackPress', () => {
+         if (this.state.currentView !== 'MENU') {
+            this.changeScene(this.state.views[0]);
+            return true;
+         }
+         return false;
+      });
    }
    changeScene(data) {
       this.refs.navigator.jumpTo(data);

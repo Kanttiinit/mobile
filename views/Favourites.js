@@ -106,6 +106,8 @@ const styles = StyleSheet.create({
       padding: 8
    },
    modal: {
+      width: 200,
+      height: 100,
       justifyContent: 'center',
       alignItems: 'center'
    },

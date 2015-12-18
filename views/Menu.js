@@ -14,7 +14,8 @@ const {
    ScrollView,
    View,
    Text,
-   StyleSheet
+   StyleSheet,
+   Dimensions
 } = React;
 
 const {
@@ -58,12 +59,12 @@ class Property extends React.Component {
 
 class Course extends React.Component {
    render() {
-      const {course, isFirst, openModal} = this.props;
+      const {course, isFirst} = this.props;
       return (
-         <MKButton rippleColor="rgba(100, 100, 100, 0.1)" onPress={openModal.bind(null, course)} style={[styles.course, !isFirst && styles.borderTop]}>
+         <View style={[styles.course, !isFirst && styles.borderTop]}>
             <Text key={course.title} style={{flex: 1, fontSize: 12}}>{course.title}</Text>
             {course.properties ? course.properties.map(p => <Property key={p}>{p}</Property>) : null}
-         </MKButton>
+         </View>
       );
    }
 }
@@ -94,7 +95,11 @@ class Restaurant extends React.Component {
                   </Text>
                </View>
             </View>
-            {restaurant.courses.map((c, i) => <Course openModal={openModal} key={c.title} isFirst={i === 0} course={c} />)}
+            {restaurant.courses.map((c, i) => (
+               <MKButton key={c.title} rippleColor="rgba(100, 100, 100, 0.1)" onPress={openModal.bind(null, c)}>
+                  <Course isFirst={i === 0} course={c} />
+               </MKButton>
+            ))}
             {!restaurant.courses.length ? <Text style={{color: MKColor.Grey, fontSize: 12, padding: 8, textAlign: 'center'}}>Ei menua saatavilla.</Text> : null}
          </View>
       );
@@ -131,10 +136,14 @@ class Menu extends React.Component {
       );
    }
    openModal(course) {
+      this.pendingCourse = course;
       this.refs.modal.open();
-      setTimeout(() => {
-         this.setState({course});
-      }, 500);
+   }
+   onModalOpened() {
+      this.setState({course: this.pendingCourse});
+   }
+   onModalClosed() {
+      this.setState({course: undefined});
    }
    render() {
       if (this.state.restaurants)
@@ -146,8 +155,13 @@ class Menu extends React.Component {
                   loop={false}>
                   {Array(5).fill(1).map((n, i) => moment(this.state.today).add(i, 'days')).map(date => this.renderDay(date))}
                </Swiper>
-               <Modal ref="modal" style={styles.modal}>
-                  <Text>{this.state.course ? this.state.course.title : null}</Text>
+               <Modal ref="modal"
+                  onOpened={this.onModalOpened.bind(this)}
+                  onClosed={this.onModalClosed.bind(this)}
+                  style={styles.modal}>
+                  {this.state.course ?
+                  <Text style={{fontSize: 18, padding: 10, backgroundColor: MKColor.Silver}}>{this.state.course.title}</Text>
+                  : null}
                </Modal>
             </View>
          );
@@ -199,6 +213,7 @@ const styles = StyleSheet.create({
       borderTopColor: '#eee'
    },
    modal: {
+      width: Dimensions.get('window').width - 32,
       height: 300
    }
 });

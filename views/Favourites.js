@@ -56,12 +56,29 @@ class Favourites extends React.Component {
                style={styles.fab}
                fab={true}
                onPress={this.openModal.bind(this)}>
-               <Icon name={'plus-round'} size={22} color={MKColor.Silver} />
+               <Icon name='plus-round' size={22} color={MKColor.Silver} />
             </MKButton>
-            <Modal style={styles.modal} ref={"modal"} onClosed={this.onClose} onOpened={this.onOpen}
-               onClosingState={this.onClosingState}>
-               <Text style={styles.text}>New Favorite</Text>
+
+            <Modal ref="modal" style={styles.modal} swipeToClose={false} onClosed={this.onClose}
+               onOpened={this.onOpen} onClosingState={this.onClosingState}>
+               <Text style={styles.modalTitle}>Uusi suosikki</Text>
+               <MKTextField
+                  clearButtonMode='while-editing'
+                  ref="favoriteName"
+                  tintColor={MKColor.Teal}
+                  textInputStyle={{color: MKColor.Black, fontSize: 18}}
+                  floatingLabelEnabled={true}
+                  onChangeText={(text) => this.setState({text})}
+                  style={styles.textField}
+                  placeholder="Ruoan nimi">
+               </MKTextField>
+               <MKButton
+                  style={styles.addButton}
+                  onPress={Favorite.addFavorite.bind(this, this.state.text)}>
+                  <Icon name='plus-round' size={22} color={MKColor.Silver} />
+               </MKButton>
             </Modal>
+
          </View>
       );
    }
@@ -94,6 +111,16 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center'
    },
+   addButton: {
+      position: 'absolute',
+      bottom: 0,
+      width: 300,
+      padding: 4,
+      shadowColor: 'black',
+      backgroundColor: MKColor.Teal,
+      justifyContent: 'center',
+      alignItems: 'center'
+   },
    foodTitle: {
       fontSize: 20,
       paddingBottom: 4
@@ -106,14 +133,18 @@ const styles = StyleSheet.create({
       padding: 8
    },
    modal: {
-      width: 200,
-      height: 100,
-      justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
+      width: 300,
+      height: 200
    },
-   text: {
+   modalTitle: {
+      margin: 10,
       color: "black",
       fontSize: 22
+   },
+   textField: {
+      width: 200,
+      height: 60
    }
 });
 

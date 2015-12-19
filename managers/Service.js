@@ -26,6 +26,8 @@ export default {
    sortedRestaurants(restaurants, date) {
       return restaurants.sort((a, b) => {
          // can this be written in a prettier way??
+         if (!a.hours && b.hours) return 1;
+         if (a.hours && !b.hours) return -1;
          if (!a.courses.length && b.courses.length) return 1;
          if (a.courses.length && !b.courses.length) return -1;
          if (!a.isOpen && b.isOpen) return 1;

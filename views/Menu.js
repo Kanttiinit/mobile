@@ -55,7 +55,7 @@ class Restaurant extends React.Component {
                   <Text
                      style={{
                         textAlign: 'right',
-                        color: restaurant.hours ? '#fff' : '#80CBC4',
+                        color: restaurant.hours ? '#fff' : 'rgba(255, 255, 255, 0.5)',
                         fontSize: 12
                      }}>
                      {restaurant.hours ? this.formatOpeningHours(restaurant.hours) : 'suljettu'}
@@ -92,11 +92,18 @@ class Menu extends React.Component {
       this.props.events.on('MENU', route => {
          Service.getRestaurants()
          .then(restaurants => {
-            this.setState({restaurants})
-            Service.updateLocation()
-            .then(location => {
-               this.setState({restaurants: Service.updateRestaurantDistances(this.state.restaurants)});
+            this.setState({
+               restaurants: Service.updateRestaurantDistances(restaurants, this.state.location)
             });
+
+            if (!this.state.location) {
+               return Service.getLocation().then(location => {
+                  this.setState({
+                     location,
+                     restaurants: Service.updateRestaurantDistances(this.state.restaurants, location)
+                  });
+               });
+            }
          })
          .catch(err => {
             console.error(err);

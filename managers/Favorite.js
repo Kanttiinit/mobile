@@ -17,18 +17,18 @@ export default {
    setStoredFavorites(f) {
       return AsyncStorage.setItem('storedFavorites', JSON.stringify(f));
    },
-   selectFavorite(f) {
-      return this.getSelectedRestaurants()
-      .then(selected => {
-         selected.push(f);
-         return this.setSelectedRestaurants(selected);
+   addFavorite(f) {
+      return this.getStoredFavorites()
+      .then(storedFavorites => {
+         storedFavorites.push({name: f});
+         return this.setStoredFavorites(storedFavorites);
       });
    },
-   deselectFavorite(f) {
-      return this.getSelectedRestaurants()
-      .then(selected => {
-         selected.splice(selected.indexOf(f), 1);
-         return this.setSelectedRestaurants(selected);
+   removeFavorite(f) {
+      return this.getStoredFavorites()
+      .then(storedFavorites => {
+         storedFavorites.splice(storedFavorites.indexOf(f), 1);
+         return this.setStoredFavorites(storedFavorites);
       });
    }
 };

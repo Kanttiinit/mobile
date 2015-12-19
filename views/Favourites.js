@@ -36,50 +36,61 @@ class Food extends React.Component {
 class Favourites extends React.Component {
    constructor() {
       super();
-      this.state = {favorites: []};
+      this.state = {};
    }
    componentDidMount() {
-      // this.setState({
-      //    favorites: Favorite.getFavorites()
-      // });
+      Favorite.getStoredFavorites()
+      .then(favorites => this.setState({favorites}));
    }
    openModal() {
       this.refs.modal.open();
    }
+   addFavorite(name) {
+      Favorite.addFavorite(name)
+      .then(favorites => { // TODO: CLEAN SHIT UP
+         Favorite.getStoredFavorites()
+         .then(favorites => this.setState({favorites}));
+      });
+   }
    render() {
-      return(
-         <View style={styles.container}>
-            <ScrollView style={styles.favoriteList} scrollsToTop={true} contentInset={{top: 10, left: 0, right: 0, bottom: 80}}>
-               {this.state.favorites.map(fav => <Food key={fav.name} favorite={fav} />)}
-            </ScrollView>
-            <MKButton
-               style={styles.fab}
-               fab={true}
-               onPress={this.openModal.bind(this)}>
-               <Icon name='plus-round' size={22} color={MKColor.Silver} />
-            </MKButton>
-
-            <Modal ref="modal" style={styles.modal} swipeToClose={false} onClosed={this.onClose}
-               onOpened={this.onOpen} onClosingState={this.onClosingState}>
-               <Text style={styles.modalTitle}>Uusi suosikki</Text>
-               <MKTextField
-                  clearButtonMode='while-editing'
-                  ref="favoriteName"
-                  tintColor={MKColor.Teal}
-                  textInputStyle={{color: MKColor.Black, fontSize: 18}}
-                  floatingLabelEnabled={true}
-                  onChangeText={(text) => this.setState({text})}
-                  style={styles.textField}
-                  placeholder="Ruoan nimi">
-               </MKTextField>
+      const {favorites} = this.state;
+      if (favorites) {
+         return(
+            <View style={styles.container}>
+               <ScrollView style={styles.favoriteList} scrollsToTop={true} contentInset={{top: 10, left: 0, right: 0, bottom: 80}}>
+                  {favorites.map(fav => <Food key={fav.name} favorite={fav} />)}
+               </ScrollView>
                <MKButton
-                  style={styles.addButton}>
+                  style={styles.fab}
+                  fab={true}
+                  onPress={this.openModal.bind(this)}>
                   <Icon name='plus-round' size={22} color={MKColor.Silver} />
                </MKButton>
-            </Modal>
 
-         </View>
-      );
+               <Modal ref="modal" style={styles.modal} swipeToClose={false} onClosed={this.onClose}
+                  onOpened={this.onOpen} onClosingState={this.onClosingState}>
+                  <Text style={styles.modalTitle}>Uusi suosikki</Text>
+                  <MKTextField
+                     clearButtonMode='while-editing'
+                     ref="favoriteName"
+                     tintColor={MKColor.Teal}
+                     textInputStyle={{color: MKColor.Black, fontSize: 18}}
+                     floatingLabelEnabled={true}
+                     onChangeText={(text) => this.setState({text})}
+                     style={styles.textField}
+                     placeholder="Ruoan nimi">
+                  </MKTextField>
+                  <MKButton
+                     style={styles.addButton}
+                     onPress={this.addFavorite.bind(this, this.state.text)}>
+                     <Icon name='plus-round' size={22} color={MKColor.Silver} />
+                  </MKButton>
+               </Modal>
+
+            </View>
+         );
+      }
+      return <View />;
    }
 }
 

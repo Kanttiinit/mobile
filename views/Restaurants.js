@@ -8,7 +8,7 @@ import Loader from '../components/Loader';
 const {
    Component,
    Text,
-   ScrollView,
+   ListView,
    View,
    StyleSheet
 } = React;
@@ -40,7 +40,7 @@ class Area extends Component {
       const {selected} = this.state;
       if (selected)
          return (
-            <View style={[MKCardStyles.card]}>
+            <View style={[MKCardStyles.card, {marginBottom: 10}]}>
                <View style={styles.area}>
                   <Text style={styles.areaTitle}>{area.name}</Text>
                </View>
@@ -67,34 +67,40 @@ class Area extends Component {
 class Restaurants extends Component {
    constructor() {
       super();
-      this.state = {areas: []};
+      this.state = {};
    }
    componentDidMount() {
       this.props.events.on('RAVINTOLAT', () => {
-         if (!this.state.areas.length)
+         if (!this.state.areas) {
             Service.getAreas()
-            .then(areas => this.setState({areas}));
+            .then(areas => {
+               const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+               this.setState({
+                  areas: dataSource.cloneWithRows(areas)
+               });
+            })
+            .catch(e => console.error(e));
+         }
       });
    }
    render() {
-      if (this.state.areas.length)
-         return (
-            <View style={styles.container}>
-               <ScrollView style={{padding: 14}}>
-                  {this.state.areas.map(area => <Area key={area.id} area={area} />)}
-               </ScrollView>
-            </View>
-         );
-
-      return <Loader />;
+      return (
+         <View style={styles.container}>
+            {this.state.areas ?
+            <ListView
+               dataSource={this.state.areas}
+               renderRow={area => <Area area={area} />}
+               style={{padding: 14}} />
+            : <Loader color={MKColor.Teal} />}
+         </View>
+      );
    }
 }
 
 const styles = StyleSheet.create({
    container: {
       flex: 1,
-      backgroundColor: MKColor.Silver,
-      paddingBottom: 14
+      backgroundColor: MKColor.Silver
    },
    area: {
       padding: 8,

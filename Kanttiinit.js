@@ -29,7 +29,8 @@ class TabButton extends React.Component {
       const {data, changeScene, parent, current, icon} = this.props;
       return (
          <MKButton
-            backgroundColor={current ? '#e4e2e2' : MKColor.Silver}
+            rippleColor="rgba(0, 150, 136, 0.1)"
+            backgroundColor={current ? '#e3e0e0' : MKColor.Silver}
             onPress={() => changeScene(data)} style={styles.tabButton}>
             <Icon name={icon} size={18} color={current ? MKColor.Teal : '#666666'} />
             <Text style={{fontSize: 12, color: current ? MKColor.Teal : '#666666'}}>{data.title}</Text>

@@ -1,61 +1,47 @@
 'use strict';
 
-import React from 'react-native';
+import {AsyncStorage} from 'react-native';
 import geolib from 'geolib';
 import moment from 'moment';
 import RestaurantsManager from './Restaurants';
 import HttpCache from './HttpCache';
 
-const {
-   AsyncStorage
-} = React;
-
 export default {
-   data: {
-      currentLocation: undefined
-   },
    // add distance property to this.data.restaurants if user location is defined
-   updateRestaurantDistances(restaurants) {
-      const {currentLocation} = this.data;
-      if (currentLocation && restaurants)
-         restaurants = restaurants.map(r => {
+   updateRestaurantDistances(restaurants, location) {
+      if (location) {
+         return restaurants.map(r => {
             if (r.latitude && r.longitude)
                r.distance = geolib.getDistance(
-                  {latitude: currentLocation.latitude, longitude: currentLocation.longitude},
+                  {latitude: location.latitude, longitude: location.longitude},
                   {latitude: r.latitude, longitude: r.longitude}
                );
             return r;
          });
+      }
 
       return restaurants;
    },
    // return restaurants sorted by distance and favourite foods
    sortedRestaurants(restaurants, date) {
       return restaurants.sort((a, b) => {
-         if (!b.courses.length || !a.courses.length)
-            return !b.courses.length ? -1 : 1;
+         // can this be written in a prettier way??
+         if (!a.courses.length && b.courses.length) return 1;
+         if (a.courses.length && !b.courses.length) return -1;
+         if (!a.isOpen && b.isOpen) return 1;
+         if (a.isOpen && !b.isOpen) return -1;
+         if (a.distance > b.distance) return 1;
+         if (a.distance < b.distance) return -1;
+         if (a.name > b.name) return 1;
+         if (a.name < b.name) return -1;
 
-         if (b.isOpen !== a.isOpen)
-            return b.isOpen ? 1 : -1;
-
-         if (this.data.currentLocation)
-            return a.distance - b.distance;
-         return a.name > b.name ? 1 : -1;
+         return 0;
       });
    },
    getOpeningHours(restaurant, date) {
       const weekdays = JSON.parse(restaurant.openingHours);
       const now = Number(moment().format('HHmm'));
-      let dayNumber = date.day() - 1;
-      let hours = weekdays[dayNumber];
-      if (hours && !hours.length) {
-         while (dayNumber--) {
-            if (weekdays[dayNumber] && weekdays[dayNumber].length) {
-               hours = weekdays[dayNumber];
-               break;
-            }
-         }
-      }
+      let hours = weekdays[date.day() - 1];
       return {hours, isOpen: hours && now >= hours[0] && now < hours[1]};
    },
    formatRestaurant(restaurant, date) {
@@ -72,19 +58,15 @@ export default {
       return this.sortedRestaurants(restaurants.map(r => this.formatRestaurant(r, date)), date);
    },
    // download restaurants or serve from cache
-   getRestaurants(forceFetch) {
+   getRestaurants() {
       return RestaurantsManager.getSelectedRestaurants()
-      .then(selected => HttpCache.get('http://api.kanttiinit.fi/menus/' + selected.join(','), {days: '1'}))
-      .then(json => this.updateRestaurantDistances(json));
+      .then(selected => HttpCache.get('http://api.kanttiinit.fi/menus/' + selected.join(','), {days: '1'}));
    },
    // fetch user location
-   updateLocation() {
+   getLocation() {
       return new Promise((resolve, reject) => {
          navigator.geolocation.getCurrentPosition(
-            position => {
-               this.data.currentLocation = position.coords;
-               resolve(this.data.currentLocation);
-            },
+            position => resolve(position.coords),
             error => resolve(error.message),
             {timeout: 3000, maximumAge: 10000}
          );

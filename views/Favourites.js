@@ -49,7 +49,7 @@ class Favourites extends React.Component {
    render() {
       return(
          <View style={styles.container}>
-            <ScrollView style={styles.favoriteList} scrollsToTop={true} contentInset={{x: 0, y: 0}} contentInset={{top: 10, left: 0, right: 0, bottom: 80}}>
+            <ScrollView style={styles.favoriteList} scrollsToTop={true} contentInset={{top: 10, left: 0, right: 0, bottom: 80}}>
                {this.state.favorites.map(fav => <Food key={fav.name} favorite={fav} />)}
             </ScrollView>
             <MKButton

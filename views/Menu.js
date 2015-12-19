@@ -9,13 +9,16 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-modalbox';
 import Loader from '../components/Loader';
 
+import Property from '../components/Property';
+
 moment.locale('fi');
 
 const {
-   ScrollView,
+   ListView,
    View,
    Text,
-   StyleSheet
+   StyleSheet,
+   Dimensions
 } = React;
 
 const {
@@ -25,88 +28,53 @@ const {
    mdl
 } = Material;
 
-class Property extends React.Component {
-   getColor(p) {
-      const colors = {
-         'L': MKColor.Brown,
-         'G': MKColor.DeepOrange,
-         'V': MKColor.Green,
-         'M': MKColor.Pink,
-         'VL': MKColor.Indigo,
-         'A': MKColor.BlueGrey
-      };
-      if (p in colors)
-         return colors[p];
-
-      return MKColor.Grey;
-   }
-   render() {
-      const p = this.props.children;
-      return (
-         <View key={p} style={{
-               width: 16,
-               height: 16,
-               marginLeft: 3,
-               borderRadius: 8,
-               alignItems: 'center',
-               justifyContent: 'center',
-               backgroundColor: this.getColor(p)}}>
-            <Text style={{fontSize: 8, fontWeight: 'bold', color: '#fff'}}>{p}</Text>
-         </View>
-      );
-   }
-}
-
-class Course extends React.Component {
-   render() {
-      const {course, isFirst, openModal} = this.props;
-      return (
-         <MKButton rippleColor="rgba(100, 100, 100, 0.1)" onPress={openModal.bind(null, course)} style={[styles.course, !isFirst && styles.borderTop]}>
-            <Text key={course.title} style={{flex: 1, fontSize: 12}}>{course.title}</Text>
-            {course.properties ? course.properties.map(p => <Property key={p}>{p}</Property>) : null}
-         </MKButton>
-      );
-   }
-}
-
 class Restaurant extends React.Component {
    formatOpeningHours(hours) {
       return String(hours[0]).substr(0, 2) + ':' + String(hours[0]).substr(2) + ' - ' + String(hours[1]).substr(0, 2) + ':' + String(hours[1]).substr(2);
    }
    formatDistance(distance) {
-      if (distance <= 1000) {
-         return distance + ' m';
-      } else {
-         return (distance / 1000).toFixed(1) + ' km';
-      }
+      return distance < 1000 ? distance + ' m' : (distance / 1000).toFixed(1) + ' km';
    }
    render() {
       const {date, restaurant, openModal} = this.props;
       return (
          <View style={[MKCardStyles.card, styles.restaurant]}>
+
             <View style={[styles.restaurantHeader, !restaurant.isOpen && moment().isSame(date, 'day') && {backgroundColor: '#D32F2F'}]}>
                <View>
                   <Text style={{fontSize: 14, color: '#fff'}}>{restaurant.name}</Text>
                   {restaurant.distance ?
-                  <Text style={{color: MKColor.Silver, fontSize: 10, paddingTop: 4}}>
-                  <Icon name="ios-location">{"  "}</Icon>
-                  {this.formatDistance(restaurant.distance)}
-                  </Text>
+                     <Text style={{color: MKColor.Silver, fontSize: 10, paddingTop: 4}}>
+                        <Icon name="ios-location" />
+                        {' '}
+                        {this.formatDistance(restaurant.distance)}
+                     </Text>
                   : null}
                </View>
                <View style={{flex: 1}}>
                   <Text
                      style={{
                         textAlign: 'right',
-                        color: restaurant.hours ? '#fff' : '#80CBC4',
+                        color: restaurant.hours ? '#fff' : 'rgba(255, 255, 255, 0.5)',
                         fontSize: 12
                      }}>
                      {restaurant.hours ? this.formatOpeningHours(restaurant.hours) : 'suljettu'}
                   </Text>
                </View>
             </View>
-            {restaurant.courses.map((c, i) => <Course openModal={openModal} key={c.title} isFirst={i === 0} course={c} />)}
-            {!restaurant.courses.length ? <Text style={{color: MKColor.Grey, fontSize: 12, padding: 8, textAlign: 'center'}}>Ei menua saatavilla.</Text> : null}
+
+            {!restaurant.courses.length ?
+               <View style={{padding: 10}}>
+                  <Text style={{color: MKColor.Grey, fontSize: 12, textAlign: 'center'}}>Ei menua saatavilla.</Text>
+               </View>
+            : restaurant.courses.map((course, i) =>
+               <MKButton key={course.title} rippleColor="rgba(100, 100, 100, 0.1)" onPress={openModal.bind(null, course)}>
+                  <View style={[styles.course, i > 0 && styles.borderTop]}>
+                     <Text key={course.title} style={{flex: 1, fontSize: 12}}>{course.title}</Text>
+                     {course.properties ? course.properties.map(p => <Property style={{marginLeft: 2}} key={p}>{p}</Property>) : null}
+                  </View>
+               </MKButton>
+            )}
          </View>
       );
    }
@@ -115,14 +83,28 @@ class Restaurant extends React.Component {
 class Menu extends React.Component {
    constructor() {
       super();
+
       this.state = {
-         today: moment()
+         days: Array(5).fill(1).map((n, i) => moment().add(i, 'days'))
       };
    }
    componentDidMount() {
-      Service.updateLocation();
       this.props.events.on('MENU', route => {
-         Service.getRestaurants(true).then(restaurants => this.setState({restaurants}))
+         Service.getRestaurants()
+         .then(restaurants => {
+            this.setState({
+               restaurants: Service.updateRestaurantDistances(restaurants, this.state.location)
+            });
+
+            if (!this.state.location) {
+               return Service.getLocation().then(location => {
+                  this.setState({
+                     location,
+                     restaurants: Service.updateRestaurantDistances(this.state.restaurants, location)
+                  });
+               });
+            }
+         })
          .catch(err => {
             console.error(err);
          });
@@ -130,40 +112,43 @@ class Menu extends React.Component {
    }
    renderDay(date) {
       const restaurants = Service.formatRestaurants(this.state.restaurants, date);
+      const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
       return (
          <View key={date} style={{flex: 1, paddingBottom: 75}}>
             <View style={styles.daySelector}>
                <Text style={styles.dayTitle}>{date.format('dddd DD.MM.')}</Text>
             </View>
-            <ScrollView>
-               {restaurants.map(r => <Restaurant key={r.id} date={date} restaurant={r} openModal={this.openModal.bind(this)} />)}
-            </ScrollView>
+            <ListView
+               initialListSize={3}
+               dataSource={dataSource.cloneWithRows(restaurants)}
+               renderRow={restaurant =>
+                  <Restaurant date={date} restaurant={restaurant} openModal={this.openModal.bind(this)} />
+               } />
          </View>
       );
    }
    openModal(course) {
       this.refs.modal.open();
-      setTimeout(() => {
-         this.setState({course});
-      }, 500);
    }
    render() {
-      if (this.state.restaurants)
-         return (
-            <View style={styles.container}>
-               <Swiper
-                  showsPagination={false}
-                  style={{flex: 1, position: 'relative'}}
-                  loop={false}>
-                  {Array(5).fill(1).map((n, i) => moment(this.state.today).add(i, 'days')).map(date => this.renderDay(date))}
-               </Swiper>
-               <Modal ref="modal" style={styles.modal}>
-                  <Text>{this.state.course ? this.state.course.title : null}</Text>
-               </Modal>
-            </View>
-         );
-
-      return <Loader />;
+      const {restaurants, days} = this.state;
+      const course = this.state.course || {};
+      return (
+         <View style={styles.container}>
+            {restaurants ?
+            <Swiper
+               showsPagination={false}
+               style={{flex: 1, position: 'relative'}}
+               loop={false}>
+               {days.map(date => this.renderDay(date))}
+            </Swiper>
+            : <Loader color={MKColor.Teal} />}
+            <Modal
+               ref="modal"
+               style={styles.modal}>
+            </Modal>
+         </View>
+      );
    }
 }
 
@@ -210,6 +195,7 @@ const styles = StyleSheet.create({
       borderTopColor: '#eee'
    },
    modal: {
+      width: Dimensions.get('window').width - 32,
       height: 300
    }
 });

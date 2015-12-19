@@ -78,8 +78,9 @@ class Restaurant extends React.Component {
                   <Text style={{color: MKColor.Grey, fontSize: 12, textAlign: 'center'}}>Ei menua saatavilla.</Text>
                </View>
             : courses.map((course, i) =>
-               <View key={course.title} style={{backgroundColor: course.favorite ? '#FFF9C4' : undefined}}>
+               <View key={course.title} style={{backgroundColor: course.favorite ? '#f7eaea' : undefined}}>
                   <View style={[styles.course, i > 0 && styles.borderTop]}>
+                     {course.favorite ? <Icon style={{marginRight: 6}} color='#fc5151' name='heart' /> : null}
                      <Text key={course.title} style={{flex: 1, fontSize: 12}}>{course.title}</Text>
                      {course.properties ? course.properties.map(p => <Property style={{marginLeft: 2}} key={p}>{p}</Property>) : null}
                   </View>

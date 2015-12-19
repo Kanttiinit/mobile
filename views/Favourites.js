@@ -88,9 +88,8 @@ class Favourites extends Component {
                <ListView
                   dataSource={favorites}
                   renderRow={(fav, sectionId, rowId) => {
-                     const firstRow = rowId == 0;
                      const lastRow = rowId == favorites._cachedRowCount - 1;
-                     return <Food style={{marginTop: firstRow ? 10 : 0, marginBottom: lastRow ? 80 : 10}} favorite={fav} />
+                     return <Food style={{marginBottom: lastRow ? 86 : 2}} favorite={fav} />
                   }}
                   style={styles.favoriteList}
                   scrollsToTop={true} />
@@ -131,8 +130,6 @@ class Favourites extends Component {
       container: {
          flex: 1,
          backgroundColor: MKColor.Silver,
-         paddingLeft: 10,
-         paddingRight: 10
       },
       newFood: {
          flexDirection: 'row'

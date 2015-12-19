@@ -68,12 +68,12 @@ class Restaurant extends React.Component {
                   <Text style={{color: MKColor.Grey, fontSize: 12, textAlign: 'center'}}>Ei menua saatavilla.</Text>
                </View>
             : restaurant.courses.map((course, i) =>
-               <MKButton key={course.title} rippleColor="rgba(100, 100, 100, 0.1)" onPress={openModal.bind(null, course)}>
+               /*<MKButton key={course.title} rippleColor="rgba(100, 100, 100, 0.1)" onPress={openModal.bind(null, course)}>*/
                   <View style={[styles.course, i > 0 && styles.borderTop]}>
                      <Text key={course.title} style={{flex: 1, fontSize: 12}}>{course.title}</Text>
                      {course.properties ? course.properties.map(p => <Property style={{marginLeft: 2}} key={p}>{p}</Property>) : null}
                   </View>
-               </MKButton>
+               /*</MKButton>*/
             )}
          </View>
       );
@@ -119,7 +119,7 @@ class Menu extends React.Component {
                <Text style={styles.dayTitle}>{date.format('dddd DD.MM.')}</Text>
             </View>
             <ListView
-               initialListSize={3}
+               initialListSize={5}
                dataSource={dataSource.cloneWithRows(restaurants)}
                renderRow={restaurant =>
                   <Restaurant date={date} restaurant={restaurant} openModal={this.openModal.bind(this)} />

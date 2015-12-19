@@ -31,16 +31,13 @@ export default {
          return this.setStoredFavorites(storedFavorites);
       });
    },
-   isFavorite(favs, title) {
-      return favs.some(f => title.toLowerCase().includes(f.name.toLowerCase()));
+   isFavorite(title, favorites) {
+      return favorites.some(f => title.toLowerCase().includes(f.name.toLowerCase()));
    },
-   formatCourses(courses) {
-      return this.getStoredFavorites()
-      .then(favs => {
-         return courses.map(c => {
-            c.favorite = this.isFavorite(favs, c.title);
-            return c;
-         });
+   formatCourses(courses, favorites) {
+      return courses.map(c => {
+         c.favorite = this.isFavorite(c.title, favorites);
+         return c;
       });
    }
 };

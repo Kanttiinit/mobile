@@ -30,23 +30,15 @@ const {
 } = Material;
 
 class Restaurant extends React.Component {
-   constructor() {
-      super();
-      this.state = {courses: []};
-   }
    formatOpeningHours(hours) {
       return String(hours[0]).substr(0, 2) + ':' + String(hours[0]).substr(2) + ' - ' + String(hours[1]).substr(0, 2) + ':' + String(hours[1]).substr(2);
    }
    formatDistance(distance) {
       return distance < 1000 ? distance + ' m' : (distance / 1000).toFixed(1) + ' km';
    }
-   componentDidMount() {
-      Favorites.formatCourses(this.props.restaurant.courses)
-      .then(courses => this.setState({courses}));
-   }
    render() {
       const {date, restaurant, openModal} = this.props;
-      const {courses} = this.state;
+      const courses = restaurant.courses;
       return (
          <View style={[MKCardStyles.card, styles.restaurant]}>
 
@@ -101,6 +93,9 @@ class Menu extends React.Component {
    }
    componentDidMount() {
       this.props.events.on('MENU', route => {
+         Favorites.getStoredFavorites()
+         .then(favourites => this.setState({favourites}));
+
          Service.getRestaurants()
          .then(restaurants => {
             this.setState({
@@ -109,6 +104,7 @@ class Menu extends React.Component {
 
             if (!this.state.location) {
                return Service.getLocation().then(location => {
+                  console.log(location);
                   this.setState({
                      location,
                      restaurants: Service.updateRestaurantDistances(this.state.restaurants, location)
@@ -122,7 +118,7 @@ class Menu extends React.Component {
       });
    }
    renderDay(date) {
-      const restaurants = Service.formatRestaurants(this.state.restaurants, date);
+      const restaurants = Service.formatRestaurants(this.state.restaurants, date, this.state.favourites);
       const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
       return (
          <View key={date} style={{flex: 1, paddingBottom: 75}}>
@@ -130,7 +126,7 @@ class Menu extends React.Component {
                <Text style={styles.dayTitle}>{date.format('dddd DD.MM.')}</Text>
             </View>
             <ListView
-               initialListSize={5}
+               initialListSize={6}
                dataSource={dataSource.cloneWithRows(restaurants)}
                renderRow={restaurant =>
                   <Restaurant date={date} restaurant={restaurant} openModal={this.openModal.bind(this)} />
@@ -142,11 +138,11 @@ class Menu extends React.Component {
       this.refs.modal.open();
    }
    render() {
-      const {restaurants, days} = this.state;
+      const {restaurants, favourites, days} = this.state;
       const course = this.state.course || {};
       return (
          <View style={styles.container}>
-            {restaurants ?
+            {restaurants && favourites ?
             <Swiper
                showsPagination={false}
                style={{flex: 1, position: 'relative'}}

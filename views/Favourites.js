@@ -39,9 +39,9 @@ class Favourites extends React.Component {
       this.state = {favorites: []};
    }
    componentDidMount() {
-      this.setState({
-         favorites: Favorite.getFavorites()
-      });
+      // this.setState({
+      //    favorites: Favorite.getFavorites()
+      // });
    }
    openModal() {
       this.refs.modal.open();
@@ -73,8 +73,7 @@ class Favourites extends React.Component {
                   placeholder="Ruoan nimi">
                </MKTextField>
                <MKButton
-                  style={styles.addButton}
-                  onPress={Favorite.addFavorite.bind(this, this.state.text)}>
+                  style={styles.addButton}>
                   <Icon name='plus-round' size={22} color={MKColor.Silver} />
                </MKButton>
             </Modal>

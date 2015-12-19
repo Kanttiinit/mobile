@@ -5,13 +5,30 @@ const {
 } = React;
 
 export default {
-   addFavorite(name) {
-      console.log("add favorite " + name);
-
+   getStoredFavorites() {
+      return AsyncStorage.getItem('storedFavorites')
+      .then(storedFavorites => {
+         if (storedFavorites)
+            return storedFavorites;
+         return AsyncStorage.setItem('storedFavorites', '[]');
+      })
+      .then(s => JSON.parse(s));
    },
-   getFavorites() {
-      var arr = [{name:'Spagetti'}, {name:'Pizza'}, {name: 'Tortillat'}, {name:'Spagetti2'}, {name:'Pizza2'}, {name: 'Tortillat2'}, {name:'Spagetti3'}, {name:'Pizza3'}, {name: 'Tortillat3'}];
-      console.log("returning favs: " + arr);
-      return arr;
+   setStoredFavorites(f) {
+      return AsyncStorage.setItem('storedFavorites', JSON.stringify(f));
+   },
+   selectFavorite(f) {
+      return this.getSelectedRestaurants()
+      .then(selected => {
+         selected.push(f);
+         return this.setSelectedRestaurants(selected);
+      });
+   },
+   deselectFavorite(f) {
+      return this.getSelectedRestaurants()
+      .then(selected => {
+         selected.splice(selected.indexOf(f), 1);
+         return this.setSelectedRestaurants(selected);
+      });
    }
 };

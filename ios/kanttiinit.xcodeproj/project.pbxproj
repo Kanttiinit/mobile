@@ -98,6 +98,20 @@
 			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
 			remoteInfo = React;
 		};
+		50FB1C871C259CEF0091BE81 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 103C71BCBB6146B78CF1443B /* RCTMaterialKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8A1B8E771B22E4E300DB45C2;
+			remoteInfo = RCTMaterialKit;
+		};
+		50FB1C901C259CEF0091BE81 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 361FC1C10AE34E3B9C78ED6C /* RNVectorIcons.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5DBEB1501B18CEA900B34395;
+			remoteInfo = RNVectorIcons;
+		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
@@ -111,20 +125,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
-		};
-		CF2871341C259F9700842B42 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 361FC1C10AE34E3B9C78ED6C /* RNVectorIcons.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 5DBEB1501B18CEA900B34395;
-			remoteInfo = RNVectorIcons;
-		};
-		CF2871391C259F9700842B42 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 103C71BCBB6146B78CF1443B /* RCTMaterialKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8A1B8E771B22E4E300DB45C2;
-			remoteInfo = RCTMaterialKit;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -289,6 +289,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		50FB1C7E1C259CEE0091BE81 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				50FB1C881C259CEF0091BE81 /* libRCTMaterialKit.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		50FB1C801C259CEE0091BE81 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				50FB1C911C259CEF0091BE81 /* libRNVectorIcons.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		62017852EBD5413BA0D2290D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -357,22 +373,6 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* kanttiinit.app */,
 				00E356EE1AD99517003FC87E /* kanttiinitTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		CF2871271C259F9700842B42 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				CF2871351C259F9700842B42 /* libRNVectorIcons.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		CF2871361C259F9700842B42 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				CF28713A1C259F9700842B42 /* libRCTMaterialKit.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -460,7 +460,7 @@
 					ProjectRef = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
 				},
 				{
-					ProductGroup = CF2871361C259F9700842B42 /* Products */;
+					ProductGroup = 50FB1C7E1C259CEE0091BE81 /* Products */;
 					ProjectRef = 103C71BCBB6146B78CF1443B /* RCTMaterialKit.xcodeproj */;
 				},
 				{
@@ -488,7 +488,7 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
-					ProductGroup = CF2871271C259F9700842B42 /* Products */;
+					ProductGroup = 50FB1C801C259CEE0091BE81 /* Products */;
 					ProjectRef = 361FC1C10AE34E3B9C78ED6C /* RNVectorIcons.xcodeproj */;
 				},
 			);
@@ -557,6 +557,20 @@
 			remoteRef = 146834031AC3E56700842450 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		50FB1C881C259CEF0091BE81 /* libRCTMaterialKit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTMaterialKit.a;
+			remoteRef = 50FB1C871C259CEF0091BE81 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		50FB1C911C259CEF0091BE81 /* libRNVectorIcons.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNVectorIcons.a;
+			remoteRef = 50FB1C901C259CEF0091BE81 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -569,20 +583,6 @@
 			fileType = archive.ar;
 			path = libRCTText.a;
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CF2871351C259F9700842B42 /* libRNVectorIcons.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNVectorIcons.a;
-			remoteRef = CF2871341C259F9700842B42 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CF28713A1C259F9700842B42 /* libRCTMaterialKit.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTMaterialKit.a;
-			remoteRef = CF2871391C259F9700842B42 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

@@ -9,7 +9,7 @@ import HttpCache from './HttpCache';
 export default {
    // add distance property to this.data.restaurants if user location is defined
    updateRestaurantDistances(restaurants, location) {
-      if (location) {
+      if (location && location.latitude && location.longitude) {
          return restaurants.map(r => {
             if (r.latitude && r.longitude)
                r.distance = geolib.getDistance(

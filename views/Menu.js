@@ -85,7 +85,7 @@ class Menu extends React.Component {
       super();
 
       this.state = {
-         days: Array(5).fill(1).map((n, i) => moment().add(i, 'days'))
+         days: Array(7).fill(1).map((n, i) => moment().add(i, 'days'))
       };
    }
    componentDidMount() {

@@ -11,6 +11,7 @@
     "react-native": "^0.17.0",
     "react-native-material-kit": "^0.2.4",
     "react-native-modalbox": "^1.2.5",
+    "react-native-swipeout": "^2.0.9",
     "react-native-swiper2": "github:sunnylqm/react-native-swiper2",
     "react-native-vector-icons": "^1.0.1"
   }

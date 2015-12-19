@@ -5,6 +5,9 @@ import com.oblador.vectoricons.VectorIconsPackage;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.graphics.Color;
+import android.view.WindowManager;
+import android.view.Window;
 
 import com.facebook.react.LifecycleState;
 import com.facebook.react.ReactInstanceManager;

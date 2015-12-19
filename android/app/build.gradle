@@ -63,10 +63,19 @@ android {
             abiFilters "armeabi-v7a", "x86"
         }
     }
+    signingConfigs {
+        release {
+            storeFile file(KANTTIINIT_RELEASE_STORE_FILE)
+            storePassword KANTTIINIT_RELEASE_STORE_PASSWORD
+            keyAlias KANTTIINIT_RELEASE_KEY_ALIAS
+            keyPassword KANTTIINIT_RELEASE_KEY_PASSWORD
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false  // Set this to true to enable Proguard
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
 }

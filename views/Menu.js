@@ -8,6 +8,7 @@ import Service from '../managers/Service';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-modalbox';
 import Loader from '../components/Loader';
+import Favorites from '../managers/Favorite';
 
 import Property from '../components/Property';
 
@@ -29,14 +30,23 @@ const {
 } = Material;
 
 class Restaurant extends React.Component {
+   constructor() {
+      super();
+      this.state = {courses: []};
+   }
    formatOpeningHours(hours) {
       return String(hours[0]).substr(0, 2) + ':' + String(hours[0]).substr(2) + ' - ' + String(hours[1]).substr(0, 2) + ':' + String(hours[1]).substr(2);
    }
    formatDistance(distance) {
       return distance < 1000 ? distance + ' m' : (distance / 1000).toFixed(1) + ' km';
    }
+   componentDidMount() {
+      Favorites.formatCourses(this.props.restaurant.courses)
+      .then(courses => this.setState({courses}));
+   }
    render() {
       const {date, restaurant, openModal} = this.props;
+      const {courses} = this.state;
       return (
          <View style={[MKCardStyles.card, styles.restaurant]}>
 
@@ -63,17 +73,17 @@ class Restaurant extends React.Component {
                </View>
             </View>
 
-            {!restaurant.courses.length ?
+            {!courses.length ?
                <View style={{padding: 10}}>
                   <Text style={{color: MKColor.Grey, fontSize: 12, textAlign: 'center'}}>Ei menua saatavilla.</Text>
                </View>
-            : restaurant.courses.map((course, i) =>
-               /*<MKButton key={course.title} rippleColor="rgba(100, 100, 100, 0.1)" onPress={openModal.bind(null, course)}>*/
+            : courses.map((course, i) =>
+               <View key={course.title} style={{backgroundColor: course.favorite ? '#FFF9C4' : undefined}}>
                   <View style={[styles.course, i > 0 && styles.borderTop]}>
                      <Text key={course.title} style={{flex: 1, fontSize: 12}}>{course.title}</Text>
                      {course.properties ? course.properties.map(p => <Property style={{marginLeft: 2}} key={p}>{p}</Property>) : null}
                   </View>
-               /*</MKButton>*/
+               </View>
             )}
          </View>
       );

@@ -30,5 +30,17 @@ export default {
          storedFavorites.splice(storedFavorites.indexOf(f), 1);
          return this.setStoredFavorites(storedFavorites);
       });
+   },
+   isFavorite(favs, title) {
+      return favs.some(f => title.toLowerCase().includes(f.name.toLowerCase()));
+   },
+   formatCourses(courses) {
+      return this.getStoredFavorites()
+      .then(favs => {
+         return courses.map(c => {
+            c.favorite = this.isFavorite(favs, c.title);
+            return c;
+         });
+      });
    }
 };

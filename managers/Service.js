@@ -47,13 +47,13 @@ export default {
       return {hours, isOpen: hours && now >= hours[0] && now < hours[1]};
    },
    formatRestaurant(restaurant, date) {
-      const courses = restaurant.Menus.find(m => moment(m.date).isSame(date, 'day'));
+      const courses = (restaurant.Menus.find(m => moment(m.date).isSame(date, 'day')) || {courses: []}).courses;
       const openingHours = this.getOpeningHours(restaurant, date);
       return {
          ...restaurant,
          hours: openingHours.hours,
          isOpen: openingHours.isOpen,
-         courses: courses ? courses.courses : []
+         courses: courses
       };
    },
    formatRestaurants(restaurants, date) {

@@ -40,7 +40,7 @@ class Favourites extends React.Component {
    }
    componentDidMount() {
       Favorite.getStoredFavorites()
-      .then(favorites => this.setState({favorites}));
+      .then(favorites => this.setState({favorites})).catch(err => console.error(err));
    }
    openModal() {
       this.refs.modal.open();

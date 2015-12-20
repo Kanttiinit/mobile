@@ -152,7 +152,6 @@ class Menu extends React.Component {
             {restaurants && favourites ?
             <Swiper
                showsPagination={false}
-               style={{flex: 1, position: 'relative'}}
                loop={false}>
                {days.map(date => this.renderDay(date))}
             </Swiper>

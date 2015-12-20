@@ -85,44 +85,44 @@ class Favourites extends Component {
       return (
          <View style={styles.container}>
             {favorites ?
-               <ListView
-                  dataSource={favorites}
-                  renderRow={(fav, sectionId, rowId) => {
-                     const lastRow = rowId == favorites._cachedRowCount - 1;
-                     return <Food style={{marginBottom: lastRow ? 86 : 2}} favorite={fav} />
-                  }}
-                  style={styles.favoriteList}
-                  scrollsToTop={true} />
-               : <Loader color={MKColor.Teal} />}
+            <ListView
+               dataSource={favorites}
+               renderRow={(fav, sectionId, rowId) => {
+                  const lastRow = rowId == favorites._cachedRowCount - 1;
+                  return <Food style={{marginBottom: lastRow ? 86 : 2}} favorite={fav} />
+               }}
+               style={styles.favoriteList}
+               scrollsToTop={true} />
+            : <Loader color={MKColor.Teal} />}
+            {favorites && !favorites._cachedRowCount ? <Text style={{alignSelf: 'center', flex: 1}}>Ei suosikkeja.</Text> : null}
+            <MKButton
+               style={styles.fab}
+               fab={true}
+               onPress={this.openModal.bind(this)}>
+               <Icon name='plus-round' size={22} color={MKColor.Silver} />
+            </MKButton>
 
+            <Modal ref="modal" style={styles.modal} swipeToClose={false} onClosed={this.onClose}
+               onOpened={this.onOpen} onClosingState={this.onClosingState}>
+               <Text style={styles.modalTitle}>Uusi suosikki</Text>
+               <MKTextField
+                  clearButtonMode='while-editing'
+                  ref="favoriteName"
+                  tintColor={MKColor.Teal}
+                  textInputStyle={{color: MKColor.Black, fontSize: 18}}
+                  floatingLabelEnabled={true}
+                  onChangeText={(text) => this.setState({text})}
+                  style={styles.textField}
+                  placeholder="Ruoan nimi">
+               </MKTextField>
                <MKButton
-                  style={styles.fab}
-                  fab={true}
-                  onPress={this.openModal.bind(this)}>
+                  style={styles.addButton}
+                  onPress={this.addFavorite.bind(this, this.state.text)}>
                   <Icon name='plus-round' size={22} color={MKColor.Silver} />
                </MKButton>
-
-               <Modal ref="modal" style={styles.modal} swipeToClose={false} onClosed={this.onClose}
-                  onOpened={this.onOpen} onClosingState={this.onClosingState}>
-                  <Text style={styles.modalTitle}>Uusi suosikki</Text>
-                  <MKTextField
-                     clearButtonMode='while-editing'
-                     ref="favoriteName"
-                     tintColor={MKColor.Teal}
-                     textInputStyle={{color: MKColor.Black, fontSize: 18}}
-                     floatingLabelEnabled={true}
-                     onChangeText={(text) => this.setState({text})}
-                     style={styles.textField}
-                     placeholder="Ruoan nimi">
-                  </MKTextField>
-                  <MKButton
-                     style={styles.addButton}
-                     onPress={this.addFavorite.bind(this, this.state.text)}>
-                     <Icon name='plus-round' size={22} color={MKColor.Silver} />
-                  </MKButton>
-               </Modal>
-            </View>
-         );
+            </Modal>
+         </View>
+      );
       }
    }
 

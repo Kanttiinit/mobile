@@ -6,7 +6,6 @@ import Favorite from '../managers/Favorite';
 import Modal from 'react-native-modalbox';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Loader from '../components/Loader';
-import Swipeout from 'react-native-swipeout';
 
 const {
    View,
@@ -23,25 +22,17 @@ const {
    MKColor
 } = Material;
 
-var removeFavoriteBtn = [
-  {
-    text: 'Poista',
-    backgroundColor: MKColor.Red
-  }
-]
-
 class Food extends Component {
    render() {
       const {favorite, style} = this.props;
       return (
          <View style={[MKCardStyles.card, style]}>
-         <Swipeout style={styles.swipeOut} right={removeFavoriteBtn}>
             <View style={styles.food}>
+               <Icon style={styles.heartIcon} color='#fc5151' name='heart' />
                <Text style={styles.foodTitle} key={favorite.name}>
                   {favorite.name}
                </Text>
             </View>
-         </Swipeout>
          </View>
       );
    }
@@ -161,13 +152,18 @@ class Favourites extends Component {
          justifyContent: 'center',
          alignItems: 'center'
       },
-      foodTitle: {
-         fontSize: 20,
-         paddingBottom: 4
-      },
       food: {
+         flexDirection: 'column',
+         alignItems: 'center',
+         justifyContent: 'center',
          backgroundColor: '#fff',
-         padding: 10
+         padding: 14,
+      },
+      heartIcon: {
+         fontSize: 40
+      },
+      foodTitle: {
+         fontSize: 20
       },
       foodContainer: {
          backgroundColor: '#fff'

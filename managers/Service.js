@@ -66,7 +66,7 @@ export default {
    // download restaurants or serve from cache
    getRestaurants() {
       return RestaurantsManager.getSelectedRestaurants()
-      .then(selected => HttpCache.get('http://api.kanttiinit.fi/menus/' + selected.join(','), {days: '1'}));
+      .then(selected => HttpCache.get('http://api.kanttiinit.fi/menus/' + selected.join(','), {days: 1}));
    },
    // fetch user location
    getLocation() {
@@ -74,7 +74,7 @@ export default {
          navigator.geolocation.getCurrentPosition(
             position => resolve(position.coords),
             error => resolve(error.message),
-            {timeout: 5000, maximumAge: 60000}
+            {timeout: 3000, maximumAge: 60000}
          );
       });
    },

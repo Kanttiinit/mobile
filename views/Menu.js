@@ -6,7 +6,6 @@ import moment from 'moment';
 import Swiper from 'react-native-swiper2';
 import Service from '../managers/Service';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Modal from 'react-native-modalbox';
 import Loader from '../components/Loader';
 import Favorites from '../managers/Favorite';
 
@@ -46,7 +45,7 @@ class Restaurant extends React.Component {
                <View>
                   <Text style={{fontSize: 14, color: '#fff'}}>{restaurant.name}</Text>
                   {restaurant.distance ?
-                     <Text style={{color: MKColor.Silver, fontSize: 10, paddingTop: 4}}>
+                     <Text style={{color: MKColor.Silver, fontSize: 10, paddingTop: 4, height: 16}}>
                         <Icon name="ios-location" />
                         {' '}
                         {this.formatDistance(restaurant.distance)}
@@ -93,23 +92,31 @@ class Menu extends React.Component {
    }
    componentDidMount() {
       this.props.events.on('MENU', route => {
+         // shit is loading, yo
+         this.setState({loading: true});
+
+         // fetch favorites
          Favorites.getStoredFavorites()
          .then(favourites => this.setState({favourites}));
 
+         // update restaurant list
          Service.getRestaurants()
          .then(restaurants => {
             this.setState({
                restaurants: Service.updateRestaurantDistances(restaurants, this.state.location)
             });
 
+            // if no location is known, try to get it
             if (!this.state.location) {
                return Service.getLocation().then(location => {
-                  console.log(location);
                   this.setState({
                      location,
                      restaurants: Service.updateRestaurantDistances(this.state.restaurants, location)
                   });
+                  this.setState({loading: false});
                });
+            } else {
+               this.setState({loading: false});
             }
          })
          .catch(err => {
@@ -138,7 +145,7 @@ class Menu extends React.Component {
       this.refs.modal.open();
    }
    render() {
-      const {restaurants, favourites, days} = this.state;
+      const {restaurants, favourites, days, loading} = this.state;
       const course = this.state.course || {};
       return (
          <View style={styles.container}>
@@ -150,10 +157,11 @@ class Menu extends React.Component {
                {days.map(date => this.renderDay(date))}
             </Swiper>
             : <Loader color={MKColor.Teal} />}
-            <Modal
-               ref="modal"
-               style={styles.modal}>
-            </Modal>
+            {restaurants && loading ?
+            <mdl.Spinner
+               strokeColor={MKColor.Teal}
+               style={{position: 'absolute', top: 10, right: 10, transform: [{scale: 0.7}]}} />
+            : null}
          </View>
       );
    }

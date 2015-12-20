@@ -4,6 +4,10 @@ const {
    AsyncStorage
 } = React;
 
+const escapeRegExp = str => {
+   return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+}
+
 export default {
    getStoredFavorites() {
       return AsyncStorage.getItem('storedFavorites')
@@ -32,7 +36,10 @@ export default {
       });
    },
    isFavorite(title, favorites) {
-      return favorites.some(f => title.toLowerCase().includes(f.name.toLowerCase()));
+      if (title && favorites.length)
+         return favorites.some(f => title.toLowerCase().match(escapeRegExp(f.name.toLowerCase())));
+
+      return false;
    },
    formatCourses(courses, favorites) {
       return courses.map(c => {

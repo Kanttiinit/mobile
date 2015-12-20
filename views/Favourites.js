@@ -28,10 +28,10 @@ class Food extends Component {
       return (
          <View style={[MKCardStyles.card, style]}>
             <View style={styles.food}>
-               <Icon style={styles.heartIcon} color='#fc5151' name='heart' />
-               <Text style={styles.foodTitle} key={favorite.name}>
+               <Text style={styles.foodTitle}>
                   {favorite.name}
                </Text>
+               <Icon style={styles.heartIcon} color='#fc5151' name='heart' />
             </View>
          </View>
       );
@@ -153,17 +153,19 @@ class Favourites extends Component {
          alignItems: 'center'
       },
       food: {
-         flexDirection: 'column',
          backgroundColor: '#fff',
          padding: 14,
+         position: 'relative'
       },
       heartIcon: {
-         alignSelf: 'flex-start',
-         fontSize: 40
+         fontSize: 26,
+         position: 'absolute',
+         left: 14,
+         top: 14
       },
       foodTitle: {
-         alignSelf: 'center',
-         fontSize: 20
+         fontSize: 20,
+         textAlign: 'center'
       },
       foodContainer: {
          backgroundColor: '#fff'

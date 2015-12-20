@@ -85,7 +85,8 @@ class Kanttiinit extends React.Component {
    }
    render() {
       return (
-         <View style={[styles.wrapper, Platform.OS === 'ios' && {paddingTop: 24}]}>
+         <View style={styles.wrapper}>
+            {Platform.OS === 'ios' ? <View style={{height:20, backgroundColor:MKColor.Teal}}></View> : null}
             <Navigator
                ref="navigator"
                style={{flex: 1}}

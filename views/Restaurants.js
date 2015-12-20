@@ -5,6 +5,7 @@ import Material from 'react-native-material-kit';
 import RestaurantsManager from '../managers/Restaurants';
 import Service from '../managers/Service';
 import Loader from '../components/Loader';
+import HttpCache from '../managers/HttpCache';
 const {
    Component,
    Text,
@@ -34,6 +35,8 @@ class Area extends Component {
          RestaurantsManager.selectRestaurant(restaurant);
       else
          RestaurantsManager.deselectRestaurant(restaurant);
+
+      HttpCache.reset('menus');
    }
    render() {
       const {area} = this.props;

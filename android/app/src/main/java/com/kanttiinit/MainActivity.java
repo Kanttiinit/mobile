@@ -16,7 +16,7 @@ import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 
-public class MainActivity extends Activity implements DefaultHardwareBackBtnHandler {
+public class MainActivity extends Kanttiinit {
 
     private ReactInstanceManager mReactInstanceManager;
     private ReactRootView mReactRootView;
@@ -38,11 +38,6 @@ public class MainActivity extends Activity implements DefaultHardwareBackBtnHand
                 .build();
 
         mReactRootView.startReactApplication(mReactInstanceManager, "kanttiinit", null);
-
-        Window window = getWindow();
-       window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-         window.setStatusBarColor(Color.parseColor("#00796B"));
 
 
         setContentView(mReactRootView);

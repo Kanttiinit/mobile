@@ -3,8 +3,8 @@ import moment from 'moment';
 import {AsyncStorage} from 'react-native';
 
 export default {
-	get(url, maxAge) {
-		return AsyncStorage.getItem(url)
+	get(key, url, maxAge) {
+		return AsyncStorage.getItem(key)
 		.then(item => {
 			if (item) {
 				const data = JSON.parse(item);
@@ -19,9 +19,12 @@ export default {
 			.then(r => r.json())
 			.then(json => {
 				r = json;
-				return AsyncStorage.setItem(url, JSON.stringify({json, date: moment()}));
+				return AsyncStorage.setItem(key, JSON.stringify({json, date: moment()}));
 			})
 			.then(d => r);
 		});
+	},
+	reset(key) {
+		return AsyncStorage.removeItem(key);
 	}
 };

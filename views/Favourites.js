@@ -160,9 +160,11 @@ class Favourites extends Component {
          padding: 14,
       },
       heartIcon: {
+         alignSelf: 'flex-start',
          fontSize: 40
       },
       foodTitle: {
+         alignSelf: 'center',
          fontSize: 20
       },
       foodContainer: {

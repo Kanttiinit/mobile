@@ -154,8 +154,6 @@ class Favourites extends Component {
       },
       food: {
          flexDirection: 'column',
-         alignItems: 'center',
-         justifyContent: 'center',
          backgroundColor: '#fff',
          padding: 14,
       },

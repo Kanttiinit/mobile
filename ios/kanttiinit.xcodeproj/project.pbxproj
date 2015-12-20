@@ -30,7 +30,7 @@
 		A274B46CC1634DA08330B156 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0BE44A9B70904A22A3478964 /* Octicons.ttf */; };
 		A784B68ACAFD4881ADF6928C /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 34FB6D2353554068B2010E15 /* Ionicons.ttf */; };
 		B33531102F4C4B738F93BB3E /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18557F53707A47E293C9C7DD /* Zocial.ttf */; };
-		CFB251551C271FB100C3AEAF /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = CFB251541C271FB100C3AEAF /* main.jsbundle */; };
+		CFB251591C275B8200C3AEAF /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = CFB251581C275B8200C3AEAF /* main.jsbundle */; };
 		D11D7394E8DF460FAF82BF3E /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2C158067DEA24A07B30AD9B0 /* MaterialIcons.ttf */; };
 		D81CB102204C46CA9594153F /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D3382275BA65400292D668C7 /* Foundation.ttf */; };
 /* End PBXBuildFile section */
@@ -161,7 +161,7 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		8D1FBA3A9D8D4BFDA26AAA1F /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		B196B441051944498DC4160A /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
-		CFB251541C271FB100C3AEAF /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = ../../../../Desktop/main.jsbundle; sourceTree = "<group>"; };
+		CFB251581C275B8200C3AEAF /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = kanttiinit/main.jsbundle; sourceTree = "<group>"; };
 		D3382275BA65400292D668C7 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -271,7 +271,7 @@
 		13B07FAE1A68108700A75B9A /* kanttiinit */ = {
 			isa = PBXGroup;
 			children = (
-				CFB251541C271FB100C3AEAF /* main.jsbundle */,
+				CFB251581C275B8200C3AEAF /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -608,7 +608,7 @@
 				D81CB102204C46CA9594153F /* Foundation.ttf in Resources */,
 				A784B68ACAFD4881ADF6928C /* Ionicons.ttf in Resources */,
 				D11D7394E8DF460FAF82BF3E /* MaterialIcons.ttf in Resources */,
-				CFB251551C271FB100C3AEAF /* main.jsbundle in Resources */,
+				CFB251591C275B8200C3AEAF /* main.jsbundle in Resources */,
 				A274B46CC1634DA08330B156 /* Octicons.ttf in Resources */,
 				B33531102F4C4B738F93BB3E /* Zocial.ttf in Resources */,
 			);

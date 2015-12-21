@@ -1,5 +1,7 @@
 'use strict';
 
+import Service from './Service';
+
 import {
    AsyncStorage
 } from 'react-native';
@@ -9,10 +11,13 @@ export default {
       return AsyncStorage.getItem('selectedRestaurants')
       .then(selectedRestaurants => {
          if (selectedRestaurants)
-            return selectedRestaurants;
-         return AsyncStorage.setItem('selectedRestaurants', '[1,2,3,4,5]');
-      })
-      .then(s => JSON.parse(s));
+            return JSON.parse(selectedRestaurants);
+
+         return Service.getAreas().then(areas => {
+            const restaurantIds = areas[0].Restaurants.map(r => r.id);
+            return this.setSelectedRestaurants(restaurantIds).then(() => restaurantIds);
+         });
+      });
    },
    setSelectedRestaurants(selected) {
       return AsyncStorage.setItem('selectedRestaurants', JSON.stringify(selected));

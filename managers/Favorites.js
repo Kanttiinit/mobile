@@ -13,10 +13,10 @@ export default {
       return AsyncStorage.getItem('storedFavorites')
       .then(storedFavorites => {
          if (storedFavorites)
-            return storedFavorites;
-         return AsyncStorage.setItem('storedFavorites', '[]');
-      })
-      .then(s => JSON.parse(s));
+            return JSON.parse(storedFavorites);
+
+         return AsyncStorage.setItem('storedFavorites', '[]').then(() => []);
+      });
    },
    setStoredFavorites(f) {
       return AsyncStorage.setItem('storedFavorites', JSON.stringify(f));

@@ -16,19 +16,13 @@ const {
    TouchableHighlight,
    StatusBarIOS,
    Platform,
-   BackAndroid,
-   DeviceEventEmitter
+   BackAndroid
 } = React;
 
 const {
    MKButton,
    MKColor
 } = Material;
-
-
-DeviceEventEmitter.addListener('start', function(e) {
-   console.log('asd');
-});
 
 class TabButton extends React.Component {
    render() {
@@ -72,7 +66,6 @@ class Kanttiinit extends React.Component {
       this.refs.navigator.navigationContext.addListener('didfocus', event => {
          this.events.fire(event.data.route.title);
       });
-      this.events.fire('MENU');
 
       BackAndroid.addEventListener('hardwareBackPress', () => {
          if (this.state.currentView !== 'MENU') {

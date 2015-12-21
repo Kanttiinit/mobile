@@ -28,11 +28,10 @@ export default {
          return this.setStoredFavorites(storedFavorites);
       });
    },
-   removeFavorite(f) {
+   removeFavorite(name) {
       return this.getStoredFavorites()
       .then(storedFavorites => {
-         storedFavorites.splice(storedFavorites.indexOf(f), 1);
-         return this.setStoredFavorites(storedFavorites);
+         return this.setStoredFavorites(storedFavorites.filter(f => f.name !== name));
       });
    },
    isFavorite(title, favorites) {

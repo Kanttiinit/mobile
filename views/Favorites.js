@@ -2,7 +2,7 @@
 
 import React from 'react-native';
 import Material from 'react-native-material-kit';
-import Favorite from '../managers/Favorite';
+import Favorite from '../managers/Favorites';
 import Modal from 'react-native-modalbox';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Loader from '../components/Loader';
@@ -38,7 +38,7 @@ class Food extends Component {
    }
 }
 
-class Favourites extends Component {
+class Favorites extends Component {
    constructor() {
       super();
       this.state = {};
@@ -186,4 +186,4 @@ class Favourites extends Component {
       }
    });
 
-   export default Favourites;
+   export default Favorites;

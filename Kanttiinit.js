@@ -3,7 +3,7 @@
 import React from 'react-native';
 import Material from 'react-native-material-kit';
 import Menu from './views/Menu';
-import Favourites from './views/Favourites';
+import Favorites from './views/Favorites';
 import Restaurants from './views/Restaurants';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -16,13 +16,19 @@ const {
    TouchableHighlight,
    StatusBarIOS,
    Platform,
-   BackAndroid
+   BackAndroid,
+   DeviceEventEmitter
 } = React;
 
 const {
    MKButton,
    MKColor
 } = Material;
+
+
+DeviceEventEmitter.addListener('start', function(e) {
+   console.log('asd');
+});
 
 class TabButton extends React.Component {
    render() {
@@ -54,7 +60,7 @@ class Kanttiinit extends React.Component {
       this.state = {
          views: [
             { title: 'MENU', icon: 'android-restaurant', component: React.createElement(Menu, {events: this.events}) },
-            { title: 'SUOSIKIT', icon: 'android-favorite', component: React.createElement(Favourites, {events: this.events}) },
+            { title: 'SUOSIKIT', icon: 'android-favorite', component: React.createElement(Favorites, {events: this.events}) },
             { title: 'RAVINTOLAT', icon: 'ios-list', component: React.createElement(Restaurants, {events: this.events}) }
          ],
          currentView: 'MENU'

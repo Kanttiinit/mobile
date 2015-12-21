@@ -5,7 +5,7 @@ import geolib from 'geolib';
 import moment from 'moment';
 import RestaurantsManager from './Restaurants';
 import HttpCache from './HttpCache';
-import Favorites from './Favorite';
+import Favorites from './Favorites';
 
 export default {
    // add distance property to this.data.restaurants if user location is defined
@@ -23,7 +23,7 @@ export default {
 
       return restaurants;
    },
-   // return restaurants sorted by distance and favourite foods
+   // return restaurants sorted by distance and favorite foods
    sortedRestaurants(restaurants, date) {
       return restaurants.sort((a, b) => {
          // can this be written in a prettier way??
@@ -49,10 +49,10 @@ export default {
       let hours = weekdays[date.day() - 1];
       return {hours, isOpen: hours && now >= hours[0] && now < hours[1]};
    },
-   formatRestaurants(restaurants, date, favourites) {
+   formatRestaurants(restaurants, date, favorites) {
       return this.sortedRestaurants(restaurants.map(restaurant => {
          const coursesForDate = (restaurant.Menus.find(m => moment(m.date).isSame(date, 'day')) || {courses: []}).courses;
-         const courses = Favorites.formatCourses(coursesForDate, favourites);
+         const courses = Favorites.formatCourses(coursesForDate, favorites);
          const openingHours = this.getOpeningHours(restaurant, date);
          return {
             ...restaurant,

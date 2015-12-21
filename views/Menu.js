@@ -7,7 +7,7 @@ import Swiper from 'react-native-swiper2';
 import Service from '../managers/Service';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Loader from '../components/Loader';
-import Favorites from '../managers/Favorite';
+import Favorites from '../managers/Favorites';
 
 import Property from '../components/Property';
 
@@ -97,7 +97,7 @@ class Menu extends React.Component {
 
          // fetch favorites
          Favorites.getStoredFavorites()
-         .then(favourites => this.setState({favourites}));
+         .then(favorites => this.setState({favorites}));
 
          // update restaurant list
          Service.getRestaurants()
@@ -125,7 +125,7 @@ class Menu extends React.Component {
       });
    }
    renderDay(date) {
-      const restaurants = Service.formatRestaurants(this.state.restaurants, date, this.state.favourites);
+      const restaurants = Service.formatRestaurants(this.state.restaurants, date, this.state.favorites);
       const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
       return (
          <View key={date} style={{flex: 1, paddingBottom: 75}}>
@@ -145,11 +145,11 @@ class Menu extends React.Component {
       this.refs.modal.open();
    }
    render() {
-      const {restaurants, favourites, days, loading} = this.state;
+      const {restaurants, favorites, days, loading} = this.state;
       const course = this.state.course || {};
       return (
          <View style={styles.container}>
-            {restaurants && favourites ?
+            {restaurants && favorites ?
             <Swiper
                showsPagination={false}
                loop={false}>

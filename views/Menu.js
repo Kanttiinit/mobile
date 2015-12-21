@@ -52,180 +52,179 @@ class Restaurant extends React.Component {
                         {' '}
                         {this.formatDistance(restaurant.distance)}
                      </Text>
-                     : null}
-                  </View>
-                  <View style={{flex: 1}}>
-                     <Text
-                        style={{
-                           textAlign: 'right',
-                           color: restaurant.hours ? '#fff' : 'rgba(255, 255, 255, 0.5)',
-                           fontSize: 12
-                        }}>
-                        {restaurant.hours ? this.formatOpeningHours(restaurant.hours) : 'suljettu'}
-                     </Text>
+                  : null}
+               </View>
+               <View style={{flex: 1}}>
+                  <Text
+                     style={{
+                        textAlign: 'right',
+                        color: restaurant.hours ? '#fff' : 'rgba(255, 255, 255, 0.5)',
+                        fontSize: 12
+                     }}>
+                     {restaurant.hours ? this.formatOpeningHours(restaurant.hours) : 'suljettu'}
+                  </Text>
+               </View>
+            </View>
+
+            {!courses.length ?
+               <View style={{padding: 10}}>
+                  <Text style={{color: MKColor.Grey, fontSize: 12, textAlign: 'center'}}>Ei menua saatavilla.</Text>
+               </View>
+            : courses.map((course, i) =>
+               <View key={course.title} style={{backgroundColor: course.favorite ? '#f7eaea' : undefined}}>
+                  <View style={[styles.course, i > 0 && styles.borderTop]}>
+                     {course.favorite ? <Icon style={{marginRight: 6}} color='#fc5151' name='android-favorite' /> : null}
+                     <Text key={course.title} style={{flex: 1, fontSize: 12}}>{course.title}</Text>
+                     {course.properties ? course.properties.map(p => <Property style={{marginLeft: 2}} key={p}>{p}</Property>) : null}
                   </View>
                </View>
-
-               {!courses.length ?
-                  <View style={{padding: 10}}>
-                     <Text style={{color: MKColor.Grey, fontSize: 12, textAlign: 'center'}}>Ei menua saatavilla.</Text>
-                  </View>
-                  : courses.map((course, i) =>
-                  <View key={course.title} style={{backgroundColor: course.favorite ? '#f7eaea' : undefined}}>
-                     <View style={[styles.course, i > 0 && styles.borderTop]}>
-                        {course.favorite ? <Icon style={{marginRight: 6}} color='#fc5151' name='android-favorite' /> : null}
-                        <Text key={course.title} style={{flex: 1, fontSize: 12}}>{course.title}</Text>
-                        {course.properties ? course.properties.map(p => <Property style={{marginLeft: 2}} key={p}>{p}</Property>) : null}
-                     </View>
-                  </View>
-               )}
-            </View>
-         );
-      }
+            )}
+         </View>
+      );
    }
+}
 
-   class Menu extends React.Component {
-      constructor() {
-         super();
+class Menu extends React.Component {
+   constructor() {
+      super();
 
-         this.state = {
-            days: Array(7).fill(1).map((n, i) => moment().add(i, 'days'))
-         };
-      }
-      componentDidMount() {
-         AppStateIOS.addEventListener('change', this.handleStateChange.bind(this));
-         DeviceEventEmitter.addListener('start', this.update.bind(this));
-         this.props.events.on('MENU', this.update.bind(this));
+      this.state = {
+         days: Array(7).fill(1).map((n, i) => moment().add(i, 'days'))
+      };
+   }
+   componentDidMount() {
+      AppStateIOS.addEventListener('change', this.handleStateChange.bind(this));
+      DeviceEventEmitter.addListener('start', this.update.bind(this));
+      this.props.events.on('MENU', this.update.bind(this));
+      this.update();
+   }
+   handleStateChange(currentAppState) {
+      if (currentAppState == 'active') {
          this.update();
       }
-      handleStateChange(currentAppState) {
-         if (currentAppState == 'active') {
-            this.update();
-         }
-      }
-      update() {
-         if (this.state.loading)
-         return;
+   }
+   update() {
+      if (this.state.loading)
+      return;
 
-         // shit is loading, yo
-         this.setState({loading: true});
+      // shit is loading, yo
+      this.setState({loading: true});
 
-         // fetch favorites
-         Favorites.getStoredFavorites()
-         .then(favorites => this.setState({favorites}));
+      // fetch favorites
+      Favorites.getStoredFavorites()
+      .then(favorites => this.setState({favorites}));
 
-         // update restaurant list
-         Service.getRestaurants()
-         .then(restaurants => {
-            this.setState({
-               restaurants: Service.updateRestaurantDistances(restaurants, this.state.location)
-            });
-
-            // if no location is known, try to get it
-            if (!this.state.location) {
-               return Service.getLocation().then(location => {
-                  this.setState({
-                     location,
-                     restaurants: Service.updateRestaurantDistances(this.state.restaurants, location)
-                  });
-                  this.setState({loading: false});
-               });
-            } else {
-               this.setState({loading: false});
-            }
-         })
-         .catch(err => {
-            console.error(err);
+      // update restaurant list
+      Service.getRestaurants()
+      .then(restaurants => {
+         this.setState({
+            restaurants: Service.updateRestaurantDistances(restaurants, this.state.location)
          });
-      }
-      renderDay(date) {
-         const restaurants = Service.formatRestaurants(this.state.restaurants, date, this.state.favorites);
-         const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-         return (
-            <View key={date} style={{flex: 1, paddingBottom: 75}}>
-               <View style={styles.daySelector}>
-                  <Text style={styles.dayTitle}>{date.format('dddd DD.MM.')}</Text>
-               </View>
-               <ListView
-                  initialListSize={6}
-                  dataSource={dataSource.cloneWithRows(restaurants)}
-                  renderRow={restaurant =>
-                     <Restaurant date={date} restaurant={restaurant} openModal={this.openModal.bind(this)} />
-                  } />
-               </View>
-            );
-         }
-         openModal(course) {
-            this.refs.modal.open();
-         }
-         render() {
-            const {restaurants, favorites, days, loading} = this.state;
-            const course = this.state.course || {};
-            return (
-               <View style={styles.container}>
-                  {restaurants && favorites ?
-                     <Swiper
-                        showsPagination={false}
-                        loop={false}>
-                        {days.map(date => this.renderDay(date))}
-                     </Swiper>
-                     : <Loader color={MKColor.Teal} />}
-                     {restaurants && loading ?
-                        <mdl.Spinner
-                           strokeColor={MKColor.Teal}
-                           style={{position: 'absolute', top: 10, right: 10, transform: [{scale: 0.7}]}} />
-                        : null}
-                     </View>
-                  );
-               }
-            }
 
-            const styles = StyleSheet.create({
-               container: {
-                  backgroundColor: MKColor.Silver,
-                  flex: 1
-               },
-               daySelector: {
-                  flexDirection: 'row',
-                  padding: 10
-               },
-               dayTitle: {
-                  flex: 1,
-                  fontSize: 20,
-                  textAlign: 'center',
-                  fontWeight: '300'
-               },
-               dayChangeButton: {
-                  padding: 8
-               },
-               restaurant: {
-                  marginLeft: 14,
-                  marginRight: 14,
-                  marginBottom: 14,
-                  paddingBottom: 0
-               },
-               restaurantHeader: {
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  backgroundColor: MKColor.Teal,
-                  padding: 8
-               },
-               course: {
-                  flexDirection: 'row',
-                  paddingTop: 8,
-                  paddingBottom: 8,
-                  alignItems: 'center',
-                  marginLeft: 8,
-                  marginRight: 8
-               },
-               borderTop: {
-                  borderTopWidth: 1,
-                  borderTopColor: '#eee'
-               },
-               modal: {
-                  width: Dimensions.get('window').width - 32,
-                  height: 300
-               }
+         // if no location is known, try to get it
+         if (!this.state.location) {
+            return Service.getLocation().then(location => {
+               this.setState({
+                  location,
+                  restaurants: Service.updateRestaurantDistances(this.state.restaurants, location)
+               });
+               this.setState({loading: false});
             });
+         } else {
+            this.setState({loading: false});
+         }
+      })
+      .catch(err => {
+         console.error(err);
+      });
+   }
+   renderDay(date) {
+      const restaurants = Service.formatRestaurants(this.state.restaurants, date, this.state.favorites);
+      const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+      return (
+         <View key={date} style={{flex: 1, paddingBottom: 75}}>
+            <View style={styles.daySelector}>
+               <Text style={styles.dayTitle}>{date.format('dddd DD.MM.')}</Text>
+            </View>
+            <ListView
+               initialListSize={6}
+               dataSource={dataSource.cloneWithRows(restaurants)}
+               renderRow={restaurant =>
+                  <Restaurant date={date} restaurant={restaurant} openModal={this.openModal.bind(this)} />} />
+         </View>
+      );
+   }
+   openModal(course) {
+      this.refs.modal.open();
+   }
+   render() {
+      const {restaurants, favorites, days, loading} = this.state;
+      const course = this.state.course || {};
+      return (
+         <View style={styles.container}>
+            {restaurants && favorites ?
+               <Swiper
+                  showsPagination={false}
+                  loop={false}>
+                  {days.map(date => this.renderDay(date))}
+               </Swiper>
+            : <Loader color={MKColor.Teal} />}
+            {restaurants && loading ?
+               <mdl.Spinner
+                  strokeColor={MKColor.Teal}
+                  style={{position: 'absolute', top: 10, right: 10, transform: [{scale: 0.7}]}} />
+            : null}
+         </View>
+      );
+   }
+}
 
-            export default Menu;
+const styles = StyleSheet.create({
+   container: {
+      backgroundColor: MKColor.Silver,
+      flex: 1
+   },
+   daySelector: {
+      flexDirection: 'row',
+      padding: 10
+   },
+   dayTitle: {
+      flex: 1,
+      fontSize: 20,
+      textAlign: 'center',
+      fontWeight: '300'
+   },
+   dayChangeButton: {
+      padding: 8
+   },
+   restaurant: {
+      marginLeft: 14,
+      marginRight: 14,
+      marginBottom: 14,
+      paddingBottom: 0
+   },
+   restaurantHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: MKColor.Teal,
+      padding: 8
+   },
+   course: {
+      flexDirection: 'row',
+      paddingTop: 8,
+      paddingBottom: 8,
+      alignItems: 'center',
+      marginLeft: 8,
+      marginRight: 8
+   },
+   borderTop: {
+      borderTopWidth: 1,
+      borderTopColor: '#eee'
+   },
+   modal: {
+      width: Dimensions.get('window').width - 32,
+      height: 300
+   }
+});
+
+export default Menu;

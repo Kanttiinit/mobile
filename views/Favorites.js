@@ -101,9 +101,9 @@ class Favorites extends Component {
                <Icon name='plus-round' size={22} color={MKColor.Silver} />
             </MKButton>
 
-            <Modal ref="modal" style={styles.modal} swipeToClose={false} onClosed={this.onClose}
+            <Modal ref="modal" animationDuration={300} style={styles.modal} swipeToClose={false} onClosed={this.onClose}
                onOpened={this.onOpen} onClosingState={this.onClosingState}>
-               <Text style={styles.modalTitle}>Uusi suosikki</Text>
+               <View style={styles.modalTitle}><Text style={{fontSize: 18, textAlign: 'center'}}>Uusi suosikki</Text></View>
                <MKTextField
                   clearButtonMode='while-editing'
                   ref="favoriteName"
@@ -112,8 +112,7 @@ class Favorites extends Component {
                   floatingLabelEnabled={true}
                   onChangeText={(text) => this.setState({text})}
                   style={styles.textField}
-                  placeholder="Ruoan nimi">
-               </MKTextField>
+                  placeholder="Ruoan nimi" />
                <MKButton
                   style={styles.addButton}
                   onPress={this.addFavorite.bind(this, this.state.text)}>
@@ -128,7 +127,7 @@ class Favorites extends Component {
    const styles = StyleSheet.create({
       container: {
          flex: 1,
-         backgroundColor: MKColor.Silver,
+         backgroundColor: MKColor.Silver
       },
       newFood: {
          flexDirection: 'row'
@@ -153,8 +152,9 @@ class Favorites extends Component {
       addButton: {
          position: 'absolute',
          bottom: 0,
+         left: 0,
          width: 300,
-         padding: 4,
+         height: 40,
          shadowColor: 'black',
          backgroundColor: MKColor.Teal,
          justifyContent: 'center',
@@ -189,13 +189,13 @@ class Favorites extends Component {
          height: 200
       },
       modalTitle: {
-         margin: 10,
-         color: "black",
-         fontSize: 22
+         marginBottom: 20,
+         width: 300,
+         padding: 8,
+         backgroundColor: MKColor.Silver
       },
       textField: {
-         width: 200,
-         height: 60
+         width: 200
       }
    });
 

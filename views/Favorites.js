@@ -2,7 +2,7 @@
 
 import React from 'react-native';
 import Material from 'react-native-material-kit';
-import Favorite from '../managers/Favorites';
+import FavoritesManager from '../managers/Favorites';
 import Modal from 'react-native-modalbox';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Loader from '../components/Loader';
@@ -22,7 +22,7 @@ const {
    MKColor
 } = Material;
 
-class Food extends Component {
+class Favorite extends Component {
    render() {
       const {favorite, parent, style} = this.props;
       return (
@@ -58,21 +58,21 @@ class Favorites extends Component {
    openModal() {
       this.refs.modal.open();
    }
-   closeModal() {
-      this.refs.modal.close();
-   }
    addFavorite(name) {
-      this.closeModal();
-      Favorite.addFavorite(name)
-      .then(() => this.updateFavorites());
+      if (name.length > 2) {
+         this.refs.modal.close();
+         FavoritesManager.addFavorite(name)
+         .then(() => this.updateFavorites());
+         this.setState({text: undefined});
+      }
    }
    removeFavorite(name) {
-      Favorite.removeFavorite(name)
+      FavoritesManager.removeFavorite(name)
       .then(() => this.updateFavorites())
       .catch(e => console.error(e));
    }
    updateFavorites() {
-      Favorite.getStoredFavorites()
+      FavoritesManager.getStoredFavorites()
       .then(favorites => {
          const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
          this.setState({favorites: dataSource.cloneWithRows(favorites)});
@@ -88,7 +88,7 @@ class Favorites extends Component {
                dataSource={favorites}
                renderRow={(fav, sectionId, rowId) => {
                   const lastRow = rowId == favorites._cachedRowCount - 1;
-                  return <Food style={{marginBottom: lastRow ? 86 : 2}} favorite={fav} parent={this}/>
+                  return <Favorite style={{marginBottom: lastRow ? 96 : 2}} favorite={fav} parent={this}/>
                }}
                style={styles.favoriteList}
                scrollsToTop={true} />
@@ -101,8 +101,11 @@ class Favorites extends Component {
                <Icon name='plus-round' size={22} color={MKColor.Silver} />
             </MKButton>
 
-            <Modal ref="modal" animationDuration={300} style={styles.modal} swipeToClose={false} onClosed={this.onClose}
-               onOpened={this.onOpen} onClosingState={this.onClosingState}>
+            <Modal
+               ref="modal"
+               animationDuration={300}
+               style={styles.modal}
+               swipeToClose={false}>
                <View style={styles.modalTitle}><Text style={{fontSize: 18, textAlign: 'center'}}>Uusi suosikki</Text></View>
                <MKTextField
                   clearButtonMode='while-editing'
@@ -110,7 +113,7 @@ class Favorites extends Component {
                   tintColor={MKColor.Teal}
                   textInputStyle={{color: MKColor.Black, fontSize: 18}}
                   floatingLabelEnabled={true}
-                  onChangeText={(text) => this.setState({text})}
+                  onChangeText={text => this.setState({text})}
                   style={styles.textField}
                   placeholder="Ruoan nimi" />
                <MKButton

@@ -59,7 +59,7 @@ class Favorites extends Component {
       this.refs.modal.open();
    }
    addFavorite(name) {
-      if (name.length > 2) {
+      if (name && name.length > 2) {
          this.refs.modal.close();
          FavoritesManager.addFavorite(name)
          .then(() => this.updateFavorites());

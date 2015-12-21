@@ -24,14 +24,20 @@ const {
 
 class Food extends Component {
    render() {
-      const {favorite, style} = this.props;
+      const {favorite, parent, style} = this.props;
       return (
          <View style={[MKCardStyles.card, style]}>
             <View style={styles.food}>
                <Text style={styles.foodTitle}>
                   {favorite.name}
                </Text>
-               <Icon style={styles.heartIcon} color='#fc5151' name='heart' />
+               <Icon style={styles.heartIcon} color='#fc5151' name='android-favorite' />
+               <MKButton
+                  style={styles.removeButton}
+                  rippleColor='#fff'
+                  onPress={parent.removeFavorite.bind(parent, favorite.name)}>
+                  <Icon style={{fontSize: 26}} color='#8a8a8a' name='ios-close-empty' />
+               </MKButton>
             </View>
          </View>
       );
@@ -61,9 +67,13 @@ class Favorites extends Component {
       .then(() => this.updateFavorites());
    }
    removeFavorite(name) {
-      console.log(name);
+      console.log("removeFavorite: " + name);
+      Favorite.removeFavorite(name)
+      .then(() => this.updateFavorites())
+      .catch(e => console.error(e));
    }
    updateFavorites() {
+      console.log("updateFavorites");
       Favorite.getStoredFavorites()
       .then(favorites => {
          const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -80,7 +90,7 @@ class Favorites extends Component {
                dataSource={favorites}
                renderRow={(fav, sectionId, rowId) => {
                   const lastRow = rowId == favorites._cachedRowCount - 1;
-                  return <Food style={{marginBottom: lastRow ? 86 : 2}} favorite={fav} />
+                  return <Food style={{marginBottom: lastRow ? 86 : 2}} favorite={fav} parent={this}/>
                }}
                style={styles.favoriteList}
                scrollsToTop={true} />
@@ -161,6 +171,11 @@ class Favorites extends Component {
          fontSize: 26,
          position: 'absolute',
          left: 14,
+         top: 14
+      },
+      removeButton: {
+         position: 'absolute',
+         right: 14,
          top: 14
       },
       foodTitle: {

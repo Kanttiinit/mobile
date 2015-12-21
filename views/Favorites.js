@@ -52,7 +52,7 @@ class Favorites extends Component {
    componentDidMount() {
       this.props.events.on('SUOSIKIT', () => {
          if (!this.state.favorites)
-         this.updateFavorites();
+            this.updateFavorites();
       });
    }
    openModal() {
@@ -67,13 +67,11 @@ class Favorites extends Component {
       .then(() => this.updateFavorites());
    }
    removeFavorite(name) {
-      console.log("removeFavorite: " + name);
       Favorite.removeFavorite(name)
       .then(() => this.updateFavorites())
       .catch(e => console.error(e));
    }
    updateFavorites() {
-      console.log("updateFavorites");
       Favorite.getStoredFavorites()
       .then(favorites => {
          const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -119,7 +117,7 @@ class Favorites extends Component {
                <MKButton
                   style={styles.addButton}
                   onPress={this.addFavorite.bind(this, this.state.text)}>
-                  <Icon name='plus-round' size={22} color={MKColor.Silver} />
+                  <Icon name='plus-round' size={22} color='#fff' />
                </MKButton>
             </Modal>
          </View>

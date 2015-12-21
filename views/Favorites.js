@@ -109,7 +109,6 @@ class Favorites extends Component {
                <MKTextField
                   clearButtonMode='while-editing'
                   ref="favoriteName"
-                  tintColor={MKColor.Teal}
                   textInputStyle={{color: MKColor.Black, fontSize: 18}}
                   floatingLabelEnabled={true}
                   onChangeText={(text) => this.setState({text})}
@@ -175,8 +174,11 @@ class Favorites extends Component {
       },
       removeButton: {
          position: 'absolute',
+         padding: 10,
+         paddingLeft: 10,
+         paddingRight: 10,
          right: 14,
-         top: 14
+         top: 2
       },
       foodTitle: {
          fontSize: 20,

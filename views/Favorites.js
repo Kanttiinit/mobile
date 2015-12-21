@@ -31,7 +31,7 @@ class Food extends Component {
                <Text style={styles.foodTitle}>
                   {favorite.name}
                </Text>
-               <Icon style={styles.heartIcon} color='#fc5151' name='heart' />
+               <Icon style={styles.heartIcon} color='#fc5151' name='android-favorite' />
                <MKButton
                   style={styles.removeButton}
                   rippleColor='#fff'

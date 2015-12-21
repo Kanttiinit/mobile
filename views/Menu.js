@@ -18,7 +18,8 @@ const {
    View,
    Text,
    StyleSheet,
-   Dimensions
+   Dimensions,
+   DeviceEventEmitter
 } = React;
 
 const {
@@ -91,37 +92,43 @@ class Menu extends React.Component {
       };
    }
    componentDidMount() {
-      this.props.events.on('MENU', route => {
-         // shit is loading, yo
-         this.setState({loading: true});
+      DeviceEventEmitter.addListener('start', this.update.bind(this));
+      this.props.events.on('MENU', this.update.bind(this));
+      this.update();
+   }
+   update() {
+      if (this.state.loading)
+         return;
 
-         // fetch favorites
-         Favorites.getStoredFavorites()
-         .then(favorites => this.setState({favorites}));
+      // shit is loading, yo
+      this.setState({loading: true});
 
-         // update restaurant list
-         Service.getRestaurants()
-         .then(restaurants => {
-            this.setState({
-               restaurants: Service.updateRestaurantDistances(restaurants, this.state.location)
-            });
+      // fetch favorites
+      Favorites.getStoredFavorites()
+      .then(favorites => this.setState({favorites}));
 
-            // if no location is known, try to get it
-            if (!this.state.location) {
-               return Service.getLocation().then(location => {
-                  this.setState({
-                     location,
-                     restaurants: Service.updateRestaurantDistances(this.state.restaurants, location)
-                  });
-                  this.setState({loading: false});
-               });
-            } else {
-               this.setState({loading: false});
-            }
-         })
-         .catch(err => {
-            console.error(err);
+      // update restaurant list
+      Service.getRestaurants()
+      .then(restaurants => {
+         this.setState({
+            restaurants: Service.updateRestaurantDistances(restaurants, this.state.location)
          });
+
+         // if no location is known, try to get it
+         if (!this.state.location) {
+            return Service.getLocation().then(location => {
+               this.setState({
+                  location,
+                  restaurants: Service.updateRestaurantDistances(this.state.restaurants, location)
+               });
+               this.setState({loading: false});
+            });
+         } else {
+            this.setState({loading: false});
+         }
+      })
+      .catch(err => {
+         console.error(err);
       });
    }
    renderDay(date) {

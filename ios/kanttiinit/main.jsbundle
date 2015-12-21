@@ -57258,7 +57258,7 @@ Object.keys(componentOrElement));}
 
 module.exports=findDOMNode;
 });
-__d('kanttiinit/Kanttiinit.js',function(global, require, module, exports) {  'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _reactNative=require('react-native/Libraries/react-native/react-native.js');var _reactNative2=babelHelpers.interopRequireDefault(_reactNative);var _reactNativeMaterialKit=require('react-native-material-kit/lib/index.js');var _reactNativeMaterialKit2=babelHelpers.interopRequireDefault(_reactNativeMaterialKit);var _Menu=require('kanttiinit/views/Menu.js');var _Menu2=babelHelpers.interopRequireDefault(_Menu);var _Favourites=require('kanttiinit/views/Favourites.js');var _Favourites2=babelHelpers.interopRequireDefault(_Favourites);var _Restaurants=require('kanttiinit/views/Restaurants.js');var _Restaurants2=babelHelpers.interopRequireDefault(_Restaurants);var _Ionicons=require('Ionicons');var _Ionicons2=babelHelpers.interopRequireDefault(_Ionicons);var 
+__d('kanttiinit/Kanttiinit.js',function(global, require, module, exports) {  'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _reactNative=require('react-native/Libraries/react-native/react-native.js');var _reactNative2=babelHelpers.interopRequireDefault(_reactNative);var _reactNativeMaterialKit=require('react-native-material-kit/lib/index.js');var _reactNativeMaterialKit2=babelHelpers.interopRequireDefault(_reactNativeMaterialKit);var _Menu=require('kanttiinit/views/Menu.js');var _Menu2=babelHelpers.interopRequireDefault(_Menu);var _Favorites=require('kanttiinit/views/Favorites.js');var _Favorites2=babelHelpers.interopRequireDefault(_Favorites);var _Restaurants=require('kanttiinit/views/Restaurants.js');var _Restaurants2=babelHelpers.interopRequireDefault(_Restaurants);var _Ionicons=require('Ionicons');var _Ionicons2=babelHelpers.interopRequireDefault(_Ionicons);var 
 
 
 
@@ -57314,7 +57314,7 @@ this.eventListeners.filter(function(l){return l.event===event;}).forEach(functio
 _this2.state={
 views:[
 {title:'MENU',icon:'android-restaurant',component:_reactNative2.default.createElement(_Menu2.default,{events:_this2.events})},
-{title:'SUOSIKIT',icon:'android-favorite',component:_reactNative2.default.createElement(_Favourites2.default,{events:_this2.events})},
+{title:'SUOSIKIT',icon:'android-favorite',component:_reactNative2.default.createElement(_Favorites2.default,{events:_this2.events})},
 {title:'RAVINTOLAT',icon:'ios-list',component:_reactNative2.default.createElement(_Restaurants2.default,{events:_this2.events})}],
 
 currentView:'MENU'};
@@ -61332,7 +61332,7 @@ days:Array(7).fill(1).map(function(n,i){return (0,_moment2.default)().add(i,'day
 {var _this3=this;
 this.props.events.on('MENU',function(route){
 _Favorite2.default.getStoredFavorites().
-then(function(favourites){return _this3.setState({favourites:favourites});});
+then(function(favorites){return _this3.setState({favorites:favorites});});
 
 _Service2.default.getRestaurants().
 then(function(restaurants){
@@ -61356,7 +61356,7 @@ console.error(err);});});}},{key:'renderDay',value:function renderDay(
 
 
 date){var _this4=this;
-var restaurants=_Service2.default.formatRestaurants(this.state.restaurants,date,this.state.favourites);
+var restaurants=_Service2.default.formatRestaurants(this.state.restaurants,date,this.state.favorites);
 var dataSource=new ListView.DataSource({rowHasChanged:function(r1,r2){return r1!==r2;}});
 return (
 _reactNative2.default.createElement(View,{key:date,style:{flex:1,paddingBottom:75}},
@@ -61376,11 +61376,11 @@ course){
 this.refs.modal.open();}},{key:'render',value:function render()
 
 {var _this5=this;var _state=
-this.state;var restaurants=_state.restaurants;var favourites=_state.favourites;var days=_state.days;
+this.state;var restaurants=_state.restaurants;var favorites=_state.favorites;var days=_state.days;
 var course=this.state.course||{};
 return (
 _reactNative2.default.createElement(View,{style:styles.container},
-restaurants&&favourites?
+restaurants&&favorites?
 _reactNative2.default.createElement(_reactNativeSwiper2.default,{
 showsPagination:false,
 style:{flex:1,position:'relative'},
@@ -65174,10 +65174,10 @@ var now=Number((0,_moment2.default)().format('HHmm'));
 var hours=weekdays[date.day()-1];
 return {hours:hours,isOpen:hours&&now>=hours[0]&&now<hours[1]};},
 
-formatRestaurants:function(restaurants,date,favourites){var _this=this;
+formatRestaurants:function(restaurants,date,favorites){var _this=this;
 return this.sortedRestaurants(restaurants.map(function(restaurant){
 var coursesForDate=(restaurant.Menus.find(function(m){return (0,_moment2.default)(m.date).isSame(date,'day');})||{courses:[]}).courses;
-var courses=_Favorite2.default.formatCourses(coursesForDate,favourites);
+var courses=_Favorite2.default.formatCourses(coursesForDate,favorites);
 var openingHours=_this.getOpeningHours(restaurant,date);
 return babelHelpers.extends({},
 restaurant,{
@@ -69519,7 +69519,7 @@ _reactNative2.default.createElement(Text,{style:{fontSize:8,fontWeight:'bold',co
 
 Property;
 });
-__d('kanttiinit/views/Favourites.js',function(global, require, module, exports) {  'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _reactNative=require('react-native/Libraries/react-native/react-native.js');var _reactNative2=babelHelpers.interopRequireDefault(_reactNative);var _reactNativeMaterialKit=require('react-native-material-kit/lib/index.js');var _reactNativeMaterialKit2=babelHelpers.interopRequireDefault(_reactNativeMaterialKit);var _Favorite=require('kanttiinit/managers/Favorite.js');var _Favorite2=babelHelpers.interopRequireDefault(_Favorite);var _reactNativeModalbox=require('react-native-modalbox/index.js');var _reactNativeModalbox2=babelHelpers.interopRequireDefault(_reactNativeModalbox);var _Ionicons=require('Ionicons');var _Ionicons2=babelHelpers.interopRequireDefault(_Ionicons);var _Loader=require('kanttiinit/components/Loader.js');var _Loader2=babelHelpers.interopRequireDefault(_Loader);var _reactNativeSwipeout=require('react-native-swipeout/index.js');var _reactNativeSwipeout2=babelHelpers.interopRequireDefault(_reactNativeSwipeout);var 
+__d('kanttiinit/views/Favorites.js',function(global, require, module, exports) {  'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _reactNative=require('react-native/Libraries/react-native/react-native.js');var _reactNative2=babelHelpers.interopRequireDefault(_reactNative);var _reactNativeMaterialKit=require('react-native-material-kit/lib/index.js');var _reactNativeMaterialKit2=babelHelpers.interopRequireDefault(_reactNativeMaterialKit);var _Favorite=require('kanttiinit/managers/Favorite.js');var _Favorite2=babelHelpers.interopRequireDefault(_Favorite);var _reactNativeModalbox=require('react-native-modalbox/index.js');var _reactNativeModalbox2=babelHelpers.interopRequireDefault(_reactNativeModalbox);var _Ionicons=require('Ionicons');var _Ionicons2=babelHelpers.interopRequireDefault(_Ionicons);var _Loader=require('kanttiinit/components/Loader.js');var _Loader2=babelHelpers.interopRequireDefault(_Loader);var _reactNativeSwipeout=require('react-native-swipeout/index.js');var _reactNativeSwipeout2=babelHelpers.interopRequireDefault(_reactNativeSwipeout);var 
 
 
 
@@ -69568,10 +69568,10 @@ favorite.name)))));}}]);return Food;})(Component);var
 
 
 
-Favourites=(function(_Component2){babelHelpers.inherits(Favourites,_Component2);
-function Favourites(){babelHelpers.classCallCheck(this,Favourites);var _this2=babelHelpers.possibleConstructorReturn(this,Object.getPrototypeOf(Favourites).call(this));
+Favorites=(function(_Component2){babelHelpers.inherits(Favorites,_Component2);
+function Favorites(){babelHelpers.classCallCheck(this,Favorites);var _this2=babelHelpers.possibleConstructorReturn(this,Object.getPrototypeOf(Favorites).call(this));
 
-_this2.state={};return _this2;}babelHelpers.createClass(Favourites,[{key:'componentDidMount',value:function componentDidMount()
+_this2.state={};return _this2;}babelHelpers.createClass(Favorites,[{key:'componentDidMount',value:function componentDidMount()
 
 {var _this3=this;
 this.props.events.on('SUOSIKIT',function(){
@@ -69639,7 +69639,7 @@ placeholder:'Ruoan nimi'}),
 _reactNative2.default.createElement(MKButton,{
 style:styles.addButton,
 onPress:this.addFavorite.bind(this,this.state.text)},
-_reactNative2.default.createElement(_Ionicons2.default,{name:'plus-round',size:22,color:MKColor.Silver})))));}}]);return Favourites;})(Component);
+_reactNative2.default.createElement(_Ionicons2.default,{name:'plus-round',size:22,color:MKColor.Silver})))));}}]);return Favorites;})(Component);
 
 
 
@@ -69709,7 +69709,7 @@ height:60}});exports.default=
 
 
 
-Favourites;
+Favorites;
 });
 __d('react-native-swipeout/index.js',function(global, require, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');
 var tweenState=require('react-tween-state/lib/index.js');var 

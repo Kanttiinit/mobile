@@ -44,9 +44,8 @@ export default {
       });
    },
    getOpeningHours(restaurant, date) {
-      const weekdays = JSON.parse(restaurant.openingHours);
       const now = Number(moment().format('HHmm'));
-      let hours = weekdays[date.day() - 1];
+      const hours = restaurant.openingHours[date.day() - 1];
       return {hours, isOpen: hours && now >= hours[0] && now < hours[1]};
    },
    formatRestaurants(restaurants, date, favorites) {

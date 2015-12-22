@@ -12,7 +12,8 @@ const {
    Text,
    ListView,
    StyleSheet,
-   Component
+   Component,
+   DeviceEventEmitter
 } = React;
 
 const {
@@ -54,6 +55,13 @@ class Favorites extends Component {
          if (!this.state.favorites)
             this.updateFavorites();
       });
+
+      DeviceEventEmitter.addListener('keyboardWillShow', () => {
+         this.setState({keyboard: true});
+      });
+      DeviceEventEmitter.addListener('keyboardWillHide', () => {
+         this.setState({keyboard: false});
+      });
    }
    openModal() {
       this.refs.modal.open();
@@ -80,7 +88,7 @@ class Favorites extends Component {
       .catch(err => console.error(err));
    }
    render() {
-      const {favorites} = this.state;
+      const {favorites, keyboard} = this.state;
       return (
          <View style={styles.container}>
             {favorites ?
@@ -104,7 +112,7 @@ class Favorites extends Component {
             <Modal
                ref="modal"
                animationDuration={300}
-               style={styles.modal}
+               style={[styles.modal, keyboard && {marginTop: -150}]}
                swipeToClose={false}>
                <View style={styles.modalTitle}><Text style={{fontSize: 18, textAlign: 'center'}}>Uusi suosikki</Text></View>
                <MKTextField
@@ -191,7 +199,8 @@ class Favorites extends Component {
       modal: {
          alignItems: 'center',
          width: 300,
-         height: 200
+         height: 175,
+         marginTop: -50
       },
       modalTitle: {
          marginBottom: 20,

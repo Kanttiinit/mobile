@@ -56,10 +56,10 @@ class Favorites extends Component {
             this.updateFavorites();
       });
 
-      DeviceEventEmitter.addListener('keyboardWillShow', () => {
+      DeviceEventEmitter.addListener('keyboardDidShow', () => {
          this.refs.modal.animateOffset(-100);
       });
-      DeviceEventEmitter.addListener('keyboardWillHide', () => {
+      DeviceEventEmitter.addListener('keyboardDidHide', () => {
          this.refs.modal.animateOffset(0);
       });
    }

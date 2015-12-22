@@ -220,10 +220,6 @@ const styles = StyleSheet.create({
    borderTop: {
       borderTopWidth: 1,
       borderTopColor: '#eee'
-   },
-   modal: {
-      width: Dimensions.get('window').width - 32,
-      height: 300
    }
 });
 

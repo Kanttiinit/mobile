@@ -3,7 +3,7 @@
 import React from 'react-native';
 import Material from 'react-native-material-kit';
 import FavoritesManager from '../managers/Favorites';
-import Modal from 'react-native-modalbox';
+import Modal from '../components/Modal';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Loader from '../components/Loader';
 
@@ -57,10 +57,10 @@ class Favorites extends Component {
       });
 
       DeviceEventEmitter.addListener('keyboardWillShow', () => {
-         this.setState({keyboard: true});
+         this.refs.modal.animateOffset(-100);
       });
       DeviceEventEmitter.addListener('keyboardWillHide', () => {
-         this.setState({keyboard: false});
+         this.refs.modal.animateOffset(0);
       });
    }
    openModal() {
@@ -111,9 +111,7 @@ class Favorites extends Component {
 
             <Modal
                ref="modal"
-               animationDuration={300}
-               style={[styles.modal, keyboard && {marginTop: -150}]}
-               swipeToClose={false}>
+               style={[styles.modal, keyboard && {marginTop: -150}]}>
                <View style={styles.modalTitle}><Text style={{fontSize: 18, textAlign: 'center'}}>Uusi suosikki</Text></View>
                <MKTextField
                   clearButtonMode='while-editing'
@@ -160,10 +158,6 @@ class Favorites extends Component {
          alignItems: 'center'
       },
       addButton: {
-         position: 'absolute',
-         bottom: 0,
-         left: 0,
-         width: 300,
          height: 40,
          shadowColor: 'black',
          backgroundColor: MKColor.Teal,
@@ -197,20 +191,17 @@ class Favorites extends Component {
          backgroundColor: '#fff'
       },
       modal: {
-         alignItems: 'center',
-         width: 300,
-         height: 175,
-         marginTop: -50
+         margin: 20,
+         backgroundColor: MKColor.Silver
       },
       modalTitle: {
-         marginBottom: 20,
-         width: 300,
          padding: 8,
-         backgroundColor: MKColor.Silver
+         backgroundColor: '#d1d1d1'
       },
       textField: {
          height: 40,
-         width: 200
+         margin: 20,
+         marginBottom: 40
       }
    });
 

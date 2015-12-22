@@ -112,10 +112,11 @@ class Favorites extends Component {
             <Modal
                ref="modal"
                style={[styles.modal, keyboard && {marginTop: -150}]}>
-               <View style={styles.modalTitle}><Text style={{fontSize: 18, textAlign: 'center'}}>Uusi suosikki</Text></View>
+               <View style={styles.modalTitle}><Text style={styles.modalTitleText}>Uusi suosikki</Text></View>
                <MKTextField
                   clearButtonMode='while-editing'
                   ref="favoriteName"
+                  highlightColor={MKColor.Teal}
                   textInputStyle={{color: MKColor.Black, fontSize: 18}}
                   floatingLabelEnabled={true}
                   onChangeText={text => this.setState({text})}
@@ -124,7 +125,7 @@ class Favorites extends Component {
                <MKButton
                   style={styles.addButton}
                   onPress={this.addFavorite.bind(this, this.state.text)}>
-                  <Icon name='plus-round' size={22} color='#fff' />
+                  <Text style={styles.addText}> LISÄÄ </Text>
                </MKButton>
             </Modal>
          </View>
@@ -157,13 +158,6 @@ class Favorites extends Component {
          justifyContent: 'center',
          alignItems: 'center'
       },
-      addButton: {
-         height: 40,
-         shadowColor: 'black',
-         backgroundColor: MKColor.Teal,
-         justifyContent: 'center',
-         alignItems: 'center'
-      },
       food: {
          backgroundColor: '#fff',
          padding: 14,
@@ -191,17 +185,37 @@ class Favorites extends Component {
          backgroundColor: '#fff'
       },
       modal: {
+         borderRadius: 2,
          margin: 20,
          backgroundColor: MKColor.Silver
       },
       modalTitle: {
-         padding: 8,
-         backgroundColor: '#d1d1d1'
+         borderRadius: 2,
+         padding: 12
+      },
+      modalTitleText: {
+         marginTop: 8,
+         marginLeft: 8,
+         color: 'black',
+         fontSize: 18
       },
       textField: {
          height: 40,
          margin: 20,
          marginBottom: 40
+      },
+      addButton: {
+         backgroundColor: MKColor.Teal,
+         alignSelf: 'flex-end',
+         borderRadius: 2,
+         padding: 6,
+         marginRight: 16,
+         marginBottom: 16
+      },
+      addText: {
+         color: 'white',
+         fontWeight: 'bold',
+         fontSize: 14
       }
    });
 

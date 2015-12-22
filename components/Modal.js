@@ -7,12 +7,15 @@ const {
    Component,
    StyleSheet,
    TouchableOpacity,
-   Animated
+   Animated,
+   PropTypes
 } = React;
 
 class Modal extends Component {
    constructor() {
       super();
+
+      this
       this.state = {
          opacity: new Animated.Value(0),
          scale: new Animated.Value(0.8),
@@ -20,28 +23,33 @@ class Modal extends Component {
       };
    }
    setPhase(toValue) {
+      const {animationDuration, animationTension} = this.props;
       Animated.timing(
          this.state.opacity,
          {
             toValue,
-            duration: 200
+            duration: animationDuration
          }
       ).start();
 
       Animated.spring(
          this.state.scale,
-         {toValue: toValue ? 1 : 0.8}
+         {
+            toValue: toValue ? 1 : 0.8,
+            tension: animationTension
+         }
       ).start();
 
       setTimeout(() => {
-         if (toValue && this.props.onOpened)
-            this.props.onOpened();
-         else if (this.props.onClosed)
-            this.props.onClosed();
-      }, 200);
+         if (toValue)
+            this.props.modalDidOpen();
+         else
+            this.props.modalDidClose();
+      }, animationDuration);
    }
    render() {
       const {opacity, open, scale, offset} = this.state;
+      const {overlayOpacity} = this.props;
       return (
          <View
          pointerEvents={open ? 'auto' : 'none'}
@@ -50,7 +58,7 @@ class Modal extends Component {
             style={styles.absolute}
             onPress={this.close.bind(this)}
             activeOpacity={0.75}>
-               <Animated.View style={[styles.overlay, {flex: 1, opacity}]} />
+               <Animated.View style={{flex: 1, opacity, backgroundColor: 'rgba(0, 0, 0, ' + overlayOpacity + ')'}} />
             </TouchableOpacity>
             <Animated.View
                style={[
@@ -78,6 +86,23 @@ class Modal extends Component {
    }
 }
 
+Modal.propTypes = {
+   overlayOpacity: PropTypes.number,
+   animationDuration: PropTypes.number,
+   animationTension: PropTypes.number,
+   modalDidOpen: PropTypes.func,
+   modalDidClose: PropTypes.func
+};
+
+Modal.defaultProps = {
+   overlayOpacity: 0.75,
+   animationDuration: 200,
+   animationTension: 40,
+   modalDidOpen: () => undefined,
+   modalDidClose: () => undefined
+};
+
+
 const styles = StyleSheet.create({
    absolute: {
       position: 'absolute',
@@ -89,9 +114,6 @@ const styles = StyleSheet.create({
    },
    container: {
       justifyContent: 'center'
-   },
-   overlay: {
-      backgroundColor: 'rgba(0, 0, 0, 0.7)'
    }
 });
 

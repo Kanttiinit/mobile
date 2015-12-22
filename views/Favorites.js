@@ -110,7 +110,7 @@ class Favorites extends Component {
 
             <Modal
                ref="modal"
-               onClosed={this.addFavorite.bind(this)}
+               modalDidClose={this.addFavorite.bind(this)}
                style={styles.modal}>
                <View style={styles.modalTitle}><Text style={styles.modalTitleText}>Uusi suosikki</Text></View>
                <MKTextField

@@ -29,13 +29,11 @@ class Favorite extends Component {
       return (
          <View style={[MKCardStyles.card, style]}>
             <View style={styles.food}>
-               <Text style={styles.foodTitle}>
-                  {favorite.name}
-               </Text>
                <Icon style={styles.heartIcon} color='#fc5151' name='android-favorite' />
+               <Text style={styles.foodTitle}>{favorite.name}</Text>
                <MKButton
                   style={styles.removeButton}
-                  rippleColor='#fff'
+                  rippleColor='rgba(0, 0, 0, 0.25)'
                   onPress={parent.removeFavorite.bind(parent, favorite.name)}>
                   <Icon style={{fontSize: 26}} color='#8a8a8a' name='ios-close-empty' />
                </MKButton>
@@ -160,27 +158,27 @@ class Favorites extends Component {
       },
       food: {
          backgroundColor: '#fff',
-         padding: 14,
-         position: 'relative'
+         flexDirection: 'row',
+         justifyContent: 'center',
+         alignItems: 'center',
+         paddingRight: 10,
+         paddingLeft: 15
       },
       heartIcon: {
-         fontSize: 26,
-         position: 'absolute',
-         left: 14,
-         top: 14
-      },
-      removeButton: {
-         position: 'absolute',
-         padding: 10,
-         paddingLeft: 10,
-         paddingRight: 10,
-         right: 14,
-         top: 2
+         fontSize: 26
       },
       foodTitle: {
          fontWeight: '300',
          fontSize: 20,
-         textAlign: 'center'
+         textAlign: 'center',
+         flex: 4,
+         paddingVertical: 14
+      },
+      removeButton: {
+         width: 32,
+         height: 32,
+         alignItems: 'center',
+         justifyContent: 'center'
       },
       foodContainer: {
          backgroundColor: '#fff'

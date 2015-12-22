@@ -61258,6 +61258,7 @@ Text=_reactNative2.default.Text;var
 StyleSheet=_reactNative2.default.StyleSheet;var 
 Dimensions=_reactNative2.default.Dimensions;var 
 DeviceEventEmitter=_reactNative2.default.DeviceEventEmitter;var 
+AppStateIOS=_reactNative2.default.AppStateIOS;var 
 
 
 
@@ -61330,9 +61331,15 @@ days:Array(7).fill(1).map(function(n,i){return (0,_moment2.default)().add(i,'day
 
 
 {
+AppStateIOS.addEventListener('change',this.handleStateChange.bind(this));
 DeviceEventEmitter.addListener('start',this.update.bind(this));
 this.props.events.on('MENU',this.update.bind(this));
-this.update();}},{key:'update',value:function update()
+this.update();}},{key:'handleStateChange',value:function handleStateChange(
+
+currentAppState){
+if(currentAppState=='active'){
+this.update();}}},{key:'update',value:function update()
+
 
 {var _this3=this;
 if(this.state.loading)
@@ -61382,7 +61389,6 @@ initialListSize:6,
 dataSource:dataSource.cloneWithRows(restaurants),
 renderRow:function(restaurant){return (
 _reactNative2.default.createElement(Restaurant,{date:date,restaurant:restaurant,openModal:_this4.openModal.bind(_this4)}));}})));}},{key:'openModal',value:function openModal(
-
 
 
 
@@ -61451,11 +61457,7 @@ marginRight:8},
 
 borderTop:{
 borderTopWidth:1,
-borderTopColor:'#eee'},
-
-modal:{
-width:Dimensions.get('window').width-32,
-height:300}});exports.default=
+borderTopColor:'#eee'}});exports.default=
 
 
 
@@ -65183,9 +65185,8 @@ return 0;});},
 
 
 getOpeningHours:function(restaurant,date){
-var weekdays=JSON.parse(restaurant.openingHours);
 var now=Number((0,_moment2.default)().format('HHmm'));
-var hours=weekdays[date.day()-1];
+var hours=restaurant.openingHours[date.day()-1];
 return {hours:hours,isOpen:hours&&now>=hours[0]&&now<hours[1]};},
 
 formatRestaurants:function(restaurants,date,favorites){var _this=this;
@@ -66552,11 +66553,10 @@ storedFavorites.push({name:f});
 return _this.setStoredFavorites(storedFavorites);});},
 
 
-removeFavorite:function(f){var _this2=this;
+removeFavorite:function(name){var _this2=this;
 return this.getStoredFavorites().
 then(function(storedFavorites){
-storedFavorites.splice(storedFavorites.indexOf(f),1);
-return _this2.setStoredFavorites(storedFavorites);});},
+return _this2.setStoredFavorites(storedFavorites.filter(function(f){return f.name!==name;}));});},
 
 
 isFavorite:function(title,favorites){
@@ -69213,7 +69213,7 @@ _reactNative2.default.createElement(Text,{style:{fontSize:8,fontWeight:'bold',co
 
 Property;
 });
-__d('kanttiinit/views/Favorites.js',function(global, require, module, exports) {  'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _reactNative=require('react-native/Libraries/react-native/react-native.js');var _reactNative2=babelHelpers.interopRequireDefault(_reactNative);var _reactNativeMaterialKit=require('react-native-material-kit/lib/index.js');var _reactNativeMaterialKit2=babelHelpers.interopRequireDefault(_reactNativeMaterialKit);var _Favorites=require('kanttiinit/managers/Favorites.js');var _Favorites2=babelHelpers.interopRequireDefault(_Favorites);var _reactNativeModalbox=require('react-native-modalbox/index.js');var _reactNativeModalbox2=babelHelpers.interopRequireDefault(_reactNativeModalbox);var _Ionicons=require('Ionicons');var _Ionicons2=babelHelpers.interopRequireDefault(_Ionicons);var _Loader=require('kanttiinit/components/Loader.js');var _Loader2=babelHelpers.interopRequireDefault(_Loader);var 
+__d('kanttiinit/views/Favorites.js',function(global, require, module, exports) {  'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _reactNative=require('react-native/Libraries/react-native/react-native.js');var _reactNative2=babelHelpers.interopRequireDefault(_reactNative);var _reactNativeMaterialKit=require('react-native-material-kit/lib/index.js');var _reactNativeMaterialKit2=babelHelpers.interopRequireDefault(_reactNativeMaterialKit);var _Favorites=require('kanttiinit/managers/Favorites.js');var _Favorites2=babelHelpers.interopRequireDefault(_Favorites);var _Modal=require('kanttiinit/components/Modal.js');var _Modal2=babelHelpers.interopRequireDefault(_Modal);var _Ionicons=require('Ionicons');var _Ionicons2=babelHelpers.interopRequireDefault(_Ionicons);var _Loader=require('kanttiinit/components/Loader.js');var _Loader2=babelHelpers.interopRequireDefault(_Loader);var 
 
 
 
@@ -69228,6 +69228,7 @@ Text=_reactNative2.default.Text;var
 ListView=_reactNative2.default.ListView;var 
 StyleSheet=_reactNative2.default.StyleSheet;var 
 Component=_reactNative2.default.Component;var 
+DeviceEventEmitter=_reactNative2.default.DeviceEventEmitter;var 
 
 
 
@@ -69237,7 +69238,7 @@ MKTextField=_reactNativeMaterialKit2.default.MKTextField;var
 MKColor=_reactNativeMaterialKit2.default.MKColor;var 
 
 
-Food=(function(_Component){babelHelpers.inherits(Food,_Component);function Food(){babelHelpers.classCallCheck(this,Food);return babelHelpers.possibleConstructorReturn(this,Object.getPrototypeOf(Food).apply(this,arguments));}babelHelpers.createClass(Food,[{key:'render',value:function render()
+Favorite=(function(_Component){babelHelpers.inherits(Favorite,_Component);function Favorite(){babelHelpers.classCallCheck(this,Favorite);return babelHelpers.possibleConstructorReturn(this,Object.getPrototypeOf(Favorite).apply(this,arguments));}babelHelpers.createClass(Favorite,[{key:'render',value:function render()
 {var _props=
 this.props;var favorite=_props.favorite;var parent=_props.parent;var style=_props.style;
 return (
@@ -69251,7 +69252,7 @@ _reactNative2.default.createElement(MKButton,{
 style:styles.removeButton,
 rippleColor:'#fff',
 onPress:parent.removeFavorite.bind(parent,favorite.name)},
-_reactNative2.default.createElement(_Ionicons2.default,{style:{fontSize:26},color:'#8a8a8a',name:'ios-close-empty'})))));}}]);return Food;})(Component);var 
+_reactNative2.default.createElement(_Ionicons2.default,{style:{fontSize:26},color:'#8a8a8a',name:'ios-close-empty'})))));}}]);return Favorite;})(Component);var 
 
 
 
@@ -69267,19 +69268,26 @@ _this2.state={};return _this2;}babelHelpers.createClass(Favorites,[{key:'compone
 {var _this3=this;
 this.props.events.on('SUOSIKIT',function(){
 if(!_this3.state.favorites)
-_this3.updateFavorites();});}},{key:'openModal',value:function openModal()
+_this3.updateFavorites();});
+
+
+DeviceEventEmitter.addListener('keyboardDidShow',function(){
+_this3.refs.modal.animateOffset(-100);});
+
+DeviceEventEmitter.addListener('keyboardDidHide',function(){
+_this3.refs.modal.animateOffset(0);});}},{key:'openModal',value:function openModal()
 
 
 {
-this.refs.modal.open();}},{key:'closeModal',value:function closeModal()
-
-{
-this.refs.modal.close();}},{key:'addFavorite',value:function addFavorite(
+this.refs.modal.open();}},{key:'addFavorite',value:function addFavorite(
 
 name){var _this4=this;
-this.closeModal();
+if(name&&name.length>2){
+this.refs.modal.close();
 _Favorites2.default.addFavorite(name).
-then(function(){return _this4.updateFavorites();});}},{key:'removeFavorite',value:function removeFavorite(
+then(function(){return _this4.updateFavorites();});
+this.setState({text:undefined});}}},{key:'removeFavorite',value:function removeFavorite(
+
 
 name){var _this5=this;
 _Favorites2.default.removeFavorite(name).
@@ -69294,8 +69302,8 @@ _this6.setState({favorites:dataSource.cloneWithRows(favorites)});}).
 
 catch(function(err){return console.error(err);});}},{key:'render',value:function render()
 
-{var _this7=this;var 
-favorites=this.state.favorites;
+{var _this7=this;var _state=
+this.state;var favorites=_state.favorites;var keyboard=_state.keyboard;
 return (
 _reactNative2.default.createElement(View,{style:styles.container},
 favorites?
@@ -69303,7 +69311,7 @@ _reactNative2.default.createElement(ListView,{
 dataSource:favorites,
 renderRow:function(fav,sectionId,rowId){
 var lastRow=rowId==favorites._cachedRowCount-1;
-return _reactNative2.default.createElement(Food,{style:{marginBottom:lastRow?86:2},favorite:fav,parent:_this7});},
+return _reactNative2.default.createElement(Favorite,{style:{marginBottom:lastRow?96:2},favorite:fav,parent:_this7});},
 
 style:styles.favoriteList,
 scrollsToTop:true}):
@@ -69316,22 +69324,23 @@ onPress:this.openModal.bind(this)},
 _reactNative2.default.createElement(_Ionicons2.default,{name:'plus-round',size:22,color:MKColor.Silver})),
 
 
-_reactNative2.default.createElement(_reactNativeModalbox2.default,{ref:'modal',style:styles.modal,swipeToClose:false,onClosed:this.onClose,
-onOpened:this.onOpen,onClosingState:this.onClosingState},
-_reactNative2.default.createElement(Text,{style:styles.modalTitle},'Uusi suosikki'),
+_reactNative2.default.createElement(_Modal2.default,{
+ref:'modal',
+style:[styles.modal,keyboard&&{marginTop:-150}]},
+_reactNative2.default.createElement(View,{style:styles.modalTitle},_reactNative2.default.createElement(Text,{style:styles.modalTitleText},'Uusi suosikki')),
 _reactNative2.default.createElement(MKTextField,{
 clearButtonMode:'while-editing',
 ref:'favoriteName',
+highlightColor:MKColor.Teal,
 textInputStyle:{color:MKColor.Black,fontSize:18},
 floatingLabelEnabled:true,
 onChangeText:function(text){return _this7.setState({text:text});},
 style:styles.textField,
 placeholder:'Ruoan nimi'}),
-
 _reactNative2.default.createElement(MKButton,{
 style:styles.addButton,
 onPress:this.addFavorite.bind(this,this.state.text)},
-_reactNative2.default.createElement(_Ionicons2.default,{name:'plus-round',size:22,color:'#fff'})))));}}]);return Favorites;})(Component);
+_reactNative2.default.createElement(Text,{style:styles.addText},' LISÄÄ ')))));}}]);return Favorites;})(Component);
 
 
 
@@ -69364,16 +69373,6 @@ backgroundColor:MKColor.Teal,
 justifyContent:'center',
 alignItems:'center'},
 
-addButton:{
-position:'absolute',
-bottom:0,
-width:300,
-padding:4,
-shadowColor:'black',
-backgroundColor:MKColor.Teal,
-justifyContent:'center',
-alignItems:'center'},
-
 food:{
 backgroundColor:'#fff',
 padding:14,
@@ -69401,358 +69400,133 @@ foodContainer:{
 backgroundColor:'#fff'},
 
 modal:{
-alignItems:'center',
-width:300,
-height:200},
+borderRadius:2,
+margin:20,
+backgroundColor:MKColor.Silver},
 
 modalTitle:{
-margin:10,
-color:"black",
-fontSize:22},
+borderRadius:2,
+padding:12},
+
+modalTitleText:{
+marginTop:8,
+marginLeft:8,
+color:'black',
+fontSize:18},
 
 textField:{
-width:200,
-height:60}});exports.default=
+height:40,
+margin:20,
+marginBottom:40},
+
+addButton:{
+backgroundColor:MKColor.Teal,
+alignSelf:'flex-end',
+borderRadius:2,
+padding:6,
+marginRight:16,
+marginBottom:16},
+
+addText:{
+color:'white',
+fontWeight:'bold',
+fontSize:14}});exports.default=
 
 
 
 Favorites;
 });
-__d('react-native-modalbox/index.js',function(global, require, module, exports) {  'use strict';
-
-var React=require('react-native/Libraries/react-native/react-native.js');var 
-
-View=
+__d('kanttiinit/components/Modal.js',function(global, require, module, exports) {  'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _reactNative=require('react-native/Libraries/react-native/react-native.js');var _reactNative2=babelHelpers.interopRequireDefault(_reactNative);var 
 
 
 
 
+View=_reactNative2.default.View;var 
+Component=_reactNative2.default.Component;var 
+StyleSheet=_reactNative2.default.StyleSheet;var 
+TouchableOpacity=_reactNative2.default.TouchableOpacity;var 
+Animated=_reactNative2.default.Animated;var 
 
-React.View;var StyleSheet=React.StyleSheet;var PanResponder=React.PanResponder;var Animated=React.Animated;var TouchableWithoutFeedback=React.TouchableWithoutFeedback;var Dimensions=React.Dimensions;
 
-var screen=Dimensions.get('window');
+Modal=(function(_Component){babelHelpers.inherits(Modal,_Component);
+function Modal(){babelHelpers.classCallCheck(this,Modal);var _this=babelHelpers.possibleConstructorReturn(this,Object.getPrototypeOf(Modal).call(this));
+
+_this.state={
+opacity:new Animated.Value(0),
+scale:new Animated.Value(0.8),
+offset:new Animated.Value(0)};return _this;}babelHelpers.createClass(Modal,[{key:'setPhase',value:function setPhase(
+
+
+toValue){
+Animated.timing(
+this.state.opacity,
+{
+toValue:toValue,
+duration:200}).
+
+start();
+
+Animated.spring(
+this.state.scale,
+{toValue:toValue?1:0.8}).
+start();}},{key:'render',value:function render()
+
+{var _state=
+this.state;var opacity=_state.opacity;var open=_state.open;var scale=_state.scale;var offset=_state.offset;
+return (
+_reactNative2.default.createElement(View,{
+pointerEvents:open?'auto':'none',
+style:[styles.absolute,styles.container]},
+_reactNative2.default.createElement(TouchableOpacity,{
+style:styles.absolute,
+onPress:this.close.bind(this),
+activeOpacity:0.75},
+_reactNative2.default.createElement(Animated.View,{style:[styles.overlay,{flex:1,opacity:opacity}]})),
+
+_reactNative2.default.createElement(Animated.View,{
+style:[
+this.props.style,
+{opacity:opacity,transform:[{scale:scale},{translateY:offset}]}]},
+
+this.props.children)));}},{key:'open',value:function open()
+
+
+
+
+{
+this.setState({open:true});
+this.setPhase(1);}},{key:'close',value:function close()
+
+{
+this.setState({open:false});
+this.setPhase(0);}},{key:'animateOffset',value:function animateOffset(
+
+offset){
+Animated.spring(
+this.state.offset,
+{toValue:offset}).
+start();}}]);return Modal;})(Component);
+
+
 
 var styles=StyleSheet.create({
-
-wrapper:{
-backgroundColor:"white"},
-
-
-transparent:{
-backgroundColor:'rgba(0,0,0,0)'},
-
-
 absolute:{
-position:"absolute",
+position:'absolute',
 top:0,
-bottom:0,
 left:0,
-right:0}});
+right:0,
+bottom:0,
+backgroundColor:'rgba(0, 0, 0, 0)'},
 
+container:{
+justifyContent:'center'},
 
+overlay:{
+backgroundColor:'rgba(0, 0, 0, 0.7)'}});exports.default=
 
 
-var ModalBox=React.createClass({displayName:'ModalBox',
 
-propTypes:{
-isOpen:React.PropTypes.bool,
-isDisabled:React.PropTypes.bool,
-swipeToClose:React.PropTypes.bool,
-swipeThreshold:React.PropTypes.number,
-swipeArea:React.PropTypes.number,
-position:React.PropTypes.string,
-backdrop:React.PropTypes.bool,
-backdropOpacity:React.PropTypes.number,
-backdropColor:React.PropTypes.string,
-backdropContent:React.PropTypes.element,
-
-onClosed:React.PropTypes.func,
-onOpened:React.PropTypes.func,
-onClosingState:React.PropTypes.func},
-
-
-getDefaultProps:function(){
-return {
-swipeToClose:true,
-swipeThreshold:50,
-position:"center",
-backdrop:true,
-backdropOpacity:0.5,
-backdropColor:"black",
-backdropContent:null};},
-
-
-
-getInitialState:function(){
-return {
-position:new Animated.Value(screen.height),
-backdropOpacity:new Animated.Value(0),
-isOpen:false,
-isAnimateClose:false,
-isAnimateOpen:false,
-swipeToClose:false,
-height:screen.height,
-width:screen.width};},
-
-
-
-componentDidMount:function(){
-if(this.props.swipeToClose)
-this.createPanResponder();},
-
-
-componentWillReceiveProps:function(props){
-if(typeof props.isOpen=="undefined")return;
-if(props.isOpen)
-this.open();else 
-
-this.close();},
-
-
-
-
-
-
-
-animateBackdropOpen:function(){var _this=this;
-if(this.state.isAnimateBackdrop){
-this.state.animBackdrop.stop();
-this.state.isAnimateBackdrop=false;}
-
-
-this.state.isAnimateBackdrop=true;
-this.state.animBackdrop=Animated.timing(
-this.state.backdropOpacity,
-{
-toValue:1});
-
-
-this.state.animBackdrop.start(function(){
-_this.state.isAnimateBackdrop=false;});},
-
-
-
-
-
-
-animateBackdropClose:function(){var _this2=this;
-if(this.state.isAnimateBackdrop){
-this.state.animBackdrop.stop();
-this.state.isAnimateBackdrop=false;}
-
-
-this.state.isAnimateBackdrop=true;
-this.state.animBackdrop=Animated.timing(
-this.state.backdropOpacity,
-{
-toValue:0});
-
-
-this.state.animBackdrop.start(function(){
-_this2.state.isAnimateBackdrop=false;});},
-
-
-
-
-
-
-animateOpen:function(){var _this3=this;
-if(this.state.isAnimateClose){
-this.state.animClose.stop();
-this.state.isAnimateClose=false;}
-
-
-
-if(this.props.backdrop)
-this.animateBackdropOpen();
-
-
-this.state.positionDest=0;
-if(this.props.position=="bottom"){
-this.state.positionDest=screen.height-this.state.height;}else 
-
-if(this.props.position=="center"){
-this.state.positionDest=screen.height/2-this.state.height/2;}
-
-
-this.state.isAnimateOpen=true;
-this.state.animOpen=Animated.spring(
-this.state.position,
-{
-toValue:this.state.positionDest,
-friction:8});
-
-
-this.state.animOpen.start(function(){
-_this3.state.isAnimateOpen=false;
-_this3.state.isOpen=true;
-if(_this3.props.onOpened)_this3.props.onOpened();});},
-
-
-
-
-
-
-animateClose:function(){var _this4=this;
-if(this.state.isAnimateOpen){
-this.state.animOpen.stop();
-this.state.isAnimateOpen=false;}
-
-
-
-if(this.props.backdrop)
-this.animateBackdropClose();
-
-this.state.isAnimateClose=true;
-this.state.animClose=Animated.timing(
-this.state.position,
-{
-toValue:screen.height,
-duration:400});
-
-
-this.state.animClose.start(function(){
-_this4.state.isAnimateClose=false;
-_this4.state.isOpen=false;
-_this4.setState({});
-if(_this4.props.onClosed)_this4.props.onClosed();});},
-
-
-
-
-
-
-
-createPanResponder:function(){var _this5=this;
-var closingState=false;
-var inSwipeArea=true;
-
-var onPanRelease=function(evt,state){
-if(!inSwipeArea)return;
-if(state.dy>_this5.props.swipeThreshold)
-_this5.animateClose();else 
-
-_this5.animateOpen();};
-
-
-var animEvt=Animated.event([null,{customY:this.state.position}]);
-
-var onPanMove=function(evt,state){
-var newClosingState=state.dy>_this5.props.swipeThreshold?true:false;
-if(state.dy<0)return;
-if(newClosingState!=closingState&&_this5.props.onClosingState)
-_this5.props.onClosingState(newClosingState);
-closingState=newClosingState;
-state.customY=state.dy+_this5.state.positionDest;
-
-animEvt(evt,state);};
-
-
-var onPanStart=function(evt,state){
-if(_this5.props.isDisabled||_this5.props.swipeArea&&evt.nativeEvent.pageY-_this5.state.positionDest>_this5.props.swipeArea){
-inSwipeArea=false;
-return false;}
-
-inSwipeArea=true;
-return true;};
-
-
-
-var onPanShouldMove=function(evt,state){
-if(state.dx===0||state.dy===0){
-return false;}
-
-return inSwipeArea;};
-
-
-this.state.pan=PanResponder.create({
-onStartShouldSetPanResponder:onPanStart,
-onMoveShouldSetPanResponder:onPanShouldMove,
-onPanResponderMove:onPanMove,
-onPanResponderRelease:onPanRelease,
-onPanResponderTerminate:onPanRelease});},
-
-
-
-
-
-
-onViewLayout:function(evt){
-this.state.height=evt.nativeEvent.layout.height;
-this.state.width=evt.nativeEvent.layout.width;
-
-if(this.onViewLayoutCalculated)this.onViewLayoutCalculated();},
-
-
-
-
-
-renderBackdrop:function(){
-var backdrop=[];
-var size={height:screen.height,width:screen.width};
-
-if(this.props.backdrop){
-backdrop=
-React.createElement(TouchableWithoutFeedback,{onPress:this.close},
-React.createElement(Animated.View,{style:[styles.absolute,size,{opacity:this.state.backdropOpacity}]},
-React.createElement(View,{style:[styles.absolute,{backgroundColor:this.props.backdropColor,opacity:this.props.backdropOpacity}]}),
-this.props.backdropContent||[]));}
-
-
-
-
-
-return backdrop;},
-
-
-
-
-
-render:function(){
-var visible=this.state.isOpen||this.state.isAnimateOpen||this.state.isAnimateClose;
-var pan=this.state.pan?this.state.pan.panHandlers:{};
-var offsetX=(screen.width-this.state.width)/2;
-var backdrop=this.renderBackdrop();
-
-if(!visible)return React.createElement(View,null);
-
-return (
-React.createElement(View,{style:[styles.transparent,styles.absolute],pointerEvents:'box-none'},
-backdrop,
-React.createElement(Animated.View,babelHelpers.extends({
-onLayout:this.onViewLayout,
-style:[styles.wrapper,{height:screen.height,width:screen.width},this.props.style,{transform:[{translateY:this.state.position},{translateX:offsetX}]}]},
-pan),
-this.props.children)));},
-
-
-
-
-
-
-
-open:function(){var _this6=this;
-if(this.props.isDisabled)return;
-if(!this.state.isAnimateOpen&&(!this.state.isOpen||this.state.isAnimateClose)){
-this.onViewLayoutCalculated=function(){
-_this6.setState({});
-_this6.animateOpen();};
-
-this.setState({isAnimateOpen:true});}},
-
-
-
-close:function(){
-if(this.props.isDisabled)return;
-if(!this.state.isAnimateClose&&(this.state.isOpen||this.state.isAnimateOpen)){
-this.animateClose();}}});
-
-
-
-
-
-
-module.exports=ModalBox;
+Modal;
 });
 __d('kanttiinit/views/Restaurants.js',function(global, require, module, exports) {  'use strict';Object.defineProperty(exports,"__esModule",{value:true});var _reactNative=require('react-native/Libraries/react-native/react-native.js');var _reactNative2=babelHelpers.interopRequireDefault(_reactNative);var _reactNativeMaterialKit=require('react-native-material-kit/lib/index.js');var _reactNativeMaterialKit2=babelHelpers.interopRequireDefault(_reactNativeMaterialKit);var _Restaurants=require('kanttiinit/managers/Restaurants.js');var _Restaurants2=babelHelpers.interopRequireDefault(_Restaurants);var _Service=require('kanttiinit/managers/Service.js');var _Service2=babelHelpers.interopRequireDefault(_Service);var _Loader=require('kanttiinit/components/Loader.js');var _Loader2=babelHelpers.interopRequireDefault(_Loader);var _HttpCache=require('kanttiinit/managers/HttpCache.js');var _HttpCache2=babelHelpers.interopRequireDefault(_HttpCache);var 
 
@@ -69885,4 +69659,4 @@ Restaurants;
 });
 ;require("InitializeJavaScriptAppEngine");
 ;require("kanttiinit/index.ios.js");
-__SSTOKENSTRING = "@generated SignedSource<<8047e7d842a0f7abf5f39e50ceb5aca7>>";
+__SSTOKENSTRING = "@generated SignedSource<<bff7986bdea20dfe0a1154083f54f961>>";

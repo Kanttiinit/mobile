@@ -21,11 +21,14 @@ export default {
    setStoredFavorites(f) {
       return AsyncStorage.setItem('storedFavorites', JSON.stringify(f));
    },
-   addFavorite(f) {
+   addFavorite(name) {
+      name = name.toLowerCase();
       return this.getStoredFavorites()
       .then(storedFavorites => {
-         storedFavorites.push({name: f});
-         return this.setStoredFavorites(storedFavorites);
+         if (!storedFavorites.some(f => f.name === name)) {
+            storedFavorites.push({name});
+            return this.setStoredFavorites(storedFavorites);
+         }
       });
    },
    removeFavorite(name) {

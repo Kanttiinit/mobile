@@ -170,6 +170,7 @@ class Favorites extends Component {
          fontSize: 26
       },
       foodTitle: {
+         fontWeight: '300',
          fontSize: 20,
          textAlign: 'center',
          flex: 4,

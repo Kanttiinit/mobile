@@ -164,7 +164,8 @@ class Favorites extends Component {
          justifyContent: 'center',
          alignItems: 'center',
          paddingRight: 10,
-         paddingLeft: 15
+         paddingLeft: 15,
+         paddingVertical: 10
       },
       heartIcon: {
          fontSize: 26
@@ -173,8 +174,7 @@ class Favorites extends Component {
          fontWeight: '300',
          fontSize: 20,
          textAlign: 'center',
-         flex: 4,
-         paddingVertical: 14
+         flex: 1
       },
       removeButton: {
          width: 32,

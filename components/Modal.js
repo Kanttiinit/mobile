@@ -15,7 +15,6 @@ class Modal extends Component {
    constructor() {
       super();
 
-      this
       this.state = {
          opacity: new Animated.Value(0),
          scale: new Animated.Value(0.8),

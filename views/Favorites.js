@@ -200,6 +200,7 @@ class Favorites extends Component {
          backgroundColor: MKColor.Silver
       },
       textField: {
+         height: 40,
          width: 200
       }
    });

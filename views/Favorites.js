@@ -101,7 +101,7 @@ class Favorites extends Component {
                style={styles.favoriteList}
                scrollsToTop={true} />
             : <Loader color={MKColor.Teal} />}
-            {favorites && !favorites._cachedRowCount ? <Text style={{alignSelf: 'center', flex: 1}}>Ei suosikkeja.</Text> : null}
+            {favorites && !favorites._cachedRowCount ? <Text style={{alignSelf: 'center', flex: 1, color: MKColor.Grey}}>Ei suosikkeja.</Text> : null}
             <MKButton
                style={styles.fab}
                fab={true}

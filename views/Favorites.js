@@ -64,11 +64,12 @@ class Favorites extends Component {
    openModal() {
       this.refs.modal.open();
    }
-   addFavorite(name) {
+   addFavorite() {
+      const name = this.state.text;
       if (name && name.length > 2) {
-         this.refs.modal.close();
          FavoritesManager.addFavorite(name)
          .then(() => this.updateFavorites());
+         this.refs.modal.close();
          this.setState({text: undefined});
       }
    }
@@ -109,11 +110,12 @@ class Favorites extends Component {
 
             <Modal
                ref="modal"
-               style={[styles.modal, keyboard && {marginTop: -150}]}>
+               onClosed={this.addFavorite.bind(this)}
+               style={styles.modal}>
                <View style={styles.modalTitle}><Text style={styles.modalTitleText}>Uusi suosikki</Text></View>
                <MKTextField
+                  value={this.state.text}
                   clearButtonMode='while-editing'
-                  ref="favoriteName"
                   highlightColor={MKColor.Teal}
                   textInputStyle={{color: MKColor.Black, fontSize: 18}}
                   floatingLabelEnabled={true}
@@ -122,7 +124,7 @@ class Favorites extends Component {
                   placeholder="Ruoan nimi" />
                <MKButton
                   style={styles.addButton}
-                  onPress={this.addFavorite.bind(this, this.state.text)}>
+                  onPress={() => this.refs.modal.close()}>
                   <Text style={styles.addText}> LISÄÄ </Text>
                </MKButton>
             </Modal>

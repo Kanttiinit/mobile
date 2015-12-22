@@ -32,6 +32,13 @@ class Modal extends Component {
          this.state.scale,
          {toValue: toValue ? 1 : 0.8}
       ).start();
+
+      setTimeout(() => {
+         if (toValue && this.props.onOpened)
+            this.props.onOpened();
+         else if (this.props.onClosed)
+            this.props.onClosed();
+      }, 200);
    }
    render() {
       const {opacity, open, scale, offset} = this.state;

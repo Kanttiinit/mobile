@@ -70,8 +70,9 @@ class Favorites extends Component {
          FavoritesManager.addFavorite(name)
          .then(() => this.updateFavorites());
          this.refs.modal.close();
-         this.setState({text: undefined});
       }
+      this.setState({text: undefined});
+      this.refs.textField.refs.input.blur();
    }
    removeFavorite(name) {
       FavoritesManager.removeFavorite(name)
@@ -114,6 +115,7 @@ class Favorites extends Component {
                style={styles.modal}>
                <View style={styles.modalTitle}><Text style={styles.modalTitleText}>Uusi suosikki</Text></View>
                <MKTextField
+                  ref="textField"
                   value={this.state.text}
                   clearButtonMode='while-editing'
                   highlightColor={MKColor.Teal}

@@ -155,10 +155,10 @@ class Menu extends React.Component {
                <Text style={[styles.dayTitle, textColor]}>
                   {date.format('dddd')}
                </Text>
-               <Text style={[styles.date, textColor]}>{date.format('DD.MM.')}</Text>
             </View>
             <ListView
-               initialListSize={6}
+               initialListSize={2}
+               pageSize={3}
                dataSource={dataSource.cloneWithRows(restaurants)}
                renderRow={restaurant =>
                   <Restaurant date={date} restaurant={restaurant} openModal={this.openModal.bind(this)} />} />
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
    restaurantHeader: {
       flexDirection: 'row',
       alignItems: 'center',
-      backgroundColor: '#8e8e8e',
+      backgroundColor: '#7c7c7c',
       padding: 8
    },
    course: {

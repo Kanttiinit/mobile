@@ -41,10 +41,12 @@ class Restaurant extends React.Component {
    render() {
       const {date, restaurant, openModal} = this.props;
       const courses = restaurant.courses;
+      const isToday = moment().isSame(date, 'day');
+      const restaurantHeaderColor = restaurant.isOpen ? MKColor.Teal : '#D32F2F';
       return (
          <View style={[MKCardStyles.card, styles.restaurant]}>
 
-            <View style={[styles.restaurantHeader, !restaurant.isOpen && moment().isSame(date, 'day') && {backgroundColor: '#D32F2F'}]}>
+            <View style={[styles.restaurantHeader, isToday && {backgroundColor: restaurantHeaderColor}]}>
                <View>
                   <Text style={{fontSize: 14, color: '#fff'}}>{restaurant.name}</Text>
                   {restaurant.distance ?
@@ -146,13 +148,14 @@ class Menu extends React.Component {
    renderDay(date) {
       const restaurants = Service.formatRestaurants(this.state.restaurants, date, this.state.favorites);
       const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+      const textColor = !date.isSame(moment(), 'day') && {color: MKColor.Grey};
       return (
          <View key={date} style={{flex: 1, paddingBottom: 75}}>
             <View style={styles.daySelector}>
-               <Text style={[styles.dayTitle, !date.isSame(moment(), 'day') && {color: MKColor.Grey}]}>
+               <Text style={[styles.dayTitle, textColor]}>
                   {date.format('dddd')}
                </Text>
-               <Text style={styles.date}>{date.format('DD.MM.')}</Text>
+               <Text style={[styles.date, textColor]}>{date.format('DD.MM.')}</Text>
             </View>
             <ListView
                initialListSize={6}
@@ -206,8 +209,7 @@ const styles = StyleSheet.create({
       position: 'absolute',
       right: 14,
       top: 16,
-      fontSize: 12,
-      color: MKColor.Grey
+      fontSize: 12
    },
    dayChangeButton: {
       padding: 8
@@ -221,7 +223,7 @@ const styles = StyleSheet.create({
    restaurantHeader: {
       flexDirection: 'row',
       alignItems: 'center',
-      backgroundColor: MKColor.Teal,
+      backgroundColor: '#8e8e8e',
       padding: 8
    },
    course: {

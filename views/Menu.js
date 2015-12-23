@@ -3,6 +3,7 @@
 import React from 'react-native';
 import Material from 'react-native-material-kit';
 import moment from 'moment';
+import momentFI from 'moment/locale/fi';
 import Swiper from 'react-native-swiper2';
 import Service from '../managers/Service';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -148,7 +149,10 @@ class Menu extends React.Component {
       return (
          <View key={date} style={{flex: 1, paddingBottom: 75}}>
             <View style={styles.daySelector}>
-               <Text style={styles.dayTitle}>{date.format('dddd DD.MM.')}</Text>
+               <Text style={[styles.dayTitle, !date.isSame(moment(), 'day') && {color: MKColor.Grey}]}>
+                  {date.format('dddd')}
+               </Text>
+               <Text style={styles.date}>{date.format('DD.MM.')}</Text>
             </View>
             <ListView
                initialListSize={6}
@@ -176,7 +180,7 @@ class Menu extends React.Component {
             {restaurants && loading ?
                <mdl.Spinner
                   strokeColor={MKColor.Teal}
-                  style={{position: 'absolute', top: 10, right: 10, transform: [{scale: 0.7}]}} />
+                  style={{position: 'absolute', top: 10, left: 10, transform: [{scale: 0.7}]}} />
             : null}
          </View>
       );
@@ -193,10 +197,17 @@ const styles = StyleSheet.create({
       padding: 10
    },
    dayTitle: {
-      flex: 1,
       fontSize: 20,
-      textAlign: 'center',
-      fontWeight: '300'
+      fontWeight: '300',
+      flex: 1,
+      textAlign: 'center'
+   },
+   date: {
+      position: 'absolute',
+      right: 14,
+      top: 16,
+      fontSize: 12,
+      color: MKColor.Grey
    },
    dayChangeButton: {
       padding: 8

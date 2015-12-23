@@ -88,9 +88,10 @@ class Menu extends React.Component {
    constructor() {
       super();
 
-      this.state = {
-         days: Array(7).fill(1).map((n, i) => moment().add(i, 'days'))
-      };
+      this.state = {days: this.getDays()};
+   }
+   getDays() {
+      return Array(7).fill(1).map((n, i) => moment().add(i, 'days'));
    }
    componentDidMount() {
       AppStateIOS.addEventListener('change', this.handleStateChange.bind(this));
@@ -99,13 +100,16 @@ class Menu extends React.Component {
       this.update();
    }
    handleStateChange(currentAppState) {
-      if (currentAppState == 'active') {
+      if (currentAppState === 'active') {
          this.update();
       }
    }
    update() {
       if (this.state.loading)
-      return;
+         return;
+
+      if (!this.state.days[0].isSame(moment(), 'day'))
+         this.setState({days: this.getDays()});
 
       // shit is loading, yo
       this.setState({loading: true});

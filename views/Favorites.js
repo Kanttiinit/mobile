@@ -3,7 +3,7 @@
 import React from 'react-native';
 import Material from 'react-native-material-kit';
 import FavoritesManager from '../managers/Favorites';
-import Modal from '../components/Modal';
+import Modal from 'react-native-simple-modal';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Loader from '../components/Loader';
 

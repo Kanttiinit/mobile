@@ -11,7 +11,8 @@ const {
    Text,
    ListView,
    View,
-   StyleSheet
+   StyleSheet,
+   Platform
 } = React;
 
 const {
@@ -111,7 +112,9 @@ const styles = StyleSheet.create({
    },
    areaTitle: {
       fontSize: 20,
-      color: '#fff'
+      color: '#fff',
+      fontWeight: '300',
+      fontFamily: Platform.OS === 'android' && 'sans-serif-light'
    },
    restaurant: {
       marginLeft: 6,

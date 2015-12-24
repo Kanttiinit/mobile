@@ -10,7 +10,7 @@
     "moment": "^2.10.6",
     "react-native": "^0.17.0",
     "react-native-material-kit": "^0.2.4",
-    "react-native-simple-modal": "^1.0.2",
+    "react-native-simple-modal": "^1.0.3",
     "react-native-swiper2": "github:sunnylqm/react-native-swiper2",
     "react-native-vector-icons": "^1.0.1"
   }

@@ -13,7 +13,8 @@ const {
    ListView,
    StyleSheet,
    Component,
-   DeviceEventEmitter
+   DeviceEventEmitter,
+   Platform
 } = React;
 
 const {
@@ -176,7 +177,8 @@ class Favorites extends Component {
          fontWeight: '300',
          fontSize: 20,
          textAlign: 'center',
-         flex: 1
+         flex: 1,
+         fontFamily: Platform.OS === 'android' && 'sans-serif-light'
       },
       removeButton: {
          width: 32,
@@ -190,30 +192,25 @@ class Favorites extends Component {
       modal: {
          borderRadius: 2,
          margin: 20,
+         padding: 14,
          backgroundColor: MKColor.Silver
       },
       modalTitle: {
-         borderRadius: 2,
-         padding: 12
+         marginBottom: 20
       },
       modalTitleText: {
-         marginTop: 8,
-         marginLeft: 8,
          color: 'black',
          fontSize: 18
       },
       textField: {
-         height: 40,
-         margin: 20,
+         height: 48,
          marginBottom: 40
       },
       addButton: {
          backgroundColor: MKColor.Teal,
          alignSelf: 'flex-end',
          borderRadius: 2,
-         padding: 6,
-         marginRight: 16,
-         marginBottom: 16
+         padding: 6
       },
       addText: {
          color: 'white',

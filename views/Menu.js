@@ -21,7 +21,8 @@ const {
    StyleSheet,
    Dimensions,
    DeviceEventEmitter,
-   AppStateIOS
+   AppStateIOS,
+   Platform
 } = React;
 
 const {
@@ -97,7 +98,9 @@ class Menu extends React.Component {
       return Array(7).fill(1).map((n, i) => moment().add(i, 'days'));
    }
    componentDidMount() {
-      AppStateIOS.addEventListener('change', this.handleStateChange.bind(this));
+      if (Platform.OS === 'ios')
+         AppStateIOS.addEventListener('change', this.handleStateChange.bind(this));
+      
       DeviceEventEmitter.addListener('start', this.update.bind(this));
       this.props.events.on('MENU', this.update.bind(this));
       this.update();
@@ -148,12 +151,12 @@ class Menu extends React.Component {
    renderDay(date) {
       const restaurants = Service.formatRestaurants(this.state.restaurants, date, this.state.favorites);
       const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-      const textColor = !date.isSame(moment(), 'day') && {color: MKColor.Grey};
       return (
          <View key={date} style={{flex: 1, paddingBottom: 75}}>
             <View style={styles.daySelector}>
-               <Text style={[styles.dayTitle, textColor]}>
-                  {date.format('dddd')}
+               <Text style={styles.dayTitle}>
+                  {date.format('dddd').toUpperCase()}
+                  <Text style={styles.date}> {date.format('DD.MM.')}</Text>
                </Text>
             </View>
             <ListView
@@ -183,7 +186,7 @@ class Menu extends React.Component {
             {restaurants && loading ?
                <mdl.Spinner
                   strokeColor={MKColor.Teal}
-                  style={{position: 'absolute', top: 10, left: 10, transform: [{scale: 0.7}]}} />
+                  style={{position: 'absolute', top: 10, right: 10, transform: [{scale: 0.7}]}} />
             : null}
          </View>
       );
@@ -197,19 +200,16 @@ const styles = StyleSheet.create({
    },
    daySelector: {
       flexDirection: 'row',
-      padding: 10
+      padding: 14
    },
    dayTitle: {
       fontSize: 20,
       fontWeight: '300',
       flex: 1,
-      textAlign: 'center'
+      fontFamily: Platform.OS === 'android' && 'sans-serif-light'
    },
    date: {
-      position: 'absolute',
-      right: 14,
-      top: 16,
-      fontSize: 12
+      color: '#bababa'
    },
    dayChangeButton: {
       padding: 8

@@ -4,7 +4,7 @@ import React from 'react-native';
 import Material from 'react-native-material-kit';
 import moment from 'moment';
 import momentFI from 'moment/locale/fi';
-import Swiper from 'react-native-swiper2';
+import Swiper from '../components/Swiper';
 import Service from '../managers/Service';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Loader from '../components/Loader';
@@ -152,7 +152,7 @@ class Menu extends React.Component {
       const restaurants = Service.formatRestaurants(this.state.restaurants, date, this.state.favorites);
       const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
       return (
-         <View key={date} style={{flex: 1, paddingBottom: 75}}>
+         <View key={date} style={{flex: 1}}>
             <View style={styles.daySelector}>
                <Text style={styles.dayTitle}>
                   {date.format('dddd').toUpperCase()}

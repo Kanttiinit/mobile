@@ -178,7 +178,7 @@ class Favorites extends Component {
          fontSize: 20,
          textAlign: 'center',
          flex: 1,
-         fontFamily: Platform.OS === 'android' && 'sans-serif-light'
+         fontFamily: Platform.OS === 'android' ? 'sans-serif-light' : undefined
       },
       removeButton: {
          width: 32,

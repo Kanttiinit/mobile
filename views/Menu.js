@@ -100,7 +100,7 @@ class Menu extends React.Component {
    componentDidMount() {
       if (Platform.OS === 'ios')
          AppStateIOS.addEventListener('change', this.handleStateChange.bind(this));
-      
+
       DeviceEventEmitter.addListener('start', this.update.bind(this));
       this.props.events.on('MENU', this.update.bind(this));
       this.update();
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
       fontSize: 20,
       fontWeight: '300',
       flex: 1,
-      fontFamily: Platform.OS === 'android' && 'sans-serif-light'
+      fontFamily: Platform.OS === 'android' ? 'sans-serif-light' : undefined
    },
    date: {
       color: '#bababa'

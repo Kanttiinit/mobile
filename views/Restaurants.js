@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
       fontSize: 20,
       color: '#fff',
       fontWeight: '300',
-      fontFamily: Platform.OS === 'android' && 'sans-serif-light'
+      fontFamily: Platform.OS === 'android' ? 'sans-serif-light' : undefined
    },
    restaurant: {
       marginLeft: 6,

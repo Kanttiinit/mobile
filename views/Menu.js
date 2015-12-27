@@ -176,17 +176,13 @@ class Menu extends React.Component {
       const course = this.state.course || {};
       return (
          <View style={styles.container}>
-            {restaurants && favorites ?
-               <Swiper
-                  showsPagination={false}
-                  loop={false}>
-                  {days.map(date => this.renderDay(date))}
-               </Swiper>
+            {restaurants && favorites
+            ? <Swiper>{days.map(date => this.renderDay(date))}</Swiper>
             : <Loader color={MKColor.Teal} />}
             {restaurants && loading ?
                <mdl.Spinner
                   strokeColor={MKColor.Teal}
-                  style={{position: 'absolute', top: 10, right: 10, transform: [{scale: 0.7}]}} />
+                  style={{position: 'absolute', top: 14, right: 14, transform: [{scale: 0.7}]}} />
             : null}
          </View>
       );

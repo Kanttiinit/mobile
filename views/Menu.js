@@ -114,11 +114,11 @@ class Menu extends React.Component {
       if (this.state.loading)
          return;
 
-      if (!this.state.days[0].isSame(moment(), 'day'))
-         this.setState({days: this.getDays()});
-
       // shit is loading, yo
       this.setState({loading: true});
+
+      if (!this.state.days[0].isSame(moment(), 'day'))
+         this.setState({days: this.getDays()});
 
       // fetch favorites
       Favorites.getStoredFavorites()
@@ -148,11 +148,11 @@ class Menu extends React.Component {
          console.error(err);
       });
    }
-   renderDay(date) {
+   renderDay(date, i) {
       const restaurants = Service.formatRestaurants(this.state.restaurants, date, this.state.favorites);
       const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
       return (
-         <View key={date} style={{flex: 1}}>
+         <View key={i} style={{flex: 1}}>
             <View style={styles.daySelector}>
                <Text style={styles.dayTitle}>
                   {date.format('dddd').toUpperCase()}
@@ -177,7 +177,7 @@ class Menu extends React.Component {
       return (
          <View style={styles.container}>
             {restaurants && favorites
-            ? <Swiper>{days.map(date => this.renderDay(date))}</Swiper>
+            ? <Swiper>{days.map((date, i) => this.renderDay(date, i))}</Swiper>
             : <Loader color={MKColor.Teal} />}
             {restaurants && loading ?
                <mdl.Spinner

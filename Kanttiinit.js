@@ -27,13 +27,15 @@ const {
 class TabButton extends React.Component {
    render() {
       const {data, changeScene, parent, current, icon} = this.props;
+      const textColor = current ? MKColor.Teal : '#666666';
+      const backgroundColor = current ? '#e3e0e0' : MKColor.Silver;
       return (
          <MKButton
             rippleColor="rgba(0, 150, 136, 0.1)"
-            backgroundColor={current ? '#e3e0e0' : MKColor.Silver}
+            backgroundColor={backgroundColor}
             onPress={() => changeScene(data)} style={styles.tabButton}>
-            <Icon name={icon} size={18} color={current ? MKColor.Teal : '#666666'} />
-            <Text style={{fontSize: 12, color: current ? MKColor.Teal : '#666666'}}>{data.title}</Text>
+            <Icon name={icon} size={18} color={textColor} />
+            <Text style={{fontSize: 12, color: textColor}}>{data.title}</Text>
          </MKButton>
       );
    }

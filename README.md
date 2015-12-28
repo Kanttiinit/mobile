@@ -1,9 +1,9 @@
 # Kanttiinit
-Uudenlainen ruokalistasovellus.
+Kampusten ruokalistat mobiilissa.
 
 ## Kuvaus
-Kanttiinit tarjoaa nimensä mukaan listan valitsemiesi ruokaloiden menuista. Lisää sovellukseen suosikkiruokasi ja näet nopealla vilkaisulla jos lempiateriasi on tarjolla jossakin ruokalassa!
+Kanttiinit listaa valitsemiesi ruokaloiden menut. Lisää sovellukseen suosikkiruokasi ja näet nopealla vilkaisulla jos lempiateriasi on tarjolla jossakin ruokalassa!
 
-Tällä hetkellä ainoastaan Otaniemen alueen ruokalat ovat saatavilla. Haluatko oman alueesi sovellukseen? Ota yhteyttä: max@kanttiinit.fi tai jere@kanttiinit.fi
+Tällä hetkellä ainoastaan Otaniemen kampuksen ruokalat ovat saatavilla. Haluatko oman alueesi sovellukseen? Ota yhteyttä: yhteys@kanttiinit.fi
 
 Sovellus ei kerää käyttäjältä mitään tietoja. Sovelluksen lähdekoodi löytyy osoitteesta http://github.com/Kanttiinit

@@ -15,7 +15,8 @@ class Property extends Component {
          'G': 'gluteeniton',
          'VS': 'vähäsuolainen',
          'M': 'maidoton',
-         'VL': 'vähälaktoosinen'
+         'VL': 'vähälaktoosinen',
+         'A': 'sisältää allergeenejä'
       };
 
       if (p in names)

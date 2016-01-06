@@ -180,10 +180,12 @@ class Menu extends React.Component {
       const course = this.course || {};
       return (
          <View>
-            <Text style={{fontSize: 18, fontWeight: '300'}}>{course.title}</Text>
-            {course.properties ?
-               course.properties.map(p => <Property key={p} containerStyle={{marginTop: 8}} large={true}>{p}</Property>)
-               : null}
+            <Text style={{fontSize: 18, fontWeight: '300', backgroundColor: MKColor.Teal, color: 'white', padding: 10}}>{course.title}</Text>
+            <View style={{padding: 10}}>
+               {course.properties ?
+                  course.properties.map(p => <Property key={p} containerStyle={{marginTop: 8}} large={true}>{p}</Property>)
+                  : null}
+            </View>
          </View>
       );
    }
@@ -201,6 +203,7 @@ class Menu extends React.Component {
             : null}
             <Modal
                ref="modal"
+               style={{padding: 0}}
                renderContent={this.renderModalContent.bind(this)} />
          </View>
       );

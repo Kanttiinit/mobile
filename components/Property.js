@@ -9,6 +9,9 @@ const {
 } = React;
 
 class Property extends Component {
+   shouldComponentUpdate() {
+      return false;
+   }
    getName(p) {
       const names = {
          'L': 'laktoositon',

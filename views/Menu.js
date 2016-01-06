@@ -78,7 +78,7 @@ class Restaurant extends React.Component {
             : courses.map((course, i) =>
                <MKButton
                   onPress={() => courseSelected(course, restaurant)}
-                  key={course.title}
+                  key={i}
                   rippleColor='rgba(200, 200, 200, 0.25)'
                   style={{backgroundColor: course.favorite ? '#f7eaea' : undefined}}>
                   <View style={[styles.course, i > 0 && styles.borderTop]}>
@@ -190,8 +190,17 @@ class Menu extends React.Component {
                   course.properties.map(p => <Property key={p} containerStyle={{marginTop: 8}} large={true}>{p}</Property>)
                   : null}
             </View>
-            <View>
-               <Text style={{color: '#777', padding: 8, backgroundColor: '#ddd'}}>{course.restaurant.name}</Text>
+            <View style={{padding: 8, backgroundColor: '#ddd', alignItems: 'center', flexDirection: 'row'}}>
+               <Text style={{color: '#777', flex: 1}}>{course.restaurant.name}</Text>
+               <MKButton
+                  onPress={() => this.refs.modal.close()}
+                  style={{
+                     backgroundColor: MKColor.Teal,
+                     padding: 4,
+                     borderRadius: 2
+                  }}>
+                  <Text style={{fontSize: 12, color: 'white', fontWeight: 'bold'}}>SULJE</Text>
+               </MKButton>
             </View>
          </View>
       );

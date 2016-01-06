@@ -73,7 +73,6 @@ class Favorites extends Component {
          this.refs.modal.close();
       }
       this.setState({text: undefined});
-      this.refs.textField.refs.input.blur();
    }
    removeFavorite(name) {
       FavoritesManager.removeFavorite(name)
@@ -87,6 +86,27 @@ class Favorites extends Component {
          this.setState({favorites: dataSource.cloneWithRows(favorites)});
       })
       .catch(err => console.error(err));
+   }
+   renderModalContent() {
+      return (
+         <View>
+            <View style={styles.modalTitle}><Text style={styles.modalTitleText}>Uusi suosikki</Text></View>
+            <MKTextField
+               value={this.state.text}
+               clearButtonMode='while-editing'
+               highlightColor={MKColor.Teal}
+               textInputStyle={{color: MKColor.Black, fontSize: 18}}
+               floatingLabelEnabled={true}
+               onChangeText={text => this.setState({text})}
+               style={styles.textField}
+               placeholder="Ruoan nimi" />
+            <MKButton
+               style={styles.addButton}
+               onPress={() => this.refs.modal.close()}>
+               <Text style={styles.addText}> LISÄÄ </Text>
+            </MKButton>
+         </View>
+      );
    }
    render() {
       const {favorites, keyboard} = this.state;
@@ -113,24 +133,8 @@ class Favorites extends Component {
             <Modal
                ref="modal"
                modalDidClose={this.addFavorite.bind(this)}
-               style={styles.modal}>
-               <View style={styles.modalTitle}><Text style={styles.modalTitleText}>Uusi suosikki</Text></View>
-               <MKTextField
-                  ref="textField"
-                  value={this.state.text}
-                  clearButtonMode='while-editing'
-                  highlightColor={MKColor.Teal}
-                  textInputStyle={{color: MKColor.Black, fontSize: 18}}
-                  floatingLabelEnabled={true}
-                  onChangeText={text => this.setState({text})}
-                  style={styles.textField}
-                  placeholder="Ruoan nimi" />
-               <MKButton
-                  style={styles.addButton}
-                  onPress={() => this.refs.modal.close()}>
-                  <Text style={styles.addText}> LISÄÄ </Text>
-               </MKButton>
-            </Modal>
+               style={styles.modal}
+               renderContent={this.renderModalContent.bind(this)} />
          </View>
       );
       }

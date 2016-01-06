@@ -173,12 +173,22 @@ class Menu extends React.Component {
       );
    }
    courseSelected(course) {
-      this.setState({course});
+      this.course = course;
       this.refs.modal.open();
+   }
+   renderModalContent() {
+      const course = this.course || {};
+      return (
+         <View>
+            <Text style={{fontSize: 18, fontWeight: '300'}}>{course.title}</Text>
+            {course.properties ?
+               course.properties.map(p => <Property key={p} containerStyle={{marginTop: 8}} large={true}>{p}</Property>)
+               : null}
+         </View>
+      );
    }
    render() {
       const {restaurants, favorites, days, loading} = this.state;
-      const course = this.state.course || {};
       return (
          <View style={styles.container}>
             {restaurants && favorites
@@ -189,12 +199,9 @@ class Menu extends React.Component {
                   strokeColor={MKColor.Teal}
                   style={{position: 'absolute', top: 14, right: 14, transform: [{scale: 0.7}]}} />
             : null}
-            <Modal ref="modal">
-               <Text style={{fontSize: 18, fontWeight: '300'}}>{course.title}</Text>
-               {course.properties ?
-                  course.properties.map(p => <Property key={p} containerStyle={{marginTop: 8}} large={true}>{p}</Property>)
-                  : null}
-            </Modal>
+            <Modal
+               ref="modal"
+               renderContent={this.renderModalContent.bind(this)} />
          </View>
       );
    }

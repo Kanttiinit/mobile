@@ -21,7 +21,7 @@ class Property extends Component {
       if (p in names)
          return names[p];
 
-      return '???';
+      return '';
    }
    getColor(p) {
       const colors = {

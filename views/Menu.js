@@ -10,6 +10,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Loader from '../components/Loader';
 import Favorites from '../managers/Favorites';
 
+import Modal from 'react-native-simple-modal';
 import Property from '../components/Property';
 
 moment.locale('fi');
@@ -40,7 +41,7 @@ class Restaurant extends React.Component {
       return distance < 1000 ? distance + ' m' : (distance / 1000).toFixed(1) + ' km';
    }
    render() {
-      const {date, restaurant, openModal} = this.props;
+      const {date, restaurant, openModal, courseSelected} = this.props;
       const courses = restaurant.courses;
       const isToday = moment().isSame(date, 'day');
       const restaurantHeaderColor = restaurant.isOpen ? MKColor.Teal : '#D32F2F';
@@ -75,13 +76,16 @@ class Restaurant extends React.Component {
                   <Text style={{color: MKColor.Grey, fontSize: 12, textAlign: 'center'}}>Ei menua saatavilla.</Text>
                </View>
             : courses.map((course, i) =>
-               <View key={course.title} style={{backgroundColor: course.favorite ? '#f7eaea' : undefined}}>
+               <MKButton
+                  onPress={() => courseSelected(course)}
+                  key={course.title}
+                  style={{backgroundColor: course.favorite ? '#f7eaea' : undefined}}>
                   <View style={[styles.course, i > 0 && styles.borderTop]}>
                      {course.favorite ? <Icon style={{marginRight: 6}} color='#fc5151' name='android-favorite' /> : null}
                      <Text key={course.title} style={{flex: 1, fontSize: 12}}>{course.title}</Text>
                      {course.properties ? course.properties.map(p => <Property style={{marginLeft: 2}} key={p}>{p}</Property>) : null}
                   </View>
-               </View>
+               </MKButton>
             )}
          </View>
       );
@@ -164,11 +168,12 @@ class Menu extends React.Component {
                pageSize={3}
                dataSource={dataSource.cloneWithRows(restaurants)}
                renderRow={restaurant =>
-                  <Restaurant date={date} restaurant={restaurant} openModal={this.openModal.bind(this)} />} />
+                  <Restaurant date={date} restaurant={restaurant} courseSelected={this.courseSelected.bind(this)} />} />
          </View>
       );
    }
-   openModal(course) {
+   courseSelected(course) {
+      this.setState({course});
       this.refs.modal.open();
    }
    render() {
@@ -184,6 +189,12 @@ class Menu extends React.Component {
                   strokeColor={MKColor.Teal}
                   style={{position: 'absolute', top: 14, right: 14, transform: [{scale: 0.7}]}} />
             : null}
+            <Modal ref="modal">
+               <Text style={{fontSize: 18, fontWeight: '300'}}>{course.title}</Text>
+               {course.properties ?
+                  course.properties.map(p => <Property key={p} containerStyle={{marginTop: 8}} large={true}>{p}</Property>)
+                  : null}
+            </Modal>
          </View>
       );
    }

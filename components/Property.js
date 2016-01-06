@@ -26,6 +26,7 @@ class Property extends Component {
    render() {
       const p = this.props.children;
       const size = this.props.size || 16;
+      const color = this.getColor(p);
       return (
          <View key={p} style={{
                ...this.props.style,
@@ -34,8 +35,11 @@ class Property extends Component {
                borderRadius: size / 2,
                alignItems: 'center',
                justifyContent: 'center',
-               backgroundColor: this.getColor(p)}}>
-            <Text style={{fontSize: 8, fontWeight: 'bold', color: '#fff'}}>{p}</Text>
+               backgroundColor: '#eee',
+               borderColor: color,
+               borderWidth: 1
+            }}>
+            <Text style={{fontSize: 8, fontWeight: 'bold', color, backgroundColor: 'transparent'}}>{p}</Text>
          </View>
       );
    }

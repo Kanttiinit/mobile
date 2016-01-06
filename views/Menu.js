@@ -77,8 +77,9 @@ class Restaurant extends React.Component {
                </View>
             : courses.map((course, i) =>
                <MKButton
-                  onPress={() => courseSelected(course)}
+                  onPress={() => courseSelected(course, restaurant)}
                   key={course.title}
+                  rippleColor='rgba(200, 200, 200, 0.25)'
                   style={{backgroundColor: course.favorite ? '#f7eaea' : undefined}}>
                   <View style={[styles.course, i > 0 && styles.borderTop]}>
                      {course.favorite ? <Icon style={{marginRight: 6}} color='#fc5151' name='android-favorite' /> : null}
@@ -172,19 +173,25 @@ class Menu extends React.Component {
          </View>
       );
    }
-   courseSelected(course) {
-      this.course = course;
+   courseSelected(course, restaurant) {
+      this.selectedCourse = course;
+      this.selectedCourse.restaurant = restaurant;
       this.refs.modal.open();
    }
    renderModalContent() {
-      const course = this.course || {};
+      const course = this.selectedCourse || {};
       return (
          <View>
-            <Text style={{fontSize: 18, fontWeight: '300', backgroundColor: MKColor.Teal, color: 'white', padding: 10}}>{course.title}</Text>
-            <View style={{padding: 10}}>
+            <View style={{backgroundColor: MKColor.Teal, padding: 10}}>
+               <Text style={{fontSize: 18, fontWeight: '300', color: 'white'}}>{course.title}</Text>
+            </View>
+            <View style={{padding: 10, paddingTop: 0}}>
                {course.properties ?
                   course.properties.map(p => <Property key={p} containerStyle={{marginTop: 8}} large={true}>{p}</Property>)
                   : null}
+            </View>
+            <View>
+               <Text style={{color: '#777', padding: 8, backgroundColor: '#ddd'}}>{course.restaurant.name}</Text>
             </View>
          </View>
       );

@@ -35,7 +35,6 @@ class Property extends Component {
                borderRadius: size / 2,
                alignItems: 'center',
                justifyContent: 'center',
-               backgroundColor: '#eee',
                borderColor: color,
                borderWidth: 1
             }}>

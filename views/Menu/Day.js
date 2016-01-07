@@ -1,12 +1,9 @@
 'use strict';
 
 import React from 'react-native';
-
 import moment from 'moment';
-import momentFI from 'moment/locale/fi';
 
 import Service from '../../managers/Service';
-
 import Restaurant from './Restaurant';
 
 const {
@@ -14,7 +11,6 @@ const {
    Text,
    ListView,
    Component,
-   StyleSheet,
    Platform
 } = React;
 
@@ -25,7 +21,6 @@ class Day extends Component {
       this.state = {
          restaurants: []
       };
-      moment.locale('fi');
    }
    componentDidMount() {
       this.update(this.props);
@@ -41,6 +36,7 @@ class Day extends Component {
       });
    }
    shouldComponentUpdate(nextProps) {
+      return true;
       if (nextProps.restaurants && this.state.order) {
          const newSort = Service.formatRestaurants(nextProps.restaurants, nextProps.date, nextProps.favorites).map(r => r.id);
          return newSort.join(',') === this.state.order.join(',');
@@ -50,40 +46,16 @@ class Day extends Component {
    }
    render() {
       const {date, favorites} = this.props;
-      const {restaurants} = this.state;
+      const {restaurants, currentPage} = this.state;
       return (
-         <View style={{flex: 1}}>
-            <View style={styles.daySelector}>
-               <Text style={styles.dayTitle}>
-                  {date.format('dddd').toUpperCase()}
-                  <Text style={styles.date}> {date.format('DD.MM.')}</Text>
-               </Text>
-            </View>
-            <ListView
-               initialListSize={2}
-               pageSize={3}
-               dataSource={this.dataSource.cloneWithRows(restaurants)}
-               renderRow={restaurant =>
-                  <Restaurant date={date} restaurant={restaurant} />} />
-         </View>
+         <ListView
+            initialListSize={2}
+            pageSize={3}
+            dataSource={this.dataSource.cloneWithRows(restaurants)}
+            renderRow={restaurant =>
+               <Restaurant date={date} restaurant={restaurant} />} />
       );
    }
 }
-
-const styles = StyleSheet.create({
-   daySelector: {
-      flexDirection: 'row',
-      padding: 14
-   },
-   dayTitle: {
-      fontSize: 20,
-      fontWeight: '300',
-      flex: 1,
-      fontFamily: Platform.OS === 'android' ? 'sans-serif-light' : undefined
-   },
-   date: {
-      color: '#bababa'
-   }
-});
 
 export default Day;

@@ -15,10 +15,18 @@ class Swiper extends Component {
    constructor() {
       super();
       this.state = {width: Dimensions.get('window').width};
+      this.iOS = Platform.OS === 'ios';
+   }
+   setPage(p) {
+      if (this.iOS) {
+         // implement
+      } else {
+         this.refs.viewPager.setPage(p);
+      }
    }
    render() {
       const {width} = this.state;
-      if (Platform.OS === 'ios')
+      if (this.iOS)
          return (
             <ScrollView
                contentContainerStyle={{flex: 1}}
@@ -34,8 +42,8 @@ class Swiper extends Component {
          );
 
       return (
-         <ViewPagerAndroid style={{flex: 1}}>
-            {this.props.children}
+         <ViewPagerAndroid ref="viewPager" style={{flex: 1}}>
+            {this.props.children.map((c, i) => <View key={i}>{c}</View>)}
          </ViewPagerAndroid>
       );
    }

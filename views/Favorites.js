@@ -47,6 +47,7 @@ class Favorite extends Component {
 class Favorites extends Component {
    constructor() {
       super();
+      this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
       this.state = {};
    }
    componentDidMount() {
@@ -82,8 +83,7 @@ class Favorites extends Component {
    updateFavorites() {
       FavoritesManager.getStoredFavorites()
       .then(favorites => {
-         const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-         this.setState({favorites: dataSource.cloneWithRows(favorites)});
+         this.setState({favorites: this.dataSource.cloneWithRows(favorites)});
       })
       .catch(err => console.error(err));
    }
@@ -92,7 +92,6 @@ class Favorites extends Component {
          <View>
             <View style={styles.modalTitle}><Text style={styles.modalTitleText}>Uusi suosikki</Text></View>
             <MKTextField
-               value={this.state.text}
                clearButtonMode='while-editing'
                highlightColor={MKColor.Teal}
                textInputStyle={{color: MKColor.Black, fontSize: 18}}

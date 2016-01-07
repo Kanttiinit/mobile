@@ -97,9 +97,6 @@ class Menu extends React.Component {
          console.error(err);
       });
    }
-   renderModalContent() {
-      return React.createElement(CourseDetails, {course: this.selectedCourse});
-   }
    render() {
       const {restaurants, favorites, days, loading} = this.state;
       return (
@@ -115,7 +112,7 @@ class Menu extends React.Component {
             <Modal
                ref="modal"
                style={{padding: 0}}
-               renderContent={this.renderModalContent.bind(this)} />
+               renderContent={() => React.createElement(CourseDetails, {course: this.selectedCourse})} />
          </View>
       );
    }

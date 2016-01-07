@@ -3,16 +3,15 @@
 import React from 'react-native';
 import Material from 'react-native-material-kit';
 import moment from 'moment';
-import momentFI from 'moment/locale/fi';
 import Swiper from '../components/Swiper';
 import Service from '../managers/Service';
 import Loader from '../components/Loader';
 import Favorites from '../managers/Favorites';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 import Modal from 'react-native-simple-modal';
 import Day from './Menu/Day';
 import CourseDetails from './Menu/CourseDetails';
+import DaySelector from './Menu/DaySelector';
 
 const {
    View,
@@ -20,86 +19,16 @@ const {
    AppStateIOS,
    Platform,
    DeviceEventEmitter,
-   Text,
-   Animated
+   Text
 } = React;
 
 const {
-   MKButton,
-   MKColor,
-   mdl
+   MKColor
 } = Material;
-
-class DaySelector extends React.Component {
-   constructor() {
-      super();
-      this.state = {
-         current: 0,
-         prevButtonScale: new Animated.Value(0),
-         nextButtonScale: new Animated.Value(1)
-      };
-   }
-   shouldComponentUpdate(props) {
-      return props.current !== this.state.current;
-   }
-   componentWillReceiveProps(props) {
-      this.setState({current: props.current});
-   }
-   change(p) {
-      const current = Math.min(this.props.dates.length - 1, Math.max(0, this.state.current + p));
-      this.props.onChange(current);
-      this.setState({current});
-   }
-   componentDidUpdate() {
-      Animated.spring(
-         this.state.prevButtonScale,
-         {toValue: this.state.current > 0 ? 1 : 0, friction: 5}
-      ).start();
-
-      Animated.spring(
-         this.state.nextButtonScale,
-         {toValue: this.state.current < this.props.dates.length - 1 ? 1 : 0}
-      ).start();
-   }
-   render() {
-      const {dates} = this.props;
-      const {current, prevButtonScale, nextButtonScale} = this.state;
-      const date = dates[current];
-      const showPrevious = current > 0;
-      const showNext = current < dates.length - 1;
-      return (
-         <View style={styles.daySelector}>
-            <Animated.View style={{transform: [{scale: prevButtonScale}]}}>
-               <MKButton
-                  onPress={this.change.bind(this, -1)}
-                  pointerEvents={showPrevious ? 'auto' : 'none'}
-                  style={styles.arrowButton}
-                  rippleColor="rgba(200, 200, 200, 0.25)">
-                  <Icon name="chevron-left" color="#999" />
-               </MKButton>
-            </Animated.View>
-            <Text style={styles.dayTitle}>
-               {date.format('dddd').toUpperCase()}
-               <Text style={styles.date}> {date.format('DD.MM.')}</Text>
-            </Text>
-            <Animated.View style={{transform: [{scale: nextButtonScale}]}}>
-               <MKButton
-                  onPress={this.change.bind(this, 1)}
-                  pointerEvents={showNext ? 'auto' : 'none'}
-                  style={styles.arrowButton}
-                  rippleColor="rgba(200, 200, 200, 0.25)">
-                  <Icon name="chevron-right" color="#999" />
-               </MKButton>
-            </Animated.View>
-         </View>
-      );
-   }
-}
 
 class Menu extends React.Component {
    constructor() {
       super();
-      moment.locale('fi');
       this.state = {
          days: this.getDays(),
          currentPage: 0
@@ -150,12 +79,10 @@ class Menu extends React.Component {
       // update restaurant list
       Service.getRestaurants()
       .then(restaurants => {
-         console.time('set state restaurants');
          this.setState({
-            restaurants: restaurants,
+            restaurants: Service.updateRestaurantDistances(restaurants, this.state.location),
             loading: false
          });
-         console.timeEnd('set state restaurants');
 
          // if no location is known, try to get it
          if (!this.state.location) {
@@ -164,7 +91,6 @@ class Menu extends React.Component {
                   location,
                   restaurants: Service.updateRestaurantDistances(this.state.restaurants, location)
                });
-               this.setState({loading: false});
             });
          }
       })
@@ -181,19 +107,15 @@ class Menu extends React.Component {
       const date = days[currentPage];
       return (
          <View style={styles.container}>
-            <DaySelector ref="daySelector" current={currentPage} onChange={this.onPageChange.bind(this)} dates={days} />
-            {restaurants && favorites ?
+            <DaySelector current={currentPage} onChange={this.onPageChange.bind(this)} dates={days} />
+            {loading || !restaurants || !favorites ? <Loader color={MKColor.Teal} />
+            :
             <Swiper
                ref="swiper"
                onPageChange={p => this.setState({currentPage: p})}>
                {days.map((date, i) => <Day key={i} restaurants={restaurants} favorites={favorites} date={date} />)}
             </Swiper>
-            : <Loader color={MKColor.Teal} />}
-            {restaurants && loading ?
-               <mdl.Spinner
-                  strokeColor={MKColor.Teal}
-                  style={styles.spinner} />
-            : null}
+            }
             <Modal
                ref="modal"
                style={{padding: 0}}
@@ -212,35 +134,6 @@ const styles = StyleSheet.create({
    container: {
       backgroundColor: MKColor.Silver,
       flex: 1
-   },
-   spinner: {
-      position: 'absolute',
-      top: 14,
-      right: 14,
-      transform: [{scale: 0.7}]
-   },
-   daySelector: {
-      flexDirection: 'row',
-      paddingHorizontal: 14,
-      paddingVertical: 8,
-      alignItems: 'center'
-   },
-   dayTitle: {
-      fontSize: 20,
-      fontWeight: '300',
-      fontFamily: Platform.OS === 'android' ? 'sans-serif-light' : undefined,
-      flexDirection: 'row',
-      textAlign: 'center',
-      flex: 1
-   },
-   arrowButton: {
-      width: 32,
-      height: 32,
-      alignItems: 'center',
-      justifyContent: 'center'
-   },
-   date: {
-      color: '#bababa'
    }
 });
 

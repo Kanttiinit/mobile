@@ -17,22 +17,12 @@ class Swiper extends Component {
       this.state = {width: Dimensions.get('window').width};
       this.iOS = Platform.OS === 'ios';
    }
-   componentDidMount() {
-      if (this.iOS) {
-         // implement
-      } else {
-
-      }
-   }
    setPage(p) {
       if (this.iOS) {
          this.refs.scrollView.scrollTo(0, p * this.state.width);
       } else {
          this.refs.viewPager.setPage(p);
       }
-   }
-   onPageScroll(e) {
-
    }
    render() {
       const {width} = this.state;
@@ -45,7 +35,7 @@ class Swiper extends Component {
                horizontal={true}
                showsHorizontalScrollIndicator={false}
                onMomentumScrollEnd={event => {
-                  const page = Math.round(event.nativeEvent.contentOffset.x / this.state.width);
+                  const page = Math.round(event.nativeEvent.contentOffset.x / width);
                   this.props.onPageChange(page);
                }}
                pagingEnabled={true}>
@@ -59,7 +49,9 @@ class Swiper extends Component {
 
       return (
          <ViewPagerAndroid
-            onPageScroll={this.onPageScroll.bind(this)}
+            onPageScroll={event => {
+               this.props.onPageChange(event.nativeEvent.position);
+            }}
             ref="viewPager"
             style={{flex: 1}}>
             {this.props.children.map((c, i) => <View key={i}>{c}</View>)}

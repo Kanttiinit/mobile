@@ -34,11 +34,14 @@ class DaySelector extends React.Component {
       super();
       this.state = {current: 0};
    }
-   setCurrent(current) {
-      this.setState({current});
+   shouldComponentUpdate(props) {
+      return props.current !== this.state.current;
+   }
+   componentWillReceiveProps(props) {
+      this.setState({current: props.current});
    }
    change(p) {
-      const current = this.state.current + p;
+      const current = Math.min(this.props.dates.length - 1, Math.max(0, this.state.current + p));
       this.props.onChange(current);
       this.setState({current});
    }
@@ -52,6 +55,7 @@ class DaySelector extends React.Component {
          <View style={styles.daySelector}>
             <MKButton
                onPress={this.change.bind(this, -1)}
+               pointerEvents={showPrevious ? 'auto' : 'none'}
                style={[styles.arrowButton, !showPrevious && {opacity: 0}]}
                rippleColor="rgba(200, 200, 200, 0.25)">
                <Icon name="chevron-left" color="#999" />
@@ -62,6 +66,7 @@ class DaySelector extends React.Component {
             </Text>
             <MKButton
                onPress={this.change.bind(this, 1)}
+               pointerEvents={showNext ? 'auto' : 'none'}
                style={[styles.arrowButton, !showNext && {opacity: 0}]}
                rippleColor="rgba(200, 200, 200, 0.25)">
                <Icon name="chevron-right" color="#999" />
@@ -147,17 +152,17 @@ class Menu extends React.Component {
       });
    }
    onPageChange(p) {
-      this.refs.swiper.setPage(this.state.currentPage + 1);
-      this.setState({currentPage: this.state.currentPage + 1});
+      this.refs.swiper.setPage(p);
+      this.setState({currentPage: p});
    }
    render() {
       const {restaurants, favorites, days, loading, currentPage} = this.state;
       const date = days[currentPage];
       return (
          <View style={styles.container}>
-            <DaySelector onChange={this.onPageChange.bind(this)} dates={days} />
+            <DaySelector ref="daySelector" current={currentPage} onChange={this.onPageChange.bind(this)} dates={days} />
             {restaurants && favorites
-            ? <Swiper ref="swiper">{days.map((date, i) => <Day key={i} restaurants={restaurants} favorites={favorites} date={date} />)}</Swiper>
+            ? <Swiper ref="swiper" onPageChange={p => this.setState({currentPage: p})}>{days.map((date, i) => <Day key={i} restaurants={restaurants} favorites={favorites} date={date} />)}</Swiper>
             : <Loader color={MKColor.Teal} />}
             {restaurants && loading ?
                <mdl.Spinner
@@ -191,7 +196,8 @@ const styles = StyleSheet.create({
    },
    daySelector: {
       flexDirection: 'row',
-      padding: 14,
+      paddingHorizontal: 14,
+      paddingVertical: 8,
       alignItems: 'center'
    },
    dayTitle: {
@@ -203,8 +209,10 @@ const styles = StyleSheet.create({
       flex: 1
    },
    arrowButton: {
-      paddingHorizontal: 14,
-      paddingVertical: 10
+      width: 32,
+      height: 32,
+      alignItems: 'center',
+      justifyContent: 'center'
    },
    date: {
       color: '#bababa'

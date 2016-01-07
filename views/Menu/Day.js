@@ -36,10 +36,9 @@ class Day extends Component {
       });
    }
    shouldComponentUpdate(nextProps) {
-      return true;
       if (nextProps.restaurants && this.state.order) {
          const newSort = Service.formatRestaurants(nextProps.restaurants, nextProps.date, nextProps.favorites).map(r => r.id);
-         return newSort.join(',') === this.state.order.join(',');
+         return newSort.join(',') !== this.state.order.join(',');
       }
 
       return true;
@@ -55,6 +54,9 @@ class Day extends Component {
             renderRow={restaurant =>
                <Restaurant date={date} restaurant={restaurant} />} />
       );
+   }
+   componentDidUpdate() {
+      console.log('day did update');
    }
 }
 

@@ -130,9 +130,12 @@ class Menu extends React.Component {
       // update restaurant list
       Service.getRestaurants()
       .then(restaurants => {
+         console.time('set state restaurants');
          this.setState({
-            restaurants: Service.updateRestaurantDistances(restaurants, this.state.location)
+            restaurants: restaurants,
+            loading: false
          });
+         console.timeEnd('set state restaurants');
 
          // // if no location is known, try to get it
          // if (!this.state.location) {
@@ -143,9 +146,7 @@ class Menu extends React.Component {
          //       });
          //       this.setState({loading: false});
          //    });
-         // } else {
-            this.setState({loading: false});
-         //}
+         // } else
       })
       .catch(err => {
          console.error(err);
@@ -161,8 +162,12 @@ class Menu extends React.Component {
       return (
          <View style={styles.container}>
             <DaySelector ref="daySelector" current={currentPage} onChange={this.onPageChange.bind(this)} dates={days} />
-            {restaurants && favorites
-            ? <Swiper ref="swiper" onPageChange={p => this.setState({currentPage: p})}>{days.map((date, i) => <Day key={i} restaurants={restaurants} favorites={favorites} date={date} />)}</Swiper>
+            {restaurants && favorites ?
+            <Swiper
+               ref="swiper"
+               onPageChange={p => this.setState({currentPage: p})}>
+               {days.map((date, i) => <Day key={i} restaurants={restaurants} favorites={favorites} date={date} />)}
+            </Swiper>
             : <Loader color={MKColor.Teal} />}
             {restaurants && loading ?
                <mdl.Spinner

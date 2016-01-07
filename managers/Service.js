@@ -65,7 +65,7 @@ export default {
    // download restaurants or serve from cache
    getRestaurants() {
       return RestaurantsManager.getSelectedRestaurants()
-      .then(selected => HttpCache.get('menus', 'http://api.kanttiinit.fi/menus/' + selected.sort().join(','), {days: 1}));
+      .then(selected => HttpCache.get('menus', 'https://api.kanttiinit.fi/menus/' + selected.sort().join(','), {days: 1}));
    },
    // fetch user location
    getLocation() {
@@ -78,6 +78,6 @@ export default {
       });
    },
    getAreas() {
-      return HttpCache.get('areas', 'http://api.kanttiinit.fi/areas', {days: '1'});
+      return HttpCache.get('areas', 'https://api.kanttiinit.fi/areas', {days: '1'});
    }
 };

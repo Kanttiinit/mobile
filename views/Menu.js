@@ -20,7 +20,8 @@ const {
    AppStateIOS,
    Platform,
    DeviceEventEmitter,
-   Text
+   Text,
+   Animated
 } = React;
 
 const {
@@ -32,7 +33,11 @@ const {
 class DaySelector extends React.Component {
    constructor() {
       super();
-      this.state = {current: 0};
+      this.state = {
+         current: 0,
+         prevButtonScale: new Animated.Value(0),
+         nextButtonScale: new Animated.Value(1)
+      };
    }
    shouldComponentUpdate(props) {
       return props.current !== this.state.current;
@@ -45,35 +50,50 @@ class DaySelector extends React.Component {
       this.props.onChange(current);
       this.setState({current});
    }
+   componentDidUpdate() {
+      Animated.spring(
+         this.state.prevButtonScale,
+         {toValue: this.state.current > 0 ? 1 : 0, friction: 5}
+      ).start();
+
+      Animated.spring(
+         this.state.nextButtonScale,
+         {toValue: this.state.current < this.props.dates.length - 1 ? 1 : 0}
+      ).start();
+   }
    render() {
       const {dates} = this.props;
-      const {current} = this.state;
+      const {current, prevButtonScale, nextButtonScale} = this.state;
       const date = dates[current];
       const showPrevious = current > 0;
       const showNext = current < dates.length - 1;
       return (
          <View style={styles.daySelector}>
-            <MKButton
-               onPress={this.change.bind(this, -1)}
-               pointerEvents={showPrevious ? 'auto' : 'none'}
-               style={[styles.arrowButton, !showPrevious && {opacity: 0}]}
-               rippleColor="rgba(200, 200, 200, 0.25)">
-               <Icon name="chevron-left" color="#999" />
-            </MKButton>
+            <Animated.View style={{transform: [{scale: prevButtonScale}]}}>
+               <MKButton
+                  onPress={this.change.bind(this, -1)}
+                  pointerEvents={showPrevious ? 'auto' : 'none'}
+                  style={styles.arrowButton}
+                  rippleColor="rgba(200, 200, 200, 0.25)">
+                  <Icon name="chevron-left" color="#999" />
+               </MKButton>
+            </Animated.View>
             <Text style={styles.dayTitle}>
                {date.format('dddd').toUpperCase()}
                <Text style={styles.date}> {date.format('DD.MM.')}</Text>
             </Text>
-            <MKButton
-               onPress={this.change.bind(this, 1)}
-               pointerEvents={showNext ? 'auto' : 'none'}
-               style={[styles.arrowButton, !showNext && {opacity: 0}]}
-               rippleColor="rgba(200, 200, 200, 0.25)">
-               <Icon name="chevron-right" color="#999" />
-            </MKButton>
+            <Animated.View style={{transform: [{scale: nextButtonScale}]}}>
+               <MKButton
+                  onPress={this.change.bind(this, 1)}
+                  pointerEvents={showNext ? 'auto' : 'none'}
+                  style={styles.arrowButton}
+                  rippleColor="rgba(200, 200, 200, 0.25)">
+                  <Icon name="chevron-right" color="#999" />
+               </MKButton>
+            </Animated.View>
          </View>
       );
-   };
+   }
 }
 
 class Menu extends React.Component {
@@ -137,16 +157,16 @@ class Menu extends React.Component {
          });
          console.timeEnd('set state restaurants');
 
-         // // if no location is known, try to get it
-         // if (!this.state.location) {
-         //    return Service.getLocation().then(location => {
-         //       this.setState({
-         //          location,
-         //          restaurants: Service.updateRestaurantDistances(this.state.restaurants, location)
-         //       });
-         //       this.setState({loading: false});
-         //    });
-         // } else
+         // if no location is known, try to get it
+         if (!this.state.location) {
+            return Service.getLocation().then(location => {
+               this.setState({
+                  location,
+                  restaurants: Service.updateRestaurantDistances(this.state.restaurants, location)
+               });
+               this.setState({loading: false});
+            });
+         }
       })
       .catch(err => {
          console.error(err);

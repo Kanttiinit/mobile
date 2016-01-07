@@ -32,13 +32,13 @@ class Day extends Component {
       const sorted = Service.formatRestaurants(props.restaurants, props.date, props.favorites);
       this.setState({
          restaurants: sorted,
-         order: sorted.map(r => r.id)
+         order: sorted.map(r => r.id).join(',')
       });
    }
    shouldComponentUpdate(nextProps) {
       if (nextProps.restaurants && this.state.order) {
          const newSort = Service.formatRestaurants(nextProps.restaurants, nextProps.date, nextProps.favorites).map(r => r.id);
-         return newSort.join(',') !== this.state.order.join(',');
+         return newSort.join(',') !== this.state.order;
       }
 
       return true;

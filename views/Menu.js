@@ -107,7 +107,6 @@ class Menu extends React.Component {
       const {restaurants, favorites, days, loading} = this.state;
       return (
          <View style={styles.container}>
-            <DaySelector ref="daySelector" onChange={this.onDaySelectorChange.bind(this)} dates={days} />
             {loading || !restaurants || !favorites ? <Loader color={MKColor.Teal} />
             :
             <Swiper
@@ -116,6 +115,7 @@ class Menu extends React.Component {
                {days.map((date, i) => <Day key={i} restaurants={restaurants} favorites={favorites} date={date} />)}
             </Swiper>
             }
+            <DaySelector ref="daySelector" onChange={this.onDaySelectorChange.bind(this)} max={days.length - 1} />
             <Modal
                ref="modal"
                style={{padding: 0}}
@@ -133,7 +133,8 @@ Menu.childContextTypes = {
 const styles = StyleSheet.create({
    container: {
       backgroundColor: MKColor.Silver,
-      flex: 1
+      flex: 1,
+      position: 'relative'
    }
 });
 

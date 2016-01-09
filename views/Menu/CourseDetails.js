@@ -3,7 +3,7 @@
 import React from 'react-native';
 import Material from 'react-native-material-kit';
 
-import Property from '../../components/Property';
+import Property from './Property';
 
 const {
    View,
@@ -17,7 +17,7 @@ const {
    MKColor
 } = Material;
 
-class CourseDetails extends Component {
+export default class CourseDetails extends Component {
    render() {
       const {course} = this.props;
       return (
@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
    },
    courseTitle: {
       fontSize: 18,
-      fontWeight: '300',
       color: 'white'
    },
    courseListWrapper: {
@@ -86,5 +85,3 @@ const styles = StyleSheet.create({
       fontWeight: 'bold'
    }
 });
-
-export default CourseDetails;

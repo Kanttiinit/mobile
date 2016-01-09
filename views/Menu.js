@@ -30,8 +30,7 @@ class Menu extends React.Component {
    constructor() {
       super();
       this.state = {
-         days: this.getDays(),
-         currentPage: 0
+         days: this.getDays()
       };
    }
    getChildContext() {
@@ -98,21 +97,22 @@ class Menu extends React.Component {
          console.error(err);
       });
    }
-   onPageChange(p) {
+   onDaySelectorChange(p) {
       this.refs.swiper.setPage(p);
-      this.setState({currentPage: p});
+   }
+   onSwiperChange(p) {
+      this.refs.daySelector.setCurrent(p);
    }
    render() {
-      const {restaurants, favorites, days, loading, currentPage} = this.state;
-      const date = days[currentPage];
+      const {restaurants, favorites, days, loading} = this.state;
       return (
          <View style={styles.container}>
-            <DaySelector current={currentPage} onChange={this.onPageChange.bind(this)} dates={days} />
+            <DaySelector ref="daySelector" onChange={this.onDaySelectorChange.bind(this)} dates={days} />
             {loading || !restaurants || !favorites ? <Loader color={MKColor.Teal} />
             :
             <Swiper
                ref="swiper"
-               onPageChange={p => this.setState({currentPage: p})}>
+               onPageChange={this.onSwiperChange.bind(this)}>
                {days.map((date, i) => <Day key={i} restaurants={restaurants} favorites={favorites} date={date} />)}
             </Swiper>
             }

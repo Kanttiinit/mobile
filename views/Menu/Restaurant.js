@@ -5,7 +5,7 @@ import Material from 'react-native-material-kit';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import Property from '../../components/Property';
+import Property from './Property';
 
 const {
    View,
@@ -45,7 +45,7 @@ Course.contextTypes = {
    courseSelected: React.PropTypes.func
 };
 
-class Restaurant extends Component {
+export default class Restaurant extends Component {
    formatOpeningHours(hours) {
       return String(hours[0]).substr(0, 2) + ':' + String(hours[0]).substr(2) + ' - ' + String(hours[1]).substr(0, 2) + ':' + String(hours[1]).substr(2);
    }
@@ -151,5 +151,3 @@ const styles = StyleSheet.create({
       color: '#fff'
    }
 });
-
-export default Restaurant;

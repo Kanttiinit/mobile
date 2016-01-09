@@ -20,6 +20,16 @@ const {
    MKColor
 } = Material;
 
+const Button = props => (
+   <MKButton
+      onPress={() => props.onPress()}
+      pointerEvents={props.visible ? 'auto' : 'none'}
+      style={[styles.arrowButton, !props.visible && {opacity: 0}]}
+      rippleColor="rgba(200, 200, 200, 0.25)">
+      <Icon name={props.icon} color="#999" />
+   </MKButton>
+);
+
 export default class DaySelector extends React.Component {
    constructor() {
       super();
@@ -27,11 +37,11 @@ export default class DaySelector extends React.Component {
 
       this.state = { current: 0 };
    }
-   shouldComponentUpdate(props) {
-      return props.current !== this.state.current;
+   shouldComponentUpdate(props, state) {
+      return state.current !== this.state.current;
    }
-   componentWillReceiveProps(props) {
-      this.setState({current: props.current});
+   setCurrent(day) {
+      this.setState({current: day});
    }
    change(p) {
       const current = Math.min(this.props.dates.length - 1, Math.max(0, this.state.current + p));
@@ -40,30 +50,24 @@ export default class DaySelector extends React.Component {
    }
    render() {
       const {dates} = this.props;
-      const {current, prevButtonScale, nextButtonScale} = this.state;
+      const {current} = this.state;
       const date = dates[current];
       const showPrevious = current > 0;
       const showNext = current < dates.length - 1;
       return (
          <View style={styles.daySelector}>
-            <MKButton
+            <Button
                onPress={this.change.bind(this, -1)}
-               pointerEvents={showPrevious ? 'auto' : 'none'}
-               style={[styles.arrowButton, !showPrevious && {opacity: 0}]}
-               rippleColor="rgba(200, 200, 200, 0.25)">
-               <Icon name="chevron-left" color="#999" />
-            </MKButton>
+               icon="chevron-left"
+               visible={showPrevious} />
             <Text style={styles.dayTitle}>
                {date.format('dddd').toUpperCase()}
                <Text style={styles.date}> {date.format('DD.MM.')}</Text>
             </Text>
-            <MKButton
+            <Button
                onPress={this.change.bind(this, 1)}
-               pointerEvents={showNext ? 'auto' : 'none'}
-               style={[styles.arrowButton, !showNext && {opacity: 0}]}
-               rippleColor="rgba(200, 200, 200, 0.25)">
-               <Icon name="chevron-right" color="#999" />
-            </MKButton>
+               icon="chevron-right"
+               visible={showNext} />
          </View>
       );
    }

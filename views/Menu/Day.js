@@ -14,7 +14,7 @@ const {
    Platform
 } = React;
 
-class Day extends Component {
+export default class Day extends Component {
    constructor() {
       super();
       this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -59,5 +59,3 @@ class Day extends Component {
       console.log('day did update');
    }
 }
-
-export default Day;

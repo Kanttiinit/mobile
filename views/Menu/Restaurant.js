@@ -56,11 +56,10 @@ export default class Restaurant extends Component {
       const {date, courseSelected, restaurant} = this.props;
       const courses = restaurant.courses;
       const isToday = moment().isSame(date, 'day');
-      const restaurantHeaderColor = restaurant.isOpen ? MKColor.Teal : '#D32F2F';
       return (
          <View style={[MKCardStyles.card, styles.container]}>
 
-            <View style={[styles.header, isToday && {backgroundColor: restaurantHeaderColor}]}>
+            <View style={[styles.header, restaurant.isOpen && {color: MKColor.Teal}]}>
                <View>
                   <Text style={styles.restaurantName}>{restaurant.name}</Text>
                   {restaurant.distance ?

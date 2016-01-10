@@ -83,6 +83,7 @@ class Menu extends React.Component {
          state.restaurants = Service.updateRestaurantDistances(restaurants, this.state.location);
          state.loading = false;
          this.setState(state);
+         this.onSwiperChange(0);
 
          // if no location is known, try to get it
          if (!this.state.location) {
@@ -115,7 +116,9 @@ class Menu extends React.Component {
                {days.map((date, i) => <Day key={i} restaurants={restaurants} favorites={favorites} date={date} />)}
             </Swiper>
             }
+            {!loading ?
             <DaySelector ref="daySelector" onChange={this.onDaySelectorChange.bind(this)} max={days.length - 1} />
+            : null}
             <Modal
                ref="modal"
                style={{padding: 0}}

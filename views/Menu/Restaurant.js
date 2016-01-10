@@ -46,6 +46,16 @@ Course.contextTypes = {
 };
 
 export default class Restaurant extends Component {
+   getFavString(restaurant) {
+      return restaurant.courses.map(c => +c.favorite).join('');
+   }
+   shouldComponentUpdate(props) {
+      const result = this.getFavString(props.restaurant) !== this.getFavString(this.props.restaurant)
+         || props.restaurant.isOpen !== this.props.restaurant.isOpen
+         || props.restaurant.distance !== this.props.restaurant.distance;
+
+      return result;
+   }
    formatOpeningHours(hours) {
       return String(hours[0]).substr(0, 2) + ':' + String(hours[0]).substr(2) + ' - ' + String(hours[1]).substr(0, 2) + ':' + String(hours[1]).substr(2);
    }
@@ -64,9 +74,7 @@ export default class Restaurant extends Component {
                   <Text style={styles.restaurantName}>{restaurant.name}</Text>
                   {restaurant.distance ?
                   <Text style={styles.distance}>
-                     <Icon name="ios-location" />
-                     {' '}
-                     {this.formatDistance(restaurant.distance)}
+                     <Icon name="ios-location" /> {' '} {this.formatDistance(restaurant.distance)}
                   </Text>
                   : null}
                </View>

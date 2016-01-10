@@ -25,6 +25,9 @@ const {
 } = Material;
 
 class Favorite extends Component {
+   shouldComponentUpdate(props) {
+      return props.favorite.name !== this.props.favorite.name;
+   }
    render() {
       const {favorite, parent, style} = this.props;
       return (
@@ -44,7 +47,7 @@ class Favorite extends Component {
    }
 }
 
-class Favorites extends Component {
+export default class Favorites extends Component {
    constructor() {
       super();
       this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -71,7 +74,6 @@ class Favorites extends Component {
       if (name && name.length > 2) {
          FavoritesManager.addFavorite(name)
          .then(() => this.updateFavorites());
-         this.refs.modal.close();
       }
       this.setState({text: undefined});
    }
@@ -221,5 +223,3 @@ class Favorites extends Component {
          fontSize: 14
       }
    });
-
-   export default Favorites;

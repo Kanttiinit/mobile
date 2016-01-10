@@ -19,18 +19,22 @@ const {
    AppStateIOS,
    Platform,
    DeviceEventEmitter,
-   Text
+   Text,
+   Animated
 } = React;
 
 const {
-   MKColor
+   MKColor,
+   mdl
 } = Material;
 
 class Menu extends React.Component {
    constructor() {
       super();
       this.state = {
-         days: this.getDays()
+         days: this.getDays(),
+         loading: true,
+         updatingPosition: new Animated.Value(-32)
       };
    }
    getChildContext() {
@@ -62,11 +66,8 @@ class Menu extends React.Component {
       this.update();
    }
    update() {
-      if (this.state.loading)
-         return;
-
-      // shit is loading, yo
-      this.setState({loading: true});
+      // shit is loading yo
+      Animated.timing(this.state.updatingPosition, {toValue: 0}).start();
 
       const state = {};
 
@@ -83,7 +84,7 @@ class Menu extends React.Component {
          state.restaurants = Service.updateRestaurantDistances(restaurants, this.state.location);
          state.loading = false;
          this.setState(state);
-         this.onSwiperChange(0);
+         Animated.timing(this.state.updatingPosition, {toValue: -32}).start();
 
          // if no location is known, try to get it
          if (!this.state.location) {
@@ -104,11 +105,10 @@ class Menu extends React.Component {
       this.refs.daySelector.setCurrent(p);
    }
    render() {
-      const {restaurants, favorites, days, loading} = this.state;
+      const {restaurants, favorites, days, loading, updatingPosition} = this.state;
       return (
          <View style={styles.container}>
-            {loading || !restaurants || !favorites
-            ? <Loader color={MKColor.Teal} />
+            {loading ? <Loader color={MKColor.Teal} />
             :
             <Swiper
                ref="swiper"
@@ -119,6 +119,9 @@ class Menu extends React.Component {
             {!loading ?
             <DaySelector ref="daySelector" onChange={this.onDaySelectorChange.bind(this)} max={days.length - 1} />
             : null}
+            <Animated.View style={[styles.update, {transform: [{translateY: updatingPosition}]}]}>
+               <Text style={styles.updateText}>Päivitetään...</Text>
+            </Animated.View>
             <Modal
                ref="modal"
                style={{padding: 0}}
@@ -138,6 +141,19 @@ const styles = StyleSheet.create({
       backgroundColor: MKColor.Silver,
       flex: 1,
       position: 'relative'
+   },
+   update: {
+      backgroundColor: MKColor.Teal,
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      padding: 8
+   },
+   updateText: {
+      color: 'white',
+      textAlign: 'center',
+      fontWeight: '300'
    }
 });
 

@@ -68,20 +68,21 @@ class Menu extends React.Component {
       // shit is loading, yo
       this.setState({loading: true});
 
+      const state = {};
+
+      // update days if first day isn't today
       if (!this.state.days[0].isSame(moment(), 'day'))
-         this.setState({days: this.getDays()});
+         state.days = this.getDays();
 
-      // fetch favorites
       Favorites.getStoredFavorites()
-      .then(favorites => this.setState({favorites}));
-
-      // update restaurant list
-      Service.getRestaurants()
+      .then(favorites => {
+         state.favorites = favorites;
+         return Service.getRestaurants();
+      })
       .then(restaurants => {
-         this.setState({
-            restaurants: Service.updateRestaurantDistances(restaurants, this.state.location),
-            loading: false
-         });
+         state.restaurants = Service.updateRestaurantDistances(restaurants, this.state.location);
+         state.loading = false;
+         this.setState(state);
 
          // if no location is known, try to get it
          if (!this.state.location) {
@@ -93,9 +94,7 @@ class Menu extends React.Component {
             });
          }
       })
-      .catch(err => {
-         console.error(err);
-      });
+      .catch(err => console.error(err));
    }
    onDaySelectorChange(p) {
       this.refs.swiper.setPage(p);
@@ -107,7 +106,8 @@ class Menu extends React.Component {
       const {restaurants, favorites, days, loading} = this.state;
       return (
          <View style={styles.container}>
-            {loading || !restaurants || !favorites ? <Loader color={MKColor.Teal} />
+            {loading || !restaurants || !favorites
+            ? <Loader color={MKColor.Teal} />
             :
             <Swiper
                ref="swiper"

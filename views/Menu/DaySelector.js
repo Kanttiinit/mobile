@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
       position: 'absolute',
       top: 0,
       bottom: 0,
-      paddingTop: 4,
+      paddingTop: 6,
       height: 40,
       // fix when gradients are more widely available
       backgroundColor: Platform.OS === 'android' ? MKColor.Silver : 'transparent'

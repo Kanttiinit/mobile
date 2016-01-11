@@ -66,12 +66,11 @@ export default class Day extends Component {
 const styles = StyleSheet.create({
    daySelector: {
       flexDirection: 'row',
-      paddingHorizontal: 14,
-      paddingVertical: 8,
+      paddingVertical: 10,
       alignItems: 'center'
    },
    dayTitle: {
-      fontSize: 20,
+      fontSize: 18,
       fontWeight: '300',
       fontFamily: Platform.OS === 'android' ? 'sans-serif-light' : undefined,
       flexDirection: 'row',

@@ -19,7 +19,7 @@ const {
    MKColor,
    MKCardStyles,
    MKButton,
-   mdl
+   MKCheckbox
 } = Material;
 
 class Area extends Component {
@@ -51,13 +51,12 @@ class Area extends Component {
                {area.Restaurants.sort((a, b) => a.name > b.name ? 1 : -1).map((r, i) =>
                   <View key={r.id} style={[styles.restaurant, i > 0 && styles.borderTop]}>
                      <Text style={{fontSize: 14, flex: 1}}>{r.name}</Text>
-                     <mdl.Switch
-                        trackSize={12}
-                        trackLength={32}
-                        thumbRadius={10}
-                        thumbOnColor={MKColor.Teal}
-                        onColor="rgba(5, 182, 166, 0.5)"
+                     <MKCheckbox
                         onCheckedChange={this.checkedChange.bind(this, r)}
+                        fillColor={MKColor.Teal}
+                        borderOnColor={MKColor.Teal}
+                        borderOffColor={MKColor.Grey}
+                        rippleColor="rgba(0, 150, 136, 0.1)"
                         checked={!!selected.find(id => id === r.id)} />
                   </View>
                )}

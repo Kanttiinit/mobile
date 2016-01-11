@@ -34,7 +34,7 @@ class Menu extends React.Component {
       this.state = {
          days: this.getDays(),
          loading: true,
-         updatingPosition: new Animated.Value(-32)
+         updatingPosition: new Animated.Value(-70)
       };
    }
    getChildContext() {
@@ -84,7 +84,7 @@ class Menu extends React.Component {
          state.restaurants = Service.updateRestaurantDistances(restaurants, this.state.location);
          state.loading = false;
          this.setState(state);
-         Animated.timing(this.state.updatingPosition, {toValue: -32}).start();
+         Animated.timing(this.state.updatingPosition, {toValue: -70}).start();
 
          // if no location is known, try to get it
          if (!this.state.location) {

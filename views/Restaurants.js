@@ -44,7 +44,7 @@ class Area extends Component {
       const {selected} = this.state;
       if (selected)
          return (
-            <View style={[MKCardStyles.card, {marginBottom: 10}]}>
+            <View style={[MKCardStyles.card, {margin: 14, marginBottom: 10, elevation: 3}]}>
                <View style={styles.area}>
                   <Text style={styles.areaTitle}>{area.name}</Text>
                </View>
@@ -93,8 +93,7 @@ class Restaurants extends Component {
             {this.state.areas ?
             <ListView
                dataSource={this.state.areas}
-               renderRow={area => <Area area={area} />}
-               style={{padding: 14}} />
+               renderRow={area => <Area area={area} />} />
             : <Loader color={MKColor.Teal} />}
          </View>
       );

@@ -164,7 +164,8 @@ export default class Favorites extends Component {
          shadowColor: 'black',
          backgroundColor: MKColor.Teal,
          justifyContent: 'center',
-         alignItems: 'center'
+         alignItems: 'center',
+         elevation: 4
       },
       food: {
          backgroundColor: '#fff',

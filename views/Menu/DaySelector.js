@@ -25,7 +25,7 @@ const Button = props => (
       pointerEvents={props.visible ? 'auto' : 'none'}
       style={[styles.arrowButton, props.style, !props.visible && {opacity: 0}]}
       rippleColor="rgba(200, 200, 200, 0.25)">
-      <Icon name={props.icon} color="#999" />
+      <Icon name={props.icon} color="#bababa" />
    </MKButton>
 );
 

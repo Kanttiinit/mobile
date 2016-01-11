@@ -104,6 +104,7 @@ export default class Restaurant extends Component {
 
 const styles = StyleSheet.create({
    container: {
+      borderWidth: 0,
       marginLeft: 14,
       marginRight: 14,
       marginBottom: 14,

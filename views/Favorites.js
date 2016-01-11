@@ -31,7 +31,7 @@ class Favorite extends Component {
    render() {
       const {favorite, parent, style} = this.props;
       return (
-         <View style={[MKCardStyles.card, style]}>
+         <View style={style}>
             <View style={styles.food}>
                <Icon style={styles.heartIcon} color='#fc5151' name='android-favorite' />
                <Text style={styles.foodTitle}>{favorite.name}</Text>

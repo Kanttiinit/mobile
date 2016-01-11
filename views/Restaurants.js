@@ -44,7 +44,7 @@ class Area extends Component {
       const {selected} = this.state;
       if (selected)
          return (
-            <View style={[MKCardStyles.card, {margin: 14, marginBottom: 10, elevation: 3}]}>
+            <View style={[MKCardStyles.card, {margin: 14, marginBottom: 10, elevation: 3, borderWidth: 0}]}>
                <View style={styles.area}>
                   <Text style={styles.areaTitle}>{area.name}</Text>
                </View>

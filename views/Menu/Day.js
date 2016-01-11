@@ -53,8 +53,8 @@ export default class Day extends Component {
                </Text>
             </View>
             <ListView
-               initialListSize={2}
-               pageSize={3}
+               initialListSize={1}
+               pageSize={2}
                dataSource={this.dataSource.cloneWithRows(restaurants)}
                renderRow={restaurant =>
                   <Restaurant date={date} restaurant={restaurant} />} />

@@ -83,14 +83,18 @@ const styles = StyleSheet.create({
       left: 0,
       right: 0,
       backgroundColor: 'transparent',
-      flexDirection: 'row'
+      flexDirection: 'row',
+      flex: 1,
+      height: 40
    },
    buttonContainer: {
       position: 'absolute',
       top: 0,
       bottom: 0,
       paddingTop: 4,
-      height: 40
+      height: 40,
+      // fix when gradients are more widely available
+      backgroundColor: Platform.OS === 'android' ? MKColor.Silver : 'transparent'
    },
    arrowButton: {
       width: 32,

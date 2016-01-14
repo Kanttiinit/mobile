@@ -31,17 +31,15 @@ class Favorite extends Component {
    render() {
       const {favorite, parent, style} = this.props;
       return (
-         <View style={style}>
-            <View style={styles.food}>
-               <Icon style={styles.heartIcon} color='#fc5151' name='android-favorite' />
-               <Text style={styles.foodTitle}>{favorite.name}</Text>
-               <MKButton
-                  style={styles.removeButton}
-                  rippleColor='rgba(0, 0, 0, 0.25)'
-                  onPress={parent.removeFavorite.bind(parent, favorite.name)}>
-                  <Icon style={{fontSize: 26}} color='#8a8a8a' name='ios-close-empty' />
-               </MKButton>
-            </View>
+         <View style={[styles.food, style]}>
+            <Icon style={styles.heartIcon} color='#fc5151' name='android-favorite' />
+            <Text style={styles.foodTitle}>{favorite.name}</Text>
+            <MKButton
+               style={styles.removeButton}
+               rippleColor='rgba(0, 0, 0, 0.25)'
+               onPress={parent.removeFavorite.bind(parent, favorite.name)}>
+               <Icon style={{fontSize: 26}} color='#8a8a8a' name='ios-close-empty' />
+            </MKButton>
          </View>
       );
    }

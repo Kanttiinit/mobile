@@ -109,13 +109,17 @@ const styles = StyleSheet.create({
       marginRight: 14,
       marginBottom: 14,
       paddingBottom: 0,
-      elevation: 3
+      elevation: 2,
+      borderRadius: 2
    },
    header: {
       flexDirection: 'row',
       alignItems: 'center',
       backgroundColor: '#7c7c7c',
-      padding: 8
+      padding: 8,
+      borderRadius: 2,
+      borderBottomLeftRadius: 0,
+      borderBottomRightRadius: 0
    },
    course: {
       flexDirection: 'row',

@@ -44,7 +44,7 @@ class Area extends Component {
       const {selected} = this.state;
       if (selected)
          return (
-            <View style={[MKCardStyles.card, {margin: 14, marginBottom: 10, elevation: 3, borderWidth: 0, borderRadius: 0}]}>
+            <View style={[MKCardStyles.card, styles.areaContainer]}>
                <View style={styles.area}>
                   <Text style={styles.areaTitle}>{area.name}</Text>
                </View>
@@ -104,9 +104,19 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: MKColor.Silver
    },
+   areaContainer: {
+      margin: 14,
+      marginBottom: 10,
+      elevation: 2,
+      borderWidth: 0,
+      borderRadius: 2
+   },
    area: {
       padding: 8,
-      backgroundColor: MKColor.Teal
+      backgroundColor: MKColor.Teal,
+      borderRadius: 2,
+      borderBottomLeftRadius: 0,
+      borderBottomRightRadius: 0
    },
    areaTitle: {
       fontSize: 20,

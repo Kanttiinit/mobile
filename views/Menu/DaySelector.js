@@ -49,13 +49,14 @@ export default class DaySelector extends React.Component {
    render() {
       const {max} = this.props;
       const {current} = this.state;
+      const android = Platform.OS === 'android';
       return (
          <View style={styles.container}>
             <LinearGradient
                start={[0.5, 0]}
                end={[1, 0]}
                colors={['rgba(235, 235, 235, 1)', 'rgba(235, 235, 235, 0)']}
-               style={[styles.buttonContainer, {left: 0, paddingLeft: 14, paddingRight: 28}]}>
+               style={[styles.buttonContainer, {left: 0, paddingLeft: 14, paddingRight: android ? 8 : 28}]}>
                <Button
                   onPress={this.change.bind(this, -1)}
                   icon="chevron-left"
@@ -65,7 +66,7 @@ export default class DaySelector extends React.Component {
                start={[0, 0]}
                end={[0.5, 0]}
                colors={['rgba(235, 235, 235, 0)', 'rgba(235, 235, 235, 1)']}
-               style={[styles.buttonContainer, {right: 0, paddingRight: 14, paddingLeft: 28}]}>
+               style={[styles.buttonContainer, {right: 0, paddingRight: 14, paddingLeft: android ? 8 : 28}]}>
                <Button
                   onPress={this.change.bind(this, 1)}
                   icon="chevron-right"

@@ -83,7 +83,10 @@ export default class Favorites extends Component {
    updateFavorites() {
       FavoritesManager.getStoredFavorites()
       .then(favorites => {
-         this.setState({favorites: this.dataSource.cloneWithRows(favorites)});
+         this.setState({
+            favorites: this.dataSource.cloneWithRows(favorites),
+            favoritesCount: favorites.length
+         });
       })
       .catch(err => console.error(err));
    }
@@ -108,14 +111,14 @@ export default class Favorites extends Component {
       );
    }
    render() {
-      const {favorites, keyboard} = this.state;
+      const {favorites, favoritesCount, keyboard} = this.state;
       return (
          <View style={styles.container}>
             {favorites ?
             <ListView
                dataSource={favorites}
                renderRow={(fav, sectionId, rowId) => {
-                  const lastRow = rowId == favorites._cachedRowCount - 1;
+                  const lastRow = rowId == favoritesCount - 1;
                   return <Favorite style={{marginBottom: lastRow ? 96 : 2}} favorite={fav} parent={this}/>
                }}
                style={styles.favoriteList}
@@ -126,7 +129,7 @@ export default class Favorites extends Component {
                style={styles.fab}
                fab={true}
                onPress={this.openModal.bind(this)}>
-               <Icon name='plus-round' size={22} color={MKColor.Silver} />
+               <Icon name='plus-round' size={22} color="white" />
             </MKButton>
 
             <Modal
@@ -162,8 +165,7 @@ export default class Favorites extends Component {
          shadowColor: 'black',
          backgroundColor: MKColor.Teal,
          justifyContent: 'center',
-         alignItems: 'center',
-         elevation: 4
+         alignItems: 'center'
       },
       food: {
          backgroundColor: '#fff',
@@ -214,7 +216,8 @@ export default class Favorites extends Component {
          backgroundColor: MKColor.Teal,
          alignSelf: 'flex-end',
          borderRadius: 2,
-         padding: 6
+         padding: 6,
+         elevation: 2
       },
       addText: {
          color: 'white',

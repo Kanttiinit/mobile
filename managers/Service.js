@@ -65,7 +65,12 @@ export default {
    // download restaurants or serve from cache
    getRestaurants() {
       return RestaurantsManager.getSelectedRestaurants()
-      .then(selected => HttpCache.get('menus', 'https://api.kanttiinit.fi/menus/' + selected.sort().join(','), {days: 1}));
+      .then(selected => {
+         if (selected.length)
+            return HttpCache.get('menus', 'https://api.kanttiinit.fi/menus/' + selected.sort().join(','), {days: 1})
+
+         return [];
+      });
    },
    // fetch user location
    getLocation() {

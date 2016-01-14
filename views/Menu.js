@@ -68,7 +68,6 @@ class Menu extends React.Component {
    update() {
       // shit is loading yo
       Animated.timing(this.state.updatingPosition, {toValue: 0}).start();
-
       const state = {};
 
       // update days if first day isn't today

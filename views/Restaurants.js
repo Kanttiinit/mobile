@@ -6,6 +6,7 @@ import RestaurantsManager from '../managers/Restaurants';
 import Service from '../managers/Service';
 import Loader from '../components/Loader';
 import HttpCache from '../managers/HttpCache';
+import Checkbox from '../components/Checkbox';
 const {
    Component,
    Text,
@@ -18,8 +19,7 @@ const {
 const {
    MKColor,
    MKCardStyles,
-   MKButton,
-   MKCheckbox
+   MKButton
 } = Material;
 
 class Area extends Component {
@@ -29,10 +29,11 @@ class Area extends Component {
    }
    componentDidMount() {
       RestaurantsManager.getSelectedRestaurants()
-      .then(selected => this.setState({selected}));
+      .then(selected => this.setState({selected}))
+      .catch(err => console.error(err));
    }
-   checkedChange(restaurant, state) {
-      if (state.checked)
+   checkedChange(restaurant, checked) {
+      if (checked)
          RestaurantsManager.selectRestaurant(restaurant);
       else
          RestaurantsManager.deselectRestaurant(restaurant);
@@ -51,12 +52,8 @@ class Area extends Component {
                {area.Restaurants.sort((a, b) => a.name > b.name ? 1 : -1).map((r, i) =>
                   <View key={r.id} style={[styles.restaurant, i > 0 && styles.borderTop]}>
                      <Text style={{fontSize: 14, flex: 1}}>{r.name}</Text>
-                     <MKCheckbox
+                     <Checkbox
                         onCheckedChange={this.checkedChange.bind(this, r)}
-                        fillColor={MKColor.Teal}
-                        borderOnColor={MKColor.Teal}
-                        borderOffColor={MKColor.Grey}
-                        rippleColor="rgba(0, 150, 136, 0.1)"
                         checked={!!selected.find(id => id === r.id)} />
                   </View>
                )}

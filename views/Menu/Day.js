@@ -52,6 +52,7 @@ export default class Day extends Component {
                   <Text style={styles.date}> {date.format('DD.MM.')}</Text>
                </Text>
             </View>
+            {!restaurants.length ? <Text style={{color: '#999', textAlign: 'center'}}>Yhtään ravintolla ei ole valittuna!</Text> : null}
             <ListView
                initialListSize={1}
                pageSize={2}

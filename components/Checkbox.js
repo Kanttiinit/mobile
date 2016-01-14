@@ -31,7 +31,7 @@ export default class Checkbox extends React.Component {
    animateCheckSymbol(active) {
       Animated.spring(
          this.state.checkedPhase,
-         {toValue: active ? 1 : 0}
+         {toValue: active ? 1 : 0, tension: 200}
       ).start();
    }
    render() {

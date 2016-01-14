@@ -69,7 +69,7 @@ export default class Restaurant extends Component {
       return (
          <View style={[MKCardStyles.card, styles.container]}>
 
-            <View style={[styles.header, restaurant.isOpen && {backgroundColor: MKColor.Teal}]}>
+            <View style={[styles.header, isToday && restaurant.isOpen && {backgroundColor: MKColor.Teal}]}>
                <View>
                   <Text style={styles.restaurantName}>{restaurant.name}</Text>
                   {restaurant.distance ?

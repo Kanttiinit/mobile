@@ -41,24 +41,23 @@ export default class Checkbox extends React.Component {
          <MKButton
             onPress={this.onCheckedChange.bind(this)}
             style={{
-               height: 24,
-               width: 24,
-               margin: 8,
-               borderRadius: 8,
-               backgroundColor: MKColor.Silver
+               height: 26,
+               width: 26,
+               margin: 6,
+               borderRadius: 6,
+               backgroundColor: '#c1c1c1'
             }}>
             <Animated.View
                style={{
                   flex: 1,
                   opacity: checkedPhase,
-                  borderRadius: 8,
+                  borderRadius: 6,
                   backgroundColor: MKColor.Teal,
                   alignItems: 'center',
                   justifyContent: 'center'
                }}>
                <Animated.View
                   style={{
-                     marginTop: 3,
                      backgroundColor: 'transparent',
                      transform: [{scale: checkedPhase}]
                   }}>

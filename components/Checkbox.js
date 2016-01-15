@@ -6,7 +6,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 const {
    Animated,
-   View
+   View,
+   Platform
 } = React;
 
 const {
@@ -41,8 +42,8 @@ export default class Checkbox extends React.Component {
          <MKButton
             onPress={this.onCheckedChange.bind(this)}
             style={{
-               height: 26,
-               width: 26,
+               height: 24,
+               width: 24,
                margin: 6,
                borderRadius: 6,
                backgroundColor: '#c1c1c1'
@@ -59,7 +60,8 @@ export default class Checkbox extends React.Component {
                <Animated.View
                   style={{
                      backgroundColor: 'transparent',
-                     transform: [{scale: checkedPhase}]
+                     transform: [{scale: checkedPhase}],
+                     marginTop: Platform.OS === 'ios' ? 3 : 0
                   }}>
                   <Icon
                      name="ios-checkmark-empty"

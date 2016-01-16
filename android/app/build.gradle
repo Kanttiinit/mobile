@@ -86,5 +86,5 @@ dependencies {
     compile project(':react-native-material-kit')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
-    compile "com.facebook.react:react-native:0.17.+"
+    compile "com.facebook.react:react-native:0.18.+"
 }

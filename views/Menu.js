@@ -19,8 +19,7 @@ const {
    AppStateIOS,
    Platform,
    DeviceEventEmitter,
-   Text,
-   Animated
+   Text
 } = React;
 
 const {
@@ -34,7 +33,7 @@ class Menu extends React.Component {
       this.state = {
          days: this.getDays(),
          loading: true,
-         updatingPosition: new Animated.Value(-70)
+         updating: false
       };
    }
    getChildContext() {
@@ -67,7 +66,7 @@ class Menu extends React.Component {
    }
    update() {
       // shit is loading yo
-      Animated.timing(this.state.updatingPosition, {toValue: 0}).start();
+      this.setState({updating: true});
       const state = {};
 
       // update days if first day isn't today
@@ -82,8 +81,8 @@ class Menu extends React.Component {
       .then(restaurants => {
          state.restaurants = Service.updateRestaurantDistances(restaurants, this.state.location);
          state.loading = false;
+         state.updating = false;
          this.setState(state);
-         Animated.timing(this.state.updatingPosition, {toValue: -70}).start();
 
          // if no location is known, try to get it
          if (!this.state.location) {
@@ -104,7 +103,7 @@ class Menu extends React.Component {
       this.refs.daySelector.setCurrent(p);
    }
    render() {
-      const {restaurants, favorites, days, loading, updatingPosition} = this.state;
+      const {restaurants, favorites, days, loading, updating} = this.state;
       return (
          <View style={styles.container}>
             {loading ? <Loader color={MKColor.Teal} />
@@ -118,9 +117,9 @@ class Menu extends React.Component {
             {!loading ?
             <DaySelector ref="daySelector" onChange={this.onDaySelectorChange.bind(this)} max={days.length - 1} />
             : null}
-            <Animated.View style={[styles.update, {transform: [{translateY: updatingPosition}]}]}>
+            <View style={[styles.update, updating && {top: 0}]}>
                <Text style={styles.updateText}>Päivitetään...</Text>
-            </Animated.View>
+            </View>
             <Modal
                ref="modal"
                style={{padding: 0}}
@@ -144,7 +143,7 @@ const styles = StyleSheet.create({
    update: {
       backgroundColor: MKColor.Teal,
       position: 'absolute',
-      top: 0,
+      top: -100,
       left: 0,
       right: 0,
       padding: 8

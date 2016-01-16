@@ -74,7 +74,7 @@ export default class Restaurant extends Component {
                   <Text style={styles.restaurantName}>{restaurant.name}</Text>
                   {restaurant.distance ?
                   <Text style={styles.distance}>
-                     <Icon name="ios-location" /> {' '} {this.formatDistance(restaurant.distance)}
+                     <Icon name="ios-location" />{' '}{this.formatDistance(restaurant.distance)}
                   </Text>
                   : null}
                </View>
@@ -157,7 +157,8 @@ const styles = StyleSheet.create({
       color: MKColor.Silver,
       fontSize: 10,
       paddingTop: 4,
-      height: 16
+      height: 16,
+      alignItems: 'center'
    },
    restaurantName: {
       fontSize: 14,

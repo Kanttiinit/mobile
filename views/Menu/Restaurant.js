@@ -11,7 +11,8 @@ const {
    View,
    Text,
    StyleSheet,
-   Component
+   Component,
+   Platform
 } = React;
 
 const {
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       marginLeft: 8,
       marginRight: 8,
-      borderRadius: 2
+      borderRadius: Platform.OS === 'ios' ? 2 : 0
    },
    favoriteCourse: {
       backgroundColor: '#f7eaea',

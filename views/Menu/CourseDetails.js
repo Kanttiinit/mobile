@@ -21,8 +21,8 @@ export default class CourseDetails extends Component {
    render() {
       const {course} = this.props;
       return (
-         <View>
-            <View style={styles.courseTitleWrapper}>
+         <View style={styles.container}>
+            <View>
                <Text style={styles.courseTitle}>{course.title}</Text>
             </View>
             <View style={styles.courseListWrapper}>
@@ -53,9 +53,8 @@ CourseDetails.defaultProps = {
 };
 
 const styles = StyleSheet.create({
-   courseTitleWrapper: {
-      borderTopLeftRadius: 2,
-      borderTopRightRadius: 2,
+   container: {
+      borderRadius: 2,
       backgroundColor: MKColor.Silver,
       padding: 14
    },
@@ -64,19 +63,16 @@ const styles = StyleSheet.create({
       color: 'black'
    },
    courseListWrapper: {
-      backgroundColor: MKColor.Silver,
-      padding: 14,
+      marginTop: 10,
+      marginBottom: 10,
       paddingTop: 0
    },
    footer: {
-      backgroundColor: MKColor.Silver,
-      borderBottomLeftRadius: 2,
-      borderBottomRightRadius: 2,
-      padding: 14,
       alignItems: 'center',
       flexDirection: 'row'
    },
    restaurantName: {
+      alignSelf: 'flex-end',
       color: '#777',
       flex: 1
    },

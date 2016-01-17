@@ -26,9 +26,10 @@ export default class CourseDetails extends Component {
                <Text style={styles.courseTitle}>{course.title}</Text>
             </View>
             <View style={styles.courseListWrapper}>
-               {course.properties ?
-                  course.properties.map(p => <Property key={p} containerStyle={{marginTop: 8}} large={true}>{p}</Property>)
-                  : null}
+               {course.properties && course.properties.length ?
+               course.properties.map(p => <Property key={p} containerStyle={{marginTop: 8}} large={true}>{p}</Property>)
+               :
+               <Text style={{marginTop: 10, color: MKColor.Grey}}>Ei ominaisuuksia.</Text>}
             </View>
             <View style={styles.footer}>
                <Text style={styles.restaurantName}>{course.restaurant.name}</Text>

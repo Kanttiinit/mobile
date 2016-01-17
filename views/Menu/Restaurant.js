@@ -73,9 +73,10 @@ export default class Restaurant extends Component {
                <View>
                   <Text style={styles.restaurantName}>{restaurant.name}</Text>
                   {restaurant.distance ?
-                  <Text style={styles.distance}>
-                     <Icon name="ios-location" />{' '}{this.formatDistance(restaurant.distance)}
-                  </Text>
+                  <View style={styles.distance}>
+                     <Icon style={styles.distanceText} name="ios-location" />
+                     <Text style={[styles.distanceText, {marginLeft: 3}]}>{this.formatDistance(restaurant.distance)}</Text>
+                  </View>
                   : null}
                </View>
                <View style={{flex: 1}}>
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       alignItems: 'center',
       backgroundColor: '#7c7c7c',
-      padding: 8,
+      padding: 6,
       borderRadius: 2,
       borderBottomLeftRadius: 0,
       borderBottomRightRadius: 0
@@ -154,11 +155,13 @@ const styles = StyleSheet.create({
       color: '#fff'
    },
    distance: {
-      color: MKColor.Silver,
-      fontSize: 10,
-      paddingTop: 4,
+      flexDirection: 'row',
       height: 16,
       alignItems: 'center'
+   },
+   distanceText: {
+      color: MKColor.Silver,
+      fontSize: 10
    },
    restaurantName: {
       fontSize: 14,

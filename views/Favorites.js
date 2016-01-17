@@ -31,7 +31,7 @@ class Favorite extends Component {
    render() {
       const {favorite, parent, style} = this.props;
       return (
-         <View style={[styles.food, style]}>
+         <View style={[styles.favorite, style]}>
             <Icon style={styles.heartIcon} color='#fc5151' name='android-favorite' />
             <Text style={styles.foodTitle}>{favorite.name}</Text>
             <MKButton
@@ -116,8 +116,9 @@ export default class Favorites extends Component {
             {favorites ?
                <ScrollView style={styles.favoriteList} scrollsToTop={true}>
                {favorites.map(fav => {
-                  return <Favorite style={{marginBottom: favorites.indexOf(fav) == favorites.length -1 ? 96 : 2}} favorite={fav} key={fav.name} parent={this}/>
+                  return <Favorite favorite={fav} key={fav.name} parent={this}/>
                })}
+               <View style={{height: 100}}></View>
                </ScrollView>
             : <Loader color={MKColor.Teal} />}
             {favorites && !favorites.length ? <Text style={{alignSelf: 'center', flex: 1, color: MKColor.Grey}}>Ei suosikkeja.</Text> : null}
@@ -163,14 +164,15 @@ export default class Favorites extends Component {
          justifyContent: 'center',
          alignItems: 'center'
       },
-      food: {
+      favorite: {
          backgroundColor: '#fff',
          flexDirection: 'row',
          justifyContent: 'center',
          alignItems: 'center',
          paddingRight: 10,
          paddingLeft: 15,
-         paddingVertical: 10
+         paddingVertical: 10,
+         marginBottom: 2
       },
       heartIcon: {
          fontSize: 26

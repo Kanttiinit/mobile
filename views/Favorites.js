@@ -10,7 +10,7 @@ import Loader from '../components/Loader';
 const {
    View,
    Text,
-   ListView,
+   ScrollView,
    StyleSheet,
    Component,
    DeviceEventEmitter,
@@ -48,7 +48,6 @@ class Favorite extends Component {
 export default class Favorites extends Component {
    constructor() {
       super();
-      this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
       this.state = {};
    }
    componentDidMount() {
@@ -84,7 +83,7 @@ export default class Favorites extends Component {
       FavoritesManager.getStoredFavorites()
       .then(favorites => {
          this.setState({
-            favorites: this.dataSource.cloneWithRows(favorites),
+            favorites: favorites,
             favoritesCount: favorites.length
          });
       })
@@ -101,7 +100,7 @@ export default class Favorites extends Component {
                floatingLabelEnabled={true}
                onChangeText={text => this.setState({text})}
                style={styles.textField}
-               placeholder="Ruoan nimi" />
+               placeholder="Avainsana" />
             <MKButton
                style={styles.addButton}
                onPress={() => this.refs.modal.close()}>
@@ -115,16 +114,13 @@ export default class Favorites extends Component {
       return (
          <View style={styles.container}>
             {favorites ?
-            <ListView
-               dataSource={favorites}
-               renderRow={(fav, sectionId, rowId) => {
-                  const lastRow = rowId == favoritesCount - 1;
-                  return <Favorite style={{marginBottom: lastRow ? 96 : 2}} favorite={fav} parent={this}/>
-               }}
-               style={styles.favoriteList}
-               scrollsToTop={true} />
+               <ScrollView style={styles.favoriteList} scrollsToTop={true}>
+               {favorites.map(fav => {
+                  return <Favorite style={{marginBottom: favorites.indexOf(fav) == favorites.length -1 ? 96 : 2}} favorite={fav} key={fav.name} parent={this}/>
+               })}
+               </ScrollView>
             : <Loader color={MKColor.Teal} />}
-            {favorites && !favorites._cachedRowCount ? <Text style={{alignSelf: 'center', flex: 1, color: MKColor.Grey}}>Ei suosikkeja.</Text> : null}
+            {favorites && !favorites.length ? <Text style={{alignSelf: 'center', flex: 1, color: MKColor.Grey}}>Ei suosikkeja.</Text> : null}
             <MKButton
                style={styles.fab}
                fab={true}

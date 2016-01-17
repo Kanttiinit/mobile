@@ -22,7 +22,9 @@ const {
 
 class Course extends Component {
    shouldComponentUpdate(nextProps) {
-      return nextProps.course.favorite !== this.props.course.favorite;
+      const nextCourse = nextProps.course;
+      const currentCourse = this.props.course;
+      return nextCourse.title !== currentCourse.title || nextCourse.favorite !== currentCourse.favorite;
    }
    render() {
       const {course, restaurant, style} = this.props;

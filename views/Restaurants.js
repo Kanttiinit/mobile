@@ -6,6 +6,7 @@ import RestaurantsManager from '../managers/Restaurants';
 import Service from '../managers/Service';
 import Loader from '../components/Loader';
 import HttpCache from '../managers/HttpCache';
+import Checkbox from '../components/Checkbox';
 const {
    Component,
    Text,
@@ -18,8 +19,7 @@ const {
 const {
    MKColor,
    MKCardStyles,
-   MKButton,
-   mdl
+   MKButton
 } = Material;
 
 class Area extends Component {
@@ -29,10 +29,11 @@ class Area extends Component {
    }
    componentDidMount() {
       RestaurantsManager.getSelectedRestaurants()
-      .then(selected => this.setState({selected}));
+      .then(selected => this.setState({selected}))
+      .catch(err => console.error(err));
    }
-   checkedChange(restaurant, state) {
-      if (state.checked)
+   checkedChange(restaurant, checked) {
+      if (checked)
          RestaurantsManager.selectRestaurant(restaurant);
       else
          RestaurantsManager.deselectRestaurant(restaurant);
@@ -44,19 +45,14 @@ class Area extends Component {
       const {selected} = this.state;
       if (selected)
          return (
-            <View style={[MKCardStyles.card, {marginBottom: 10}]}>
+            <View style={[MKCardStyles.card, styles.areaContainer]}>
                <View style={styles.area}>
                   <Text style={styles.areaTitle}>{area.name}</Text>
                </View>
                {area.Restaurants.sort((a, b) => a.name > b.name ? 1 : -1).map((r, i) =>
                   <View key={r.id} style={[styles.restaurant, i > 0 && styles.borderTop]}>
                      <Text style={{fontSize: 14, flex: 1}}>{r.name}</Text>
-                     <mdl.Switch
-                        trackSize={12}
-                        trackLength={32}
-                        thumbRadius={10}
-                        thumbOnColor={MKColor.Teal}
-                        onColor="rgba(5, 182, 166, 0.5)"
+                     <Checkbox
                         onCheckedChange={this.checkedChange.bind(this, r)}
                         checked={!!selected.find(id => id === r.id)} />
                   </View>
@@ -93,8 +89,7 @@ class Restaurants extends Component {
             {this.state.areas ?
             <ListView
                dataSource={this.state.areas}
-               renderRow={area => <Area area={area} />}
-               style={{padding: 14}} />
+               renderRow={area => <Area area={area} />} />
             : <Loader color={MKColor.Teal} />}
          </View>
       );
@@ -106,9 +101,19 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: MKColor.Silver
    },
+   areaContainer: {
+      margin: 14,
+      marginBottom: 10,
+      elevation: 2,
+      borderWidth: 0,
+      borderRadius: 2
+   },
    area: {
       padding: 8,
-      backgroundColor: MKColor.Teal
+      backgroundColor: MKColor.Teal,
+      borderRadius: 2,
+      borderBottomLeftRadius: 0,
+      borderBottomRightRadius: 0
    },
    areaTitle: {
       fontSize: 20,

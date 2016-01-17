@@ -10,7 +10,7 @@ import Loader from '../components/Loader';
 const {
    View,
    Text,
-   ListView,
+   ScrollView,
    StyleSheet,
    Component,
    DeviceEventEmitter,
@@ -25,26 +25,27 @@ const {
 } = Material;
 
 class Favorite extends Component {
+   shouldComponentUpdate(props) {
+      return props.favorite.name !== this.props.favorite.name;
+   }
    render() {
       const {favorite, parent, style} = this.props;
       return (
-         <View style={[MKCardStyles.card, style]}>
-            <View style={styles.food}>
-               <Icon style={styles.heartIcon} color='#fc5151' name='android-favorite' />
-               <Text style={styles.foodTitle}>{favorite.name}</Text>
-               <MKButton
-                  style={styles.removeButton}
-                  rippleColor='rgba(0, 0, 0, 0.25)'
-                  onPress={parent.removeFavorite.bind(parent, favorite.name)}>
-                  <Icon style={{fontSize: 26}} color='#8a8a8a' name='ios-close-empty' />
-               </MKButton>
-            </View>
+         <View style={[styles.favorite, style]}>
+            <Icon style={styles.heartIcon} color='#fc5151' name='android-favorite' />
+            <Text style={styles.foodTitle}>{favorite.name}</Text>
+            <MKButton
+               style={styles.removeButton}
+               rippleColor='rgba(0, 0, 0, 0.25)'
+               onPress={parent.removeFavorite.bind(parent, favorite.name)}>
+               <Icon style={{fontSize: 26}} color='#8a8a8a' name='ios-close-empty' />
+            </MKButton>
          </View>
       );
    }
 }
 
-class Favorites extends Component {
+export default class Favorites extends Component {
    constructor() {
       super();
       this.state = {};
@@ -70,10 +71,8 @@ class Favorites extends Component {
       if (name && name.length > 2) {
          FavoritesManager.addFavorite(name)
          .then(() => this.updateFavorites());
-         this.refs.modal.close();
       }
       this.setState({text: undefined});
-      this.refs.textField.refs.input.blur();
    }
    removeFavorite(name) {
       FavoritesManager.removeFavorite(name)
@@ -83,54 +82,58 @@ class Favorites extends Component {
    updateFavorites() {
       FavoritesManager.getStoredFavorites()
       .then(favorites => {
-         const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-         this.setState({favorites: dataSource.cloneWithRows(favorites)});
+         this.setState({
+            favorites: favorites,
+            favoritesCount: favorites.length
+         });
       })
       .catch(err => console.error(err));
    }
+   renderModalContent() {
+      return (
+         <View>
+            <View style={styles.modalTitle}><Text style={styles.modalTitleText}>Uusi suosikki</Text></View>
+            <MKTextField
+               clearButtonMode='while-editing'
+               highlightColor={MKColor.Teal}
+               textInputStyle={{color: MKColor.Black, fontSize: 18}}
+               floatingLabelEnabled={true}
+               onChangeText={text => this.setState({text})}
+               style={styles.textField}
+               placeholder="Avainsana" />
+            <MKButton
+               style={styles.addButton}
+               onPress={() => this.refs.modal.close()}>
+               <Text style={styles.addText}> LISÄÄ </Text>
+            </MKButton>
+         </View>
+      );
+   }
    render() {
-      const {favorites, keyboard} = this.state;
+      const {favorites, favoritesCount, keyboard} = this.state;
       return (
          <View style={styles.container}>
             {favorites ?
-            <ListView
-               dataSource={favorites}
-               renderRow={(fav, sectionId, rowId) => {
-                  const lastRow = rowId == favorites._cachedRowCount - 1;
-                  return <Favorite style={{marginBottom: lastRow ? 96 : 2}} favorite={fav} parent={this}/>
-               }}
-               style={styles.favoriteList}
-               scrollsToTop={true} />
+               <ScrollView style={styles.favoriteList} scrollsToTop={true}>
+               {favorites.map(fav => {
+                  return <Favorite favorite={fav} key={fav.name} parent={this}/>
+               })}
+               <View style={{height: 100}}></View>
+               </ScrollView>
             : <Loader color={MKColor.Teal} />}
-            {favorites && !favorites._cachedRowCount ? <Text style={{alignSelf: 'center', flex: 1, color: MKColor.Grey}}>Ei suosikkeja.</Text> : null}
+            {favorites && !favorites.length ? <Text style={{alignSelf: 'center', textAlign: 'center', width: 260, fontSize: 18, flex: 1, color: MKColor.Grey}}>Lisää avainsana, esimerkiksi 'salaatti' tai 'pizza'.</Text> : null}
             <MKButton
                style={styles.fab}
                fab={true}
                onPress={this.openModal.bind(this)}>
-               <Icon name='plus-round' size={22} color={MKColor.Silver} />
+               <Icon name='plus-round' size={22} color="white" />
             </MKButton>
 
             <Modal
                ref="modal"
                modalDidClose={this.addFavorite.bind(this)}
-               style={styles.modal}>
-               <View style={styles.modalTitle}><Text style={styles.modalTitleText}>Uusi suosikki</Text></View>
-               <MKTextField
-                  ref="textField"
-                  value={this.state.text}
-                  clearButtonMode='while-editing'
-                  highlightColor={MKColor.Teal}
-                  textInputStyle={{color: MKColor.Black, fontSize: 18}}
-                  floatingLabelEnabled={true}
-                  onChangeText={text => this.setState({text})}
-                  style={styles.textField}
-                  placeholder="Ruoan nimi" />
-               <MKButton
-                  style={styles.addButton}
-                  onPress={() => this.refs.modal.close()}>
-                  <Text style={styles.addText}> LISÄÄ </Text>
-               </MKButton>
-            </Modal>
+               style={styles.modal}
+               renderContent={this.renderModalContent.bind(this)} />
          </View>
       );
       }
@@ -161,14 +164,15 @@ class Favorites extends Component {
          justifyContent: 'center',
          alignItems: 'center'
       },
-      food: {
+      favorite: {
          backgroundColor: '#fff',
          flexDirection: 'row',
          justifyContent: 'center',
          alignItems: 'center',
          paddingRight: 10,
          paddingLeft: 15,
-         paddingVertical: 10
+         paddingVertical: 10,
+         marginBottom: 2
       },
       heartIcon: {
          fontSize: 26
@@ -210,13 +214,12 @@ class Favorites extends Component {
          backgroundColor: MKColor.Teal,
          alignSelf: 'flex-end',
          borderRadius: 2,
-         padding: 6
+         padding: 6,
+         elevation: 2
       },
       addText: {
          color: 'white',
          fontWeight: 'bold',
-         fontSize: 14
+         fontSize: 12
       }
    });
-
-   export default Favorites;

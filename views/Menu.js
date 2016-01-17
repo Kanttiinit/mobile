@@ -3,133 +3,86 @@
 import React from 'react-native';
 import Material from 'react-native-material-kit';
 import moment from 'moment';
-import momentFI from 'moment/locale/fi';
 import Swiper from '../components/Swiper';
 import Service from '../managers/Service';
-import Icon from 'react-native-vector-icons/Ionicons';
 import Loader from '../components/Loader';
 import Favorites from '../managers/Favorites';
 
-import Property from '../components/Property';
-
-moment.locale('fi');
+import Modal from 'react-native-simple-modal';
+import Day from './Menu/Day';
+import CourseDetails from './Menu/CourseDetails';
+import DaySelector from './Menu/DaySelector';
 
 const {
-   ListView,
    View,
-   Text,
    StyleSheet,
-   Dimensions,
-   DeviceEventEmitter,
    AppStateIOS,
-   Platform
+   Platform,
+   DeviceEventEmitter,
+   Text
 } = React;
 
 const {
-   MKCardStyles,
-   MKButton,
    MKColor,
    mdl
 } = Material;
 
-class Restaurant extends React.Component {
-   formatOpeningHours(hours) {
-      return String(hours[0]).substr(0, 2) + ':' + String(hours[0]).substr(2) + ' - ' + String(hours[1]).substr(0, 2) + ':' + String(hours[1]).substr(2);
-   }
-   formatDistance(distance) {
-      return distance < 1000 ? distance + ' m' : (distance / 1000).toFixed(1) + ' km';
-   }
-   render() {
-      const {date, restaurant, openModal} = this.props;
-      const courses = restaurant.courses;
-      const isToday = moment().isSame(date, 'day');
-      const restaurantHeaderColor = restaurant.isOpen ? MKColor.Teal : '#D32F2F';
-      return (
-         <View style={[MKCardStyles.card, styles.restaurant]}>
-
-            <View style={[styles.restaurantHeader, isToday && {backgroundColor: restaurantHeaderColor}]}>
-               <View>
-                  <Text style={{fontSize: 14, color: '#fff'}}>{restaurant.name}</Text>
-                  {restaurant.distance ?
-                     <Text style={{color: MKColor.Silver, fontSize: 10, paddingTop: 4, height: 16}}>
-                        <Icon name="ios-location" />
-                        {' '}
-                        {this.formatDistance(restaurant.distance)}
-                     </Text>
-                  : null}
-               </View>
-               <View style={{flex: 1}}>
-                  <Text
-                     style={{
-                        textAlign: 'right',
-                        color: restaurant.hours ? '#fff' : 'rgba(255, 255, 255, 0.5)',
-                        fontSize: 12
-                     }}>
-                     {restaurant.hours ? this.formatOpeningHours(restaurant.hours) : 'suljettu'}
-                  </Text>
-               </View>
-            </View>
-
-            {!courses.length ?
-               <View style={{padding: 10}}>
-                  <Text style={{color: MKColor.Grey, fontSize: 12, textAlign: 'center'}}>Ei menua saatavilla.</Text>
-               </View>
-            : courses.map((course, i) =>
-               <View key={course.title} style={{backgroundColor: course.favorite ? '#f7eaea' : undefined}}>
-                  <View style={[styles.course, i > 0 && styles.borderTop]}>
-                     {course.favorite ? <Icon style={{marginRight: 6}} color='#fc5151' name='android-favorite' /> : null}
-                     <Text key={course.title} style={{flex: 1, fontSize: 12}}>{course.title}</Text>
-                     {course.properties ? course.properties.map(p => <Property style={{marginLeft: 2}} key={p}>{p}</Property>) : null}
-                  </View>
-               </View>
-            )}
-         </View>
-      );
-   }
-}
-
 class Menu extends React.Component {
    constructor() {
       super();
-
-      this.state = {days: this.getDays()};
+      this.state = {
+         days: this.getDays(),
+         loading: true,
+         updating: false
+      };
+   }
+   getChildContext() {
+      return {
+         courseSelected: this.courseSelected.bind(this),
+         closeCourseDialog: this.closeCourseDialog.bind(this)
+      };
+   }
+   closeCourseDialog() {
+      this.refs.modal.close();
+   }
+   courseSelected(course, restaurant) {
+      this.selectedCourse = course;
+      this.selectedCourse.restaurant = restaurant;
+      this.refs.modal.open();
    }
    getDays() {
       return Array(7).fill(1).map((n, i) => moment().add(i, 'days'));
    }
    componentDidMount() {
       if (Platform.OS === 'ios')
-         AppStateIOS.addEventListener('change', this.handleStateChange.bind(this));
+         AppStateIOS.addEventListener('change', currentAppState => {
+            if (currentAppState === 'active')
+               this.update();
+         });
 
       DeviceEventEmitter.addListener('start', this.update.bind(this));
       this.props.events.on('MENU', this.update.bind(this));
       this.update();
    }
-   handleStateChange(currentAppState) {
-      if (currentAppState === 'active') {
-         this.update();
-      }
-   }
    update() {
-      if (this.state.loading)
-         return;
+      // shit is loading yo
+      this.setState({updating: true});
+      const state = {};
 
-      // shit is loading, yo
-      this.setState({loading: true});
-
+      // update days if first day isn't today
       if (!this.state.days[0].isSame(moment(), 'day'))
-         this.setState({days: this.getDays()});
+         state.days = this.getDays();
 
-      // fetch favorites
       Favorites.getStoredFavorites()
-      .then(favorites => this.setState({favorites}));
-
-      // update restaurant list
-      Service.getRestaurants()
+      .then(favorites => {
+         state.favorites = favorites;
+         return Service.getRestaurants();
+      })
       .then(restaurants => {
-         this.setState({
-            restaurants: Service.updateRestaurantDistances(restaurants, this.state.location)
-         });
+         state.restaurants = Service.updateRestaurantDistances(restaurants, this.state.location);
+         state.loading = false;
+         state.updating = false;
+         this.setState(state);
 
          // if no location is known, try to get it
          if (!this.state.location) {
@@ -138,101 +91,67 @@ class Menu extends React.Component {
                   location,
                   restaurants: Service.updateRestaurantDistances(this.state.restaurants, location)
                });
-               this.setState({loading: false});
             });
-         } else {
-            this.setState({loading: false});
          }
       })
-      .catch(err => {
-         console.error(err);
-      });
+      .catch(err => console.error(err));
    }
-   renderDay(date, i) {
-      const restaurants = Service.formatRestaurants(this.state.restaurants, date, this.state.favorites);
-      const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-      return (
-         <View key={i} style={{flex: 1}}>
-            <View style={styles.daySelector}>
-               <Text style={styles.dayTitle}>
-                  {date.format('dddd').toUpperCase()}
-                  <Text style={styles.date}> {date.format('DD.MM.')}</Text>
-               </Text>
-            </View>
-            <ListView
-               initialListSize={2}
-               pageSize={3}
-               dataSource={dataSource.cloneWithRows(restaurants)}
-               renderRow={restaurant =>
-                  <Restaurant date={date} restaurant={restaurant} openModal={this.openModal.bind(this)} />} />
-         </View>
-      );
+   onDaySelectorChange(p) {
+      this.refs.swiper.setPage(p);
    }
-   openModal(course) {
-      this.refs.modal.open();
+   onSwiperChange(p) {
+      this.refs.daySelector.setCurrent(p);
    }
    render() {
-      const {restaurants, favorites, days, loading} = this.state;
-      const course = this.state.course || {};
+      const {restaurants, favorites, days, loading, updating} = this.state;
       return (
          <View style={styles.container}>
-            {restaurants && favorites
-            ? <Swiper>{days.map((date, i) => this.renderDay(date, i))}</Swiper>
-            : <Loader color={MKColor.Teal} />}
-            {restaurants && loading ?
-               <mdl.Spinner
-                  strokeColor={MKColor.Teal}
-                  style={{position: 'absolute', top: 14, right: 14, transform: [{scale: 0.7}]}} />
+            {loading ? <Loader color={MKColor.Teal} />
+            :
+            <Swiper
+               ref="swiper"
+               onPageChange={this.onSwiperChange.bind(this)}>
+               {days.map((date, i) => <Day key={i} restaurants={restaurants} favorites={favorites} date={date} />)}
+            </Swiper>
+            }
+            {!loading ?
+            <DaySelector ref="daySelector" onChange={this.onDaySelectorChange.bind(this)} max={days.length - 1} />
             : null}
+            <View style={[styles.update, updating && {top: 0}]}>
+               <Text style={styles.updateText}>Päivitetään...</Text>
+            </View>
+            <Modal
+               ref="modal"
+               style={{padding: 0, backgroundColor: 'transparent'}}
+               renderContent={() => React.createElement(CourseDetails, {course: this.selectedCourse})} />
          </View>
       );
    }
 }
 
+Menu.childContextTypes = {
+   courseSelected: React.PropTypes.func,
+   closeCourseDialog: React.PropTypes.func
+};
+
 const styles = StyleSheet.create({
    container: {
       backgroundColor: MKColor.Silver,
-      flex: 1
-   },
-   daySelector: {
-      flexDirection: 'row',
-      padding: 14
-   },
-   dayTitle: {
-      fontSize: 20,
-      fontWeight: '300',
       flex: 1,
-      fontFamily: Platform.OS === 'android' ? 'sans-serif-light' : undefined
+      position: 'relative'
    },
-   date: {
-      color: '#bababa'
-   },
-   dayChangeButton: {
+   update: {
+      backgroundColor: MKColor.Teal,
+      position: 'absolute',
+      top: -100,
+      left: 0,
+      right: 0,
       padding: 8
    },
-   restaurant: {
-      marginLeft: 14,
-      marginRight: 14,
-      marginBottom: 14,
-      paddingBottom: 0
-   },
-   restaurantHeader: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      backgroundColor: '#7c7c7c',
-      padding: 8
-   },
-   course: {
-      flexDirection: 'row',
-      paddingTop: 8,
-      paddingBottom: 8,
-      alignItems: 'center',
-      marginLeft: 8,
-      marginRight: 8
-   },
-   borderTop: {
-      borderTopWidth: 1,
-      borderTopColor: '#eee'
+   updateText: {
+      color: 'white',
+      textAlign: 'center',
+      fontWeight: '300'
    }
 });
 

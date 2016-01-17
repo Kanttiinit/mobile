@@ -121,7 +121,7 @@ export default class Favorites extends Component {
                <View style={{height: 100}}></View>
                </ScrollView>
             : <Loader color={MKColor.Teal} />}
-            {favorites && !favorites.length ? <Text style={{alignSelf: 'center', flex: 1, color: MKColor.Grey}}>Ei suosikkeja.</Text> : null}
+            {favorites && !favorites.length ? <Text style={{alignSelf: 'center', textAlign: 'center', width: 260, fontSize: 18, flex: 1, color: MKColor.Grey}}>Lisää avainsana, esimerkiksi 'salaatti' tai 'pizza'.</Text> : null}
             <MKButton
                style={styles.fab}
                fab={true}

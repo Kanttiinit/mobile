@@ -45,14 +45,14 @@ export default class Checkbox extends React.Component {
                height: 24,
                width: 24,
                margin: 6,
-               borderRadius: 6,
+               borderRadius: 12,
                backgroundColor: '#c1c1c1'
             }}>
             <Animated.View
                style={{
                   flex: 1,
                   opacity: checkedPhase,
-                  borderRadius: 6,
+                  borderRadius: 12,
                   backgroundColor: MKColor.Teal,
                   alignItems: 'center',
                   justifyContent: 'center'

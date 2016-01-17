@@ -30,7 +30,7 @@ class Course extends Component {
          <MKButton
             onPress={() => this.context.courseSelected(course, restaurant)}
             rippleColor='rgba(200, 200, 200, 0.25)'
-            style={[course.favorite && styles.favoriteCourse]}>
+            style={[course.favorite ? styles.favoriteCourse : {borderRadius: 2}]}>
             <View style={[styles.course, style]}>
                {course.favorite ? <Icon style={{marginRight: 6}} color='#fc5151' name='android-favorite' /> : null}
                <Text key={course.title} style={styles.courseTitle}>{course.title}</Text>
@@ -87,7 +87,7 @@ export default class Restaurant extends Component {
             </View>
 
             {!courses.length ?
-            <View style={{padding: 10}}>
+            <View style={{padding: 10, borderRadius: 2}}>
                <Text style={styles.emptyMenuText}>Ei menua saatavilla.</Text>
             </View>
             : courses.map((course, i) =>
@@ -128,10 +128,12 @@ const styles = StyleSheet.create({
       paddingBottom: 8,
       alignItems: 'center',
       marginLeft: 8,
-      marginRight: 8
+      marginRight: 8,
+      borderRadius: 2
    },
    favoriteCourse: {
-      backgroundColor: '#f7eaea'
+      backgroundColor: '#f7eaea',
+      borderRadius: 0
    },
    courseTitle: {
       flex: 1,

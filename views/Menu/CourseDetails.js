@@ -54,20 +54,25 @@ CourseDetails.defaultProps = {
 
 const styles = StyleSheet.create({
    courseTitleWrapper: {
-      backgroundColor: MKColor.Teal,
-      padding: 10
+      borderTopLeftRadius: 2,
+      borderTopRightRadius: 2,
+      backgroundColor: MKColor.Silver,
+      padding: 14
    },
    courseTitle: {
       fontSize: 18,
-      color: 'white'
+      color: 'black'
    },
    courseListWrapper: {
-      padding: 10,
+      backgroundColor: MKColor.Silver,
+      padding: 14,
       paddingTop: 0
    },
    footer: {
-      padding: 8,
-      backgroundColor: '#ddd',
+      backgroundColor: MKColor.Silver,
+      borderBottomLeftRadius: 2,
+      borderBottomRightRadius: 2,
+      padding: 14,
       alignItems: 'center',
       flexDirection: 'row'
    },
@@ -77,8 +82,8 @@ const styles = StyleSheet.create({
    },
    closeButton: {
       backgroundColor: MKColor.Teal,
-      padding: 4,
-      borderRadius: 2
+      borderRadius: 2,
+      padding: 6,
    },
    closeButtonText: {
       fontSize: 12,

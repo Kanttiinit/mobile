@@ -122,7 +122,7 @@ class Menu extends React.Component {
             </View>
             <Modal
                ref="modal"
-               style={{padding: 0}}
+               style={{padding: 0, backgroundColor: 'transparent'}}
                renderContent={() => React.createElement(CourseDetails, {course: this.selectedCourse})} />
          </View>
       );

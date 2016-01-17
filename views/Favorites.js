@@ -222,6 +222,6 @@ export default class Favorites extends Component {
       addText: {
          color: 'white',
          fontWeight: 'bold',
-         fontSize: 14
+         fontSize: 12
       }
    });

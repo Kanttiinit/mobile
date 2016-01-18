@@ -53,9 +53,10 @@ export default class Restaurant extends Component {
       return restaurant.courses.map(c => +c.favorite).join('');
    }
    shouldComponentUpdate(props) {
-      const result = this.getFavString(props.restaurant) !== this.getFavString(this.props.restaurant)
+      const result = props.restaurant.id !== this.props.restaurant.id
          || props.restaurant.isOpen !== this.props.restaurant.isOpen
-         || props.restaurant.distance !== this.props.restaurant.distance;
+         || props.restaurant.distance !== this.props.restaurant.distance
+         || this.getFavString(props.restaurant) !== this.getFavString(this.props.restaurant);
 
       return result;
    }

@@ -63,7 +63,7 @@ export default class Restaurant extends Component {
       return String(hours[0]).substr(0, 2) + ':' + String(hours[0]).substr(2) + ' - ' + String(hours[1]).substr(0, 2) + ':' + String(hours[1]).substr(2);
    }
    formatDistance(distance) {
-      return distance < 1000 ? distance + ' m' : (distance / 1000).toFixed(1) + ' km';
+      return distance < 1000 ? distance.toFixed(0) + ' m' : (distance / 1000).toFixed(1) + ' km';
    }
    render() {
       const {date, courseSelected, restaurant} = this.props;

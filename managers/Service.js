@@ -1,7 +1,7 @@
 'use strict';
 
 import {AsyncStorage} from 'react-native';
-import geolib from 'geolib';
+import haversine from 'haversine';
 import moment from 'moment';
 import RestaurantsManager from './Restaurants';
 import HttpCache from './HttpCache';
@@ -13,10 +13,7 @@ export default {
       if (location && location.latitude && location.longitude) {
          return restaurants.map(r => {
             if (r.latitude && r.longitude)
-               r.distance = geolib.getDistance(
-                  {latitude: location.latitude, longitude: location.longitude},
-                  {latitude: r.latitude, longitude: r.longitude}
-               );
+               r.distance = haversine(location, r) * 1000;
             return r;
          });
       }
@@ -25,14 +22,17 @@ export default {
    },
    // return restaurants sorted by distance and favorite foods
    sortedRestaurants(restaurants, date) {
+      const isToday = moment().isSame(date, 'day');
       return restaurants.sort((a, b) => {
          // can this be written in a prettier way??
          if (!a.hours && b.hours) return 1;
          if (a.hours && !b.hours) return -1;
          if (!a.courses.length && b.courses.length) return 1;
          if (a.courses.length && !b.courses.length) return -1;
-         if (!a.isOpen && b.isOpen) return 1;
-         if (a.isOpen && !b.isOpen) return -1;
+         if (isToday) {
+            if (!a.isOpen && b.isOpen) return 1;
+            if (a.isOpen && !b.isOpen) return -1;
+         }
          if (!a.favoriteCourses && b.favoriteCourses) return 1;
          if (a.favoriteCourses && !b.favoriteCourses) return -1;
          if (a.distance > b.distance) return 1;
@@ -67,7 +67,7 @@ export default {
       return RestaurantsManager.getSelectedRestaurants()
       .then(selected => {
          if (selected.length)
-            return HttpCache.get('menus', 'https://api.kanttiinit.fi/menus/' + selected.sort().join(','), {days: 1})
+            return HttpCache.get('menus', 'https://api.kanttiinit.fi/menus/' + selected.sort().join(','), {hours: 3})
 
          return [];
       });

@@ -7,6 +7,7 @@ import Swiper from '../components/Swiper';
 import Service from '../managers/Service';
 import Loader from '../components/Loader';
 import Favorites from '../managers/Favorites';
+import haversine from 'haversine';
 
 import Modal from 'react-native-simple-modal';
 import Day from './Menu/Day';
@@ -84,15 +85,16 @@ class Menu extends React.Component {
          state.updating = false;
          this.setState(state);
 
-         // if no location is known, try to get it
-         if (!this.state.location) {
-            return Service.getLocation().then(location => {
+         // get location
+         return Service.getLocation().then(location => {
+            const currentLocation = this.state.location;
+            if (!currentLocation || (currentLocation && haversine(currentLocation, location) > 30 / 1000)) {
                this.setState({
                   location,
                   restaurants: Service.updateRestaurantDistances(this.state.restaurants, location)
                });
-            });
-         }
+            }
+         });
       })
       .catch(err => console.error(err));
    }

@@ -10,7 +10,6 @@ import moment from 'moment';
 const {
    View,
    StyleSheet,
-   Platform,
    Text
 } = React;
 
@@ -49,14 +48,16 @@ export default class DaySelector extends React.Component {
    render() {
       const {max} = this.props;
       const {current} = this.state;
-      const android = Platform.OS === 'android';
+      const transparentBackground = 'rgba(235, 235, 235, 0)';
+      const background = 'rgba(235, 235, 235, 1)';
       return (
          <View style={styles.container}>
             <LinearGradient
-               start={[0.5, 0]}
+               start={[0, 0]}
                end={[1, 0]}
-               colors={['rgba(235, 235, 235, 1)', 'rgba(235, 235, 235, 0)']}
-               style={[styles.buttonContainer, {left: 0, paddingLeft: 14, paddingRight: android ? 8 : 28}]}>
+               locations={[0.5, 1]}
+               colors={[background, transparentBackground]}
+               style={[styles.buttonContainer, {left: 0, paddingLeft: 14, paddingRight: 28}]}>
                <Button
                   onPress={this.change.bind(this, -1)}
                   icon="chevron-left"
@@ -64,9 +65,10 @@ export default class DaySelector extends React.Component {
             </LinearGradient>
             <LinearGradient
                start={[0, 0]}
-               end={[0.5, 0]}
-               colors={['rgba(235, 235, 235, 0)', 'rgba(235, 235, 235, 1)']}
-               style={[styles.buttonContainer, {right: 0, paddingRight: 14, paddingLeft: android ? 8 : 28}]}>
+               end={[1, 0]}
+               locations={[0, 0.5]}
+               colors={[transparentBackground, background]}
+               style={[styles.buttonContainer, {right: 0, paddingRight: 14, paddingLeft: 28}]}>
                <Button
                   onPress={this.change.bind(this, 1)}
                   icon="chevron-right"
@@ -93,9 +95,7 @@ const styles = StyleSheet.create({
       top: 0,
       bottom: 0,
       paddingTop: 6,
-      height: 40,
-      // fix when gradients are more widely available
-      backgroundColor: Platform.OS === 'android' ? MKColor.Silver : 'transparent'
+      height: 40
    },
    arrowButton: {
       width: 32,

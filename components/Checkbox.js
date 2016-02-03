@@ -18,16 +18,14 @@ const {
 export default class Checkbox extends React.Component {
    constructor() {
       super();
-      this.state = {checked: true, checkedPhase: new Animated.Value(1)};
+      this.state = {checkedPhase: new Animated.Value(1)};
    }
    componentDidMount() {
       const {checked} = this.props;
-      this.setState({checked: checked, checkedPhase: new Animated.Value(checked ? 1 : 0)});
+      this.setState({checkedPhase: new Animated.Value(checked ? 1 : 0)});
    }
-   onCheckedChange() {
-      this.setState({checked: !this.state.checked});
-      this.props.onCheckedChange(this.state.checked);
-      this.animateCheckSymbol(this.state.checked);
+   componentWillReceiveProps(props) {
+      this.animateCheckSymbol(props.checked);
    }
    animateCheckSymbol(active) {
       Animated.spring(
@@ -36,11 +34,11 @@ export default class Checkbox extends React.Component {
       ).start();
    }
    render() {
-      const {onCheckedChange, color} = this.props;
-      const {checked, checkedPhase} = this.state;
+      const {checked, onCheckedChange, color, backgroundColor} = this.props;
+      const {checkedPhase} = this.state;
       return (
          <MKButton
-            onPress={this.onCheckedChange.bind(this)}
+            onPress={() => onCheckedChange(!checked)}
             style={{
                height: 24,
                width: 24,
@@ -53,7 +51,7 @@ export default class Checkbox extends React.Component {
                   flex: 1,
                   opacity: checkedPhase,
                   borderRadius: 12,
-                  backgroundColor: color || MKColor.Teal,
+                  backgroundColor: backgroundColor || MKColor.Teal,
                   alignItems: 'center',
                   justifyContent: 'center'
                }}>
@@ -65,7 +63,7 @@ export default class Checkbox extends React.Component {
                   }}>
                   <Icon
                      name="ios-checkmark-empty"
-                     color="white"
+                     color={color || 'white'}
                      size={32} />
                </Animated.View>
             </Animated.View>

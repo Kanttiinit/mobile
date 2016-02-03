@@ -37,7 +37,7 @@ class Area extends Component {
    }
    checkedChange(restaurant, checked) {
       RestaurantsManager.setSelected(restaurant, checked)
-      .then(() => this.update()).catch(e => console.error(e));
+      .then(() => this.update());
 
       HttpCache.reset('menus');
    }
@@ -57,7 +57,8 @@ class Area extends Component {
                <View style={styles.area}>
                   <Text style={styles.areaTitle}>{area.name}</Text>
                   <Checkbox
-                     color='#000'
+                     backgroundColor='white'
+                     color={MKColor.Teal}
                      checked={this.areAllChecked()}
                      onCheckedChange={this.areaCheckedChange.bind(this)} />
                </View>
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
       borderRadius: 2
    },
    area: {
-      padding: 8,
+      padding: 6,
       backgroundColor: MKColor.Teal,
       borderRadius: 2,
       borderBottomLeftRadius: 0,

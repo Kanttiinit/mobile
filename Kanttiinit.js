@@ -55,7 +55,7 @@ class Kanttiinit extends React.Component {
       };
       this.state = {
          views: [
-            { title: 'MENU', icon: 'android-restaurant', component: React.createElement(Menu, {events: this.events}) },
+            //{ title: 'MENU', icon: 'android-restaurant', component: React.createElement(Menu, {events: this.events}) },
             { title: 'SUOSIKIT', icon: 'android-favorite', component: React.createElement(Favorites, {events: this.events}) },
             { title: 'RAVINTOLAT', icon: 'ios-list', component: React.createElement(Restaurants, {events: this.events}) }
          ],

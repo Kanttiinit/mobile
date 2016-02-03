@@ -28,17 +28,25 @@ class Area extends Component {
       this.state = {};
    }
    componentDidMount() {
-      RestaurantsManager.getSelectedRestaurants()
+      this.update();
+   }
+   update() {
+      return RestaurantsManager.getSelectedRestaurants()
       .then(selected => this.setState({selected}))
       .catch(err => console.error(err));
    }
    checkedChange(restaurant, checked) {
-      if (checked)
-         RestaurantsManager.selectRestaurant(restaurant);
-      else
-         RestaurantsManager.deselectRestaurant(restaurant);
+      RestaurantsManager.setSelected(restaurant, checked)
+      .then(() => this.update()).catch(e => console.error(e));
 
       HttpCache.reset('menus');
+   }
+   areaCheckedChange(checked) {
+      RestaurantsManager.setSelectedBatch(this.props.area.Restaurants, checked)
+      .then(() => this.update());
+   }
+   areAllChecked() {
+      return this.props.area.Restaurants.every(r => this.state.selected.indexOf(r.id) > -1);
    }
    render() {
       const {area} = this.props;
@@ -48,6 +56,10 @@ class Area extends Component {
             <View style={[MKCardStyles.card, styles.areaContainer]}>
                <View style={styles.area}>
                   <Text style={styles.areaTitle}>{area.name}</Text>
+                  <Checkbox
+                     color='#000'
+                     checked={this.areAllChecked()}
+                     onCheckedChange={this.areaCheckedChange.bind(this)} />
                </View>
                {area.Restaurants.sort((a, b) => a.name > b.name ? 1 : -1).map((r, i) =>
                   <View key={r.id} style={[styles.restaurant, i > 0 && styles.borderTop]}>
@@ -113,10 +125,13 @@ const styles = StyleSheet.create({
       backgroundColor: MKColor.Teal,
       borderRadius: 2,
       borderBottomLeftRadius: 0,
-      borderBottomRightRadius: 0
+      borderBottomRightRadius: 0,
+      flexDirection: 'row',
+      alignItems: 'center'
    },
    areaTitle: {
       fontSize: 20,
+      flex: 1,
       color: '#fff',
       fontWeight: '300',
       fontFamily: Platform.OS === 'android' ? 'sans-serif-light' : undefined

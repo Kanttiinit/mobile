@@ -22,17 +22,23 @@ export default {
    setSelectedRestaurants(selected) {
       return AsyncStorage.setItem('selectedRestaurants', JSON.stringify(selected));
    },
-   selectRestaurant(r) {
+   setSelectedBatch(restaurants, isSelected) {
       return this.getSelectedRestaurants()
       .then(selected => {
-         selected.push(r.id);
+         if (isSelected)
+            restaurants.forEach(r => selected.push(r.id));
+         else
+            selected = selected.filter(id => !restaurants.some(r => r.id === id));
          return this.setSelectedRestaurants(selected);
       });
    },
-   deselectRestaurant(r) {
+   setSelected(restaurant, isSelected) {
       return this.getSelectedRestaurants()
       .then(selected => {
-         selected.splice(selected.indexOf(r.id), 1);
+         if (isSelected)
+            selected.push(restaurant.id);
+         else
+            selected.splice(selected.indexOf(restaurant.id), 1);
          return this.setSelectedRestaurants(selected);
       });
    }

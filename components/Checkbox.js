@@ -36,7 +36,7 @@ export default class Checkbox extends React.Component {
       ).start();
    }
    render() {
-      const {onCheckedChange} = this.props;
+      const {onCheckedChange, color} = this.props;
       const {checked, checkedPhase} = this.state;
       return (
          <MKButton
@@ -53,7 +53,7 @@ export default class Checkbox extends React.Component {
                   flex: 1,
                   opacity: checkedPhase,
                   borderRadius: 12,
-                  backgroundColor: MKColor.Teal,
+                  backgroundColor: color || MKColor.Teal,
                   alignItems: 'center',
                   justifyContent: 'center'
                }}>

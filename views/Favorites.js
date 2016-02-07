@@ -101,11 +101,22 @@ export default class Favorites extends Component {
                onChangeText={text => this.setState({text})}
                style={styles.textField}
                placeholder="Avainsana" />
-            <MKButton
-               style={styles.addButton}
-               onPress={() => this.refs.modal.close()}>
-               <Text style={styles.addText}> LISÄÄ </Text>
-            </MKButton>
+            <View style={{flexDirection: 'row', flex: 1}}>
+               <MKButton
+                  style={[styles.addButton, {backgroundColor: MKColor.Red}]}
+                  onPress={() => {
+                     this.setState({text: undefined});
+                     this.refs.modal.close();
+                  }}>
+                  <Text style={styles.addText}> PERUUTA </Text>
+               </MKButton>
+               <View style={{flex: 1}} />
+               <MKButton
+                  style={styles.addButton}
+                  onPress={() => this.refs.modal.close()}>
+                  <Text style={styles.addText}> LISÄÄ </Text>
+               </MKButton>
+            </View>
          </View>
       );
    }

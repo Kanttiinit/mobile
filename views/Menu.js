@@ -10,9 +10,7 @@ import Favorites from '../managers/Favorites';
 import haversine from 'haversine';
 import {connect} from 'react-redux';
 
-import Modal from 'react-native-simple-modal';
 import Day from './Menu/Day';
-import CourseDetails from './Menu/CourseDetails';
 import DaySelector from './Menu/DaySelector';
 import AreaSelector from './Menu/AreaSelector';
 import RestaurantsManager from '../managers/Restaurants';
@@ -41,19 +39,8 @@ class Menu extends React.Component {
          areas: []
       };
    }
-   getChildContext() {
-      return {
-         courseSelected: this.courseSelected.bind(this),
-         closeCourseDialog: this.closeCourseDialog.bind(this)
-      };
-   }
    closeCourseDialog() {
       this.refs.modal.close();
-   }
-   courseSelected(course, restaurant) {
-      this.selectedCourse = course;
-      this.selectedCourse.restaurant = restaurant;
-      this.refs.modal.open();
    }
    getDays() {
       return Array(7).fill(1).map((n, i) => moment().add(i, 'days'));
@@ -145,19 +132,10 @@ class Menu extends React.Component {
             <View style={[styles.update, updating && {top: 0}]}>
                <Text style={styles.updateText}>Päivitetään...</Text>
             </View>
-            <Modal
-               ref="modal"
-               style={{padding: 0, backgroundColor: 'transparent'}}
-               renderContent={() => React.createElement(CourseDetails, {course: this.selectedCourse})} />
          </View>
       );
    }
 }
-
-Menu.childContextTypes = {
-   courseSelected: React.PropTypes.func,
-   closeCourseDialog: React.PropTypes.func
-};
 
 const styles = StyleSheet.create({
    container: {

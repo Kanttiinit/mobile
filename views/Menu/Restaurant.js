@@ -4,8 +4,12 @@ import React from 'react-native';
 import Material from 'react-native-material-kit';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {connect} from 'react-redux';
+
+import {showModal} from '../../store/actions';
 
 import Property from './Property';
+import CourseDetails from './CourseDetails';
 
 const {
    View,
@@ -29,9 +33,10 @@ class Course extends Component {
    }
    render() {
       const {course, restaurant, style} = this.props;
+      course.restaurant = restaurant;
       return (
          <MKButton
-            onPress={() => this.context.courseSelected(course, restaurant)}
+            onPress={() => this.props.courseSelected(course, restaurant)}
             rippleColor='rgba(200, 200, 200, 0.25)'
             style={[course.favorite ? styles.favoriteCourse : {borderRadius: 2}]}>
             <View style={[styles.course, style]}>
@@ -44,9 +49,12 @@ class Course extends Component {
    }
 }
 
-Course.contextTypes = {
-   courseSelected: React.PropTypes.func
-};
+const CourseContainer = connect(
+   undefined,
+   dispatch => ({
+      courseSelected: course => dispatch(showModal(<CourseDetails course={course} />))
+   })
+)(Course);
 
 export default class Restaurant extends Component {
    getFavString(restaurant) {
@@ -95,7 +103,7 @@ export default class Restaurant extends Component {
                <Text style={styles.emptyMenuText}>Ei menua saatavilla.</Text>
             </View>
             : courses.map((course, i) =>
-            <Course
+            <CourseContainer
                key={i}
                course={course}
                restaurant={restaurant}

@@ -2,6 +2,9 @@
 
 import React from 'react-native';
 import Material from 'react-native-material-kit';
+import {connect} from 'react-redux';
+
+import {dismissModal} from '../../store/actions';
 
 import Property from './Property';
 
@@ -17,7 +20,7 @@ const {
    MKColor
 } = Material;
 
-export default class CourseDetails extends Component {
+class CourseDetails extends Component {
    render() {
       const {course} = this.props;
       return (
@@ -34,7 +37,7 @@ export default class CourseDetails extends Component {
             <View style={styles.footer}>
                <Text style={styles.restaurantName}>{course.restaurant.name}</Text>
                <MKButton
-                  onPress={this.context.closeCourseDialog}
+                  onPress={() => this.props.dismissModal()}
                   style={styles.closeButton}>
                   <Text style={styles.closeButtonText}>SULJE</Text>
                </MKButton>
@@ -44,9 +47,12 @@ export default class CourseDetails extends Component {
    }
 }
 
-CourseDetails.contextTypes = {
-   closeCourseDialog: React.PropTypes.func
-};
+export default connect(
+   undefined,
+   dispatch => ({
+      dismissModal: () => dispatch(dismissModal())
+   })
+)(CourseDetails);
 
 CourseDetails.defaultProps = {
    course: {}
@@ -54,9 +60,7 @@ CourseDetails.defaultProps = {
 
 const styles = StyleSheet.create({
    container: {
-      borderRadius: 2,
-      backgroundColor: MKColor.Silver,
-      padding: 14
+      borderRadius: 2
    },
    courseTitle: {
       fontSize: 18,

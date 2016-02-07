@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-simple-modal';
 import {connect} from 'react-redux'
 
-import {changeView} from './store/actions';
+import {changeView, dismissModal} from './store/actions';
 
 const {
    StyleSheet,
@@ -120,7 +120,8 @@ const stateToProps = state => ({
 });
 
 const dispatchToProps = dispatch => ({
-   changeView: view => dispatch(changeView(view))
+   changeView: view => dispatch(changeView(view)),
+   dismissModal: () => dispatch(dismissModal())
 });
 
 export default connect(stateToProps, dispatchToProps)(Router);

@@ -13,6 +13,8 @@ import Modal from 'react-native-simple-modal';
 import Day from './Menu/Day';
 import CourseDetails from './Menu/CourseDetails';
 import DaySelector from './Menu/DaySelector';
+import AreaSelector from './Menu/AreaSelector';
+import RestaurantsManager from '../managers/Restaurants';
 
 const {
    View,
@@ -25,7 +27,7 @@ const {
 
 const {
    MKColor,
-   mdl
+   MKButton
 } = Material;
 
 class Menu extends React.Component {
@@ -34,7 +36,8 @@ class Menu extends React.Component {
       this.state = {
          days: this.getDays(),
          loading: true,
-         updating: false
+         updating: false,
+         areas: []
       };
    }
    getChildContext() {
@@ -81,6 +84,14 @@ class Menu extends React.Component {
       })
       .then(restaurants => {
          state.restaurants = Service.updateRestaurantDistances(restaurants, this.state.location);
+
+         if (!restaurants.length)
+            return Service.getAreas();
+
+         return [];
+      })
+      .then(areas => {
+         state.areas = areas;
          state.loading = false;
          state.updating = false;
          this.setState(state);
@@ -104,8 +115,16 @@ class Menu extends React.Component {
    onSwiperChange(p) {
       this.refs.daySelector.setCurrent(p);
    }
+   onAreaSelect(area) {
+      RestaurantsManager.setSelectedBatch(area.Restaurants, true)
+      .then(() => this.update());
+   }
    render() {
-      const {restaurants, favorites, days, loading, updating} = this.state;
+      const {restaurants, areas, favorites, days, loading, updating} = this.state;
+
+      if (restaurants && !restaurants.length)
+         return <AreaSelector areas={areas} onSelect={this.onAreaSelect.bind(this)} />;
+
       return (
          <View style={styles.container}>
             {loading ? <Loader color={MKColor.Teal} />

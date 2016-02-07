@@ -14,8 +14,7 @@ export default {
             return JSON.parse(selectedRestaurants);
 
          return Service.getAreas().then(areas => {
-            const restaurantIds = areas[0].Restaurants.map(r => r.id);
-            return this.setSelectedRestaurants(restaurantIds).then(() => restaurantIds);
+            return this.setSelectedRestaurants([]).then(() => []);
          });
       });
    },

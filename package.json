@@ -12,6 +12,8 @@
     "react-native-linear-gradient": "^1.3.2",
     "react-native-material-kit": "0.2.5",
     "react-native-simple-modal": "2.0.1",
-    "react-native-vector-icons": "1.0.4"
+    "react-native-vector-icons": "1.0.4",
+    "react-redux": "^4.4.0",
+    "redux": "^3.3.1"
   }
 }

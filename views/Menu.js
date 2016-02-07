@@ -8,6 +8,7 @@ import Service from '../managers/Service';
 import Loader from '../components/Loader';
 import Favorites from '../managers/Favorites';
 import haversine from 'haversine';
+import {connect} from 'react-redux';
 
 import Modal from 'react-native-simple-modal';
 import Day from './Menu/Day';
@@ -65,8 +66,11 @@ class Menu extends React.Component {
          });
 
       DeviceEventEmitter.addListener('start', this.update.bind(this));
-      this.props.events.on('MENU', this.update.bind(this));
       this.update();
+   }
+   componentWillReceiveProps(props) {
+      if (props.currentView === 'MENU')
+         this.update();
    }
    update() {
       // shit is loading yo
@@ -176,4 +180,8 @@ const styles = StyleSheet.create({
    }
 });
 
-export default Menu;
+export default connect(
+   state => ({
+      currentView: state.currentView
+   })
+)(Menu);

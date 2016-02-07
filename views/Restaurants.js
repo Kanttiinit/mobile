@@ -7,6 +7,8 @@ import Service from '../managers/Service';
 import Loader from '../components/Loader';
 import HttpCache from '../managers/HttpCache';
 import Checkbox from '../components/Checkbox';
+import {connect} from 'react-redux';
+
 const {
    Component,
    Text,
@@ -83,18 +85,16 @@ class Restaurants extends Component {
       this.state = {};
    }
    componentDidMount() {
-      this.props.events.on('RAVINTOLAT', () => {
-         if (!this.state.areas) {
-            Service.getAreas()
-            .then(areas => {
-               const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-               this.setState({
-                  areas: dataSource.cloneWithRows(areas)
-               });
-            })
-            .catch(e => console.error(e));
-         }
-      });
+      if (!this.state.areas) {
+         Service.getAreas()
+         .then(areas => {
+            const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+            this.setState({
+               areas: dataSource.cloneWithRows(areas)
+            });
+         })
+         .catch(e => console.error(e));
+      }
    }
    render() {
       return (
@@ -149,4 +149,4 @@ const styles = StyleSheet.create({
    }
 });
 
-export default Restaurants;
+export default connect()(Restaurants);

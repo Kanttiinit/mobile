@@ -2,21 +2,20 @@
 
 import React from 'react-native';
 import Material from 'react-native-material-kit';
-import Menu from './views/Menu';
-import Favorites from './views/Favorites';
-import Restaurants from './views/Restaurants';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Modal from 'react-native-simple-modal';
+import {connect} from 'react-redux'
+
+import {changeView} from './store/actions';
 
 const {
-   AppRegistry,
    StyleSheet,
    Text,
    View,
    Navigator,
-   TouchableHighlight,
    StatusBarIOS,
    Platform,
-   BackAndroid
+   DeviceEventEmitter
 } = React;
 
 const {
@@ -41,70 +40,55 @@ class TabButton extends React.Component {
    }
 }
 
-class Kanttiinit extends React.Component {
+class Router extends React.Component {
    constructor() {
       super();
-      this.events = {
-         eventListeners: [],
-         on(event, cb) {
-            this.eventListeners.push({event, cb});
-         },
-         fire(event, data) {
-            this.eventListeners.filter(l => l.event === event).forEach(l => l.cb(data));
-         }
-      };
-      this.state = {
-         views: [
-            { title: 'MENU', icon: 'android-restaurant', component: React.createElement(Menu, {events: this.events}) },
-            { title: 'SUOSIKIT', icon: 'android-favorite', component: React.createElement(Favorites, {events: this.events}) },
-            { title: 'RAVINTOLAT', icon: 'ios-list', component: React.createElement(Restaurants, {events: this.events}) }
-         ],
-         currentView: 'MENU'
-      };
+      this.state = {};
 
       Platform.OS == 'ios' && StatusBarIOS.setStyle('light-content');
    }
-   componentDidMount() {
-      this.refs.navigator.navigationContext.addListener('didfocus', event => {
-         this.events.fire(event.data.route.title);
-      });
-
-      BackAndroid.addEventListener('hardwareBackPress', () => {
-         if (this.state.currentView !== 'MENU') {
-            this.changeScene(this.state.views[0]);
-            return true;
-         }
-         return false;
-      });
-   }
    changeScene(data) {
       this.refs.navigator.jumpTo(data);
-      this.setState({currentView: data.title});
+      this.props.changeView(data.title);
    }
-   renderScene(route, navigator) {
-      return route.component;
+   componentDidMount() {
+      DeviceEventEmitter.addListener('keyboardDidShow', () => {
+         this.refs.modal.animateOffset(-100);
+      });
+      DeviceEventEmitter.addListener('keyboardDidHide', () => {
+         this.refs.modal.animateOffset(0);
+      });
+   }
+   componentDidUpdate() {
+      if (this.props.modal.visible)
+         this.refs.modal.open();
+      else
+         this.refs.modal.close();
    }
    render() {
+      const {views, currentView, modal} = this.props;
       return (
          <View style={styles.wrapper}>
             {Platform.OS === 'ios' ? <View style={{height:20, backgroundColor:MKColor.Teal}}></View> : null}
             <Navigator
                ref="navigator"
                style={{flex: 1}}
-               initialRoute={this.state.views[0]}
-               initialRouteStack={this.state.views}
-               renderScene={this.renderScene} />
+               initialRoute={views[0]}
+               initialRouteStack={views}
+               renderScene={route=> React.createElement(route.component)} />
             <View style={styles.tabBar}>
-               {this.state.views.map(v =>
+               {views.map(v =>
                   <TabButton
-                     ref={'tabButton' + v.title}
-                     current={this.state.currentView === v.title}
+                     current={currentView === v.title}
                      changeScene={this.changeScene.bind(this)}
                      icon={v.icon}
                      key={v.title}
                      data={v} />
                )}
             </View>
+            <Modal
+               ref="modal"
+               renderContent={() => modal.component} />
          </View>
       );
    }
@@ -129,4 +113,14 @@ const styles = StyleSheet.create({
    }
 });
 
-export default Kanttiinit;
+const stateToProps = state => ({
+   currentView: state.currentView,
+   views: state.views,
+   modal: state.modal
+});
+
+const dispatchToProps = dispatch => ({
+   changeView: view => dispatch(changeView(view))
+});
+
+export default connect(stateToProps, dispatchToProps)(Router);

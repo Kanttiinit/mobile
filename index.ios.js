@@ -1,6 +1,6 @@
 'use strict';
 
 import {AppRegistry} from 'react-native';
-import Kanttiinit from './Kanttiinit';
+import Main from './Main';
 
-AppRegistry.registerComponent('kanttiinit', () => Kanttiinit);
+AppRegistry.registerComponent('kanttiinit', () => Main);

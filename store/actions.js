@@ -90,3 +90,21 @@ export const removeFavorite = name => {
       });
    };
 };
+
+// location
+export const updateLocation = () => {
+   return dispatch => {
+      return new Promise((resolve, reject) => {
+         navigator.geolocation.getCurrentPosition(
+            position => resolve(position.coords),
+            error => resolve(error.message),
+            {timeout: 3000, maximumAge: 60000}
+         );
+      }).then(location => {
+         dispatch({
+            type: 'SET_LOCATION',
+            location
+         });
+      });
+   };
+};

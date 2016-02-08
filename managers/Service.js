@@ -79,15 +79,5 @@ export default {
          return HttpCache.get('menus', 'https://api.kanttiinit.fi/menus/' + selected.sort().join(','), {hours: 3})
 
       return Promise.resolve([]);
-   },
-   // fetch user location
-   getLocation() {
-      return new Promise((resolve, reject) => {
-         navigator.geolocation.getCurrentPosition(
-            position => resolve(position.coords),
-            error => resolve(error.message),
-            {timeout: 3000, maximumAge: 60000}
-         );
-      });
    }
 };

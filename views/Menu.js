@@ -12,7 +12,7 @@ import {connect} from 'react-redux';
 import Day from './Menu/Day';
 import DaySelector from './Menu/DaySelector';
 import AreaSelector from './Menu/AreaSelector';
-import {getAreas} from '../store/actions';
+import {getAreas, updateLocation} from '../store/actions';
 
 const {
    View,
@@ -54,11 +54,20 @@ class Menu extends React.Component {
          });
 
       DeviceEventEmitter.addListener('start', this.update.bind(this));
+      this.props.updateLocation();
       this.update();
    }
    componentWillReceiveProps(props) {
       if (props.currentView === 'MENU')
          this.update();
+
+      const currentLocation = this.props.location;
+      const newLocation = props.location;
+      if (!currentLocation || (currentLocation && haversine(currentLocation, newLocation) > 30 / 1000)) {
+         this.setState({
+            restaurants: Service.updateRestaurantDistances(this.state.restaurants, newLocation)
+         });
+      }
    }
    update() {
       // shit is loading yo
@@ -71,21 +80,10 @@ class Menu extends React.Component {
 
       return Service.getRestaurants(this.props.selectedRestaurants)
       .then(restaurants => {
-         state.restaurants = Service.updateRestaurantDistances(restaurants, this.state.location);
+         state.restaurants = Service.updateRestaurantDistances(restaurants, this.props.location);
          state.loading = false;
          state.updating = false;
          this.setState(state);
-
-         // get location
-         return Service.getLocation().then(location => {
-            const currentLocation = this.state.location;
-            if (!currentLocation || (currentLocation && haversine(currentLocation, location) > 30 / 1000)) {
-               this.setState({
-                  location,
-                  restaurants: Service.updateRestaurantDistances(this.state.restaurants, location)
-               });
-            }
-         });
       })
       .catch(err => console.error(err));
    }
@@ -152,9 +150,11 @@ export default connect(
    state => ({
       currentView: state.currentView,
       areas: state.areas,
-      selectedRestaurants: state.selectedRestaurants
+      selectedRestaurants: state.selectedRestaurants,
+      location: state.location
    }),
    dispatch => ({
-      getAreas: () => dispatch(getAreas())
+      getAreas: () => dispatch(getAreas()),
+      updateLocation: () => dispatch(updateLocation())
    })
 )(Menu);

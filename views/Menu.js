@@ -14,6 +14,7 @@ import Day from './Menu/Day';
 import DaySelector from './Menu/DaySelector';
 import AreaSelector from './Menu/AreaSelector';
 import RestaurantsManager from '../managers/Restaurants';
+import {getAreas} from '../store/actions';
 
 const {
    View,
@@ -46,6 +47,8 @@ class Menu extends React.Component {
       return Array(7).fill(1).map((n, i) => moment().add(i, 'days'));
    }
    componentDidMount() {
+      this.props.getAreas();
+
       if (Platform.OS === 'ios')
          AppStateIOS.addEventListener('change', currentAppState => {
             if (currentAppState === 'active')
@@ -75,14 +78,6 @@ class Menu extends React.Component {
       })
       .then(restaurants => {
          state.restaurants = Service.updateRestaurantDistances(restaurants, this.state.location);
-
-         if (!restaurants.length)
-            return Service.getAreas();
-
-         return [];
-      })
-      .then(areas => {
-         state.areas = areas;
          state.loading = false;
          state.updating = false;
          this.setState(state);
@@ -111,7 +106,8 @@ class Menu extends React.Component {
       .then(() => this.update());
    }
    render() {
-      const {restaurants, areas, favorites, days, loading, updating} = this.state;
+      const {restaurants, favorites, days, loading, updating} = this.state;
+      const {areas} = this.props;
 
       if (restaurants && !restaurants.length)
          return <AreaSelector areas={areas} onSelect={this.onAreaSelect.bind(this)} />;
@@ -160,6 +156,10 @@ const styles = StyleSheet.create({
 
 export default connect(
    state => ({
-      currentView: state.currentView
+      currentView: state.currentView,
+      areas: state.areas
+   }),
+   dispatch => ({
+      getAreas: () => dispatch(getAreas())
    })
 )(Menu);

@@ -81,8 +81,5 @@ export default {
             {timeout: 3000, maximumAge: 60000}
          );
       });
-   },
-   getAreas() {
-      return HttpCache.get('areas', 'https://api.kanttiinit.fi/areas', {days: '1'});
    }
 };

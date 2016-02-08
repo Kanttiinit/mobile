@@ -1,6 +1,7 @@
 'use strict';
 
-import {createStore} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
+import thunk from 'redux-thunk';
 
 import Menu from '../views/Menu';
 import Favorites from '../views/Favorites';
@@ -13,10 +14,8 @@ const defaultState = {
       { title: 'SUOSIKIT', icon: 'android-favorite', component: Favorites },
       { title: 'RAVINTOLAT', icon: 'ios-list', component: Restaurants }
    ],
-   favorites: [],
-   restaurants: [],
-   selectedRestaurants: [],
-   location: {},
+   areas: [],
+   areasLoading: false,
    modal: {
       visible: false,
       component: undefined
@@ -43,14 +42,16 @@ const reducer = (state = defaultState, action) => {
             }
          });
       case 'CHANGE_VIEW':
-         return change(state, {
-            currentView: action.view
-         });
+         return change(state, {currentView: action.view});
+      case 'SET_AREAS_LOADING':
+         return change(state, {areasLoading: action.loading});
+      case 'SET_AREAS':
+         return change(state, {areas: action.areas});
       default:
          return state;
    }
 };
 
-const store = createStore(reducer);
+const store = createStore(reducer, applyMiddleware(thunk));
 
 export default store;

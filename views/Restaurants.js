@@ -2,11 +2,11 @@
 
 import React from 'react-native';
 import {MKColor} from 'react-native-material-kit';
-import Service from '../managers/Service';
 import Loader from '../components/Loader';
 import {connect} from 'react-redux';
 
 import Area from './Restaurants/Area';
+import {getAreas} from '../store/actions';
 
 const {
    ListView,
@@ -21,16 +21,13 @@ class Restaurants extends React.Component {
       this.state = {};
    }
    componentDidMount() {
-      if (!this.state.areas) {
-         Service.getAreas()
-         .then(areas => {
-            const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-            this.setState({
-               areas: dataSource.cloneWithRows(areas)
-            });
-         })
-         .catch(e => console.error(e));
-      }
+      this.props.getAreas();
+   }
+   componentWillReceiveProps(props) {
+      const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+      this.setState({
+         areas: dataSource.cloneWithRows(props.areas)
+      });
    }
    render() {
       return (
@@ -52,4 +49,12 @@ const styles = StyleSheet.create({
    }
 });
 
-export default connect()(Restaurants);
+export default connect(
+   state => ({
+      loading: state.areasLoading,
+      areas: state.areas
+   }),
+   dispatch => ({
+      getAreas: () => dispatch(getAreas())
+   })
+)(Restaurants);

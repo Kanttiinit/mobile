@@ -3,7 +3,6 @@
 import {AsyncStorage} from 'react-native';
 import haversine from 'haversine';
 import moment from 'moment';
-import RestaurantsManager from './Restaurants';
 import HttpCache from './HttpCache';
 
 const escapeRegExp = str => {
@@ -75,14 +74,11 @@ export default {
       }), date);
    },
    // download restaurants or serve from cache
-   getRestaurants() {
-      return RestaurantsManager.getSelectedRestaurants()
-      .then(selected => {
-         if (selected.length)
-            return HttpCache.get('menus', 'https://api.kanttiinit.fi/menus/' + selected.sort().join(','), {hours: 3})
+   getRestaurants(selected) {
+      if (selected.length)
+         return HttpCache.get('menus', 'https://api.kanttiinit.fi/menus/' + selected.sort().join(','), {hours: 3})
 
-         return [];
-      });
+      return Promise.resolve([]);
    },
    // fetch user location
    getLocation() {

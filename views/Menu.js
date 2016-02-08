@@ -12,7 +12,6 @@ import {connect} from 'react-redux';
 import Day from './Menu/Day';
 import DaySelector from './Menu/DaySelector';
 import AreaSelector from './Menu/AreaSelector';
-import RestaurantsManager from '../managers/Restaurants';
 import {getAreas} from '../store/actions';
 
 const {
@@ -70,7 +69,7 @@ class Menu extends React.Component {
       if (!this.state.days[0].isSame(moment(), 'day'))
          state.days = this.getDays();
 
-      return Service.getRestaurants()
+      return Service.getRestaurants(this.props.selectedRestaurants)
       .then(restaurants => {
          state.restaurants = Service.updateRestaurantDistances(restaurants, this.state.location);
          state.loading = false;
@@ -152,7 +151,8 @@ const styles = StyleSheet.create({
 export default connect(
    state => ({
       currentView: state.currentView,
-      areas: state.areas
+      areas: state.areas,
+      selectedRestaurants: state.selectedRestaurants
    }),
    dispatch => ({
       getAreas: () => dispatch(getAreas())

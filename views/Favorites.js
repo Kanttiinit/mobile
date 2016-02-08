@@ -26,9 +26,6 @@ class Favorites extends React.Component {
       super();
       this.state = {};
    }
-   componentDidMount() {
-      this.props.updateFavorites();
-   }
    addFavorite(name) {
       if (name && name.length > 2) {
          this.props.addFavorite(name);
@@ -93,7 +90,6 @@ export default connect(
    dispatch => ({
       showModal: c => dispatch(showModal(c)),
       removeFavorite: name => dispatch(removeFavorite(name)),
-      addFavorite: name => dispatch(addFavorite(name)),
-      updateFavorites: name => dispatch(updateFavorites())
+      addFavorite: name => dispatch(addFavorite(name))
    })
 )(Favorites);

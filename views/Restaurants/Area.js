@@ -6,10 +6,11 @@ import {
    MKCardStyles,
    MKButton
 } from 'react-native-material-kit';
-import RestaurantsManager from '../../managers/Restaurants';
 import HttpCache from '../../managers/HttpCache';
 import Checkbox from '../../components/Checkbox';
 import {connect} from 'react-redux';
+
+import {updateSelectedRestaurants} from '../../store/actions';
 
 const {
    Text,
@@ -18,38 +19,22 @@ const {
    Platform
 } = React;
 
-export default class Area extends React.Component {
+class Area extends React.Component {
    constructor() {
       super();
       this.state = {};
    }
-   componentDidMount() {
-      this.update();
-   }
-   update() {
-      return RestaurantsManager.getSelectedRestaurants()
-      .then(selected => this.setState({selected}))
-      .catch(err => console.error(err));
-   }
-   checkedChange(restaurant, checked) {
-      RestaurantsManager.setSelected(restaurant, checked)
-      .then(() => this.update());
-
-      HttpCache.reset('menus');
-   }
-   areaCheckedChange(checked) {
-      RestaurantsManager.setSelectedBatch(this.props.area.Restaurants, checked)
-      .then(() => this.update());
+   checkedChange(restaurants, checked) {
+      this.props.updateSelectedRestaurants(restaurants, checked);
 
       HttpCache.reset('menus');
    }
    areAllChecked() {
-      return this.props.area.Restaurants.every(r => this.state.selected.indexOf(r.id) > -1);
+      return this.props.area.Restaurants.every(r => this.props.selectedRestaurants.indexOf(r.id) > -1);
    }
    render() {
-      const {area} = this.props;
-      const {selected} = this.state;
-      if (selected)
+      const {selectedRestaurants, area} = this.props;
+      if (selectedRestaurants)
          return (
             <View style={[MKCardStyles.card, styles.areaContainer]}>
                <View style={styles.area}>
@@ -58,14 +43,14 @@ export default class Area extends React.Component {
                      backgroundColor='white'
                      color={MKColor.Teal}
                      checked={this.areAllChecked()}
-                     onCheckedChange={this.areaCheckedChange.bind(this)} />
+                     onCheckedChange={this.checkedChange.bind(this, area.Restaurants)} />
                </View>
                {area.Restaurants.sort((a, b) => a.name > b.name ? 1 : -1).map((r, i) =>
                   <View key={r.id} style={[styles.restaurant, i > 0 && styles.borderTop]}>
                      <Text style={{fontSize: 14, flex: 1}}>{r.name}</Text>
                      <Checkbox
-                        onCheckedChange={this.checkedChange.bind(this, r)}
-                        checked={!!selected.find(id => id === r.id)} />
+                        onCheckedChange={this.checkedChange.bind(this, [r])}
+                        checked={!!selectedRestaurants.find(id => id === r.id)} />
                   </View>
                )}
             </View>
@@ -110,3 +95,12 @@ const styles = StyleSheet.create({
       borderTopColor: '#eee'
    }
 });
+
+export default connect(
+   state => ({
+      selectedRestaurants: state.selectedRestaurants
+   }),
+   dispatch => ({
+      updateSelectedRestaurants: (restaurants, areSelected) => dispatch(updateSelectedRestaurants(restaurants, areSelected))
+   })
+)(Area);

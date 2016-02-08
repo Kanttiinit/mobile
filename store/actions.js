@@ -1,7 +1,7 @@
 'use strict';
 
 import HttpCache from '../managers/HttpCache';
-import {AsyncStorage} from 'react-native';
+import storage from './storage';
 
 export const changeView = view => ({
    type: 'CHANGE_VIEW',
@@ -15,11 +15,6 @@ export const showModal = component => ({
 
 export const dismissModal = () => ({
    type: 'DISMISS_MODAL'
-});
-
-export const setFavorites = favorites => ({
-   type: 'SET_FAVORITES',
-   favorites
 });
 
 export const getAreas = () => {
@@ -44,34 +39,42 @@ export const getAreas = () => {
    };
 };
 
-const getStoredFavorites = () =>
-   AsyncStorage.getItem('storedFavorites')
-   .then(storedFavorites => {
-      if (storedFavorites)
-         return JSON.parse(storedFavorites);
+// selected restaurant actions
+export const setSelectedRestaurants = restaurants => ({
+   type: 'SET_SELECTED_RESTAURANTS',
+   restaurants
+});
 
-      return AsyncStorage.setItem('storedFavorites', '[]').then(() => []);
-   });
-
-const setStoredFavorites = (f) =>
-   AsyncStorage.setItem('storedFavorites', JSON.stringify(f));
-
-export const updateFavorites = () => {
+export const updateSelectedRestaurants = (restaurants, areSelected) => {
    return dispatch => {
-      return getStoredFavorites()
-      .then(favorites => dispatch(setFavorites(favorites)));
+      return storage.getList('selectedRestaurants')
+      .then(selected => {
+         if (areSelected)
+            restaurants.forEach(r => selected.push(r.id));
+         else
+            selected = selected.filter(id => !restaurants.some(r => r.id === id));
+
+         dispatch(setSelectedRestaurants(selected));
+         return storage.setList('selectedRestaurants', selected);
+      });
    };
 };
+
+// favorite actions
+export const setFavorites = favorites => ({
+   type: 'SET_FAVORITES',
+   favorites
+});
 
 export const addFavorite = name => {
    return dispatch => {
       name = name.toLowerCase();
-      return getStoredFavorites()
+      return storage.getList('storedFavorites')
       .then(storedFavorites => {
          if (!storedFavorites.some(f => f.name === name)) {
             storedFavorites.push({name});
             dispatch(setFavorites(storedFavorites));
-            return setStoredFavorites(storedFavorites);
+            return storage.setList('storedFavorites', storedFavorites);
          }
       });
    };
@@ -79,11 +82,11 @@ export const addFavorite = name => {
 
 export const removeFavorite = name => {
    return dispatch => {
-      return getStoredFavorites()
+      return storage.getList('storedFavorites')
       .then(storedFavorites => {
          const favorites = storedFavorites.filter(f => f.name !== name);
          dispatch(setFavorites(favorites));
-         return setStoredFavorites(favorites);
+         return storage.setList('storedFavorites', favorites);
       });
    };
 };

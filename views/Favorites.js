@@ -1,7 +1,10 @@
 'use strict';
 
 import React from 'react-native';
-import Material from 'react-native-material-kit';
+import {
+   MKButton,
+   MKColor
+} from 'react-native-material-kit';
 import FavoritesManager from '../managers/Favorites';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Loader from '../components/Loader';
@@ -9,44 +12,17 @@ import {connect} from 'react-redux';
 
 import {showModal} from '../store/actions';
 
+import Favorite from './Favorites/Favorite';
 import FavoriteModal from './Favorites/Modal';
 
 const {
    View,
    Text,
    ScrollView,
-   StyleSheet,
-   Component,
-   Platform
+   StyleSheet
 } = React;
 
-const {
-   MKButton,
-   MKColor
-} = Material;
-
-class Favorite extends Component {
-   shouldComponentUpdate(props) {
-      return props.favorite.name !== this.props.favorite.name;
-   }
-   render() {
-      const {favorite, parent, style} = this.props;
-      return (
-         <View style={[styles.favorite, style]}>
-            <Icon style={styles.heartIcon} color='#fc5151' name='android-favorite' />
-            <Text style={styles.foodTitle}>{favorite.name}</Text>
-            <MKButton
-               style={styles.removeButton}
-               rippleColor='rgba(0, 0, 0, 0.25)'
-               onPress={parent.removeFavorite.bind(parent, favorite.name)}>
-               <Icon style={{fontSize: 26}} color='#8a8a8a' name='ios-close-empty' />
-            </MKButton>
-         </View>
-      );
-   }
-}
-
-class Favorites extends Component {
+class Favorites extends React.Component {
    constructor() {
       super();
       this.state = {};
@@ -105,9 +81,6 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: MKColor.Silver
    },
-   newFood: {
-      flexDirection: 'row'
-   },
    favoriteList: {
       flex: 1
    },
@@ -124,41 +97,6 @@ const styles = StyleSheet.create({
       backgroundColor: MKColor.Teal,
       justifyContent: 'center',
       alignItems: 'center'
-   },
-   favorite: {
-      backgroundColor: '#fff',
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-      paddingRight: 10,
-      paddingLeft: 15,
-      paddingVertical: 10,
-      marginBottom: 2
-   },
-   heartIcon: {
-      fontSize: 26
-   },
-   foodTitle: {
-      fontWeight: '300',
-      fontSize: 20,
-      textAlign: 'center',
-      flex: 1,
-      fontFamily: Platform.OS === 'android' ? 'sans-serif-light' : undefined
-   },
-   removeButton: {
-      width: 32,
-      height: 32,
-      alignItems: 'center',
-      justifyContent: 'center'
-   },
-   foodContainer: {
-      backgroundColor: '#fff'
-   },
-   modal: {
-      borderRadius: 2,
-      margin: 20,
-      padding: 14,
-      backgroundColor: MKColor.Silver
    }
 });
 

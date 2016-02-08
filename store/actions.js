@@ -56,7 +56,8 @@ export const updateSelectedRestaurants = (restaurants, areSelected) => {
 
          dispatch(setSelectedRestaurants(selected));
          return storage.setList('selectedRestaurants', selected);
-      });
+      })
+      .then(() => HttpCache.reset('menus'));
    };
 };
 
@@ -105,6 +106,25 @@ export const updateLocation = () => {
             type: 'SET_LOCATION',
             location
          });
+      });
+   };
+};
+
+// restaurants
+export const getRestaurants = selectedRestaurants => {
+   return dispatch => {
+      if (selectedRestaurants.length)
+         return HttpCache.get('menus', 'https://api.kanttiinit.fi/menus/' + selectedRestaurants.sort().join(','), {hours: 3})
+         .then(restaurants => {
+            dispatch({
+               type: 'SET_RESTAURANTS',
+               restaurants
+            });
+         });
+
+      dispatch({
+         type: 'SET_RESTAURANTS',
+         restaurants: []
       });
    };
 };

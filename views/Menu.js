@@ -12,7 +12,7 @@ import {connect} from 'react-redux';
 import Day from './Menu/Day';
 import DaySelector from './Menu/DaySelector';
 import AreaSelector from './Menu/AreaSelector';
-import {getAreas, updateLocation} from '../store/actions';
+import {getRestaurants, getAreas, updateLocation} from '../store/actions';
 
 const {
    View,
@@ -32,14 +32,8 @@ class Menu extends React.Component {
    constructor() {
       super();
       this.state = {
-         days: this.getDays(),
-         loading: true,
-         updating: false,
-         areas: []
+         days: this.getDays()
       };
-   }
-   closeCourseDialog() {
-      this.refs.modal.close();
    }
    getDays() {
       return Array(7).fill(1).map((n, i) => moment().add(i, 'days'));
@@ -58,34 +52,21 @@ class Menu extends React.Component {
       this.update();
    }
    componentWillReceiveProps(props) {
-      if (props.currentView === 'MENU')
-         this.update();
-
+      // TODO: doesn't work
       const currentLocation = this.props.location;
       const newLocation = props.location;
       if (!currentLocation || (currentLocation && haversine(currentLocation, newLocation) > 30 / 1000)) {
          this.setState({
-            restaurants: Service.updateRestaurantDistances(this.state.restaurants, newLocation)
+            restaurants: Service.updateRestaurantDistances(props.restaurants, newLocation)
          });
       }
+
+      if (props.selectedRestaurants && !this.props.selectedRestaurants)
+         this.props.getRestaurants(props.selectedRestaurants);
    }
    update() {
-      // shit is loading yo
-      this.setState({updating: true});
-      const state = {};
-
-      // update days if first day isn't today
       if (!this.state.days[0].isSame(moment(), 'day'))
-         state.days = this.getDays();
-
-      return Service.getRestaurants(this.props.selectedRestaurants)
-      .then(restaurants => {
-         state.restaurants = Service.updateRestaurantDistances(restaurants, this.props.location);
-         state.loading = false;
-         state.updating = false;
-         this.setState(state);
-      })
-      .catch(err => console.error(err));
+         this.setState({days: this.getDays()});
    }
    onDaySelectorChange(p) {
       this.refs.swiper.setPage(p);
@@ -93,16 +74,12 @@ class Menu extends React.Component {
    onSwiperChange(p) {
       this.refs.daySelector.setCurrent(p);
    }
-   onAreaSelect(area) {
-      RestaurantsManager.setSelectedBatch(area.Restaurants, true)
-      .then(() => this.update());
-   }
    render() {
-      const {restaurants, favorites, days, loading, updating} = this.state;
-      const {areas} = this.props;
+      const {days, loading, updating} = this.state;
+      const {restaurants, favorites, areas} = this.props;
 
       if (restaurants && !restaurants.length)
-         return <AreaSelector areas={areas} onSelect={this.onAreaSelect.bind(this)} />;
+         return <AreaSelector areas={areas} />;
 
       return (
          <View style={styles.container}>
@@ -151,10 +128,12 @@ export default connect(
       currentView: state.currentView,
       areas: state.areas,
       selectedRestaurants: state.selectedRestaurants,
-      location: state.location
+      location: state.location,
+      restaurants: state.restaurants
    }),
    dispatch => ({
       getAreas: () => dispatch(getAreas()),
+      getRestaurants: s => dispatch(getRestaurants(s)),
       updateLocation: () => dispatch(updateLocation())
    })
 )(Menu);

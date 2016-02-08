@@ -6,7 +6,6 @@ import {
    MKCardStyles,
    MKButton
 } from 'react-native-material-kit';
-import HttpCache from '../../managers/HttpCache';
 import Checkbox from '../../components/Checkbox';
 import {connect} from 'react-redux';
 
@@ -26,8 +25,6 @@ class Area extends React.Component {
    }
    checkedChange(restaurants, checked) {
       this.props.updateSelectedRestaurants(restaurants, checked);
-
-      HttpCache.reset('menus');
    }
    areAllChecked() {
       return this.props.area.Restaurants.every(r => this.props.selectedRestaurants.indexOf(r.id) > -1);

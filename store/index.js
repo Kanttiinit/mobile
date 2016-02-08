@@ -24,8 +24,9 @@ const defaultState = {
       component: undefined
    },
    favorites: [],
-   selectedRestaurants: [],
-   location: {}
+   selectedRestaurants: undefined,
+   location: {},
+   restaurants: []
 };
 
 const change = (state, changes) =>
@@ -58,7 +59,10 @@ const reducer = (state = defaultState, action) => {
       case 'SET_SELECTED_RESTAURANTS':
          return change(state, {selectedRestaurants: action.restaurants});
       case 'SET_LOCATION':
+         console.log(action);
          return change(state, {location: action.location});
+      case 'SET_RESTAURANTS':
+         return change(state, {restaurants: action.restaurants});
       default:
          return state;
    }

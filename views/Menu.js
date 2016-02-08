@@ -6,7 +6,6 @@ import moment from 'moment';
 import Swiper from '../components/Swiper';
 import Service from '../managers/Service';
 import Loader from '../components/Loader';
-import Favorites from '../managers/Favorites';
 import haversine from 'haversine';
 import {connect} from 'react-redux';
 
@@ -71,11 +70,7 @@ class Menu extends React.Component {
       if (!this.state.days[0].isSame(moment(), 'day'))
          state.days = this.getDays();
 
-      Favorites.getStoredFavorites()
-      .then(favorites => {
-         state.favorites = favorites;
-         return Service.getRestaurants();
-      })
+      return Service.getRestaurants()
       .then(restaurants => {
          state.restaurants = Service.updateRestaurantDistances(restaurants, this.state.location);
          state.loading = false;
@@ -119,7 +114,7 @@ class Menu extends React.Component {
             <Swiper
                ref="swiper"
                onPageChange={this.onSwiperChange.bind(this)}>
-               {days.map((date, i) => <Day key={i} restaurants={restaurants} favorites={favorites} date={date} />)}
+               {days.map((date, i) => <Day key={i} restaurants={restaurants} date={date} />)}
             </Swiper>
             }
             {!loading ?

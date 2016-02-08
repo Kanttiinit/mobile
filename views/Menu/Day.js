@@ -3,7 +3,7 @@
 import React from 'react-native';
 import moment from 'moment';
 import momentFI from 'moment/locale/fi';
-
+import {connect} from 'react-redux';
 
 import Service from '../../managers/Service';
 import Restaurant from './Restaurant';
@@ -17,7 +17,7 @@ const {
    StyleSheet
 } = React;
 
-export default class Day extends Component {
+class Day extends Component {
    constructor() {
       super();
       this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -81,3 +81,9 @@ const styles = StyleSheet.create({
       color: '#bababa'
    }
 });
+
+export default connect(
+   state => ({
+      favorites: state.favorites
+   })
+)(Day);

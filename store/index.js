@@ -19,7 +19,8 @@ const defaultState = {
    modal: {
       visible: false,
       component: undefined
-   }
+   },
+   favorites: []
 };
 
 const change = (state, changes) =>
@@ -47,6 +48,8 @@ const reducer = (state = defaultState, action) => {
          return change(state, {areasLoading: action.loading});
       case 'SET_AREAS':
          return change(state, {areas: action.areas});
+      case 'SET_FAVORITES':
+         return change(state, {favorites: action.favorites});
       default:
          return state;
    }

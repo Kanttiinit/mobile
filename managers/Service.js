@@ -5,7 +5,10 @@ import haversine from 'haversine';
 import moment from 'moment';
 import RestaurantsManager from './Restaurants';
 import HttpCache from './HttpCache';
-import Favorites from './Favorites';
+
+const escapeRegExp = str => {
+   return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+}
 
 export default {
    // add distance property to this.data.restaurants if user location is defined
@@ -48,10 +51,19 @@ export default {
       const hours = restaurant.openingHours[date.day() - 1];
       return {hours, isOpen: hours && now >= hours[0] && now < hours[1]};
    },
+   isFavorite(title, favorites) {
+      if (title && favorites.length)
+         return favorites.some(f => title.toLowerCase().match(escapeRegExp(f.name.toLowerCase())));
+
+      return false;
+   },
    formatRestaurants(restaurants, date, favorites) {
       return this.sortedRestaurants(restaurants.map(restaurant => {
          const coursesForDate = (restaurant.Menus.find(m => moment(m.date).isSame(date, 'day')) || {courses: []}).courses;
-         const courses = Favorites.formatCourses(coursesForDate, favorites);
+         const courses = coursesForDate.map(c => {
+            c.favorite = this.isFavorite(c.title, favorites);
+            return c;
+         });
          const openingHours = this.getOpeningHours(restaurant, date);
          return {
             ...restaurant,

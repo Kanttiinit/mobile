@@ -5,12 +5,11 @@ import {
    MKButton,
    MKColor
 } from 'react-native-material-kit';
-import FavoritesManager from '../managers/Favorites';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Loader from '../components/Loader';
 import {connect} from 'react-redux';
 
-import {showModal} from '../store/actions';
+import {showModal, removeFavorite, addFavorite, updateFavorites} from '../store/actions';
 
 import Favorite from './Favorites/Favorite';
 import FavoriteModal from './Favorites/Modal';
@@ -28,32 +27,19 @@ class Favorites extends React.Component {
       this.state = {};
    }
    componentDidMount() {
-      if (!this.state.favorites)
-         this.updateFavorites();
+      this.props.updateFavorites();
    }
    addFavorite(name) {
       if (name && name.length > 2) {
-         FavoritesManager.addFavorite(name)
-         .then(() => this.updateFavorites());
+         this.props.addFavorite(name);
       }
    }
    removeFavorite(name) {
-      FavoritesManager.removeFavorite(name)
-      .then(() => this.updateFavorites())
-      .catch(e => console.error(e));
-   }
-   updateFavorites() {
-      FavoritesManager.getStoredFavorites()
-      .then(favorites => {
-         this.setState({
-            favorites: favorites,
-            favoritesCount: favorites.length
-         });
-      })
-      .catch(err => console.error(err));
+      this.props.removeFavorite(name);
    }
    render() {
-      const {favorites, favoritesCount, keyboard} = this.state;
+      const {favorites} = this.props;
+      const favoritesCount = favorites.length;
       return (
          <View style={styles.container}>
             {favorites ?
@@ -101,8 +87,13 @@ const styles = StyleSheet.create({
 });
 
 export default connect(
-   undefined,
+   state => ({
+      favorites: state.favorites
+   }),
    dispatch => ({
-      showModal: c => dispatch(showModal(c))
+      showModal: c => dispatch(showModal(c)),
+      removeFavorite: name => dispatch(removeFavorite(name)),
+      addFavorite: name => dispatch(addFavorite(name)),
+      updateFavorites: name => dispatch(updateFavorites())
    })
 )(Favorites);

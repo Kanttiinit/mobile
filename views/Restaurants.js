@@ -46,6 +46,8 @@ class Area extends Component {
    areaCheckedChange(checked) {
       RestaurantsManager.setSelectedBatch(this.props.area.Restaurants, checked)
       .then(() => this.update());
+
+      HttpCache.reset('menus');
    }
    areAllChecked() {
       return this.props.area.Restaurants.every(r => this.state.selected.indexOf(r.id) > -1);

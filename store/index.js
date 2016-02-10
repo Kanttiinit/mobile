@@ -27,7 +27,7 @@ const defaultState = {
    favorites: [],
    selectedRestaurants: undefined,
    location: {},
-   restaurants: []
+   restaurants: undefined
 };
 
 const escapeRegExp = str => {
@@ -83,7 +83,7 @@ const reducer = (state = defaultState, action) => {
       case 'SET_LOCATION':
          const location = action.location;
          const changeObject = {location};
-         if (location && location.latitude && location.longitude)
+         if (state.restaurants && location && location.latitude && location.longitude)
             changeObject.restaurants = setRestaurantDistances(state.restaurants, location);
 
          return {...state, ...changeObject};

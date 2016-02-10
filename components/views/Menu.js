@@ -16,8 +16,7 @@ import {getRestaurants, getAreas, updateLocation} from '../../store/actions';
 const {
    View,
    StyleSheet,
-   AppStateIOS,
-   Platform,
+   AppState,
    DeviceEventEmitter,
    Text
 } = React;
@@ -40,13 +39,11 @@ class Menu extends React.Component {
    componentDidMount() {
       this.props.getAreas();
 
-      if (Platform.OS === 'ios')
-         AppStateIOS.addEventListener('change', currentAppState => {
-            if (currentAppState === 'active')
-               this.update();
-         });
+      AppState.addEventListener('change', currentAppState => {
+         if (currentAppState === 'active')
+            this.update();
+      });
 
-      DeviceEventEmitter.addListener('start', this.update.bind(this));
       this.props.updateLocation();
       this.update();
    }
@@ -65,7 +62,7 @@ class Menu extends React.Component {
       this.refs.daySelector.setCurrent(p);
    }
    render() {
-      const {days, loading, updating} = this.state;
+      const {days} = this.state;
       const {restaurants, favorites, areas} = this.props;
 
       if (restaurants && !restaurants.length)
@@ -73,7 +70,7 @@ class Menu extends React.Component {
 
       return (
          <View style={styles.container}>
-            {loading ? <Loader color={MKColor.Teal} />
+            {!restaurants ? <Loader color={MKColor.Teal} />
             :
             <Swiper
                ref="swiper"
@@ -81,12 +78,9 @@ class Menu extends React.Component {
                {days.map((date, i) => <Day key={i} restaurants={restaurants} date={date} />)}
             </Swiper>
             }
-            {!loading ?
+            {restaurants ?
             <DaySelector ref="daySelector" onChange={this.onDaySelectorChange.bind(this)} max={days.length - 1} />
             : null}
-            <View style={[styles.update, updating && {top: 0}]}>
-               <Text style={styles.updateText}>Päivitetään...</Text>
-            </View>
          </View>
       );
    }
@@ -97,25 +91,11 @@ const styles = StyleSheet.create({
       backgroundColor: MKColor.Silver,
       flex: 1,
       position: 'relative'
-   },
-   update: {
-      backgroundColor: MKColor.Teal,
-      position: 'absolute',
-      top: -100,
-      left: 0,
-      right: 0,
-      padding: 8
-   },
-   updateText: {
-      color: 'white',
-      textAlign: 'center',
-      fontWeight: '300'
    }
 });
 
 export default connect(
    state => ({
-      currentView: state.currentView,
       areas: state.areas,
       selectedRestaurants: state.selectedRestaurants,
       restaurants: state.restaurants

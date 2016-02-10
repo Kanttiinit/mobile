@@ -21,7 +21,6 @@ class Day extends Component {
       super();
       this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
       moment.locale('fi');
-      this.state = {};
    }
    render() {
       const {date, menu} = this.props;

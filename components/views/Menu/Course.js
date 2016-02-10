@@ -17,6 +17,14 @@ const {
 } = React;
 
 class Course extends React.Component {
+   shouldComponentUpdate(props) {
+      const currentCourse = this.props.course;
+      if (currentCourse) {
+         const nextCourse = props.course;
+         return currentCourse.title !== nextCourse.title || currentCourse.isFavorite !== nextCourse.isFavorite;
+      }
+      return true;
+   }
    render() {
       const {course, restaurant, style, favorites} = this.props;
       course.restaurant = restaurant;

@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react-native';
-import Material from 'react-native-material-kit';
+import {MKColor, MKCardStyles} from 'react-native-material-kit';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
@@ -15,11 +15,6 @@ const {
    Platform
 } = React;
 
-const {
-   MKColor,
-   MKCardStyles
-} = Material;
-
 class Restaurant extends React.Component {
    formatOpeningHours() {
       const {restaurant, date} = this.props;
@@ -32,6 +27,17 @@ class Restaurant extends React.Component {
    formatDistance() {
       const {distance} = this.props.restaurant;
       return distance < 1000 ? distance.toFixed(0) + ' m' : (distance / 1000).toFixed(1) + ' km';
+   }
+   getFavString(restaurant) {
+      return restaurant.courses.map(c => +c.isFavorite).join('');
+   }
+   shouldComponentUpdate(props) {
+      const result = props.restaurant.id !== this.props.restaurant.id
+         || props.restaurant.isOpen !== this.props.restaurant.isOpen
+         || props.restaurant.distance !== this.props.restaurant.distance
+         || this.getFavString(props.restaurant) !== this.getFavString(this.props.restaurant);
+
+      return result;
    }
    render() {
       const {date, now, restaurant} = this.props;

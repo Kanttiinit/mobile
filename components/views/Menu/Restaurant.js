@@ -30,22 +30,16 @@ const escapeRegExp = str => {
 }
 
 class Course extends Component {
-   shouldComponentUpdate(nextProps) {
-      const nextCourse = nextProps.course;
-      const currentCourse = this.props.course;
-      return nextCourse.title !== currentCourse.title || nextCourse.favorite !== currentCourse.favorite;
-   }
-   isFavorite() {
-      const {course, favorites} = this.props;
+   static isFavorite(course, favorites) {
       if (course.title)
          return favorites.some(f => course.title.toLowerCase().match(escapeRegExp(f.name.toLowerCase())));
 
       return false;
    }
    render() {
-      const {course, restaurant, style} = this.props;
+      const {course, restaurant, style, favorites} = this.props;
       course.restaurant = restaurant;
-      const isFavorite = this.isFavorite();
+      const isFavorite = Course.isFavorite(course, favorites);
       return (
          <MKButton
             onPress={() => this.props.courseSelected(course, restaurant)}
@@ -71,19 +65,7 @@ const CourseContainer = connect(
 )(Course);
 
 export default class Restaurant extends Component {
-   getFavString(restaurant) {
-      return restaurant.courses.map(c => +c.favorite).join('');
-   }
-   shouldComponentUpdate(props) {
-      const result = props.restaurant.id !== this.props.restaurant.id
-         || props.restaurant.isOpen !== this.props.restaurant.isOpen
-         || props.restaurant.distance !== this.props.restaurant.distance
-         || this.getFavString(props.restaurant) !== this.getFavString(this.props.restaurant);
-
-      return result;
-   }
-   getOpeningHours() {
-      const {restaurant, date} = this.props;
+   static getOpeningHours(restaurant, date) {
       const now = Number(moment().format('HHmm'));
       const hours = restaurant.openingHours[date.day() - 1];
       return {hours, isOpen: hours && now >= hours[0] && now < hours[1]};
@@ -91,7 +73,7 @@ export default class Restaurant extends Component {
    formatOpeningHours() {
       const {restaurant, date} = this.props;
       if (restaurant.hours) {
-         const hours = this.getOpeningHours().hours;
+         const hours = Restaurant.getOpeningHours(restaurant, date).hours;
          return String(hours[0]).substr(0, 2) + ':' + String(hours[0]).substr(2) + ' - ' + String(hours[1]).substr(0, 2) + ':' + String(hours[1]).substr(2);
       }
       return 'suljettu';
@@ -106,7 +88,7 @@ export default class Restaurant extends Component {
       return (
          <View style={[MKCardStyles.card, styles.container]}>
 
-            <View style={[styles.header, isToday && this.getOpeningHours().isOpen && {backgroundColor: MKColor.Teal}]}>
+            <View style={[styles.header, isToday && Restaurant.getOpeningHours(restaurant, date).isOpen && {backgroundColor: MKColor.Teal}]}>
                <View>
                   <Text style={styles.restaurantName}>{restaurant.name}</Text>
                   {restaurant.distance ?

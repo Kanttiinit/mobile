@@ -51,7 +51,7 @@ class Menu extends React.Component {
       this.update();
    }
    componentWillReceiveProps(props) {
-      if (props.selectedRestaurants && !this.props.selectedRestaurants)
+      if (props.selectedRestaurants !== this.props.selectedRestaurants)
          this.props.getRestaurants(props.selectedRestaurants);
    }
    update() {

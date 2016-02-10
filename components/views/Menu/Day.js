@@ -76,9 +76,6 @@ class Day extends Component {
          restaurants: this.getSortedRestaurants()
       });
    }
-   shouldComponentUpdate(nextProps) {
-      return true;
-   }
    render() {
       const {date, favorites} = this.props;
       const {restaurants, currentPage} = this.state;

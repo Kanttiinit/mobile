@@ -19,18 +19,8 @@ export const dismissModal = () => ({
 
 export const getAreas = () => {
    return dispatch => {
-      dispatch({
-         type: 'SET_AREAS_LOADING',
-         loading: true
-      });
-
       return HttpCache.get('areas', 'https://api.kanttiinit.fi/areas', {days: '1'})
       .then(areas => {
-         dispatch({
-            type: 'SET_AREAS_LOADING',
-            loading: false
-         });
-
          dispatch({
             type: 'SET_AREAS',
             areas

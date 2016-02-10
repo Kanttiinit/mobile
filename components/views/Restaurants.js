@@ -19,22 +19,17 @@ class Restaurants extends React.Component {
    constructor() {
       super();
       this.state = {};
+      this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
    }
    componentDidMount() {
       this.props.getAreas();
    }
-   componentWillReceiveProps(props) {
-      const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-      this.setState({
-         areas: dataSource.cloneWithRows(props.areas)
-      });
-   }
    render() {
       return (
          <View style={styles.container}>
-            {this.state.areas ?
+            {this.props.areas ?
             <ListView
-               dataSource={this.state.areas}
+               dataSource={this.dataSource.cloneWithRows(this.props.areas)}
                renderRow={area => <Area area={area} />} />
             : <Loader color={MKColor.Teal} />}
          </View>
@@ -51,7 +46,6 @@ const styles = StyleSheet.create({
 
 export default connect(
    state => ({
-      loading: state.areasLoading,
       areas: state.areas
    }),
    dispatch => ({

@@ -29,31 +29,14 @@ const {
 class Menu extends React.Component {
    constructor() {
       super();
-      this.state = {
-         days: this.getDays()
-      };
-   }
-   getDays() {
-      return Array(7).fill(1).map((n, i) => moment().add(i, 'days'));
    }
    componentDidMount() {
-      this.props.getAreas();
-
       AppState.addEventListener('change', currentAppState => {
          if (currentAppState === 'active')
-            this.update();
+            void(0); //TODO: update now and days here
       });
 
       this.props.updateLocation();
-      this.update();
-   }
-   componentWillReceiveProps(props) {
-      if (props.selectedRestaurants !== this.props.selectedRestaurants)
-         this.props.getRestaurants(props.selectedRestaurants);
-   }
-   update() {
-      if (!this.state.days[0].isSame(moment(), 'day'))
-         this.setState({days: this.getDays()});
    }
    onDaySelectorChange(p) {
       this.refs.swiper.setPage(p);
@@ -62,8 +45,7 @@ class Menu extends React.Component {
       this.refs.daySelector.setCurrent(p);
    }
    render() {
-      const {days} = this.state;
-      const {restaurants, favorites, areas} = this.props;
+      const {areas, restaurants, days} = this.props;
 
       if (restaurants && !restaurants.length)
          return <AreaSelector areas={areas} />;
@@ -75,7 +57,7 @@ class Menu extends React.Component {
             <Swiper
                ref="swiper"
                onPageChange={this.onSwiperChange.bind(this)}>
-               {days.map((date, i) => <Day key={i} restaurants={restaurants} date={date} />)}
+               {days.map((date, i) => <Day key={i} date={date} />)}
             </Swiper>
             }
             {restaurants ?
@@ -97,12 +79,11 @@ const styles = StyleSheet.create({
 export default connect(
    state => ({
       areas: state.areas,
-      selectedRestaurants: state.selectedRestaurants,
-      restaurants: state.restaurants
+      restaurants: state.restaurants,
+      days: state.days
    }),
    dispatch => ({
-      getAreas: () => dispatch(getAreas()),
-      getRestaurants: s => dispatch(getRestaurants(s)),
-      updateLocation: () => dispatch(updateLocation())
+      updateLocation: () => dispatch(updateLocation()),
+      getRestaurants: s => dispatch(getRestaurants(s))
    })
 )(Menu);

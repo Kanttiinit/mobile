@@ -3,8 +3,10 @@
 import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import haversine from 'haversine';
+import moment from 'moment';
 
-import {setSelectedRestaurants, setFavorites} from './actions';
+import {setSelectedRestaurants, getAreas, setFavorites, getRestaurants} from './actions';
+import HttpCache from './HttpCache';
 import storage from './storage';
 
 import Menu from '../components/views/Menu';
@@ -18,8 +20,7 @@ const defaultState = {
       { title: 'SUOSIKIT', icon: 'android-favorite', component: Favorites },
       { title: 'RAVINTOLAT', icon: 'ios-list', component: Restaurants }
    ],
-   areas: [],
-   areasLoading: false,
+   areas: undefined,
    modal: {
       visible: false,
       component: undefined
@@ -27,27 +28,90 @@ const defaultState = {
    favorites: [],
    selectedRestaurants: undefined,
    location: {},
-   restaurants: undefined
+   restaurants: undefined,
+   menus: undefined,
+   now: moment(),
+   days: Array(7).fill(1).map((n, i) => moment().add(i, 'days'))
+};
+
+const getMenu = state => {
+   const {days, restaurants, now, favorites, location} = state;
+   if (days && restaurants && now && favorites) {
+      // iterate through all days
+      return days.map(day => (
+         {
+            date: day,
+            // iterate through all restaurants for each day
+            restaurants: sortedRestaurants(
+               restaurants.map(restaurant => {
+                  let favoriteCourses = 0;
+                  // iterate through courses for the current day
+                  const courses = (restaurant.Menus.find(m => day.isSame(m.date, 'day')) || {courses: []})
+                  .courses.map(course => {
+                     const isFavorite = checkIfFavorite(course.title, favorites);
+                     isFavorite && favoriteCourses++;
+                     return {...course, isFavorite};
+                  });
+                  return {
+                     ...restaurant,
+                     distance: haversine(restaurant, location) * 1000,
+                     ...getOpeningHours(restaurant, day),
+                     courses,
+                     favoriteCourses
+                  };
+               }),
+            now, day)
+         }
+      ));
+   }
+};
+
+const sortedRestaurants = (restaurants, now, date) => {
+   const isToday = moment().isSame(date, 'day');
+   return restaurants.sort((a, b) => {
+      // can this be written in a prettier way??
+      if (!a.hours && b.hours) return 1;
+      if (a.hours && !b.hours) return -1;
+      if (!a.courses.length && b.courses.length) return 1;
+      if (a.courses.length && !b.courses.length) return -1;
+      if (isToday) {
+         if (!a.isOpen && b.isOpen) return 1;
+         if (a.isOpen && !b.isOpen) return -1;
+      }
+      if (!a.favoriteCourses && b.favoriteCourses) return 1;
+      if (a.favoriteCourses && !b.favoriteCourses) return -1;
+      if (a.distance > b.distance) return 1;
+      if (a.distance < b.distance) return -1;
+      if (a.name > b.name) return 1;
+      if (a.name < b.name) return -1;
+
+      return 0;
+   });
+};
+
+const getOpeningHours = (restaurant, date) => {
+   const now = Number(moment().format('HHmm'));
+   const hours = restaurant.openingHours[date.day() - 1];
+   return {hours, isOpen: hours && now >= hours[0] && now < hours[1]};
 };
 
 const escapeRegExp = str => {
    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-}
+};
 
-
-const isFavorite = (title, favorites) => {
+const checkIfFavorite = (title, favorites) => {
    if (title && favorites.length)
       return favorites.some(f => title.toLowerCase().match(escapeRegExp(f.name.toLowerCase())));
 
    return false;
 };
 
-const setRestaurantDistances = (restaurants, location) =>
-   restaurants.map(r => {
-      if (r.latitude && r.longitude)
-         r.distance = haversine(location, r) * 1000;
-      return r;
-   });
+const updateMenu = state => {
+   return {
+      ...state,
+      menus: getMenu(state)
+   };
+};
 
 const reducer = (state = defaultState, action) => {
    switch (action.type) {
@@ -69,31 +133,20 @@ const reducer = (state = defaultState, action) => {
          };
       case 'CHANGE_VIEW':
          return {...state, currentView: action.view};
-      case 'SET_AREAS_LOADING':
-         return {...state, areasLoading: action.loading};
       case 'SET_AREAS':
          return {...state, areas: action.areas};
-      case 'SET_FAVORITES':
-         return {
-            ...state,
-            favorites: action.favorites
-         };
       case 'SET_SELECTED_RESTAURANTS':
          return {...state, selectedRestaurants: action.restaurants};
+
+      // the following require an update of the restaurant list
+      case 'UPDATE_NOW':
+         return updateMenu({...state, now: moment()});
+      case 'SET_FAVORITES':
+         return updateMenu({...state, favorites: action.favorites});
       case 'SET_LOCATION':
-         const location = action.location;
-         const changeObject = {location};
-         if (state.restaurants && location && location.latitude && location.longitude)
-            changeObject.restaurants = setRestaurantDistances(state.restaurants, location);
-
-         return {...state, ...changeObject};
+         return updateMenu({...state, location: action.location});
       case 'SET_RESTAURANTS':
-         const existingLocation = state.location;
-         let restaurants = action.restaurants;
-         if (existingLocation && existingLocation.latitude && existingLocation.longitude)
-            restaurants = setRestaurantDistances(restaurants, existingLocation);
-
-         return {...state, restaurants};
+         return updateMenu({...state, restaurants: action.restaurants});
       default:
          return state;
    }
@@ -101,7 +154,20 @@ const reducer = (state = defaultState, action) => {
 
 const store = createStore(reducer, applyMiddleware(thunk));
 
+// update restaurants if selected restaurants have changed
+let previousSelected;
+store.subscribe(() => {
+   const selected = store.getState().selectedRestaurants;
+   if (selected !== previousSelected) {
+      if (previousSelected)
+         HttpCache.reset('menus');
+      previousSelected = selected;
+      store.dispatch(getRestaurants(selected));
+   }
+});
+
 storage.getList('selectedRestaurants').then(s => store.dispatch(setSelectedRestaurants(s)));
 storage.getList('storedFavorites').then(favorites => store.dispatch(setFavorites(favorites)));
+store.dispatch(getAreas());
 
 export default store;

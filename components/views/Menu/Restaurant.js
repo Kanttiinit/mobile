@@ -25,28 +25,17 @@ const {
    MKCardStyles
 } = Material;
 
-const escapeRegExp = str => {
-   return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-}
-
 class Course extends Component {
-   static isFavorite(course, favorites) {
-      if (course.title)
-         return favorites.some(f => course.title.toLowerCase().match(escapeRegExp(f.name.toLowerCase())));
-
-      return false;
-   }
    render() {
       const {course, restaurant, style, favorites} = this.props;
       course.restaurant = restaurant;
-      const isFavorite = Course.isFavorite(course, favorites);
       return (
          <MKButton
             onPress={() => this.props.courseSelected(course, restaurant)}
             rippleColor='rgba(200, 200, 200, 0.25)'
-            style={[isFavorite ? styles.favoriteCourse : {borderRadius: 2}]}>
+            style={[course.isFavorite ? styles.favoriteCourse : {borderRadius: 2}]}>
             <View style={[styles.course, style]}>
-               {isFavorite ? <Icon style={{marginRight: 6}} color='#fc5151' name='android-favorite' /> : null}
+               {course.isFavorite ? <Icon style={{marginRight: 6}} color='#fc5151' name='android-favorite' /> : null}
                <Text key={course.title} style={styles.courseTitle}>{course.title}</Text>
                {course.properties ? course.properties.map(p => <Property style={{marginLeft: 2}} key={p}>{p}</Property>) : null}
             </View>
@@ -56,45 +45,39 @@ class Course extends Component {
 }
 
 const CourseContainer = connect(
-   state => ({
-      favorites: state.favorites
-   }),
+   undefined,
    dispatch => ({
       courseSelected: course => dispatch(showModal(<CourseDetails course={course} />))
    })
 )(Course);
 
-export default class Restaurant extends Component {
-   static getOpeningHours(restaurant, date) {
-      const now = Number(moment().format('HHmm'));
-      const hours = restaurant.openingHours[date.day() - 1];
-      return {hours, isOpen: hours && now >= hours[0] && now < hours[1]};
-   }
+class Restaurant extends Component {
    formatOpeningHours() {
       const {restaurant, date} = this.props;
       if (restaurant.hours) {
-         const hours = Restaurant.getOpeningHours(restaurant, date).hours;
-         return String(hours[0]).substr(0, 2) + ':' + String(hours[0]).substr(2) + ' - ' + String(hours[1]).substr(0, 2) + ':' + String(hours[1]).substr(2);
+         const h = restaurant.hours;
+         return String(h[0]).substr(0, 2) + ':' + String(h[0]).substr(2) + ' - ' + String(h[1]).substr(0, 2) + ':' + String(h[1]).substr(2);
       }
       return 'suljettu';
    }
-   formatDistance(distance) {
+   formatDistance() {
+      const {distance} = this.props.restaurant;
       return distance < 1000 ? distance.toFixed(0) + ' m' : (distance / 1000).toFixed(1) + ' km';
    }
    render() {
-      const {date, courseSelected, restaurant} = this.props;
+      const {date, now, restaurant} = this.props;
       const courses = restaurant.courses;
-      const isToday = moment().isSame(date, 'day');
+      const isToday = now.isSame(date, 'day');
       return (
          <View style={[MKCardStyles.card, styles.container]}>
 
-            <View style={[styles.header, isToday && Restaurant.getOpeningHours(restaurant, date).isOpen && {backgroundColor: MKColor.Teal}]}>
+            <View style={[styles.header, isToday && restaurant.isOpen && {backgroundColor: MKColor.Teal}]}>
                <View>
                   <Text style={styles.restaurantName}>{restaurant.name}</Text>
                   {restaurant.distance ?
                   <View style={styles.distance}>
                      <Icon style={styles.distanceText} name="ios-location" />
-                     <Text style={[styles.distanceText, {marginLeft: 3}]}>{this.formatDistance(restaurant.distance)}</Text>
+                     <Text style={[styles.distanceText, {marginLeft: 3}]}>{this.formatDistance()}</Text>
                   </View>
                   : null}
                </View>
@@ -121,6 +104,12 @@ export default class Restaurant extends Component {
       );
    }
 }
+
+export default connect(
+   state => ({
+      now: state.now
+   })
+)(Restaurant);
 
 const styles = StyleSheet.create({
    container: {

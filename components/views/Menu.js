@@ -30,14 +30,6 @@ class Menu extends React.Component {
    constructor() {
       super();
    }
-   componentDidMount() {
-      AppState.addEventListener('change', currentAppState => {
-         if (currentAppState === 'active')
-            void(0); //TODO: update now and days here
-      });
-
-      this.props.updateLocation();
-   }
    onDaySelectorChange(p) {
       this.refs.swiper.setPage(p);
    }

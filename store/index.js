@@ -5,10 +5,6 @@ import thunk from 'redux-thunk';
 import haversine from 'haversine';
 import moment from 'moment';
 
-import {setSelectedRestaurants, getAreas, setFavorites, getRestaurants} from './actions';
-import HttpCache from './HttpCache';
-import storage from './storage';
-
 import Menu from '../components/views/Menu';
 import Favorites from '../components/views/Favorites';
 import Restaurants from '../components/views/Restaurants';
@@ -30,8 +26,8 @@ const defaultState = {
    location: {},
    restaurants: undefined,
    menus: undefined,
-   now: moment(),
-   days: Array(7).fill(1).map((n, i) => moment().add(i, 'days'))
+   now: undefined,
+   days: undefined
 };
 
 const getMenu = state => {
@@ -140,7 +136,11 @@ const reducer = (state = defaultState, action) => {
 
       // the following require an update of the restaurant list
       case 'UPDATE_NOW':
-         return updateMenu({...state, now: moment()});
+         return updateMenu({
+            ...state,
+            now: moment(),
+            days: Array(7).fill(1).map((n, i) => moment().add(i, 'days'))
+         });
       case 'SET_FAVORITES':
          return updateMenu({...state, favorites: action.favorites});
       case 'SET_LOCATION':
@@ -152,22 +152,4 @@ const reducer = (state = defaultState, action) => {
    }
 };
 
-const store = createStore(reducer, applyMiddleware(thunk));
-
-// update restaurants if selected restaurants have changed
-let previousSelected;
-store.subscribe(() => {
-   const selected = store.getState().selectedRestaurants;
-   if (selected !== previousSelected) {
-      if (previousSelected)
-         HttpCache.reset('menus');
-      previousSelected = selected;
-      store.dispatch(getRestaurants(selected));
-   }
-});
-
-storage.getList('selectedRestaurants').then(s => store.dispatch(setSelectedRestaurants(s)));
-storage.getList('storedFavorites').then(favorites => store.dispatch(setFavorites(favorites)));
-store.dispatch(getAreas());
-
-export default store;
+export default createStore(reducer, applyMiddleware(thunk));

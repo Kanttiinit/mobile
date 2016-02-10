@@ -5,7 +5,7 @@ import {MKButton, MKColor} from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 
-import {updateSelectedRestaurants} from '../../store/actions';
+import {updateSelectedRestaurants} from '../../../store/actions';
 
 const {
    View,

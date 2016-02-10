@@ -1,6 +1,6 @@
 'use strict';
 
-import HttpCache from '../managers/HttpCache';
+import HttpCache from './HttpCache';
 import storage from './storage';
 
 export const changeView = view => ({

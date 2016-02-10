@@ -6,10 +6,10 @@ import {
    MKCardStyles,
    MKButton
 } from 'react-native-material-kit';
-import Checkbox from '../../components/Checkbox';
+import Checkbox from '../../Checkbox';
 import {connect} from 'react-redux';
 
-import {updateSelectedRestaurants} from '../../store/actions';
+import {updateSelectedRestaurants} from '../../../store/actions';
 
 const {
    Text,

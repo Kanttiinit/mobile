@@ -6,10 +6,10 @@ import {
    MKColor
 } from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Loader from '../components/Loader';
+import Loader from '../Loader';
 import {connect} from 'react-redux';
 
-import {showModal, removeFavorite, addFavorite, updateFavorites} from '../store/actions';
+import {showModal, removeFavorite, addFavorite, updateFavorites} from '../../store/actions';
 
 import Favorite from './Favorites/Favorite';
 import FavoriteModal from './Favorites/Modal';

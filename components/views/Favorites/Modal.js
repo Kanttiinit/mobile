@@ -4,7 +4,7 @@ import React from 'react-native';
 import Material from 'react-native-material-kit';
 import {connect} from 'react-redux';
 
-import {dismissModal} from '../../store/actions';
+import {dismissModal} from '../../../store/actions';
 
 const {
    View,

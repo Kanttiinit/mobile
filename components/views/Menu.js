@@ -3,16 +3,15 @@
 import React from 'react-native';
 import Material from 'react-native-material-kit';
 import moment from 'moment';
-import Swiper from '../components/Swiper';
-import Service from '../managers/Service';
-import Loader from '../components/Loader';
+import Swiper from '../Swiper';
+import Loader from '../Loader';
 import haversine from 'haversine';
 import {connect} from 'react-redux';
 
 import Day from './Menu/Day';
 import DaySelector from './Menu/DaySelector';
 import AreaSelector from './Menu/AreaSelector';
-import {getRestaurants, getAreas, updateLocation} from '../store/actions';
+import {getRestaurants, getAreas, updateLocation} from '../../store/actions';
 
 const {
    View,
@@ -52,15 +51,6 @@ class Menu extends React.Component {
       this.update();
    }
    componentWillReceiveProps(props) {
-      // TODO: doesn't work
-      const currentLocation = this.props.location;
-      const newLocation = props.location;
-      if (!currentLocation || (currentLocation && haversine(currentLocation, newLocation) > 30 / 1000)) {
-         this.setState({
-            restaurants: Service.updateRestaurantDistances(props.restaurants, newLocation)
-         });
-      }
-
       if (props.selectedRestaurants && !this.props.selectedRestaurants)
          this.props.getRestaurants(props.selectedRestaurants);
    }
@@ -128,7 +118,6 @@ export default connect(
       currentView: state.currentView,
       areas: state.areas,
       selectedRestaurants: state.selectedRestaurants,
-      location: state.location,
       restaurants: state.restaurants
    }),
    dispatch => ({

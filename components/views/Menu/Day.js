@@ -5,7 +5,6 @@ import moment from 'moment';
 import momentFI from 'moment/locale/fi';
 import {connect} from 'react-redux';
 
-import Service from '../../managers/Service';
 import Restaurant from './Restaurant';
 
 const {
@@ -32,10 +31,49 @@ class Day extends Component {
    componentWillReceiveProps(nextProps) {
       this.update(nextProps);
    }
+   getOpeningHours(restaurant, date) {
+      const now = Number(moment().format('HHmm'));
+      const hours = restaurant.openingHours[date.day() - 1];
+      return {hours, isOpen: hours && now >= hours[0] && now < hours[1]};
+   }
+   sortedRestaurants(restaurants, date) {
+      const isToday = moment().isSame(date, 'day');
+      return restaurants.sort((a, b) => {
+         // can this be written in a prettier way??
+         if (!a.hours && b.hours) return 1;
+         if (a.hours && !b.hours) return -1;
+         if (!a.courses.length && b.courses.length) return 1;
+         if (a.courses.length && !b.courses.length) return -1;
+         if (isToday) {
+            if (!a.isOpen && b.isOpen) return 1;
+            if (a.isOpen && !b.isOpen) return -1;
+         }
+         if (!a.favoriteCourses && b.favoriteCourses) return 1;
+         if (a.favoriteCourses && !b.favoriteCourses) return -1;
+         if (a.distance > b.distance) return 1;
+         if (a.distance < b.distance) return -1;
+         if (a.name > b.name) return 1;
+         if (a.name < b.name) return -1;
+
+         return 0;
+      });
+   }
+   getSortedRestaurants() {
+      const {restaurants, date} = this.props;
+      return this.sortedRestaurants(restaurants.map(restaurant => {
+         const courses = (restaurant.Menus.find(m => moment(m.date).isSame(date, 'day')) || {courses: []}).courses;
+         const openingHours = this.getOpeningHours(restaurant, date);
+         return {
+            ...restaurant,
+            hours: openingHours.hours,
+            isOpen: openingHours.isOpen,
+            courses
+         };
+      }), date);
+   }
    update(props) {
-      const sorted = Service.formatRestaurants(props.restaurants, props.date, props.favorites);
       this.setState({
-         restaurants: sorted
+         restaurants: this.getSortedRestaurants()
       });
    }
    shouldComponentUpdate(nextProps) {

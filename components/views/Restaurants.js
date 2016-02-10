@@ -2,11 +2,11 @@
 
 import React from 'react-native';
 import {MKColor} from 'react-native-material-kit';
-import Loader from '../components/Loader';
+import Loader from '../Loader';
 import {connect} from 'react-redux';
 
 import Area from './Restaurants/Area';
-import {getAreas} from '../store/actions';
+import {getAreas} from '../../store/actions';
 
 const {
    ListView,

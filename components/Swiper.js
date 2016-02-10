@@ -19,7 +19,7 @@ class Swiper extends Component {
    }
    setPage(p) {
       if (this.iOS) {
-         this.refs.scrollView.scrollTo({x: 0, y: p * this.state.width});
+         this.refs.scrollView.scrollTo({y: 0, x: p * this.state.width});
       } else {
          this.refs.viewPager.setPage(p);
       }

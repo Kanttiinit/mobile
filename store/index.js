@@ -2,13 +2,14 @@
 
 import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
+import haversine from 'haversine';
 
 import {setSelectedRestaurants, setFavorites} from './actions';
 import storage from './storage';
 
-import Menu from '../views/Menu';
-import Favorites from '../views/Favorites';
-import Restaurants from '../views/Restaurants';
+import Menu from '../components/views/Menu';
+import Favorites from '../components/views/Favorites';
+import Restaurants from '../components/views/Restaurants';
 
 const defaultState = {
    currentView: 'MENU',
@@ -29,40 +30,70 @@ const defaultState = {
    restaurants: []
 };
 
-const change = (state, changes) =>
-   Object.assign({}, state, changes);
+const escapeRegExp = str => {
+   return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+}
+
+
+const isFavorite = (title, favorites) => {
+   if (title && favorites.length)
+      return favorites.some(f => title.toLowerCase().match(escapeRegExp(f.name.toLowerCase())));
+
+   return false;
+};
+
+const setRestaurantDistances = (restaurants, location) =>
+   restaurants.map(r => {
+      if (r.latitude && r.longitude)
+         r.distance = haversine(location, r) * 1000;
+      return r;
+   });
 
 const reducer = (state = defaultState, action) => {
    switch (action.type) {
       case 'SHOW_MODAL':
-         return change(state, {
+         return {
+            ...state,
             modal: {
                visible: true,
                component: action.component
             }
-         });
+         };
       case 'DISMISS_MODAL':
-         return change(state, {
+         return {
+            ...state,
             modal: {
                visible: false,
                component: undefined
             }
-         });
+         };
       case 'CHANGE_VIEW':
-         return change(state, {currentView: action.view});
+         return {...state, currentView: action.view};
       case 'SET_AREAS_LOADING':
-         return change(state, {areasLoading: action.loading});
+         return {...state, areasLoading: action.loading};
       case 'SET_AREAS':
-         return change(state, {areas: action.areas});
+         return {...state, areas: action.areas};
       case 'SET_FAVORITES':
-         return change(state, {favorites: action.favorites});
+         return {
+            ...state,
+            favorites: action.favorites
+         };
       case 'SET_SELECTED_RESTAURANTS':
-         return change(state, {selectedRestaurants: action.restaurants});
+         return {...state, selectedRestaurants: action.restaurants};
       case 'SET_LOCATION':
-         console.log(action);
-         return change(state, {location: action.location});
+         const location = action.location;
+         const changeObject = {location};
+         if (location && location.latitude && location.longitude)
+            changeObject.restaurants = setRestaurantDistances(state.restaurants, location);
+
+         return {...state, ...changeObject};
       case 'SET_RESTAURANTS':
-         return change(state, {restaurants: action.restaurants});
+         const existingLocation = state.location;
+         let restaurants = action.restaurants;
+         if (existingLocation && existingLocation.latitude && existingLocation.longitude)
+            restaurants = setRestaurantDistances(restaurants, existingLocation);
+
+         return {...state, restaurants};
       default:
          return state;
    }

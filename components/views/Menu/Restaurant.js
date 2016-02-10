@@ -6,7 +6,7 @@ import moment from 'moment';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 
-import {showModal} from '../../store/actions';
+import {showModal} from '../../../store/actions';
 
 import Property from './Property';
 import CourseDetails from './CourseDetails';
@@ -25,22 +25,34 @@ const {
    MKCardStyles
 } = Material;
 
+const escapeRegExp = str => {
+   return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+}
+
 class Course extends Component {
    shouldComponentUpdate(nextProps) {
       const nextCourse = nextProps.course;
       const currentCourse = this.props.course;
       return nextCourse.title !== currentCourse.title || nextCourse.favorite !== currentCourse.favorite;
    }
+   isFavorite() {
+      const {course, favorites} = this.props;
+      if (course.title)
+         return favorites.some(f => course.title.toLowerCase().match(escapeRegExp(f.name.toLowerCase())));
+
+      return false;
+   }
    render() {
       const {course, restaurant, style} = this.props;
       course.restaurant = restaurant;
+      const isFavorite = this.isFavorite();
       return (
          <MKButton
             onPress={() => this.props.courseSelected(course, restaurant)}
             rippleColor='rgba(200, 200, 200, 0.25)'
-            style={[course.favorite ? styles.favoriteCourse : {borderRadius: 2}]}>
+            style={[isFavorite ? styles.favoriteCourse : {borderRadius: 2}]}>
             <View style={[styles.course, style]}>
-               {course.favorite ? <Icon style={{marginRight: 6}} color='#fc5151' name='android-favorite' /> : null}
+               {isFavorite ? <Icon style={{marginRight: 6}} color='#fc5151' name='android-favorite' /> : null}
                <Text key={course.title} style={styles.courseTitle}>{course.title}</Text>
                {course.properties ? course.properties.map(p => <Property style={{marginLeft: 2}} key={p}>{p}</Property>) : null}
             </View>
@@ -50,7 +62,9 @@ class Course extends Component {
 }
 
 const CourseContainer = connect(
-   undefined,
+   state => ({
+      favorites: state.favorites
+   }),
    dispatch => ({
       courseSelected: course => dispatch(showModal(<CourseDetails course={course} />))
    })
@@ -68,8 +82,19 @@ export default class Restaurant extends Component {
 
       return result;
    }
-   formatOpeningHours(hours) {
-      return String(hours[0]).substr(0, 2) + ':' + String(hours[0]).substr(2) + ' - ' + String(hours[1]).substr(0, 2) + ':' + String(hours[1]).substr(2);
+   getOpeningHours() {
+      const {restaurant, date} = this.props;
+      const now = Number(moment().format('HHmm'));
+      const hours = restaurant.openingHours[date.day() - 1];
+      return {hours, isOpen: hours && now >= hours[0] && now < hours[1]};
+   }
+   formatOpeningHours() {
+      const {restaurant, date} = this.props;
+      if (restaurant.hours) {
+         const hours = this.getOpeningHours().hours;
+         return String(hours[0]).substr(0, 2) + ':' + String(hours[0]).substr(2) + ' - ' + String(hours[1]).substr(0, 2) + ':' + String(hours[1]).substr(2);
+      }
+      return 'suljettu';
    }
    formatDistance(distance) {
       return distance < 1000 ? distance.toFixed(0) + ' m' : (distance / 1000).toFixed(1) + ' km';
@@ -81,7 +106,7 @@ export default class Restaurant extends Component {
       return (
          <View style={[MKCardStyles.card, styles.container]}>
 
-            <View style={[styles.header, isToday && restaurant.isOpen && {backgroundColor: MKColor.Teal}]}>
+            <View style={[styles.header, isToday && this.getOpeningHours().isOpen && {backgroundColor: MKColor.Teal}]}>
                <View>
                   <Text style={styles.restaurantName}>{restaurant.name}</Text>
                   {restaurant.distance ?
@@ -93,7 +118,7 @@ export default class Restaurant extends Component {
                </View>
                <View style={{flex: 1}}>
                   <Text style={[styles.openingHours, restaurant.hours && styles.openingHoursAvailable]}>
-                     {restaurant.hours ? this.formatOpeningHours(restaurant.hours) : 'suljettu'}
+                     {this.formatOpeningHours()}
                   </Text>
                </View>
             </View>

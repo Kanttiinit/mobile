@@ -6,52 +6,21 @@ import moment from 'moment';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 
-import {showModal} from '../../../store/actions';
-
-import Property from './Property';
-import CourseDetails from './CourseDetails';
+import Course from './Course';
 
 const {
    View,
    Text,
    StyleSheet,
-   Component,
    Platform
 } = React;
 
 const {
-   MKButton,
    MKColor,
    MKCardStyles
 } = Material;
 
-class Course extends Component {
-   render() {
-      const {course, restaurant, style, favorites} = this.props;
-      course.restaurant = restaurant;
-      return (
-         <MKButton
-            onPress={() => this.props.courseSelected(course, restaurant)}
-            rippleColor='rgba(200, 200, 200, 0.25)'
-            style={[course.isFavorite ? styles.favoriteCourse : {borderRadius: 2}]}>
-            <View style={[styles.course, style]}>
-               {course.isFavorite ? <Icon style={{marginRight: 6}} color='#fc5151' name='android-favorite' /> : null}
-               <Text key={course.title} style={styles.courseTitle}>{course.title}</Text>
-               {course.properties ? course.properties.map(p => <Property style={{marginLeft: 2}} key={p}>{p}</Property>) : null}
-            </View>
-         </MKButton>
-      );
-   }
-}
-
-const CourseContainer = connect(
-   undefined,
-   dispatch => ({
-      courseSelected: course => dispatch(showModal(<CourseDetails course={course} />))
-   })
-)(Course);
-
-class Restaurant extends Component {
+class Restaurant extends React.Component {
    formatOpeningHours() {
       const {restaurant, date} = this.props;
       if (restaurant.hours) {
@@ -93,7 +62,7 @@ class Restaurant extends Component {
                <Text style={styles.emptyMenuText}>Ei menua saatavilla.</Text>
             </View>
             : courses.map((course, i) =>
-            <CourseContainer
+            <Course
                key={i}
                course={course}
                restaurant={restaurant}
@@ -129,23 +98,6 @@ const styles = StyleSheet.create({
       borderRadius: 2,
       borderBottomLeftRadius: 0,
       borderBottomRightRadius: 0
-   },
-   course: {
-      flexDirection: 'row',
-      paddingTop: 8,
-      paddingBottom: 8,
-      alignItems: 'center',
-      marginLeft: 8,
-      marginRight: 8,
-      borderRadius: Platform.OS === 'ios' ? 2 : 0
-   },
-   favoriteCourse: {
-      backgroundColor: '#f7eaea',
-      borderRadius: 0
-   },
-   courseTitle: {
-      flex: 1,
-      fontSize: 12
    },
    borderTop: {
       borderTopWidth: 1,

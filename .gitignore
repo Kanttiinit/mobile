@@ -17,8 +17,6 @@ xcuserdata
 *.xccheckout
 *.moved-aside
 DerivedData
-AppDelegate.m
-RCTWebSocketExecutor.m
 *.hmap
 *.ipa
 *.xcuserstate
@@ -34,6 +32,3 @@ local.properties
 #
 node_modules/
 npm-debug.log
-
-
-android.sh

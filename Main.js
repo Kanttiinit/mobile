@@ -15,11 +15,14 @@ export default class Main extends React.Component {
    componentDidMount() {
       AppState.addEventListener('change', currentAppState => {
          if (currentAppState === 'active')
-            this.updateTime();
+            this.refresh();
       });
 
+      // populate selected restaurants and favorites
       storage.getList('selectedRestaurants').then(s => store.dispatch(setSelectedRestaurants(s)));
       storage.getList('storedFavorites').then(favorites => store.dispatch(setFavorites(favorites)));
+
+      // get areas
       store.dispatch(getAreas());
 
       // update restaurants if selected restaurants have changed
@@ -27,15 +30,14 @@ export default class Main extends React.Component {
       store.subscribe(() => {
          const selected = store.getState().selectedRestaurants;
          if (selected !== previousSelected) {
-            if (previousSelected)
-               HttpCache.reset('menus');
             previousSelected = selected;
             store.dispatch(getRestaurants(selected));
          }
       });
-      this.updateTime();
+
+      this.refresh();
    }
-   updateTime() {
+   refresh() {
       store.dispatch({type: 'UPDATE_NOW'});
       store.dispatch(updateLocation());
    }

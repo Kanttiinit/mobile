@@ -9,6 +9,7 @@ import {
 import Checkbox from '../../Checkbox';
 import {connect} from 'react-redux';
 
+import Restaurant from './Restaurant';
 import {updateSelectedRestaurants} from '../../../store/actions';
 
 const {
@@ -43,12 +44,12 @@ class Area extends React.Component {
                      onCheckedChange={this.checkedChange.bind(this, area.Restaurants)} />
                </View>
                {area.Restaurants.sort((a, b) => a.name > b.name ? 1 : -1).map((r, i) =>
-                  <View key={r.id} style={[styles.restaurant, i > 0 && styles.borderTop]}>
-                     <Text style={{fontSize: 14, flex: 1}}>{r.name}</Text>
-                     <Checkbox
-                        onCheckedChange={this.checkedChange.bind(this, [r])}
-                        checked={!!selectedRestaurants.find(id => id === r.id)} />
-                  </View>
+                  <Restaurant
+                     key={i}
+                     restaurant={r}
+                     checked={!!selectedRestaurants.find(id => id === r.id)}
+                     style={[styles.restaurant, i > 0 && styles.borderTop]}
+                     checkedChange={this.checkedChange.bind(this)} />
                )}
             </View>
          );

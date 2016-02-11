@@ -13,7 +13,8 @@ const {
    ListView,
    Component,
    Platform,
-   StyleSheet
+   StyleSheet,
+   InteractionManager
 } = React;
 
 class Day extends Component {
@@ -21,9 +22,20 @@ class Day extends Component {
       super();
       this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
       moment.locale('fi');
+      this.state = {};
+   }
+   componentWillMount() {
+      this.setState({menu: this.props.menu});
+   }
+   componentWillReceiveProps(props) {
+      if (props.currentView === 'MENU')
+         InteractionManager.runAfterInteractions(() => {
+            this.setState({menu: props.menu});
+         });
    }
    render() {
-      const {date, menu} = this.props;
+      const {date} = this.props;
+      const {menu} = this.state;
       return (
          <View style={{flex: 1}}>
             <View style={styles.daySelector}>
@@ -64,6 +76,7 @@ const styles = StyleSheet.create({
 
 export default connect(
    (state, props) => ({
+      currentView: state.currentView,
       menu: state.menus.find(m => m.date.isSame(props.date, 'day'))
    })
 )(Day);

@@ -5,22 +5,51 @@ import React from 'react-native';
 const {
    View,
    Platform,
-   TouchableOpacity
+   TouchableOpacity,
+   TouchableNativeFeedback,
+   TouchableHighlight
 } = React;
 
 export default class Button extends React.Component {
+   renderChildren() {
+      return <View style={this.props.style}>{this.props.children}</View>
+   }
    render() {
-      const {children, onPress, style, containerStyle, pointerEvents} = this.props;
+      const {onPress, containerStyle, pointerEvents, highlightColor} = this.props;
+      const children = this.renderChildren();
+
+      const touchableProps = {
+         onPress,
+         style: containerStyle,
+         pointerEvents: pointerEvents || 'auto'
+      };
+
+      if (Platform.OS === 'ios') {
+         if (highlightColor)
+            return (
+               <TouchableHighlight
+                  underlayColor={highlightColor}
+                  activeOpacity={0.6}
+                  {...touchableProps}>
+                  {children}
+               </TouchableHighlight>
+            );
+
+         return (
+            <TouchableOpacity
+               activeOpacity={0.6}
+               {...touchableProps}>
+               {children}
+            </TouchableOpacity>
+         );
+      }
+
       return (
-         <TouchableOpacity
-            activeOpacity={0.6}
-            onPress={onPress}
-            style={containerStyle}
-            pointerEvents={pointerEvents || 'auto'}>
-            <View style={style}>
+         <TouchableNativeFeedback
+            background={TouchableNativeFeedback.Ripple(highlightColor, false)}
+            {...touchableProps}>
             {children}
-            </View>
-         </TouchableOpacity>
+         </TouchableNativeFeedback>
       );
    }
 }

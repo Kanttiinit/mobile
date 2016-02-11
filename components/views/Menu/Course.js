@@ -8,6 +8,7 @@ import CourseDetails from './CourseDetails';
 import Property from './Property';
 import Button from '../../Button';
 import {showModal} from '../../../store/actions';
+import {colors} from '../../../style';
 
 const {
    View,
@@ -30,6 +31,7 @@ class Course extends React.Component {
       course.restaurant = restaurant;
       return (
          <Button
+            highlightColor={colors.lightGrey}
             onPress={() => this.props.courseSelected(course, restaurant)}
             style={[course.isFavorite ? styles.favoriteCourse : {borderRadius: 2}]}>
             <View style={[styles.course, style]}>

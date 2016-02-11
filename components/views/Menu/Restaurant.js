@@ -94,8 +94,7 @@ const styles = StyleSheet.create({
       marginBottom: 14,
       paddingBottom: 0,
       elevation: 2,
-      borderRadius: 2,
-      backgroundColor: colors.accentLight
+      borderRadius: 2
    },
    header: {
       flexDirection: 'row',

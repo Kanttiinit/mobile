@@ -1,6 +1,5 @@
 'use strict';
 import React from 'react-native';
-import {MKColor} from 'react-native-material-kit';
 
 const {
    View,
@@ -29,18 +28,18 @@ class Property extends Component {
    }
    getColor(p) {
       const colors = {
-         'L': MKColor.Brown,
-         'G': MKColor.DeepOrange,
-         'V': MKColor.Green,
-         'M': MKColor.Pink,
-         'VL': MKColor.Indigo,
-         'A': MKColor.BlueGrey
+         'L': '#795548',
+         'G': '#FF5722',
+         'V': '#4CAF50',
+         'M': '#E91E63',
+         'VL': '#3F51B5',
+         'A': '#607D8B'
       };
 
       if (p in colors)
          return colors[p];
 
-      return MKColor.Grey;
+      return '#9E9E9E';
    }
    render() {
       const p = this.props.children;

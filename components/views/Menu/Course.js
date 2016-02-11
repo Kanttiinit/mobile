@@ -2,11 +2,11 @@
 
 import React from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {MKButton, MKColor} from 'react-native-material-kit';
 import {connect} from 'react-redux';
 
 import CourseDetails from './CourseDetails';
 import Property from './Property';
+import Button from '../../Button';
 import {showModal} from '../../../store/actions';
 
 const {
@@ -29,16 +29,15 @@ class Course extends React.Component {
       const {course, restaurant, style, favorites} = this.props;
       course.restaurant = restaurant;
       return (
-         <MKButton
+         <Button
             onPress={() => this.props.courseSelected(course, restaurant)}
-            rippleColor='rgba(200, 200, 200, 0.25)'
-            style={[course.isFavorite ? styles.favoriteCourse : {borderRadius: 2}]}>
+            style={[course.isFavorite && styles.favoriteCourse, {backgroundColor: 'white'}]}>
             <View style={[styles.course, style]}>
                {course.isFavorite ? <Icon style={{marginRight: 6}} color='#fc5151' name='android-favorite' /> : null}
                <Text key={course.title} style={styles.courseTitle}>{course.title}</Text>
                {course.properties ? course.properties.map(p => <Property style={{marginLeft: 2}} key={p}>{p}</Property>) : null}
             </View>
-         </MKButton>
+         </Button>
       );
    }
 }

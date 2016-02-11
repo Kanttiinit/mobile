@@ -5,32 +5,9 @@ import thunk from 'redux-thunk';
 import haversine from 'haversine';
 import moment from 'moment';
 
-import Menu from '../components/views/Menu';
-import Favorites from '../components/views/Favorites';
-import Restaurants from '../components/views/Restaurants';
+import defaultState from './defaultState';
 
-const defaultState = {
-   currentView: 'MENU',
-   views: [
-      { title: 'MENU', icon: 'android-restaurant', component: Menu },
-      { title: 'SUOSIKIT', icon: 'android-favorite', component: Favorites },
-      { title: 'RAVINTOLAT', icon: 'ios-list', component: Restaurants }
-   ],
-   areas: undefined,
-   modal: {
-      visible: false,
-      component: undefined
-   },
-   favorites: [],
-   selectedRestaurants: undefined,
-   location: {},
-   restaurants: undefined,
-   menus: undefined,
-   now: undefined,
-   days: undefined
-};
-
-const getMenu = state => {
+const getMenus = state => {
    const {days, restaurants, now, favorites, location} = state;
    if (days && restaurants && now && favorites) {
       // iterate through all days
@@ -105,7 +82,7 @@ const checkIfFavorite = (title, favorites) => {
 const updateMenu = state => {
    return {
       ...state,
-      menus: getMenu(state)
+      menus: getMenus(state)
    };
 };
 

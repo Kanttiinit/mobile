@@ -1,11 +1,10 @@
 'use strict';
 
 import React from 'react-native';
-import {
-   MKButton
-} from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
+
+import Button from '../../Button';
 
 const {
    View,
@@ -24,12 +23,11 @@ export default class Favorite extends React.Component {
          <View style={[styles.favorite, style]}>
             <Icon style={styles.heartIcon} color='#fc5151' name='android-favorite' />
             <Text style={styles.foodTitle}>{favorite.name}</Text>
-            <MKButton
+            <Button
                style={styles.removeButton}
-               rippleColor='rgba(0, 0, 0, 0.25)'
                onPress={parent.removeFavorite.bind(parent, favorite.name)}>
                <Icon style={{fontSize: 26}} color='#8a8a8a' name='ios-close-empty' />
-            </MKButton>
+            </Button>
          </View>
       );
    }

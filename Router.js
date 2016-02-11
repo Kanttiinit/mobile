@@ -1,12 +1,13 @@
 'use strict';
 
 import React from 'react-native';
-import Material from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-simple-modal';
 import {connect} from 'react-redux'
 
+import Button from './components/Button';
 import {changeView, dismissModal} from './store/actions';
+import {colors} from './style';
 
 const {
    StyleSheet,
@@ -18,24 +19,19 @@ const {
    DeviceEventEmitter
 } = React;
 
-const {
-   MKButton,
-   MKColor
-} = Material;
-
 class TabButton extends React.Component {
    render() {
       const {data, changeScene, parent, current, icon} = this.props;
-      const textColor = current ? MKColor.Teal : '#666666';
-      const backgroundColor = current ? '#e3e0e0' : MKColor.Silver;
+      const textColor = current ? colors.accent : '#666666';
+      const backgroundColor = current ? '#e3e0e0' : colors.lightGrey;
       return (
-         <MKButton
+         <Button
             rippleColor="rgba(0, 150, 136, 0.1)"
             backgroundColor={backgroundColor}
             onPress={() => changeScene(data)} style={styles.tabButton}>
             <Icon name={icon} size={18} color={textColor} />
             <Text style={{fontSize: 12, color: textColor}}>{data.title}</Text>
-         </MKButton>
+         </Button>
       );
    }
 }
@@ -69,7 +65,7 @@ class Router extends React.Component {
       const {views, currentView, modal} = this.props;
       return (
          <View style={styles.wrapper}>
-            {Platform.OS === 'ios' ? <View style={{height:20, backgroundColor:MKColor.Teal}}></View> : null}
+            {Platform.OS === 'ios' ? <View style={{height:20, backgroundColor:colors.accent}}></View> : null}
             <Navigator
                ref="navigator"
                style={{flex: 1}}
@@ -98,7 +94,7 @@ class Router extends React.Component {
 const styles = StyleSheet.create({
    wrapper: {
       flex: 1,
-      backgroundColor: MKColor.Silver
+      backgroundColor: colors.lightGrey
    },
    tabBar: {
       borderTopWidth: 1,

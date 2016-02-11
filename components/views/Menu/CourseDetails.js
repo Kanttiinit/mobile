@@ -1,24 +1,21 @@
 'use strict';
 
 import React from 'react-native';
-import Material from 'react-native-material-kit';
 import {connect} from 'react-redux';
 
 import {dismissModal} from '../../../store/actions';
 
 import Property from './Property';
+import Button from '../../Button';
+import {colors} from '../../../style';
 
 const {
    View,
    Text,
    Component,
-   StyleSheet
+   StyleSheet,
+   TouchableOpacity
 } = React;
-
-const {
-   MKButton,
-   MKColor
-} = Material;
 
 class CourseDetails extends Component {
    render() {
@@ -36,11 +33,11 @@ class CourseDetails extends Component {
             </View>
             <View style={styles.footer}>
                <Text style={styles.restaurantName}>{course.restaurant.name}</Text>
-               <MKButton
+               <Button
                   onPress={() => this.props.dismissModal()}
                   style={styles.closeButton}>
                   <Text style={styles.closeButtonText}>SULJE</Text>
-               </MKButton>
+               </Button>
             </View>
          </View>
       );
@@ -81,7 +78,7 @@ const styles = StyleSheet.create({
       flex: 1
    },
    closeButton: {
-      backgroundColor: MKColor.Teal,
+      backgroundColor: colors.accent,
       borderRadius: 2,
       padding: 6,
    },

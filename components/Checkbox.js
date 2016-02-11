@@ -1,19 +1,16 @@
 'use strict';
 
 import React from 'react-native';
-import Material from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/Ionicons';
+
+import {colors} from '../style';
+import Button from './Button';
 
 const {
    Animated,
    View,
    Platform
 } = React;
-
-const {
-   MKColor,
-   MKButton
-} = Material;
 
 export default class Checkbox extends React.Component {
    constructor() {
@@ -37,7 +34,7 @@ export default class Checkbox extends React.Component {
       const {checked, onCheckedChange, color, backgroundColor} = this.props;
       const {checkedPhase} = this.state;
       return (
-         <MKButton
+         <Button
             onPress={() => onCheckedChange(!checked)}
             style={{
                height: 24,
@@ -51,7 +48,7 @@ export default class Checkbox extends React.Component {
                   flex: 1,
                   opacity: checkedPhase,
                   borderRadius: 12,
-                  backgroundColor: backgroundColor || MKColor.Teal,
+                  backgroundColor: backgroundColor || colors.accent,
                   alignItems: 'center',
                   justifyContent: 'center'
                }}>
@@ -67,7 +64,7 @@ export default class Checkbox extends React.Component {
                      size={32} />
                </Animated.View>
             </Animated.View>
-         </MKButton>
+         </Button>
       );
    }
 }

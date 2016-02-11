@@ -1,12 +1,12 @@
 'use strict';
 
 import React from 'react-native';
-import {MKColor} from 'react-native-material-kit';
 import Loader from '../Loader';
 import {connect} from 'react-redux';
 
 import Area from './Restaurants/Area';
 import {getAreas} from '../../store/actions';
+import {colors} from '../../style';
 
 const {
    ListView,
@@ -31,7 +31,7 @@ class Restaurants extends React.Component {
             <ListView
                dataSource={this.dataSource.cloneWithRows(this.props.areas)}
                renderRow={area => <Area area={area} />} />
-            : <Loader color={MKColor.Teal} />}
+            : <Loader color={colors.accent} />}
          </View>
       );
    }
@@ -40,7 +40,7 @@ class Restaurants extends React.Component {
 const styles = StyleSheet.create({
    container: {
       flex: 1,
-      backgroundColor: MKColor.Silver
+      backgroundColor: colors.lightGrey
    }
 });
 

@@ -1,18 +1,16 @@
 'use strict';
 
 import React from 'react-native';
-import {
-   MKButton,
-   MKColor
-} from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Loader from '../Loader';
 import {connect} from 'react-redux';
 
 import {showModal, removeFavorite, addFavorite, updateFavorites} from '../../store/actions';
+import {colors} from '../../style';
 
 import Favorite from './Favorites/Favorite';
 import FavoriteModal from './Favorites/Modal';
+import Button from '../Button';
 
 const {
    View,
@@ -46,14 +44,14 @@ class Favorites extends React.Component {
                   })}
                   <View style={{height: 100}}></View>
                </ScrollView>
-            : <Loader color={MKColor.Teal} />}
-            {favorites && !favorites.length ? <Text style={{alignSelf: 'center', textAlign: 'center', width: 260, fontSize: 18, flex: 1, color: MKColor.Grey}}>Lisää avainsana, esimerkiksi 'salaatti' tai 'pizza'.</Text> : null}
-            <MKButton
+            : <Loader color={colors.accent} />}
+            {favorites && !favorites.length ? <Text style={{alignSelf: 'center', textAlign: 'center', width: 260, fontSize: 18, flex: 1, color: colors.grey}}>Lisää avainsana, esimerkiksi 'salaatti' tai 'pizza'.</Text> : null}
+            <Button
                style={styles.fab}
                fab={true}
                onPress={() => this.props.showModal(<FavoriteModal onSelect={this.addFavorite.bind(this)} />)}>
                <Icon name='plus-round' size={22} color="white" />
-            </MKButton>
+            </Button>
          </View>
       );
    }
@@ -62,7 +60,7 @@ class Favorites extends React.Component {
 const styles = StyleSheet.create({
    container: {
       flex: 1,
-      backgroundColor: MKColor.Silver
+      backgroundColor: colors.lightGrey
    },
    favoriteList: {
       flex: 1
@@ -73,11 +71,12 @@ const styles = StyleSheet.create({
       position: 'absolute',
       width: 60,
       height: 60,
+      borderRadius: 30,
       shadowRadius: 1,
       shadowOffset: {width: 0, height: .5},
       shadowOpacity: .4,
       shadowColor: 'black',
-      backgroundColor: MKColor.Teal,
+      backgroundColor: colors.accent,
       justifyContent: 'center',
       alignItems: 'center'
    }

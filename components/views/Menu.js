@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react-native';
-import Material from 'react-native-material-kit';
 import moment from 'moment';
 import Swiper from '../Swiper';
 import Loader from '../Loader';
@@ -12,6 +11,7 @@ import Day from './Menu/Day';
 import DaySelector from './Menu/DaySelector';
 import AreaSelector from './Menu/AreaSelector';
 import {getRestaurants, getAreas, updateLocation} from '../../store/actions';
+import {colors} from '../../style';
 
 const {
    View,
@@ -20,11 +20,6 @@ const {
    DeviceEventEmitter,
    Text
 } = React;
-
-const {
-   MKColor,
-   MKButton
-} = Material;
 
 class Menu extends React.Component {
    constructor() {
@@ -44,7 +39,7 @@ class Menu extends React.Component {
 
       return (
          <View style={styles.container}>
-            {!restaurants ? <Loader color={MKColor.Teal} />
+            {!restaurants ? <Loader color={colors.accent} />
             :
             <Swiper
                ref="swiper"
@@ -62,7 +57,7 @@ class Menu extends React.Component {
 
 const styles = StyleSheet.create({
    container: {
-      backgroundColor: MKColor.Silver,
+      backgroundColor: colors.lightGrey,
       flex: 1,
       position: 'relative'
    }

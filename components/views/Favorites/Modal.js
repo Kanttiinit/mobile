@@ -5,6 +5,8 @@ import Material from 'react-native-material-kit';
 import {connect} from 'react-redux';
 
 import {dismissModal} from '../../../store/actions';
+import Button from '../../Button';
+import {colors} from '../../../style';
 
 const {
    View,
@@ -13,9 +15,7 @@ const {
 } = React;
 
 const {
-   MKButton,
-   MKTextField,
-   MKColor
+   MKTextField
 } = Material;
 
 class FavoriteModal extends React.Component {
@@ -29,27 +29,27 @@ class FavoriteModal extends React.Component {
             <View style={styles.modalTitle}><Text style={styles.modalTitleText}>Uusi suosikki</Text></View>
             <MKTextField
                clearButtonMode='while-editing'
-               highlightColor={MKColor.Teal}
-               textInputStyle={{color: MKColor.Black, fontSize: 18}}
+               highlightColor={colors.accent}
+               textInputStyle={{color: colors.black, fontSize: 18}}
                floatingLabelEnabled={true}
                onChangeText={text => this.setState({text})}
                style={styles.textField}
                placeholder="Avainsana" />
             <View style={{flexDirection: 'row', flex: 1}}>
-               <MKButton
-                  style={[styles.addButton, {backgroundColor: MKColor.Red}]}
+               <Button
+                  style={[styles.addButton, {backgroundColor: colors.red}]}
                   onPress={() => this.props.dismissModal()}>
                   <Text style={styles.addText}> PERUUTA </Text>
-               </MKButton>
+               </Button>
                <View style={{flex: 1}} />
-               <MKButton
+               <Button
                   style={styles.addButton}
                   onPress={() => {
                      this.props.onSelect(this.state.text);
                      this.props.dismissModal();
                   }}>
                   <Text style={styles.addText}> LISÄÄ </Text>
-               </MKButton>
+               </Button>
             </View>
          </View>
       );
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
       marginBottom: 40
    },
    addButton: {
-      backgroundColor: MKColor.Teal,
+      backgroundColor: colors.accent,
       alignSelf: 'flex-end',
       borderRadius: 2,
       padding: 6,

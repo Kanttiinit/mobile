@@ -1,12 +1,12 @@
 'use strict';
 
 import React from 'react-native';
-import {MKColor, MKCardStyles} from 'react-native-material-kit';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 
 import Course from './Course';
+import {colors, defaultStyles} from '../../../style';
 
 const {
    View,
@@ -44,9 +44,9 @@ class Restaurant extends React.Component {
       const courses = restaurant.courses;
       const isToday = now.isSame(date, 'day');
       return (
-         <View style={[MKCardStyles.card, styles.container]}>
+         <View style={[defaultStyles.card, styles.container]}>
 
-            <View style={[styles.header, isToday && restaurant.isOpen && {backgroundColor: MKColor.Teal}]}>
+            <View style={[styles.header, isToday && restaurant.isOpen && {backgroundColor: colors.accent}]}>
                <View>
                   <Text style={styles.restaurantName}>{restaurant.name}</Text>
                   {restaurant.distance ?
@@ -94,7 +94,8 @@ const styles = StyleSheet.create({
       marginBottom: 14,
       paddingBottom: 0,
       elevation: 2,
-      borderRadius: 2
+      borderRadius: 2,
+      backgroundColor: colors.accentLight
    },
    header: {
       flexDirection: 'row',
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
       borderTopColor: '#eee'
    },
    emptyMenuText: {
-      color: MKColor.Grey,
+      color: colors.grey,
       fontSize: 12,
       textAlign: 'center'
    },
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
       alignItems: 'center'
    },
    distanceText: {
-      color: MKColor.Silver,
+      color: colors.lightGrey,
       fontSize: 10
    },
    restaurantName: {

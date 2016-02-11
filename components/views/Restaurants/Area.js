@@ -1,16 +1,12 @@
 'use strict';
 
 import React from 'react-native';
-import {
-   MKColor,
-   MKCardStyles,
-   MKButton
-} from 'react-native-material-kit';
 import Checkbox from '../../Checkbox';
 import {connect} from 'react-redux';
 
 import Restaurant from './Restaurant';
 import {updateSelectedRestaurants} from '../../../store/actions';
+import {colors, defaultStyles} from '../../../style';
 
 const {
    Text,
@@ -34,12 +30,12 @@ class Area extends React.Component {
       const {selectedRestaurants, area} = this.props;
       if (selectedRestaurants)
          return (
-            <View style={[MKCardStyles.card, styles.areaContainer]}>
+            <View style={[defaultStyles.card, styles.areaContainer]}>
                <View style={styles.area}>
                   <Text style={styles.areaTitle}>{area.name}</Text>
                   <Checkbox
                      backgroundColor='white'
-                     color={MKColor.Teal}
+                     color={colors.accent}
                      checked={this.areAllChecked()}
                      onCheckedChange={this.checkedChange.bind(this, area.Restaurants)} />
                </View>
@@ -68,7 +64,7 @@ const styles = StyleSheet.create({
    },
    area: {
       padding: 6,
-      backgroundColor: MKColor.Teal,
+      backgroundColor: colors.accent,
       borderRadius: 2,
       borderBottomLeftRadius: 0,
       borderBottomRightRadius: 0,

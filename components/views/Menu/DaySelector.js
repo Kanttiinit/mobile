@@ -1,11 +1,11 @@
 'use strict';
 
 import React from 'react-native';
-import Material from 'react-native-material-kit';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
-
 import moment from 'moment';
+
+import Button from '../../Button';
 
 const {
    View,
@@ -13,19 +13,14 @@ const {
    Text
 } = React;
 
-const {
-   MKButton,
-   MKColor
-} = Material;
-
-const Button = props => (
-   <MKButton
+const ArrowButton = props => (
+   <Button
       onPress={() => props.onPress()}
       pointerEvents={props.visible ? 'auto' : 'none'}
       style={[styles.arrowButton, props.style, !props.visible && {opacity: 0}]}
       rippleColor="rgba(200, 200, 200, 0.25)">
       <Icon name={props.icon} color="#bababa" />
-   </MKButton>
+   </Button>
 );
 
 export default class DaySelector extends React.Component {
@@ -58,7 +53,7 @@ export default class DaySelector extends React.Component {
                locations={[0.5, 1]}
                colors={[background, transparentBackground]}
                style={[styles.buttonContainer, {left: 0, paddingLeft: 14, paddingRight: 28}]}>
-               <Button
+               <ArrowButton
                   onPress={this.change.bind(this, -1)}
                   icon="chevron-left"
                   visible={current > 0} />
@@ -69,7 +64,7 @@ export default class DaySelector extends React.Component {
                locations={[0, 0.5]}
                colors={[transparentBackground, background]}
                style={[styles.buttonContainer, {right: 0, paddingRight: 14, paddingLeft: 28}]}>
-               <Button
+               <ArrowButton
                   onPress={this.change.bind(this, 1)}
                   icon="chevron-right"
                   visible={current < max} />

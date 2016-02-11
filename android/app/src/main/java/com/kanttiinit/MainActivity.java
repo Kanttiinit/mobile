@@ -42,6 +42,7 @@ public class MainActivity extends ReactActivity {
         new MainReactPackage(),
         new LinearGradientPackage(),
         new VectorIconsPackage(),
-        new ReactMaterialKitPackage();
+        new ReactMaterialKitPackage()
+      );
     }
 }

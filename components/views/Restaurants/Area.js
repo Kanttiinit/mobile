@@ -41,7 +41,7 @@ class Area extends React.Component {
                </View>
                {area.Restaurants.sort((a, b) => a.name > b.name ? 1 : -1).map((r, i) =>
                   <Restaurant
-                     key={i}
+                     key={r.id}
                      restaurant={r}
                      checked={!!selectedRestaurants.find(id => id === r.id)}
                      style={[styles.restaurant, i > 0 && styles.borderTop]}

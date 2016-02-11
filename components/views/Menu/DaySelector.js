@@ -17,8 +17,7 @@ const ArrowButton = props => (
    <Button
       onPress={() => props.onPress()}
       pointerEvents={props.visible ? 'auto' : 'none'}
-      style={[styles.arrowButton, props.style, !props.visible && {opacity: 0}]}
-      rippleColor="rgba(200, 200, 200, 0.25)">
+      style={[styles.arrowButton, props.style, !props.visible && {opacity: 0}]}>
       <Icon name={props.icon} color="#bababa" />
    </Button>
 );
@@ -27,7 +26,7 @@ export default class DaySelector extends React.Component {
    constructor() {
       super();
 
-      this.state = { current: 0 };
+      this.state = {current: 0};
    }
    shouldComponentUpdate(props, state) {
       return state.current !== this.state.current;

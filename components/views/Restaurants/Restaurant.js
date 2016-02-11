@@ -15,7 +15,7 @@ export default class Restaurant extends React.Component {
    render() {
       const {restaurant, checkedChange, style, checked} = this.props;
       return (
-         <View key={restaurant.id} style={style}>
+         <View style={style}>
             <Text style={{fontSize: 14, flex: 1}}>{restaurant.name}</Text>
             <Checkbox
                onCheckedChange={checked => checkedChange([restaurant], checked)}

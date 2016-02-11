@@ -16,7 +16,8 @@ const {
    View,
    Text,
    ScrollView,
-   StyleSheet
+   StyleSheet,
+   LayoutAnimation
 } = React;
 
 class Favorites extends React.Component {
@@ -31,6 +32,9 @@ class Favorites extends React.Component {
    }
    removeFavorite(name) {
       this.props.removeFavorite(name);
+   }
+   componentWillReceiveProps() {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
    }
    render() {
       const {favorites} = this.props;

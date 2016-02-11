@@ -26,9 +26,9 @@ class TabButton extends React.Component {
       const backgroundColor = current ? '#e3e0e0' : colors.lightGrey;
       return (
          <Button
-            rippleColor="rgba(0, 150, 136, 0.1)"
-            backgroundColor={backgroundColor}
-            onPress={() => changeScene(data)} style={styles.tabButton}>
+            onPress={() => changeScene(data)}
+            containerStyle={{flex: 1}}
+            style={[styles.tabButton, {backgroundColor}]}>
             <Icon name={icon} size={18} color={textColor} />
             <Text style={{fontSize: 12, color: textColor}}>{data.title}</Text>
          </Button>

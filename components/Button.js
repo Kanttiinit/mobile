@@ -10,13 +10,16 @@ const {
 
 export default class Button extends React.Component {
    render() {
-      const {children, onPress, style} = this.props;
+      const {children, onPress, style, containerStyle, pointerEvents} = this.props;
       return (
          <TouchableOpacity
             activeOpacity={0.6}
-            style={style}
-            onPress={() => onPress(...arguments)}>
+            onPress={onPress}
+            style={containerStyle}
+            pointerEvents={pointerEvents || 'auto'}>
+            <View style={style}>
             {children}
+            </View>
          </TouchableOpacity>
       );
    }

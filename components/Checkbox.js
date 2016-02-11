@@ -52,17 +52,16 @@ export default class Checkbox extends React.Component {
                   alignItems: 'center',
                   justifyContent: 'center'
                }}>
-               <Animated.View
+               <View
                   style={{
                      backgroundColor: 'transparent',
-                     transform: [{scale: checkedPhase}],
                      marginTop: Platform.OS === 'ios' ? 3 : 0
                   }}>
                   <Icon
                      name="ios-checkmark-empty"
                      color={color || 'white'}
                      size={32} />
-               </Animated.View>
+               </View>
             </Animated.View>
          </Button>
       );

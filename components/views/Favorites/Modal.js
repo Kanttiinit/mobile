@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react-native';
-import Material from 'react-native-material-kit';
 import {connect} from 'react-redux';
 
 import {dismissModal} from '../../../store/actions';
@@ -11,12 +10,9 @@ import {colors} from '../../../style';
 const {
    View,
    Text,
+   TextInput,
    StyleSheet
 } = React;
-
-const {
-   MKTextField
-} = Material;
 
 class FavoriteModal extends React.Component {
    constructor() {
@@ -27,10 +23,9 @@ class FavoriteModal extends React.Component {
       return (
          <View>
             <View style={styles.modalTitle}><Text style={styles.modalTitleText}>Uusi suosikki</Text></View>
-            <MKTextField
+            <TextInput
                clearButtonMode='while-editing'
-               highlightColor={colors.accent}
-               textInputStyle={{color: colors.black, fontSize: 18}}
+               autoCapitalize='none'
                floatingLabelEnabled={true}
                onChangeText={text => this.setState({text})}
                style={styles.textField}
@@ -65,8 +60,12 @@ const styles = StyleSheet.create({
       fontSize: 18
    },
    textField: {
-      height: 48,
-      marginBottom: 40
+      height: 36,
+      paddingHorizontal: 8,
+      marginBottom: 40,
+      fontSize: 18,
+      backgroundColor: colors.lightGrey,
+      borderRadius: 4
    },
    addButton: {
       backgroundColor: colors.accent,

@@ -8,6 +8,10 @@ import {connect} from 'react-redux';
 import Course from './Course';
 import {colors, defaultStyles} from '../../../style';
 
+import Button from '../../Button';
+import RestaurantDialog from '../Restaurants/RestaurantDialog';
+import {showModal} from '../../../store/actions';
+
 const {
    View,
    Text,
@@ -40,13 +44,16 @@ class Restaurant extends React.Component {
       return result;
    }
    render() {
-      const {date, now, restaurant} = this.props;
+      const {date, now, restaurant, showModal} = this.props;
       const courses = restaurant.courses;
       const isToday = now.isSame(date, 'day');
       return (
          <View style={[defaultStyles.card, styles.container]}>
 
-            <View style={[styles.header, isToday && restaurant.isOpen && {backgroundColor: colors.accent}]}>
+            <Button
+               onPress={() => showModal(<RestaurantDialog restaurant={restaurant} />)}
+               style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}
+               containerStyle={[styles.header, isToday && restaurant.isOpen && {backgroundColor: colors.accent}]}>
                <View>
                   <Text style={styles.restaurantName}>{restaurant.name}</Text>
                   {restaurant.distance ?
@@ -61,7 +68,7 @@ class Restaurant extends React.Component {
                      {this.formatOpeningHours()}
                   </Text>
                </View>
-            </View>
+            </Button>
 
             {!courses.length ?
             <View style={{padding: 10, borderRadius: 2}}>
@@ -83,6 +90,9 @@ class Restaurant extends React.Component {
 export default connect(
    state => ({
       now: state.now
+   }),
+   dispatch => ({
+      showModal: c => dispatch(showModal(c))
    })
 )(Restaurant);
 
@@ -97,8 +107,6 @@ const styles = StyleSheet.create({
       borderRadius: 2
    },
    header: {
-      flexDirection: 'row',
-      alignItems: 'center',
       backgroundColor: '#7c7c7c',
       padding: 6,
       borderRadius: 2,

@@ -10,6 +10,7 @@
     "moment": "2.11.1",
     "react-native": "^0.20.0-rc",
     "react-native-linear-gradient": "^1.3.2",
+    "react-native-maps": "^0.3.0",
     "react-native-simple-modal": "2.0.2",
     "react-native-vector-icons": "1.0.4",
     "react-redux": "^4.4.0",

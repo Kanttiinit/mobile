@@ -32,7 +32,7 @@ class Menu extends React.Component {
       this.refs.daySelector.setCurrent(p);
    }
    render() {
-      const {areas, restaurants, days} = this.props;
+      const {areas, restaurants, days, restaurantsLoading} = this.props;
 
       if (restaurants && !restaurants.length)
          return <AreaSelector areas={areas} />;
@@ -67,7 +67,8 @@ export default connect(
    state => ({
       areas: state.areas,
       restaurants: state.restaurants,
-      days: state.days
+      days: state.days,
+      restaurantsLoading: state.restaurantsLoading
    }),
    dispatch => ({
       updateLocation: () => dispatch(updateLocation()),

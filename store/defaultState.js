@@ -18,6 +18,7 @@ export default {
    selectedRestaurants: undefined,
    location: {},
    restaurants: undefined,
+   restaurantsLoading: true,
    menus: undefined,
    now: undefined,
    days: undefined

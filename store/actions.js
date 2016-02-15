@@ -103,14 +103,24 @@ export const updateLocation = () => {
 // restaurants
 export const getRestaurants = selectedRestaurants => {
    return dispatch => {
-      if (selectedRestaurants.length)
+      if (selectedRestaurants.length) {
+         dispatch({
+            type: 'SET_RESTAURANTS_LOADING',
+            loading: true
+         });
          return HttpCache.get('menus', 'https://api.kanttiinit.fi/menus/' + selectedRestaurants.sort().join(','), {hours: 3})
          .then(restaurants => {
             dispatch({
                type: 'SET_RESTAURANTS',
                restaurants
             });
+            
+            dispatch({
+               type: 'SET_RESTAURANTS_LOADING',
+               loading: false
+            });
          });
+      }
 
       dispatch({
          type: 'SET_RESTAURANTS',

@@ -110,6 +110,8 @@ const reducer = (state = defaultState, action) => {
          return {...state, areas: action.areas};
       case 'SET_SELECTED_RESTAURANTS':
          return {...state, selectedRestaurants: action.restaurants};
+      case 'SET_RESTAURANTS_LOADING':
+         return {...state, restaurantsLoading: action.loading};
 
       // the following require an update of the restaurant list
       case 'UPDATE_NOW':

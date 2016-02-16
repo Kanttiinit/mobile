@@ -18,7 +18,9 @@ class Property extends Component {
          'VS': 'vähäsuolainen',
          'M': 'maidoton',
          'VL': 'vähälaktoosinen',
-         'A': 'sisältää allergeenejä'
+         'A': 'sisältää allergeenejä',
+         'K': 'kasvis',
+         'VE': 'vegaani'
       };
 
       if (p in names)
@@ -33,7 +35,9 @@ class Property extends Component {
          'V': '#4CAF50',
          'M': '#E91E63',
          'VL': '#3F51B5',
-         'A': '#607D8B'
+         'A': '#607D8B',
+         'K': '#168b33',
+         'VE': '#4CAF50'
       };
 
       if (p in colors)

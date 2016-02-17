@@ -4,11 +4,17 @@ import React from 'react-native';
 import MapView from 'react-native-maps';
 import geolib from 'geolib';
 
+import Restaurant from '../Menu/Restaurant';
+import Button from '../../Button';
+import {colors} from '../../../style';
+import {dismissModal} from '../../../store/actions';
+
 import {connect} from 'react-redux';
 
 const {
    View,
-   Text
+   Text,
+   StyleSheet
 } = React;
 
 class RestaurantDialog extends React.Component {
@@ -17,7 +23,10 @@ class RestaurantDialog extends React.Component {
       const center = geolib.getCenter([restaurant, location]);
       return (
          <View>
-            <Text style={{fontSize: 22}}>{restaurant.name}</Text>
+            <View style={styles.header}>
+               <Text style={styles.title}>{restaurant.name}</Text>
+               <Text style={styles.distance}>{Restaurant.formatDistance(restaurant.distance)}</Text>
+            </View>
             <MapView
                style={{height: 300}}
                rotateEnabled={false}
@@ -28,15 +37,21 @@ class RestaurantDialog extends React.Component {
                   longitudeDelta: Math.max(2.3 * Math.abs(center.longitude - restaurant.longitude), 0.01)
                }}>
                <MapView.Marker
+                  image={require('../../../assets/img/circle.png')}
+                  coordinate={location}/>
+               <MapView.Marker
+                  image={require('../../../assets/img/pin.png')}
                   coordinate={{
                      latitude: restaurant.latitude,
                      longitude: restaurant.longitude
-                  }}/>
-               <MapView.Circle
-                  radius={10}
-                  strokeWidth={10}
-                  center={location} />
+                  }}
+                  />
             </MapView>
+            <Button
+               onPress={() => this.props.dismissModal()}
+               style={styles.closeButton}>
+               <Text style={styles.closeButtonText}>SULJE</Text>
+            </Button>
          </View>
       );
    }
@@ -45,5 +60,36 @@ class RestaurantDialog extends React.Component {
 export default connect(
    state => ({
       location: state.location
+   }),
+   dispatch => ({
+      dismissModal: () => dispatch(dismissModal())
    })
 )(RestaurantDialog);
+
+const styles = StyleSheet.create({
+   header: {
+      flexDirection: 'row',
+      marginBottom: 10
+   },
+   title: {
+      flex: 1,
+      fontSize: 22
+   },
+   distance: {
+      fontSize: 16,
+      color: '#bebebe'
+   },
+   closeButton: {
+      marginTop: 10,
+      flex: 0,
+      alignSelf: 'flex-end',
+      backgroundColor: colors.accent,
+      borderRadius: 2,
+      padding: 6,
+   },
+   closeButtonText: {
+      fontSize: 12,
+      color: 'white',
+      fontWeight: 'bold'
+   }
+});

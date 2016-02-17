@@ -29,7 +29,7 @@ class Day extends Component {
    }
    shouldComponentUpdate(props) {
       if (props.currentView === 'MENU')
-         return !this.props.date.isSame(props.date, 'day') || this.state.menu !== props.menu;
+         return !this.props.date.isSame(props.date, 'day') || this.state.menu !== props.menu || !props.now.isSame(this.props.date, 'minute');
 
       return false;
    }
@@ -38,7 +38,7 @@ class Day extends Component {
 
          if (this.props.viewChanges !== props.viewChanges && this.props.currentView === 'MENU')
             this.refs.list.scrollTo({y: 0});
-         
+
          InteractionManager.runAfterInteractions(() => {
             this.setState({menu: props.menu});
          });
@@ -91,6 +91,7 @@ export default connect(
    (state, props) => ({
       viewChanges: state.viewChanges,
       currentView: state.currentView,
+      now: state.now,
       menu: state.menus.find(m => m.date.isSame(props.date, 'day'))
    })
 )(Day);

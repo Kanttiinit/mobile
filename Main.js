@@ -14,8 +14,12 @@ const {AppState} = React;
 export default class Main extends React.Component {
    componentDidMount() {
       AppState.addEventListener('change', currentAppState => {
-         if (currentAppState === 'active')
+         if (currentAppState === 'active') {
             this.refresh();
+            this.updateInterval = setInterval(() => this.refresh(), 60000);
+         } else if (currentAppState === 'background' && this.updateInterval) {
+            clearInterval(this.updateInterval);
+         }
       });
 
       // populate selected restaurants and favorites

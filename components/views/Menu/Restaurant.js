@@ -28,8 +28,7 @@ class Restaurant extends React.Component {
       }
       return 'suljettu';
    }
-   formatDistance() {
-      const {distance} = this.props.restaurant;
+   static formatDistance(distance) {
       return distance < 1000 ? distance.toFixed(0) + ' m' : (distance / 1000).toFixed(1) + ' km';
    }
    getFavString(restaurant) {
@@ -59,7 +58,7 @@ class Restaurant extends React.Component {
                   {restaurant.distance ?
                   <View style={styles.distance}>
                      <Icon style={styles.distanceText} name="ios-location" />
-                     <Text style={[styles.distanceText, {marginLeft: 3}]}>{this.formatDistance()}</Text>
+                     <Text style={[styles.distanceText, {marginLeft: 3}]}>{Restaurant.formatDistance(restaurant.distance)}</Text>
                   </View>
                   : null}
                </View>

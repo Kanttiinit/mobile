@@ -125,7 +125,7 @@ const reducer = (state = defaultState, action) => {
       case 'SET_LOCATION':
          return updateMenu({...state, location: action.location});
       case 'SET_RESTAURANTS':
-         return updateMenu({...state, restaurants: action.restaurants});
+         return updateMenu({...state, restaurants: action.restaurants, restaurantsLoading: false});
       default:
          return state;
    }

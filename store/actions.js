@@ -114,11 +114,6 @@ export const getRestaurants = selectedRestaurants => {
                type: 'SET_RESTAURANTS',
                restaurants
             });
-            
-            dispatch({
-               type: 'SET_RESTAURANTS_LOADING',
-               loading: false
-            });
          });
       }
 

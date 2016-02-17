@@ -33,7 +33,7 @@ class Menu extends React.Component {
    }
    render() {
       const {areas, restaurants, days, restaurantsLoading} = this.props;
-
+      
       return (
          <View style={styles.container}>
             {!restaurants || !areas ?
@@ -47,9 +47,11 @@ class Menu extends React.Component {
                {days.map((date, i) => <Day key={i} date={date} />)}
             </Swiper>
             }
-            {restaurants ?
+
+            {restaurants && restaurants.length ?
             <DaySelector ref="daySelector" onChange={this.onDaySelectorChange.bind(this)} max={days.length - 1} />
             : null}
+
             {restaurantsLoading ?
             <View style={{position: 'absolute', alignItems: 'center', padding: 8, top: 0, left: 0, right: 0, backgroundColor: colors.accent}}>
                <Text style={{color: 'white'}}>Päivitetään...</Text>

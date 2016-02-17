@@ -105,7 +105,7 @@ const reducer = (state = defaultState, action) => {
             }
          };
       case 'CHANGE_VIEW':
-         return {...state, currentView: action.view};
+         return {...state, currentView: action.view, viewChanges: (state.viewChanges || 0) + 1};
       case 'SET_AREAS':
          return {...state, areas: action.areas};
       case 'SET_SELECTED_RESTAURANTS':

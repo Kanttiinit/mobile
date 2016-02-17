@@ -34,10 +34,15 @@ class Day extends Component {
       return false;
    }
    componentWillReceiveProps(props) {
-      if (props.currentView === 'MENU')
+      if (props.currentView === 'MENU') {
+
+         if (this.props.viewChanges !== props.viewChanges && this.props.currentView === 'MENU')
+            this.refs.list.scrollTo({y: 0});
+
          InteractionManager.runAfterInteractions(() => {
             this.setState({menu: props.menu});
          });
+      }
    }
    render() {
       const {date} = this.props;
@@ -51,6 +56,7 @@ class Day extends Component {
                </Text>
             </View>
             <ListView
+               ref="list"
                initialListSize={1}
                pageSize={2}
                dataSource={this.dataSource.cloneWithRows(menu.restaurants)}
@@ -82,6 +88,7 @@ const styles = StyleSheet.create({
 
 export default connect(
    (state, props) => ({
+      viewChanges: state.viewChanges,
       currentView: state.currentView,
       menu: state.menus.find(m => m.date.isSame(props.date, 'day'))
    })

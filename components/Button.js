@@ -24,32 +24,22 @@ export default class Button extends React.Component {
          pointerEvents: pointerEvents || 'auto'
       };
 
-      if (Platform.OS === 'ios') {
-         if (highlightColor)
-            return (
-               <TouchableHighlight
-                  underlayColor={highlightColor}
-                  activeOpacity={0.6}
-                  {...touchableProps}>
-                  {children}
-               </TouchableHighlight>
-            );
-
+      if (highlightColor)
          return (
-            <TouchableOpacity
+            <TouchableHighlight
+               underlayColor={highlightColor}
                activeOpacity={0.6}
                {...touchableProps}>
                {children}
-            </TouchableOpacity>
+            </TouchableHighlight>
          );
-      }
 
       return (
-         <TouchableNativeFeedback
-            background={TouchableNativeFeedback.Ripple(highlightColor, false)}
+         <TouchableOpacity
+            activeOpacity={0.6}
             {...touchableProps}>
             {children}
-         </TouchableNativeFeedback>
+         </TouchableOpacity>
       );
    }
 }

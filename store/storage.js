@@ -13,6 +13,6 @@ export default {
       });
    },
    setList(name, list) {
-      AsyncStorage.setItem(name, JSON.stringify(list));
+      return AsyncStorage.setItem(name, JSON.stringify(list));
    }
 };

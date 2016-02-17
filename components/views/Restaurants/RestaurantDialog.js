@@ -24,8 +24,8 @@ class RestaurantDialog extends React.Component {
                initialRegion={{
                   latitude: Number(center.latitude),
                   longitude: Number(center.longitude),
-                  latitudeDelta: 2.3 * Math.abs(center.latitude - restaurant.latitude),
-                  longitudeDelta: 2.3 * Math.abs(center.longitude - restaurant.longitude)
+                  latitudeDelta: Math.max(2.3 * Math.abs(center.latitude - restaurant.latitude), 0.01),
+                  longitudeDelta: Math.max(2.3 * Math.abs(center.longitude - restaurant.longitude), 0.01)
                }}>
                <MapView.Marker
                   coordinate={{

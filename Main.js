@@ -16,9 +16,9 @@ export default class Main extends React.Component {
       AppState.addEventListener('change', currentAppState => {
          if (currentAppState === 'active') {
             this.refresh();
-            this.updateInterval = setInterval(() => this.refresh(), 60000);
+            this.startAutoUpdate();
          } else if (currentAppState === 'background' && this.updateInterval) {
-            clearInterval(this.updateInterval);
+            this.stopAutoUpdate();
          }
       });
 
@@ -41,6 +41,18 @@ export default class Main extends React.Component {
       });
 
       this.refresh();
+      this.startAutoUpdate();
+   }
+   componentWillUnmount() {
+      this.stopAutoUpdate();
+   }
+   startAutoUpdate() {
+      if (!this.updateInterval)
+         this.updateInterval = setInterval(() => this.refresh(), 15000);
+   }
+   stopAutoUpdate() {
+      clearInterval(this.updateInterval);
+      this.updateInterval = undefined;
    }
    refresh() {
       store.dispatch({type: 'UPDATE_NOW'});

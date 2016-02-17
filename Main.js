@@ -30,6 +30,7 @@ export default class Main extends React.Component {
       store.subscribe(() => {
          const selected = store.getState().selectedRestaurants;
          if (selected !== previousSelected) {
+            HttpCache.reset('menus');
             previousSelected = selected;
             store.dispatch(getRestaurants(selected));
          }

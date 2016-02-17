@@ -38,7 +38,7 @@ class Day extends Component {
 
          if (this.props.viewChanges !== props.viewChanges && this.props.currentView === 'MENU')
             this.refs.list.scrollTo({y: 0});
-
+         
          InteractionManager.runAfterInteractions(() => {
             this.setState({menu: props.menu});
          });
@@ -47,6 +47,7 @@ class Day extends Component {
    render() {
       const {date} = this.props;
       const {menu} = this.state;
+
       return (
          <View style={{flex: 1}}>
             <View style={styles.daySelector}>

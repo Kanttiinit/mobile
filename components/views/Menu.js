@@ -34,12 +34,12 @@ class Menu extends React.Component {
    render() {
       const {areas, restaurants, days, restaurantsLoading} = this.props;
 
-      if (restaurants && !restaurants.length)
+      if (restaurants && !restaurants.length && areas)
          return <AreaSelector areas={areas} />;
 
       return (
          <View style={styles.container}>
-            {!restaurants ? <Loader color={colors.accent} />
+            {!restaurants || !areas ? <Loader color={colors.accent} />
             :
             <Swiper
                ref="swiper"

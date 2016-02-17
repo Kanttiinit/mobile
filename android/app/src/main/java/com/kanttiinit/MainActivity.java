@@ -1,12 +1,12 @@
 package com.kanttiinit;
 
 import com.facebook.react.ReactActivity;
+import com.AirMaps.AirPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 
 
 import java.util.Arrays;
@@ -40,9 +40,9 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
+        new AirPackage(),
         new LinearGradientPackage(),
-        new VectorIconsPackage(),
-        new ReactMaterialKitPackage()
+        new VectorIconsPackage()
       );
     }
 }

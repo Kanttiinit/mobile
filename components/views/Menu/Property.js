@@ -15,18 +15,21 @@ class Property extends Component {
       const names = {
          'L': 'laktoositon',
          'G': 'gluteeniton',
-         'VS': 'vähäsuolainen',
+         'VS': 'sisältää tuoretta valkosipulia',
          'M': 'maidoton',
          'VL': 'vähälaktoosinen',
          'A': 'sisältää allergeenejä',
          'K': 'kasvis',
-         'VE': 'vegaani'
+         'MU': 'munaton',
+         'VE': 'vegaani',
+         'T': 'terveellisempi valinta',
+         'S': 'ei soijaa'
       };
 
       if (p in names)
          return names[p];
 
-      return '';
+      return 'tuntematon';
    }
    getColor(p) {
       const colors = {

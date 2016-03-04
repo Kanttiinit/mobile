@@ -12,6 +12,7 @@ import {dismissModal} from '../../../store/actions';
 import {connect} from 'react-redux';
 
 const {
+   Image,
    View,
    Text,
    StyleSheet
@@ -37,15 +38,19 @@ class RestaurantDialog extends React.Component {
                   longitudeDelta: Math.max(2.3 * Math.abs(center.longitude - restaurant.longitude), 0.01)
                }}>
                <MapView.Marker
-                  image={require('../../../assets/img/circle.png')}
-                  coordinate={location}/>
+                  coordinate={location}>
+                  <View style={styles.userMarker}>
+                  </View>
+               </MapView.Marker>
                <MapView.Marker
-                  image={require('../../../assets/img/pin.png')}
                   coordinate={{
                      latitude: restaurant.latitude,
                      longitude: restaurant.longitude
-                  }}
-                  />
+                  }}>
+                  <View>
+                     <Image style={styles.restaurantMarker} source={require('../../../assets/img/pin.png')}></Image>
+                  </View>
+               </MapView.Marker>
             </MapView>
             <Button
                onPress={() => this.props.dismissModal()}
@@ -70,6 +75,16 @@ const styles = StyleSheet.create({
    header: {
       flexDirection: 'row',
       marginBottom: 10
+   },
+   userMarker: {
+      width: 20,
+      height: 20,
+      borderRadius: 50,
+      backgroundColor: '#469cc6'
+   },
+   restaurantMarker: {
+      width: 120,
+      height: 120
    },
    title: {
       flex: 1,

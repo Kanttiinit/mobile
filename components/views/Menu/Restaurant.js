@@ -91,7 +91,7 @@ export default connect(
       now: state.now
    }),
    dispatch => ({
-      showModal: c => dispatch(showModal(c))
+      showModal: c => dispatch(showModal(c, {padding: 0}))
    })
 )(Restaurant);
 

@@ -8,9 +8,10 @@ export const changeView = view => ({
    view
 });
 
-export const showModal = component => ({
+export const showModal = (component, style) => ({
    type: 'SHOW_MODAL',
-   component
+   component,
+   style
 });
 
 export const dismissModal = () => ({

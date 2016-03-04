@@ -84,6 +84,7 @@ class Router extends React.Component {
             </View>
             <Modal
                ref="modal"
+               style={modal.style}
                modalDidClose={() => this.props.dismissModal()}
                renderContent={() => modal.component} />
          </View>

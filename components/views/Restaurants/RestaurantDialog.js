@@ -26,13 +26,13 @@ class RestaurantDialog extends React.Component {
       return (
          <View style={{padding: 0, margin: 0}}>
             <MapView
-               style={{height: 300, padding: 0, margin: 0}}
+               style={{height: 300, padding: 0, margin: 0, borderRadius: 2}}
                rotateEnabled={false}
                initialRegion={{
                   latitude: Number(center.latitude),
                   longitude: Number(center.longitude),
-                  latitudeDelta: Math.max(2.3 * Math.abs(center.latitude - restaurant.latitude), 0.01),
-                  longitudeDelta: Math.max(2.3 * Math.abs(center.longitude - restaurant.longitude), 0.01)
+                  latitudeDelta: Math.max(2.5 * Math.abs(center.latitude - restaurant.latitude), 0.01),
+                  longitudeDelta: Math.max(2.5 * Math.abs(center.longitude - restaurant.longitude), 0.01)
                }}>
                <MapView.Marker
                   coordinate={location}>
@@ -49,18 +49,20 @@ class RestaurantDialog extends React.Component {
                   </View>
                </MapView.Marker>
             </MapView>
-            <View style={styles.header}>
-               <Text style={styles.title}>{restaurant.name}</Text>
-               <Text style={styles.distance}>{Restaurant.formatDistance(restaurant.distance)}</Text>
+            <View style={styles.container}>
+               <View style={styles.header}>
+                  <Text style={styles.title}>{restaurant.name}</Text>
+                  <Text style={styles.distance}>{Restaurant.formatDistance(restaurant.distance)}</Text>
+               </View>
+               <View>
+                  <Text>{restaurant.openingHourString.join("\n")}</Text>
+               </View>
+               <Button
+                  onPress={() => this.props.dismissModal()}
+                  style={styles.closeButton}>
+                  <Text style={styles.closeButtonText}>SULJE</Text>
+               </Button>
             </View>
-            <View>
-               <Text>{restaurant.openingHourString.join("\n")}</Text>
-            </View>
-            <Button
-               onPress={() => this.props.dismissModal()}
-               style={styles.closeButton}>
-               <Text style={styles.closeButtonText}>SULJE</Text>
-            </Button>
          </View>
       );
    }
@@ -76,10 +78,12 @@ export default connect(
 )(RestaurantDialog);
 
 const styles = StyleSheet.create({
+   container: {
+      padding: 10
+   },
    header: {
       flexDirection: 'row',
       marginBottom: 10,
-      marginTop: 10
    },
    userMarker: {
       width: 20,

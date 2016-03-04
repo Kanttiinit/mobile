@@ -3,6 +3,7 @@
 import React from 'react-native';
 import MapView from 'react-native-maps';
 import geolib from 'geolib';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import Restaurant from '../Menu/Restaurant';
 import Button from '../../Button';
@@ -43,8 +44,8 @@ class RestaurantDialog extends React.Component {
                      latitude: restaurant.latitude,
                      longitude: restaurant.longitude
                   }}>
-                  <View>
-                     <Image style={styles.restaurantMarker} source={require('../../../assets/img/pin.png')}></Image>
+                  <View style={styles.restaurantMarker}>
+                     <Icon name='android-restaurant' size={30} color="white" />
                   </View>
                </MapView.Marker>
             </MapView>
@@ -82,12 +83,17 @@ const styles = StyleSheet.create({
       height: 20,
       borderRadius: 50,
       backgroundColor: '#469cc6',
-      borderWidth: 4,
+      borderWidth: 6,
       borderColor: '#79bdde'
    },
    restaurantMarker: {
-      width: 120,
-      height: 120
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingHorizontal: 4,
+      borderRadius: 50,
+      backgroundColor: '#469cc6',
+      borderWidth: 4,
+      borderColor: '#469cc6'
    },
    title: {
       flex: 1,

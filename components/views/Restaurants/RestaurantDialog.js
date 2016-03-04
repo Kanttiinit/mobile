@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
       height: 20,
       borderRadius: 50,
       backgroundColor: '#469cc6',
-      borderWidth: 6,
+      borderWidth: 2,
       borderColor: '#79bdde'
    },
    restaurantMarker: {

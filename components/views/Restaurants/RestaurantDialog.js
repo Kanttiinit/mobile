@@ -23,13 +23,9 @@ class RestaurantDialog extends React.Component {
       const {restaurant, location} = this.props;
       const center = geolib.getCenter([restaurant, location]);
       return (
-         <View>
-            <View style={styles.header}>
-               <Text style={styles.title}>{restaurant.name}</Text>
-               <Text style={styles.distance}>{Restaurant.formatDistance(restaurant.distance)}</Text>
-            </View>
+         <View style={{padding: 0, margin: 0}}>
             <MapView
-               style={{height: 300}}
+               style={{height: 300, padding: 0, margin: 0}}
                rotateEnabled={false}
                initialRegion={{
                   latitude: Number(center.latitude),
@@ -52,6 +48,10 @@ class RestaurantDialog extends React.Component {
                   </View>
                </MapView.Marker>
             </MapView>
+            <View style={styles.header}>
+               <Text style={styles.title}>{restaurant.name}</Text>
+               <Text style={styles.distance}>{Restaurant.formatDistance(restaurant.distance)}</Text>
+            </View>
             <Button
                onPress={() => this.props.dismissModal()}
                style={styles.closeButton}>
@@ -74,13 +74,16 @@ export default connect(
 const styles = StyleSheet.create({
    header: {
       flexDirection: 'row',
-      marginBottom: 10
+      marginBottom: 10,
+      marginTop: 10
    },
    userMarker: {
       width: 20,
       height: 20,
       borderRadius: 50,
-      backgroundColor: '#469cc6'
+      backgroundColor: '#469cc6',
+      borderWidth: 4,
+      borderColor: '#79bdde'
    },
    restaurantMarker: {
       width: 120,

@@ -7,6 +7,24 @@ import moment from 'moment';
 
 import defaultState from './defaultState';
 
+const dayNumberToDayOfWeek = n => moment().day(n + 1).format('ddd');
+
+const formatOpeningHours = number => moment(number, 'HHmm').format('HH:mm');
+
+const getOpeningHourString = hours =>
+   hours.reduce((open, hour, i) => {
+      if (hour) {
+         const hourString = formatOpeningHours(hour[0]) + ' - ' + formatOpeningHours(hour[1]);
+         const existingIndex = open.findIndex(_ => _.hourString === hourString);
+         if (existingIndex > -1)
+            open[existingIndex].endDay = i;
+         else
+            open.push({startDay: i, hourString});
+      }
+      return open;
+   }, [])
+   .map(o => dayNumberToDayOfWeek(o.startDay) + (o.endDay ? ' - ' + dayNumberToDayOfWeek(o.endDay) : '') + ': ' + o.hourString);
+
 const getMenus = state => {
    const {days, restaurants, now, favorites, location} = state;
    if (days && restaurants && now && favorites) {
@@ -28,6 +46,7 @@ const getMenus = state => {
                   return {
                      ...restaurant,
                      distance: haversine(restaurant, location) * 1000,
+                     openingHourString: getOpeningHourString(restaurant.openingHours),
                      ...getOpeningHours(restaurant, day),
                      courses,
                      favoriteCourses

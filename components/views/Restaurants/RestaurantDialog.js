@@ -53,6 +53,9 @@ class RestaurantDialog extends React.Component {
                <Text style={styles.title}>{restaurant.name}</Text>
                <Text style={styles.distance}>{Restaurant.formatDistance(restaurant.distance)}</Text>
             </View>
+            <View>
+               <Text>{restaurant.openingHourString.join("\n")}</Text>
+            </View>
             <Button
                onPress={() => this.props.dismissModal()}
                style={styles.closeButton}>
@@ -83,7 +86,7 @@ const styles = StyleSheet.create({
       height: 20,
       borderRadius: 50,
       backgroundColor: '#469cc6',
-      borderWidth: 6,
+      borderWidth: 2,
       borderColor: '#79bdde'
    },
    restaurantMarker: {

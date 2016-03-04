@@ -53,6 +53,9 @@ class RestaurantDialog extends React.Component {
                <Text style={styles.title}>{restaurant.name}</Text>
                <Text style={styles.distance}>{Restaurant.formatDistance(restaurant.distance)}</Text>
             </View>
+            <View>
+               <Text>{restaurant.openingHourString.join("\n")}</Text>
+            </View>
             <Button
                onPress={() => this.props.dismissModal()}
                style={styles.closeButton}>

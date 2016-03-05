@@ -13,6 +13,7 @@ import {dismissModal} from '../../../store/actions';
 import {connect} from 'react-redux';
 
 const {
+   Linking,
    Image,
    View,
    Text,
@@ -56,7 +57,13 @@ class RestaurantDialog extends React.Component {
                </View>
                <View>
                   <Text>{restaurant.openingHourString.join("\n")}</Text>
+                  <Text>{restaurant.address}</Text>
                </View>
+               <Button
+                  onPress={() => Linking.openURL("http://maps.google.com/?daddr=" + restaurant.address.replace(" ", "+"))}
+                  style={styles.navButton}>
+                  <Text style={{color: "white"}}>Reittiohjeet</Text>
+               </Button>
                <Button
                   onPress={() => this.props.dismissModal()}
                   style={styles.closeButton}>
@@ -81,10 +88,6 @@ const styles = StyleSheet.create({
    container: {
       padding: 10
    },
-   header: {
-      flexDirection: 'row',
-      marginBottom: 10,
-   },
    userMarker: {
       width: 20,
       height: 20,
@@ -102,6 +105,11 @@ const styles = StyleSheet.create({
       borderWidth: 4,
       borderColor: '#469cc6'
    },
+   header: {
+      flexDirection: 'row',
+      marginBottom: 10,
+      alignItems: 'center'
+   },
    title: {
       flex: 1,
       fontSize: 22
@@ -109,6 +117,17 @@ const styles = StyleSheet.create({
    distance: {
       fontSize: 16,
       color: '#bebebe'
+   },
+   navButton: {
+      marginTop: 6,
+      flex: 0,
+      padding: 4,
+      paddingHorizontal: 8,
+      backgroundColor: "#4bc95b",
+      borderRadius: 50,
+      flexDirection: 'row',
+      alignSelf: 'flex-start',
+      alignItems: 'center'
    },
    closeButton: {
       marginTop: 10,

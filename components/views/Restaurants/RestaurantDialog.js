@@ -42,7 +42,8 @@ class RestaurantDialog extends React.Component {
                   longitudeDelta: Math.max(2.5 * Math.abs(center.longitude - restaurant.longitude), 0.01)
                }}>
                <MapView.Marker
-                  coordinate={location}>
+                  coordinate={location}
+                  title="Oma sijainti">
                   <MarkerView
                      offset={10}
                      color={colors.accentLight}

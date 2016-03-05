@@ -57,13 +57,14 @@ class RestaurantDialog extends React.Component {
                </View>
                <View>
                   <Text>{restaurant.openingHourString.join("\n")}</Text>
-                  <Text>{restaurant.address}</Text>
+                  <Text style={{marginTop: 4}}>{restaurant.address}</Text>
                </View>
                { restaurant.address ?
                   <Button
                      onPress={() => Linking.openURL("http://maps.google.com/?daddr=" + restaurant.address.replace(" ", "+"))}
                      style={styles.navButton}>
-                     <Text style={{color: "white"}}>Reittiohjeet</Text>
+                     <Icon name="android-open" size={18} color={colors.accentLight} />
+                     <Text style={{marginLeft: 6, color: colors.accentLight}}>Reittiohjeet</Text>
                   </Button>
                   : undefined
                }
@@ -124,10 +125,6 @@ const styles = StyleSheet.create({
    navButton: {
       marginTop: 6,
       flex: 0,
-      padding: 4,
-      paddingHorizontal: 8,
-      backgroundColor: colors.accentLight,
-      borderRadius: 50,
       flexDirection: 'row',
       alignSelf: 'flex-start',
       alignItems: 'center'

@@ -21,7 +21,7 @@ const {
 } = React;
 
 const MarkerView = props =>
-   <View style={{alignItems: 'center', opacity: 0.8, paddingBottom: props.offset || 0}}>
+   <View style={{alignItems: 'center', opacity: 0.9, paddingBottom: props.offset || 0}}>
       <Text style={[styles.markerViewText, {backgroundColor: props.color || colors.accent}, props.style]}>{props.children}</Text>
       <Icon name="android-arrow-dropdown" size={20} style={{marginTop: -8}} color={props.color || colors.accent} />
    </View>;
@@ -45,8 +45,9 @@ class RestaurantDialog extends React.Component {
                   coordinate={location}>
                   <MarkerView
                      offset={10}
-                     color={colors.accentLight}>
-                     You
+                     color={colors.accentLight}
+                     style={{paddingHorizontal: 4}}>
+                     <Icon name="android-person" size={20}/>
                   </MarkerView>
                </MapView.Marker>
                <MapView.Marker
@@ -58,7 +59,7 @@ class RestaurantDialog extends React.Component {
                   description={restaurant.address}>
                   <MarkerView
                      offset={20}
-                     color={colors.accentDark}
+                     color={'#469cc6'}
                      style={{paddingHorizontal: 6}}>
                      <Icon size={20} name="android-restaurant" />
                   </MarkerView>
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
    },
    markerViewText: {
       padding: 2,
-      borderRadius: 2,
+      borderRadius: 10,
       color: 'white',
       fontSize: 12,
       fontWeight: 'bold'

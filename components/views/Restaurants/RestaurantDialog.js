@@ -59,11 +59,14 @@ class RestaurantDialog extends React.Component {
                   <Text>{restaurant.openingHourString.join("\n")}</Text>
                   <Text>{restaurant.address}</Text>
                </View>
-               <Button
-                  onPress={() => Linking.openURL("http://maps.google.com/?daddr=" + restaurant.address.replace(" ", "+"))}
-                  style={styles.navButton}>
-                  <Text style={{color: "white"}}>Reittiohjeet</Text>
-               </Button>
+               { restaurant.address ?
+                  <Button
+                     onPress={() => Linking.openURL("http://maps.google.com/?daddr=" + restaurant.address.replace(" ", "+"))}
+                     style={styles.navButton}>
+                     <Text style={{color: "white"}}>Reittiohjeet</Text>
+                  </Button>
+                  : undefined
+               }
                <Button
                   onPress={() => this.props.dismissModal()}
                   style={styles.closeButton}>

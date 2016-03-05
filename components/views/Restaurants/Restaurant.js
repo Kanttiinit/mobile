@@ -39,6 +39,6 @@ class Restaurant extends React.Component {
 export default connect(
    undefined,
    dispatch => ({
-      showModal: m => dispatch(showModal(m))
+      showModal: m => dispatch(showModal(m, {padding: 0}))
    })
 )(Restaurant);

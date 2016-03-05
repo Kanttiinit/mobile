@@ -121,7 +121,8 @@ const reducer = (state = defaultState, action) => {
             ...state,
             modal: {
                visible: false,
-               component: undefined
+               component: undefined,
+               style: state.modal.style
             }
          };
       case 'CHANGE_VIEW':

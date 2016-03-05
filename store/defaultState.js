@@ -12,7 +12,8 @@ export default {
    areas: undefined,
    modal: {
       visible: false,
-      component: undefined
+      component: undefined,
+      style: undefined
    },
    favorites: [],
    selectedRestaurants: undefined,

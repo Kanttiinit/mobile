@@ -20,6 +20,12 @@ const {
    StyleSheet
 } = React;
 
+const MarkerView = props =>
+   <View style={{alignItems: 'center', opacity: 0.8, paddingBottom: props.offset || 0}}>
+      <Text style={[styles.markerViewText, {backgroundColor: props.color || colors.accent}, props.style]}>{props.children}</Text>
+      <Icon name="android-arrow-dropdown" size={20} style={{marginTop: -8}} color={props.color || colors.accent} />
+   </View>;
+
 class RestaurantDialog extends React.Component {
    render() {
       const {restaurant, location} = this.props;
@@ -37,8 +43,11 @@ class RestaurantDialog extends React.Component {
                }}>
                <MapView.Marker
                   coordinate={location}>
-                  <View style={styles.userMarker}>
-                  </View>
+                  <MarkerView
+                     offset={10}
+                     color={colors.accentLight}>
+                     You
+                  </MarkerView>
                </MapView.Marker>
                <MapView.Marker
                   coordinate={{
@@ -47,9 +56,12 @@ class RestaurantDialog extends React.Component {
                   }}
                   title={restaurant.name}
                   description={restaurant.address}>
-                  <View>
-                     <Image style={{height: 70, width: 50}} resizeMode='contain' source={require('../../../assets/img/pin.png')}></Image>
-                  </View>
+                  <MarkerView
+                     offset={20}
+                     color={colors.accentDark}
+                     style={{paddingHorizontal: 6}}>
+                     <Icon size={20} name="android-restaurant" />
+                  </MarkerView>
                </MapView.Marker>
             </MapView>
             <View style={styles.container}>
@@ -64,7 +76,7 @@ class RestaurantDialog extends React.Component {
                <View style={styles.footer}>
                   { restaurant.address ?
                      <Button
-                        onPress={() => Linking.openURL("http://maps.google.com/?daddr=" + restaurant.address.replace(" ", "+"))}
+                        onPress={() => Linking.openURL("http://maps.google.com/?daddr=" + encodeURIComponent(restaurant.address))}
                         style={styles.navButton}>
                         <Icon name="android-open" size={18} color={colors.accentLight} />
                         <Text style={{marginLeft: 6, color: colors.accentLight}}>Reittiohjeet</Text>
@@ -97,22 +109,12 @@ const styles = StyleSheet.create({
    container: {
       padding: 10
    },
-   userMarker: {
-      width: 20,
-      height: 20,
-      borderRadius: 50,
-      backgroundColor: '#469cc6',
-      borderWidth: 2,
-      borderColor: '#79bdde'
-   },
-   restaurantMarker: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      paddingHorizontal: 4,
-      borderRadius: 50,
-      backgroundColor: '#469cc6',
-      borderWidth: 4,
-      borderColor: '#469cc6'
+   markerViewText: {
+      padding: 2,
+      borderRadius: 2,
+      color: 'white',
+      fontSize: 12,
+      fontWeight: 'bold'
    },
    header: {
       flexDirection: 'row',

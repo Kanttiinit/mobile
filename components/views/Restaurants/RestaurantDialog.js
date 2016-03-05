@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
       flex: 0,
       padding: 4,
       paddingHorizontal: 8,
-      backgroundColor: "#4bc95b",
+      backgroundColor: colors.accentLight,
       borderRadius: 50,
       flexDirection: 'row',
       alignSelf: 'flex-start',

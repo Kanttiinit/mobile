@@ -7,7 +7,7 @@ import moment from 'moment';
 
 import defaultState from './defaultState';
 
-const dayNumberToDayOfWeek = n => moment().day(n + 1).format('ddd');
+const dayNumberToDayOfWeek = n => moment().day(n + 1).format('ddd').toUpperCase();
 
 const formatOpeningHours = number => moment(number, 'HHmm').format('HH:mm');
 

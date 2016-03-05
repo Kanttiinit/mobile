@@ -44,9 +44,11 @@ class RestaurantDialog extends React.Component {
                   coordinate={{
                      latitude: restaurant.latitude,
                      longitude: restaurant.longitude
-                  }}>
-                  <View style={styles.restaurantMarker}>
-                     <Icon name='android-restaurant' size={30} color="white" />
+                  }}
+                  title={restaurant.name}
+                  description={restaurant.address}>
+                  <View>
+                     <Image style={{height: 70, width: 50}} resizeMode='contain' source={require('../../../assets/img/pin.png')}></Image>
                   </View>
                </MapView.Marker>
             </MapView>
@@ -56,23 +58,26 @@ class RestaurantDialog extends React.Component {
                   <Text style={styles.distance}>{Restaurant.formatDistance(restaurant.distance)}</Text>
                </View>
                <View>
-                  <Text>{restaurant.openingHourString.join("\n")}</Text>
-                  <Text style={{marginTop: 4}}>{restaurant.address}</Text>
+                  <Text style={{color: colors.darkGrey}}>{restaurant.openingHourString.join("\n")}</Text>
+                  <Text style={{marginTop: 4, color: colors.darkGrey}}>{restaurant.address}</Text>
                </View>
-               { restaurant.address ?
+               <View style={styles.footer}>
+                  { restaurant.address ?
+                     <Button
+                        onPress={() => Linking.openURL("http://maps.google.com/?daddr=" + restaurant.address.replace(" ", "+"))}
+                        style={styles.navButton}>
+                        <Icon name="android-open" size={18} color={colors.accentLight} />
+                        <Text style={{marginLeft: 6, color: colors.accentLight}}>Reittiohjeet</Text>
+                     </Button>
+                     : undefined
+                  }
+                  <View style={{flex: 1}} />
                   <Button
-                     onPress={() => Linking.openURL("http://maps.google.com/?daddr=" + restaurant.address.replace(" ", "+"))}
-                     style={styles.navButton}>
-                     <Icon name="android-open" size={18} color={colors.accentLight} />
-                     <Text style={{marginLeft: 6, color: colors.accentLight}}>Reittiohjeet</Text>
+                     onPress={() => this.props.dismissModal()}
+                     style={styles.closeButton}>
+                     <Text style={styles.closeButtonText}>SULJE</Text>
                   </Button>
-                  : undefined
-               }
-               <Button
-                  onPress={() => this.props.dismissModal()}
-                  style={styles.closeButton}>
-                  <Text style={styles.closeButtonText}>SULJE</Text>
-               </Button>
+               </View>
             </View>
          </View>
       );
@@ -116,26 +121,29 @@ const styles = StyleSheet.create({
    },
    title: {
       flex: 1,
-      fontSize: 22
+      fontSize: 22,
+      fontWeight: '200'
    },
    distance: {
       fontSize: 16,
       color: '#bebebe'
    },
+   footer: {
+      alignItems: 'center',
+      flex: 1,
+      marginTop: 10,
+      flexDirection: 'row'
+   },
    navButton: {
-      marginTop: 6,
-      flex: 0,
       flexDirection: 'row',
-      alignSelf: 'flex-start',
-      alignItems: 'center'
+      alignItems: 'center',
+      alignSelf: 'flex-start'
    },
    closeButton: {
-      marginTop: 10,
-      flex: 0,
       alignSelf: 'flex-end',
       backgroundColor: colors.accent,
       borderRadius: 2,
-      padding: 6,
+      padding: 6
    },
    closeButtonText: {
       fontSize: 12,

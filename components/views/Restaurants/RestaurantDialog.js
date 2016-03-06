@@ -39,11 +39,23 @@ const getOpeningHourString = hours =>
       return open;
    }, []);
 
-const MarkerView = props =>
-   <View style={{alignItems: 'center', opacity: 0.9, paddingBottom: props.offset || 0}}>
-      <Text style={[styles.markerViewText, {backgroundColor: props.color || colors.accent}, props.style]}>{props.children}</Text>
-      <Icon name="android-arrow-dropdown" size={20} style={{marginTop: -8}} color={props.color || colors.accent} />
-   </View>;
+class Marker extends React.Component {
+   render() {
+      const {color, children, style, coordinate, title, description} = this.props;
+      return (
+         <MapView.Marker
+            title={title}
+            anchor={{x: 0.5, y: 1}}
+            description={description}
+            coordinate={coordinate}>
+            <View ref="container" style={{alignItems: 'center', opacity: 0.8}}>
+               <View style={[styles.markerViewText, {backgroundColor: color || colors.accent}, style]}>{children}</View>
+               <Icon name="android-arrow-dropdown" size={20} style={{marginTop: -8}} color={color || colors.accent} />
+            </View>
+         </MapView.Marker>
+      );
+   }
+}
 
 class RestaurantDialog extends React.Component {
    render() {
@@ -62,31 +74,25 @@ class RestaurantDialog extends React.Component {
                   longitudeDelta: Math.max(2.5 * Math.abs(center.longitude - restaurant.longitude), 0.01)
                }}>
                {location ?
-               <MapView.Marker
+               <Marker
                   coordinate={location}
-                  title="Oma sijainti">
-                  <MarkerView
-                     offset={10}
-                     color={colors.accentLight}
-                     style={{paddingHorizontal: 4}}>
-                     <Icon name="android-person" size={20}/>
-                  </MarkerView>
-               </MapView.Marker>
+                  title="Oma sijainti"
+                  color={colors.accentLight}
+                  style={{paddingHorizontal: 4}}>
+                  <Icon name="android-person" color="white" size={20}/>
+               </Marker>
                : null}
-               <MapView.Marker
+               <Marker
                   coordinate={{
                      latitude: restaurant.latitude,
                      longitude: restaurant.longitude
                   }}
+                  color="#469cc6"
                   title={restaurant.name}
-                  description={restaurant.address}>
-                  <MarkerView
-                     offset={20}
-                     color={'#469cc6'}
-                     style={{paddingHorizontal: 6}}>
-                     <Icon size={20} name="android-restaurant" />
-                  </MarkerView>
-               </MapView.Marker>
+                  description={restaurant.address}
+                  style={{paddingHorizontal: 6}}>
+                  <Icon size={20} color="white" name="android-restaurant" />
+               </Marker>
             </MapView>
 
             <View style={styles.container}>
@@ -145,10 +151,7 @@ const styles = StyleSheet.create({
    },
    markerViewText: {
       padding: 2,
-      borderRadius: 10,
-      color: 'white',
-      fontSize: 12,
-      fontWeight: 'bold'
+      borderRadius: 10
    },
    header: {
       flexDirection: 'row',

@@ -27,7 +27,7 @@ const getMenus = state => {
                   });
                   return {
                      ...restaurant,
-                     distance: haversine(restaurant, location) * 1000,
+                     distance: location ? haversine(restaurant, location) * 1000 : undefined,
                      ...getOpeningHours(restaurant, day),
                      courses,
                      favoriteCourses

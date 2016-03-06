@@ -52,7 +52,7 @@ export class Restaurant extends React.Component {
             <Button
                onPress={() => showModal(<RestaurantDialog restaurant={restaurant} />)}
                style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}
-               containerStyle={[styles.header, isToday && restaurant.isOpen && {backgroundColor: colors.accent}]}>
+               containerStyle={styles.header}>
                <View>
                   <Text style={styles.restaurantName}>{restaurant.name}</Text>
                   {restaurant.distance ?
@@ -63,14 +63,14 @@ export class Restaurant extends React.Component {
                   : null}
                </View>
                <View style={{flex: 1}}>
-                  <Text style={[styles.openingHours, restaurant.hours && styles.openingHoursAvailable]}>
+                  <Text style={[styles.openingHours, isToday && restaurant.isOpen && {color: colors.accent}, restaurant.hours && styles.openingHoursAvailable]}>
                      {this.formatOpeningHours()}
                   </Text>
                </View>
             </Button>
 
             {!courses.length ?
-            <View style={{padding: 10, borderRadius: 2}}>
+            <View style={{padding: 10}}>
                <Text style={styles.emptyMenuText}>Ei menua saatavilla.</Text>
             </View>
             : courses.map((course, i) =>
@@ -98,23 +98,20 @@ export default connect(
 const styles = StyleSheet.create({
    container: {
       borderWidth: 0,
-      marginLeft: 14,
-      marginRight: 14,
       marginBottom: 14,
       paddingBottom: 0,
       elevation: 2,
-      borderRadius: 2
+      borderRadius: 0
    },
    header: {
-      backgroundColor: '#7c7c7c',
-      padding: 6,
-      borderRadius: 2,
-      borderBottomLeftRadius: 0,
-      borderBottomRightRadius: 0
+      paddingHorizontal: 8,
+      paddingVertical: 6,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.lightGrey
    },
    borderTop: {
       borderTopWidth: 1,
-      borderTopColor: '#eee'
+      borderTopColor: colors.lightGrey
    },
    emptyMenuText: {
       color: colors.grey,
@@ -123,11 +120,11 @@ const styles = StyleSheet.create({
    },
    openingHours: {
       textAlign: 'right',
-      color: 'rgba(255, 255, 255, 0.5)',
+      color: colors.grey,
       fontSize: 12
    },
    openingHoursAvailable: {
-      color: '#fff'
+
    },
    distance: {
       flexDirection: 'row',
@@ -135,11 +132,10 @@ const styles = StyleSheet.create({
       alignItems: 'center'
    },
    distanceText: {
-      color: colors.lightGrey,
+      color: colors.grey,
       fontSize: 10
    },
    restaurantName: {
-      fontSize: 14,
-      color: '#fff'
+      fontSize: 16
    }
 });

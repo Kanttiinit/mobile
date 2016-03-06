@@ -104,7 +104,10 @@ class RestaurantDialog extends React.Component {
                      <Text style={{marginTop: -2, color: colors.grey}}>{restaurant.address}</Text>
                   </View>
                   {location ?
-                  <Text style={styles.distance}>{Restaurant.formatDistance(haversine(location, restaurant) * 1000)}</Text>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                     <Icon style={styles.distance} name="ios-location" />
+                     <Text style={[styles.distance, {marginLeft: 3}]}>{Restaurant.formatDistance(haversine(location, restaurant) * 1000)}</Text>
+                  </View>
                   : null}
                </View>
                <View>

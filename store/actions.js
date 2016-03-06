@@ -89,7 +89,7 @@ export const updateLocation = () => {
       return new Promise((resolve, reject) => {
          navigator.geolocation.getCurrentPosition(
             position => resolve(position.coords),
-            error => resolve(error.message),
+            error => console.log(error.message),
             {timeout: 3000, maximumAge: 60000}
          );
       }).then(location => {

@@ -17,17 +17,24 @@ const {
 class FavoriteModal extends React.Component {
    constructor() {
       super();
-      this.state = {};
+      this.state = {text: ''};
+   }
+   set() {
+      this.props.onSelect(this.state.text);
+      this.props.dismissModal();
    }
    render() {
       return (
          <View>
             <View style={styles.modalTitle}><Text style={styles.modalTitleText}>Uusi suosikki</Text></View>
             <TextInput
-               clearButtonMode='while-editing'
-               autoCapitalize='none'
-               floatingLabelEnabled={true}
+               clearButtonMode="while-editing"
+               autoCapitalize="none"
+               autoCorrect={false}
+               autoFocus={true}
                onChangeText={text => this.setState({text})}
+               onSubmitEditing={this.set.bind(this)}
+               value={this.state.text}
                style={styles.textField}
                placeholder="Avainsana" />
             <View style={{flexDirection: 'row', flex: 1}}>
@@ -39,10 +46,7 @@ class FavoriteModal extends React.Component {
                <View style={{flex: 1}} />
                <Button
                   style={styles.addButton}
-                  onPress={() => {
-                     this.props.onSelect(this.state.text);
-                     this.props.dismissModal();
-                  }}>
+                  onPress={this.set.bind(this)}>
                   <Text style={styles.addText}> LISÄÄ </Text>
                </Button>
             </View>
@@ -60,8 +64,7 @@ const styles = StyleSheet.create({
       fontSize: 18
    },
    textField: {
-      height: 36,
-      paddingHorizontal: 8,
+      padding: 4,
       marginBottom: 40,
       fontSize: 18,
       backgroundColor: colors.lightGrey,
@@ -72,7 +75,7 @@ const styles = StyleSheet.create({
       alignSelf: 'flex-end',
       borderRadius: 2,
       padding: 6,
-      elevation: 2
+      elevation: 3
    },
    addText: {
       color: 'white',

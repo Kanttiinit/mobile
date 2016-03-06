@@ -17,8 +17,11 @@ const {
    Text,
    ScrollView,
    StyleSheet,
-   LayoutAnimation
+   LayoutAnimation,
+   UIManager
 } = React;
+
+UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 
 class Favorites extends React.Component {
    constructor() {
@@ -43,16 +46,13 @@ class Favorites extends React.Component {
          <View style={styles.container}>
             {favorites ?
                <ScrollView style={styles.favoriteList} scrollsToTop={true}>
-                  {favorites.map(fav => {
-                     return <Favorite favorite={fav} key={fav.name} parent={this}/>
-                  })}
+                  {favorites.map(fav => <Favorite favorite={fav} key={fav.name} parent={this}/>)}
                   <View style={{height: 100}}></View>
                </ScrollView>
             : <Loader color={colors.accent} />}
             {favorites && !favorites.length ? <Text style={{alignSelf: 'center', textAlign: 'center', width: 260, fontSize: 18, flex: 1, color: colors.grey}}>Lisää avainsana, esimerkiksi 'salaatti' tai 'pizza'.</Text> : null}
             <Button
-               style={styles.fab}
-               fab={true}
+               containerStyle={styles.fab}
                onPress={() => this.props.showModal(<FavoriteModal onSelect={this.addFavorite.bind(this)} />)}>
                <Icon name='plus-round' size={22} color="white" />
             </Button>
@@ -82,7 +82,8 @@ const styles = StyleSheet.create({
       shadowColor: 'black',
       backgroundColor: colors.accent,
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
+      elevation: 3
    }
 });
 

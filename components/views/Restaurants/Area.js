@@ -26,8 +26,18 @@ class Area extends React.Component {
    areAllChecked() {
       return this.props.area.Restaurants.every(r => this.props.selectedRestaurants.indexOf(r.id) > -1);
    }
+   shouldComponentUpdate(props) {
+      const getSelectedRestaurantString = props =>
+         props.selectedRestaurants.filter(_ => props.area.Restaurants.some(r => r.id === _)).join(',');
+
+      if (props.selectedRestaurants && this.props.selectedRestaurants)
+         return getSelectedRestaurantString(this.props) !== getSelectedRestaurantString(props);
+
+      return true;
+   }
    render() {
       const {selectedRestaurants, area} = this.props;
+      
       if (selectedRestaurants)
          return (
             <View style={[defaultStyles.card, styles.areaContainer]}>

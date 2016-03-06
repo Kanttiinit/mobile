@@ -19,7 +19,7 @@ const {
    Platform
 } = React;
 
-class Restaurant extends React.Component {
+export class Restaurant extends React.Component {
    formatOpeningHours() {
       const {restaurant, date} = this.props;
       if (restaurant.hours) {

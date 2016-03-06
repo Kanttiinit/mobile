@@ -5,8 +5,9 @@ import MapView from 'react-native-maps';
 import geolib from 'geolib';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
+import haversine from 'haversine';
 
-import Restaurant from '../Menu/Restaurant';
+import {Restaurant} from '../Menu/Restaurant';
 import Button from '../../Button';
 import {colors} from '../../../style';
 import {dismissModal} from '../../../store/actions';
@@ -47,8 +48,7 @@ const MarkerView = props =>
 class RestaurantDialog extends React.Component {
    render() {
       const {restaurant, location} = this.props;
-      const center = geolib.getCenter([restaurant, location]);
-      console.log(getOpeningHourString(restaurant.openingHours));
+      const center = location ? geolib.getCenter([restaurant, location]) : restaurant;
       return (
          <View>
 
@@ -61,6 +61,7 @@ class RestaurantDialog extends React.Component {
                   latitudeDelta: Math.max(2.5 * Math.abs(center.latitude - restaurant.latitude), 0.01),
                   longitudeDelta: Math.max(2.5 * Math.abs(center.longitude - restaurant.longitude), 0.01)
                }}>
+               {location ?
                <MapView.Marker
                   coordinate={location}
                   title="Oma sijainti">
@@ -71,6 +72,7 @@ class RestaurantDialog extends React.Component {
                      <Icon name="android-person" size={20}/>
                   </MarkerView>
                </MapView.Marker>
+               : null}
                <MapView.Marker
                   coordinate={{
                      latitude: restaurant.latitude,
@@ -93,14 +95,16 @@ class RestaurantDialog extends React.Component {
                      <Text style={styles.title}>{restaurant.name}</Text>
                      <Text style={{marginTop: -2, color: colors.grey}}>{restaurant.address}</Text>
                   </View>
-                  <Text style={styles.distance}>{Restaurant.formatDistance(restaurant.distance)}</Text>
+                  {location ?
+                  <Text style={styles.distance}>{Restaurant.formatDistance(haversine(location, restaurant) * 1000)}</Text>
+                  : null}
                </View>
                <View>
                   {getOpeningHourString(restaurant.openingHours).map((_, i) =>
-                     <View key={i} style={{flexDirection: 'row'}}>
-                        <Text style={{fontWeight: '500', width: 64}}>{_.startDay + (_.endDay ? ' - ' + _.endDay : '')}</Text>
-                        <Text style={{color: colors.darkGrey}}>{_.hourString}</Text>
-                     </View>
+                  <View key={i} style={{flexDirection: 'row'}}>
+                     <Text style={{fontWeight: '500', width: 64}}>{_.startDay + (_.endDay ? ' - ' + _.endDay : '')}</Text>
+                     <Text style={{color: colors.darkGrey}}>{_.hourString}</Text>
+                  </View>
                   )}
                </View>
                <View style={styles.footer}>

@@ -61,6 +61,7 @@ class Day extends Component {
                ref="list"
                initialListSize={1}
                pageSize={2}
+               style={{paddingTop: 14}}
                dataSource={this.dataSource.cloneWithRows(menu.restaurants)}
                renderRow={restaurant =>
                   <Restaurant date={date} restaurant={restaurant} />} />
@@ -75,11 +76,11 @@ const styles = StyleSheet.create({
       paddingVertical: 10,
       alignItems: 'center',
       backgroundColor: colors.accent,
-      marginBottom: 14,
       shadowColor: 'black',
       shadowOpacity: 0.2,
       shadowOffset: {width: 0, height: 2},
-      shadowRadius: 3
+      shadowRadius: 3,
+      elevation: 3
    },
    dayTitle: {
       fontSize: 18,

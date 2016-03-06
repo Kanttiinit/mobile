@@ -4,6 +4,7 @@ import React from 'react-native';
 import MapView from 'react-native-maps';
 import geolib from 'geolib';
 import Icon from 'react-native-vector-icons/Ionicons';
+import moment from 'moment';
 
 import Restaurant from '../Menu/Restaurant';
 import Button from '../../Button';
@@ -20,6 +21,23 @@ const {
    StyleSheet
 } = React;
 
+const dayNumberToDayOfWeek = n => moment().day(n + 1).format('ddd').toUpperCase();
+
+const formatOpeningHours = number => moment(number, 'HHmm').format('HH:mm');
+
+const getOpeningHourString = hours =>
+   hours.reduce((open, hour, i) => {
+      if (hour) {
+         const hourString = formatOpeningHours(hour[0]) + ' - ' + formatOpeningHours(hour[1]);
+         const existingIndex = open.findIndex(_ => _.hourString === hourString);
+         if (existingIndex > -1)
+            open[existingIndex].endDay = dayNumberToDayOfWeek(i);
+         else
+            open.push({startDay: dayNumberToDayOfWeek(i), hourString});
+      }
+      return open;
+   }, []);
+
 const MarkerView = props =>
    <View style={{alignItems: 'center', opacity: 0.9, paddingBottom: props.offset || 0}}>
       <Text style={[styles.markerViewText, {backgroundColor: props.color || colors.accent}, props.style]}>{props.children}</Text>
@@ -30,10 +48,12 @@ class RestaurantDialog extends React.Component {
    render() {
       const {restaurant, location} = this.props;
       const center = geolib.getCenter([restaurant, location]);
+      console.log(getOpeningHourString(restaurant.openingHours));
       return (
-         <View style={{padding: 0, margin: 0}}>
+         <View>
+
             <MapView
-               style={{height: 300, padding: 0, margin: 0, borderRadius: 2}}
+               style={{height: 300, borderRadius: 2}}
                rotateEnabled={false}
                initialRegion={{
                   latitude: Number(center.latitude),
@@ -66,25 +86,32 @@ class RestaurantDialog extends React.Component {
                   </MarkerView>
                </MapView.Marker>
             </MapView>
+
             <View style={styles.container}>
                <View style={styles.header}>
-                  <Text style={styles.title}>{restaurant.name}</Text>
+                  <View style={{flex: 1}}>
+                     <Text style={styles.title}>{restaurant.name}</Text>
+                     <Text style={{marginTop: -2, color: colors.grey}}>{restaurant.address}</Text>
+                  </View>
                   <Text style={styles.distance}>{Restaurant.formatDistance(restaurant.distance)}</Text>
                </View>
                <View>
-                  <Text style={{color: colors.darkGrey}}>{restaurant.openingHourString.join("\n")}</Text>
-                  <Text style={{marginTop: 4, color: colors.darkGrey}}>{restaurant.address}</Text>
+                  {getOpeningHourString(restaurant.openingHours).map((_, i) =>
+                     <View key={i} style={{flexDirection: 'row'}}>
+                        <Text style={{fontWeight: '500', width: 64}}>{_.startDay + (_.endDay ? ' - ' + _.endDay : '')}</Text>
+                        <Text style={{color: colors.darkGrey}}>{_.hourString}</Text>
+                     </View>
+                  )}
                </View>
                <View style={styles.footer}>
-                  { restaurant.address ?
-                     <Button
-                        onPress={() => Linking.openURL("http://maps.google.com/?daddr=" + encodeURIComponent(restaurant.address))}
-                        style={styles.navButton}>
-                        <Icon name="android-open" size={18} color={colors.accentLight} />
-                        <Text style={{marginLeft: 6, color: colors.accentLight}}>Reittiohjeet</Text>
-                     </Button>
-                     : undefined
-                  }
+                  {restaurant.address ?
+                  <Button
+                     onPress={() => Linking.openURL("http://maps.google.com/?daddr=" + encodeURIComponent(restaurant.address))}
+                     style={styles.navButton}>
+                     <Icon name="android-open" size={18} color={colors.accentLight} />
+                     <Text style={{marginLeft: 6, color: colors.accentLight}}>Reittiohjeet</Text>
+                  </Button>
+                  : null}
                   <View style={{flex: 1}} />
                   <Button
                      onPress={() => this.props.dismissModal()}
@@ -93,6 +120,7 @@ class RestaurantDialog extends React.Component {
                   </Button>
                </View>
             </View>
+
          </View>
       );
    }
@@ -120,11 +148,9 @@ const styles = StyleSheet.create({
    },
    header: {
       flexDirection: 'row',
-      marginBottom: 10,
-      alignItems: 'center'
+      marginBottom: 10
    },
    title: {
-      flex: 1,
       fontSize: 22,
       fontWeight: '200'
    },

@@ -46,9 +46,10 @@ class Marker extends React.Component {
          <MapView.Marker
             title={title}
             anchor={{x: 0.5, y: 1}}
+            centerOffset={{x: 0, y: -29 / 2}}
             description={description}
             coordinate={coordinate}>
-            <View ref="container" style={{alignItems: 'center', opacity: 0.8}}>
+            <View ref="container" style={{alignItems: 'center', opacity: 0.8, height: 29}}>
                <View style={[styles.markerViewText, {backgroundColor: color || colors.accent}, style]}>{children}</View>
                <Icon name="android-arrow-dropdown" size={20} style={{marginTop: -8}} color={color || colors.accent} />
             </View>

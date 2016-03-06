@@ -4,6 +4,7 @@ import React from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
+import {colors} from '../../../style';
 
 import Button from '../../Button';
 
@@ -18,7 +19,7 @@ const ArrowButton = props => (
       onPress={() => props.onPress()}
       pointerEvents={props.visible ? 'auto' : 'none'}
       style={[styles.arrowButton, props.style, !props.visible && {opacity: 0}]}>
-      <Icon name={props.icon} color="#bababa" />
+      <Icon name={props.icon} color={colors.lightGrey} />
    </Button>
 );
 
@@ -42,8 +43,8 @@ export default class DaySelector extends React.Component {
    render() {
       const {max} = this.props;
       const {current} = this.state;
-      const transparentBackground = 'rgba(235, 235, 235, 0)';
-      const background = 'rgba(235, 235, 235, 1)';
+      const transparentBackground = 'rgba(0, 150, 136, 0)';
+      const background = colors.accent;
       return (
          <View style={styles.container}>
             <LinearGradient
@@ -51,10 +52,11 @@ export default class DaySelector extends React.Component {
                end={[1, 0]}
                locations={[0.5, 1]}
                colors={[background, transparentBackground]}
-               style={[styles.buttonContainer, {left: 0, paddingLeft: 14, paddingRight: 28}]}>
+               style={[styles.buttonContainer, {left: 0, paddingHorizontal: 14}]}>
                <ArrowButton
                   onPress={this.change.bind(this, -1)}
                   icon="chevron-left"
+                  style={{alignItems: 'flex-start'}}
                   visible={current > 0} />
             </LinearGradient>
             <LinearGradient
@@ -62,10 +64,11 @@ export default class DaySelector extends React.Component {
                end={[1, 0]}
                locations={[0, 0.5]}
                colors={[transparentBackground, background]}
-               style={[styles.buttonContainer, {right: 0, paddingRight: 14, paddingLeft: 28}]}>
+               style={[styles.buttonContainer, {right: 0, paddingHorizontal: 14}]}>
                <ArrowButton
                   onPress={this.change.bind(this, 1)}
                   icon="chevron-right"
+                  style={{alignItems: 'flex-end'}}
                   visible={current < max} />
             </LinearGradient>
          </View>
@@ -94,7 +97,7 @@ const styles = StyleSheet.create({
    arrowButton: {
       width: 32,
       height: 32,
-      alignItems: 'center',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      alignItems: 'center'
    }
 });

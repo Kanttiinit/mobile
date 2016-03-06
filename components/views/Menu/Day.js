@@ -4,6 +4,7 @@ import React from 'react-native';
 import moment from 'moment';
 import momentFI from 'moment/locale/fi';
 import {connect} from 'react-redux';
+import {colors} from '../../../style';
 
 import Restaurant from './Restaurant';
 
@@ -72,7 +73,13 @@ const styles = StyleSheet.create({
    daySelector: {
       flexDirection: 'row',
       paddingVertical: 10,
-      alignItems: 'center'
+      alignItems: 'center',
+      backgroundColor: colors.accent,
+      marginBottom: 14,
+      shadowColor: 'black',
+      shadowOpacity: 0.2,
+      shadowOffset: {width: 0, height: 2},
+      shadowRadius: 3
    },
    dayTitle: {
       fontSize: 18,
@@ -80,10 +87,11 @@ const styles = StyleSheet.create({
       fontFamily: Platform.OS === 'android' ? 'sans-serif-light' : undefined,
       flexDirection: 'row',
       textAlign: 'center',
-      flex: 1
+      flex: 1,
+      color: 'white'
    },
    date: {
-      color: '#bababa'
+      color: colors.grey
    }
 });
 

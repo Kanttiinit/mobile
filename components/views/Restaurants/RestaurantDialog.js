@@ -15,6 +15,7 @@ import {dismissModal} from '../../../store/actions';
 import {connect} from 'react-redux';
 
 const {
+   Platform,
    Linking,
    Image,
    View,
@@ -117,7 +118,14 @@ class RestaurantDialog extends React.Component {
                <View style={styles.footer}>
                   {restaurant.address ?
                   <Button
-                     onPress={() => Linking.openURL("http://maps.google.com/?daddr=" + encodeURIComponent(restaurant.address))}
+                     onPress={() =>
+                        Platform.OS === 'ios' ?
+                           Linking.canOpenURL("comgooglemaps://?daddr=" + encodeURIComponent(restaurant.address)).then(supported => {
+                              return supported ? Linking.openURL("comgooglemaps://?daddr=" + encodeURIComponent(restaurant.address))
+                              : Linking.openURL("http://maps.apple.com/?daddr=" + encodeURIComponent(restaurant.address))
+                           }).catch(err => console.error('An error occurred', err))
+                        : Linking.openURL("http://maps.google.com/?daddr=" + encodeURIComponent(restaurant.address))
+                     }
                      style={styles.navButton}>
                      <Icon name="android-open" size={18} color={colors.accentLight} />
                      <Text style={{marginLeft: 6, color: colors.accentLight}}>Reittiohjeet</Text>

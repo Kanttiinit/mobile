@@ -37,15 +37,15 @@ class Area extends React.Component {
    }
    render() {
       const {selectedRestaurants, area} = this.props;
-      
+
       if (selectedRestaurants)
          return (
             <View style={[defaultStyles.card, styles.areaContainer]}>
                <View style={styles.area}>
                   <Text style={styles.areaTitle}>{area.name}</Text>
                   <Checkbox
-                     backgroundColor='white'
-                     color={colors.accent}
+                     backgroundColor={colors.accentDark}
+                     color="white"
                      checked={this.areAllChecked()}
                      onCheckedChange={this.checkedChange.bind(this, area.Restaurants)} />
                </View>
@@ -66,26 +66,19 @@ class Area extends React.Component {
 
 const styles = StyleSheet.create({
    areaContainer: {
-      margin: 14,
-      marginBottom: 10,
-      elevation: 2,
-      borderWidth: 0,
-      borderRadius: 2
+      marginBottom: 14
    },
    area: {
       padding: 6,
-      backgroundColor: colors.accent,
-      borderRadius: 2,
-      borderBottomLeftRadius: 0,
-      borderBottomRightRadius: 0,
       flexDirection: 'row',
-      alignItems: 'center'
+      alignItems: 'center',
+      borderBottomWidth: 1,
+      borderBottomColor: colors.lightGrey
    },
    areaTitle: {
       fontSize: 20,
       flex: 1,
-      color: '#fff',
-      fontWeight: '300',
+      fontWeight: '500',
       fontFamily: Platform.OS === 'android' ? 'sans-serif-light' : undefined
    },
    restaurant: {
@@ -96,7 +89,7 @@ const styles = StyleSheet.create({
    },
    borderTop: {
       borderTopWidth: 1,
-      borderTopColor: '#eee'
+      borderTopColor: colors.lightGrey
    }
 });
 

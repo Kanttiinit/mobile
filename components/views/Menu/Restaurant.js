@@ -24,7 +24,7 @@ export class Restaurant extends React.Component {
       const {restaurant, date} = this.props;
       if (restaurant.hours) {
          const h = restaurant.hours;
-         return String(h[0]).substr(0, 2) + ':' + String(h[0]).substr(2) + ' - ' + String(h[1]).substr(0, 2) + ':' + String(h[1]).substr(2);
+         return String(h[0]).substr(0, 2) + ':' + String(h[0]).substr(2) + ' – ' + String(h[1]).substr(0, 2) + ':' + String(h[1]).substr(2);
       }
       return 'suljettu';
    }
@@ -132,6 +132,7 @@ const styles = StyleSheet.create({
       fontSize: 10
    },
    restaurantName: {
-      fontSize: 16
+      fontSize: 16,
+      color: 'black'
    }
 });

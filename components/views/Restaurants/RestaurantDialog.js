@@ -30,7 +30,7 @@ const formatOpeningHours = number => moment(number, 'HHmm').format('HH:mm');
 const getOpeningHourString = hours =>
    hours.reduce((open, hour, i) => {
       if (hour) {
-         const hourString = formatOpeningHours(hour[0]) + ' - ' + formatOpeningHours(hour[1]);
+         const hourString = formatOpeningHours(hour[0]) + ' – ' + formatOpeningHours(hour[1]);
          const existingIndex = open.findIndex(_ => _.hourString === hourString);
          if (existingIndex > -1)
             open[existingIndex].endDay = dayNumberToDayOfWeek(i);
@@ -113,7 +113,7 @@ class RestaurantDialog extends React.Component {
                <View>
                   {getOpeningHourString(restaurant.openingHours).map((_, i) =>
                   <View key={i} style={{flexDirection: 'row'}}>
-                     <Text style={{fontWeight: '500', width: 64}}>{_.startDay + (_.endDay ? ' - ' + _.endDay : '')}</Text>
+                     <Text style={{fontWeight: '500', width: 64}}>{_.startDay + (_.endDay ? ' – ' + _.endDay : '')}</Text>
                      <Text style={{color: colors.darkGrey}}>{_.hourString}</Text>
                   </View>
                   )}
@@ -171,7 +171,8 @@ const styles = StyleSheet.create({
    },
    title: {
       fontSize: 22,
-      fontWeight: '200'
+      fontWeight: '200',
+      color: 'black'
    },
    distance: {
       fontSize: 16,

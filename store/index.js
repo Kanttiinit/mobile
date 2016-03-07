@@ -102,7 +102,7 @@ const reducer = (state = defaultState, action) => {
             ...state,
             modal: {
                visible: false,
-               component: undefined,
+               component: state.modal.component,
                style: state.modal.style
             }
          };

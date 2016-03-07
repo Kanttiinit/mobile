@@ -31,6 +31,13 @@ export class Restaurant extends React.Component {
    static formatDistance(distance) {
       return distance < 1000 ? distance.toFixed(0) + ' m' : (distance / 1000).toFixed(1) + ' km';
    }
+   getColor() {
+      return 'hsl(' +
+         this.props.restaurant.name.split('')
+         .map(_ => _.charCodeAt(0))
+         .reduce((code, sum) => sum + code, 0) % 360
+      + ', 25%, 40%)';
+   }
    getFavString(restaurant) {
       return restaurant.courses.map(c => +c.isFavorite).join('');
    }
@@ -54,7 +61,7 @@ export class Restaurant extends React.Component {
                style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}
                containerStyle={styles.header}>
                <View>
-                  <Text style={styles.restaurantName}>{restaurant.name}</Text>
+                  <Text style={[styles.restaurantName, {color: this.getColor()}]}>{restaurant.name}</Text>
                   {restaurant.distance ?
                   <View style={styles.distance}>
                      <Icon style={styles.distanceText} name="ios-location" />

@@ -171,7 +171,6 @@ const styles = StyleSheet.create({
    },
    title: {
       fontSize: 22,
-      fontWeight: '200',
       color: 'black'
    },
    distance: {

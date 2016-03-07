@@ -61,7 +61,7 @@ export class Restaurant extends React.Component {
                style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}
                containerStyle={styles.header}>
                <View>
-                  <Text style={[styles.restaurantName, {color: this.getColor()}]}>{restaurant.name}</Text>
+                  <Text style={styles.restaurantName}>{restaurant.name}</Text>
                   {restaurant.distance ?
                   <View style={styles.distance}>
                      <Icon style={styles.distanceText} name="ios-location" />

@@ -97,11 +97,7 @@ export default connect(
 
 const styles = StyleSheet.create({
    container: {
-      borderWidth: 0,
-      marginBottom: 14,
-      paddingBottom: 0,
-      elevation: 2,
-      borderRadius: 0
+      marginBottom: 14
    },
    header: {
       paddingHorizontal: 8,

@@ -80,7 +80,6 @@ const styles = StyleSheet.create({
    dayTitle: {
       fontSize: 18,
       fontWeight: '300',
-      fontFamily: Platform.OS === 'android' ? 'sans-serif-light' : undefined,
       flexDirection: 'row',
       textAlign: 'center',
       flex: 1,

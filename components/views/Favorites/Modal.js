@@ -9,6 +9,7 @@ import {colors} from '../../../style';
 
 const {
    View,
+   Platform,
    Text,
    TextInput,
    StyleSheet
@@ -67,6 +68,7 @@ const styles = StyleSheet.create({
       padding: 4,
       marginBottom: 40,
       fontSize: 18,
+      height: Platform.OS === 'ios' ? 32 : undefined,
       backgroundColor: colors.lightGrey,
       borderRadius: 4
    },

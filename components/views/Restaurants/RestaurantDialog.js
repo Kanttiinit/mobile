@@ -20,6 +20,7 @@ const {
    Image,
    View,
    Text,
+   TouchableWithoutFeedback,
    StyleSheet
 } = React;
 
@@ -30,7 +31,7 @@ const formatOpeningHours = number => moment(number, 'HHmm').format('HH:mm');
 const getOpeningHourString = hours =>
    hours.reduce((open, hour, i) => {
       if (hour) {
-         const hourString = formatOpeningHours(hour[0]) + ' - ' + formatOpeningHours(hour[1]);
+         const hourString = formatOpeningHours(hour[0]) + ' – ' + formatOpeningHours(hour[1]);
          const existingIndex = open.findIndex(_ => _.hourString === hourString);
          if (existingIndex > -1)
             open[existingIndex].endDay = dayNumberToDayOfWeek(i);
@@ -60,21 +61,53 @@ class Marker extends React.Component {
 }
 
 class RestaurantDialog extends React.Component {
-   render() {
+   panToRestaurant() {
+      const {restaurant} = this.props;
+      this.refs.map.animateToCoordinate({
+         latitude: restaurant.latitude,
+         longitude: restaurant.longitude
+      });
+   }
+   getInitialRegion() {
       const {restaurant, location} = this.props;
       const center = location ? geolib.getCenter([restaurant, location]) : restaurant;
+      return {
+         latitude: Number(center.latitude),
+         longitude: Number(center.longitude),
+         latitudeDelta: Math.max(2.5 * Math.abs(center.latitude - restaurant.latitude), 0.01),
+         longitudeDelta: Math.max(2.5 * Math.abs(center.longitude - restaurant.longitude), 0.01)
+      };
+   }
+   openDirections() {
+      const encodedAddress = encodeURIComponent(this.props.restaurant.address);
+
+      if (Platform.OS === 'ios') {
+         const googleMapsUri = 'comgooglemaps://?daddr=' + encodedAddress;
+         const appleMapsUrl = 'http://maps.apple.com/?daddr=' + encodedAddress;
+
+         Linking.canOpenURL(googleMapsUri)
+         .then(supported => {
+            if (supported)
+               Linking.openURL(googleMapsUri);
+            else
+               Linking.openURL(appleMapsUrl);
+         })
+         .catch(err => console.error('An error occurred', err));
+      } else {
+         Linking.openURL('http://maps.google.com/?daddr=' + encodedAddress)
+      }
+   }
+   render() {
+      const {restaurant, location} = this.props;
+
       return (
          <View>
 
             <MapView
+               ref="map"
                style={{height: 300, borderRadius: 2}}
                rotateEnabled={false}
-               initialRegion={{
-                  latitude: Number(center.latitude),
-                  longitude: Number(center.longitude),
-                  latitudeDelta: Math.max(2.5 * Math.abs(center.latitude - restaurant.latitude), 0.01),
-                  longitudeDelta: Math.max(2.5 * Math.abs(center.longitude - restaurant.longitude), 0.01)
-               }}>
+               initialRegion={this.getInitialRegion()}>
                {location ?
                <Marker
                   coordinate={location}
@@ -98,11 +131,15 @@ class RestaurantDialog extends React.Component {
             </MapView>
 
             <View style={styles.container}>
+
                <View style={styles.header}>
-                  <View style={{flex: 1}}>
-                     <Text style={styles.title}>{restaurant.name}</Text>
-                     <Text style={{marginTop: -2, color: colors.grey}}>{restaurant.address}</Text>
-                  </View>
+                  <TouchableWithoutFeedback
+                     onPress={this.panToRestaurant.bind(this)}>
+                     <View style={{flex: 1}}>
+                        <Text style={styles.title}>{restaurant.name}</Text>
+                        <Text style={{marginTop: -2, color: colors.grey}}>{restaurant.address}</Text>
+                     </View>
+                  </TouchableWithoutFeedback>
                   {location ?
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>
                      <Icon style={styles.distance} name="ios-location" />
@@ -110,25 +147,18 @@ class RestaurantDialog extends React.Component {
                   </View>
                   : null}
                </View>
-               <View>
-                  {getOpeningHourString(restaurant.openingHours).map((_, i) =>
-                  <View key={i} style={{flexDirection: 'row'}}>
-                     <Text style={{fontWeight: '500', width: 64}}>{_.startDay + (_.endDay ? ' - ' + _.endDay : '')}</Text>
-                     <Text style={{color: colors.darkGrey}}>{_.hourString}</Text>
-                  </View>
-                  )}
+
+               {getOpeningHourString(restaurant.openingHours).map((_, i) =>
+               <View key={i} style={{flexDirection: 'row'}}>
+                  <Text style={{fontWeight: '500', width: 64}}>{_.startDay + (_.endDay ? ' – ' + _.endDay : '')}</Text>
+                  <Text style={{color: colors.darkGrey}}>{_.hourString}</Text>
                </View>
+               )}
+
                <View style={styles.footer}>
                   {restaurant.address ?
                   <Button
-                     onPress={() =>
-                        Platform.OS === 'ios' ?
-                           Linking.canOpenURL("comgooglemaps://?daddr=" + encodeURIComponent(restaurant.address)).then(supported => {
-                              return supported ? Linking.openURL("comgooglemaps://?daddr=" + encodeURIComponent(restaurant.address))
-                              : Linking.openURL("http://maps.apple.com/?daddr=" + encodeURIComponent(restaurant.address))
-                           }).catch(err => console.error('An error occurred', err))
-                        : Linking.openURL("http://maps.google.com/?daddr=" + encodeURIComponent(restaurant.address))
-                     }
+                     onPress={this.openDirections.bind(this)}
                      style={styles.navButton}>
                      <Icon name="android-open" size={18} color={colors.accentLight} />
                      <Text style={{marginLeft: 6, color: colors.accentLight}}>Reittiohjeet</Text>
@@ -141,6 +171,7 @@ class RestaurantDialog extends React.Component {
                      <Text style={styles.closeButtonText}>SULJE</Text>
                   </Button>
                </View>
+               
             </View>
 
          </View>
@@ -171,7 +202,7 @@ const styles = StyleSheet.create({
    },
    title: {
       fontSize: 22,
-      fontWeight: '200'
+      color: 'black'
    },
    distance: {
       fontSize: 16,

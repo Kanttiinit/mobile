@@ -49,17 +49,11 @@ class Router extends React.Component {
    }
    componentDidMount() {
       DeviceEventEmitter.addListener('keyboardDidShow', () => {
-         this.refs.modal.animateOffset(-100);
+         this.setState({keyboardVisible: true});
       });
       DeviceEventEmitter.addListener('keyboardDidHide', () => {
-         this.refs.modal.animateOffset(0);
+         this.setState({keyboardVisible: false});
       });
-   }
-   componentDidUpdate() {
-      if (this.props.modal.visible)
-         this.refs.modal.open();
-      else
-         this.refs.modal.close();
    }
    render() {
       const {views, currentView, modal} = this.props;
@@ -85,8 +79,11 @@ class Router extends React.Component {
             <Modal
                ref="modal"
                style={modal.style}
-               modalDidClose={() => this.props.dismissModal()}
-               renderContent={() => modal.component} />
+               open={modal.visible}
+               offset={this.state.keyboardVisible ? -100 : 0}
+               modalDidClose={() => this.props.dismissModal()}>
+               {modal.component}
+            </Modal>
          </View>
       );
    }

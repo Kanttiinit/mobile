@@ -37,7 +37,7 @@ class Course extends React.Component {
             <View style={[styles.course, style]}>
                {course.isFavorite ? <Icon style={{marginRight: 6}} color='#fc5151' name='android-favorite' /> : null}
                <Text key={course.title} style={styles.courseTitle}>{course.title}</Text>
-               {course.properties ? course.properties.map(p => <Property style={{marginLeft: 2}} size={14} key={p}>{p}</Property>) : null}
+               {course.properties ? course.properties.map(p => <Property style={{marginLeft: 2}} key={p}>{p}</Property>) : null}
             </View>
          </Button>
       );
@@ -58,8 +58,7 @@ const styles = StyleSheet.create({
       paddingBottom: 6,
       alignItems: 'center',
       marginLeft: 8,
-      marginRight: 8,
-      borderRadius: Platform.OS === 'ios' ? 2 : 0
+      marginRight: 8
    },
    favoriteCourse: {
       backgroundColor: '#f7eaea',
@@ -67,7 +66,7 @@ const styles = StyleSheet.create({
    },
    courseTitle: {
       flex: 1,
-      fontSize: 11,
+      fontSize: 12,
       color: colors.darkGrey
    }
 });

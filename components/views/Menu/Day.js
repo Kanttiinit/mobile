@@ -4,7 +4,7 @@ import React from 'react-native';
 import moment from 'moment';
 import momentFI from 'moment/locale/fi';
 import {connect} from 'react-redux';
-import {colors} from '../../../style';
+import {colors, defaultStyles} from '../../../style';
 
 import Restaurant from './Restaurant';
 
@@ -51,7 +51,7 @@ class Day extends Component {
 
       return (
          <View style={{flex: 1}}>
-            <View style={styles.daySelector}>
+            <View style={[defaultStyles.card, styles.daySelector]}>
                <Text style={styles.dayTitle}>
                   {date.format('dddd').toUpperCase()}
                   <Text style={styles.date}> {date.format('DD.MM.')}</Text>
@@ -75,17 +75,11 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       paddingVertical: 10,
       alignItems: 'center',
-      backgroundColor: colors.accent,
-      shadowColor: 'black',
-      shadowOpacity: 0.2,
-      shadowOffset: {width: 0, height: 2},
-      shadowRadius: 3,
-      elevation: 3
+      backgroundColor: colors.accent
    },
    dayTitle: {
       fontSize: 18,
       fontWeight: '300',
-      fontFamily: Platform.OS === 'android' ? 'sans-serif-light' : undefined,
       flexDirection: 'row',
       textAlign: 'center',
       flex: 1,

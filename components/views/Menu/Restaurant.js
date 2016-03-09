@@ -24,12 +24,19 @@ export class Restaurant extends React.Component {
       const {restaurant, date} = this.props;
       if (restaurant.hours) {
          const h = restaurant.hours;
-         return String(h[0]).substr(0, 2) + ':' + String(h[0]).substr(2) + ' - ' + String(h[1]).substr(0, 2) + ':' + String(h[1]).substr(2);
+         return String(h[0]).substr(0, 2) + ':' + String(h[0]).substr(2) + ' – ' + String(h[1]).substr(0, 2) + ':' + String(h[1]).substr(2);
       }
       return 'suljettu';
    }
    static formatDistance(distance) {
       return distance < 1000 ? distance.toFixed(0) + ' m' : (distance / 1000).toFixed(1) + ' km';
+   }
+   getColor() {
+      return 'hsl(' +
+         this.props.restaurant.name.split('')
+         .map(_ => _.charCodeAt(0))
+         .reduce((code, sum) => sum + code, 0) % 360
+      + ', 25%, 40%)';
    }
    getFavString(restaurant) {
       return restaurant.courses.map(c => +c.isFavorite).join('');
@@ -97,11 +104,7 @@ export default connect(
 
 const styles = StyleSheet.create({
    container: {
-      borderWidth: 0,
-      marginBottom: 14,
-      paddingBottom: 0,
-      elevation: 2,
-      borderRadius: 0
+      marginBottom: 14
    },
    header: {
       paddingHorizontal: 8,
@@ -136,6 +139,7 @@ const styles = StyleSheet.create({
       fontSize: 10
    },
    restaurantName: {
-      fontSize: 16
+      fontSize: 16,
+      color: 'black'
    }
 });

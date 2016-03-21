@@ -31,7 +31,17 @@ class Favorites extends React.Component {
       this.props.getFavorites();
    }
    componentWillReceiveProps() {
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      LayoutAnimation.configureNext({
+         duration: 500,
+         create: {
+            type: 'linear',
+            property: 'opacity',
+         },
+         update: {
+            type: 'spring',
+            springDamping: 1,
+         }
+      });
    }
    render() {
       const {favorites, selectedFavorites} = this.props;

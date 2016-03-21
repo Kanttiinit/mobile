@@ -22,7 +22,7 @@ class Favorite extends React.Component {
       const {favorite, selected, addFavorite, removeFavorite} = this.props;
       return (
          <Button style={styles.favorite} onPress={() => selected ? removeFavorite(favorite.id) : addFavorite(favorite.id)}>
-            <Icon style={styles.heartIcon} color={selected ? '#fc5151' : '#555'} name={'android-favorite' + (selected ? '' : '-outline')} />
+            <Icon style={styles.heartIcon} color={selected ? '#fc5151' : '#999'} name={'android-favorite' + (selected ? '' : '-outline')} />
             <Text style={styles.foodTitle}>{favorite.name}</Text>
          </Button>
       );

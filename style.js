@@ -21,7 +21,8 @@ export const defaultStyles = StyleSheet.create({
       shadowColor: 'black',
       shadowOpacity: 0.2,
       shadowOffset: {width: 0, height: 2},
-      shadowRadius: 3
+      shadowRadius: 3,
+      marginBottom: 22
    },
    lightBorderTop: {
       borderTopWidth: 1,

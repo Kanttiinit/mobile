@@ -40,7 +40,7 @@ class Area extends React.Component {
 
       if (selectedRestaurants)
          return (
-            <View style={[defaultStyles.card, styles.areaContainer]}>
+            <View style={defaultStyles.card}>
                <View style={styles.area}>
                   <Text style={styles.areaTitle}>{area.name}</Text>
                   <Checkbox
@@ -65,9 +65,6 @@ class Area extends React.Component {
 }
 
 const styles = StyleSheet.create({
-   areaContainer: {
-      marginBottom: 14
-   },
    area: {
       padding: 6,
       flexDirection: 'row',

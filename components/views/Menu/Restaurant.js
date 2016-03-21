@@ -54,7 +54,7 @@ export class Restaurant extends React.Component {
       const courses = restaurant.courses;
       const isToday = now.isSame(date, 'day');
       return (
-         <View style={[defaultStyles.card, styles.container]}>
+         <View style={defaultStyles.card}>
 
             <Button
                onPress={() => showModal(<RestaurantDialog restaurant={restaurant} />)}
@@ -103,9 +103,6 @@ export default connect(
 )(Restaurant);
 
 const styles = StyleSheet.create({
-   container: {
-      marginBottom: 14
-   },
    header: {
       paddingHorizontal: 8,
       paddingVertical: 6,
@@ -125,9 +122,6 @@ const styles = StyleSheet.create({
       textAlign: 'right',
       color: colors.grey,
       fontSize: 12
-   },
-   openingHoursAvailable: {
-
    },
    distance: {
       flexDirection: 'row',

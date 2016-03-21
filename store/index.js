@@ -8,7 +8,7 @@ import moment from 'moment';
 import defaultState from './defaultState';
 
 const getMenus = state => {
-   const {days, restaurants, now, favorites, location} = state;
+   const {days, restaurants, now, favorites, selectedFavorites, location} = state;
    if (days && restaurants && now && favorites) {
       // iterate through all days
       return days.map(day => (
@@ -21,7 +21,7 @@ const getMenus = state => {
                   // iterate through courses for the current day
                   const courses = (restaurant.Menus.find(m => day.isSame(m.date, 'day')) || {courses: []})
                   .courses.map(course => {
-                     const isFavorite = checkIfFavorite(course.title, favorites);
+                     const isFavorite = checkIfFavorite(course.title, favorites, selectedFavorites);
                      isFavorite && favoriteCourses++;
                      return {...course, isFavorite};
                   });
@@ -72,9 +72,11 @@ const escapeRegExp = str => {
    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 };
 
-const checkIfFavorite = (title, favorites) => {
-   if (title && favorites.length)
-      return favorites.some(f => title.toLowerCase().match(escapeRegExp(f.name.toLowerCase())));
+const checkIfFavorite = (title, favorites, selectedFavorites) => {
+   if (title && selectedFavorites.length)
+      return selectedFavorites
+         .map(f => favorites.find(_ => _.id === f))
+         .some(_ => title.match(new RegExp(_.regexp)));
 
    return false;
 };
@@ -110,6 +112,8 @@ const reducer = (state = defaultState, action) => {
          return {...state, currentView: action.view, viewChanges: (state.viewChanges || 0) + 1};
       case 'SET_AREAS':
          return {...state, areas: action.areas};
+      case 'SET_FAVORITES':
+         return {...state, favorites: action.favorites};
       case 'SET_SELECTED_RESTAURANTS':
          return {...state, selectedRestaurants: action.restaurants};
       case 'SET_RESTAURANTS_LOADING':
@@ -122,8 +126,8 @@ const reducer = (state = defaultState, action) => {
             now: moment(),
             days: Array(7).fill(1).map((n, i) => moment().add(i, 'days'))
          });
-      case 'SET_FAVORITES':
-         return updateMenu({...state, favorites: action.favorites});
+      case 'SET_SELECTED_FAVORITES':
+         return updateMenu({...state, selectedFavorites: action.favorites});
       case 'SET_LOCATION':
          return updateMenu({...state, location: action.location});
       case 'SET_RESTAURANTS':

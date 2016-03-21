@@ -1,5 +1,3 @@
-'use strict';
-
 import HttpCache from './HttpCache';
 import storage from './storage';
 
@@ -53,32 +51,43 @@ export const updateSelectedRestaurants = (restaurants, areSelected) => {
 };
 
 // favorite actions
-export const setFavorites = favorites => ({
-   type: 'SET_FAVORITES',
+export const getFavorites = _ => {
+   return dispatch => {
+      return HttpCache.get('favorites', 'https://api.kanttiinit.fi/favorites', {hours: 1})
+      .then(favorites => {
+         dispatch({
+            type: 'SET_FAVORITES',
+            favorites
+         });
+      });
+   };
+};
+
+export const setSelectedFavorites = favorites => ({
+   type: 'SET_SELECTED_FAVORITES',
    favorites
 });
 
-export const addFavorite = name => {
+export const addFavorite = id => {
    return dispatch => {
-      name = name.toLowerCase();
-      return storage.getList('storedFavorites')
-      .then(storedFavorites => {
-         if (!storedFavorites.some(f => f.name === name)) {
-            storedFavorites.push({name});
-            dispatch(setFavorites(storedFavorites));
-            return storage.setList('storedFavorites', storedFavorites);
+      return storage.getList('selectedFavorites')
+      .then(selectedFavorites => {
+         if (!selectedFavorites.some(f => f === id)) {
+            selectedFavorites.push(id);
+            dispatch(setSelectedFavorites(selectedFavorites));
+            return storage.setList('selectedFavorites', selectedFavorites);
          }
       });
    };
 };
 
-export const removeFavorite = name => {
+export const removeFavorite = id => {
    return dispatch => {
-      return storage.getList('storedFavorites')
-      .then(storedFavorites => {
-         const favorites = storedFavorites.filter(f => f.name !== name);
-         dispatch(setFavorites(favorites));
-         return storage.setList('storedFavorites', favorites);
+      return storage.getList('selectedFavorites')
+      .then(selectedFavorites => {
+         const favorites = selectedFavorites.filter(x => x !== id);
+         dispatch(setSelectedFavorites(favorites));
+         return storage.setList('selectedFavorites', favorites);
       });
    };
 };

@@ -3,6 +3,7 @@
 import React from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
+import {addFavorite, removeFavorite} from '../../../store/actions';
 
 import Button from '../../Button';
 
@@ -13,33 +14,35 @@ const {
    Platform
 } = React;
 
-export default class Favorite extends React.Component {
+class Favorite extends React.Component {
    shouldComponentUpdate(props) {
-      return props.favorite.name !== this.props.favorite.name;
+      return props.favorite.name !== this.props.favorite.name || props.selected !== this.props.selected;
    }
    render() {
-      const {favorite, parent, style} = this.props;
+      const {favorite, selected, addFavorite, removeFavorite} = this.props;
       return (
-         <View style={[styles.favorite, style]}>
-            <Icon style={styles.heartIcon} color='#fc5151' name='android-favorite' />
+         <Button style={styles.favorite} onPress={() => selected ? removeFavorite(favorite.id) : addFavorite(favorite.id)}>
+            <Icon style={styles.heartIcon} color={selected ? '#fc5151' : '#555'} name={'android-favorite' + (selected ? '' : '-outline')} />
             <Text style={styles.foodTitle}>{favorite.name}</Text>
-            <Button
-               style={styles.removeButton}
-               onPress={parent.removeFavorite.bind(parent, favorite.name)}>
-               <Icon style={{fontSize: 26}} color='#8a8a8a' name='ios-close-empty' />
-            </Button>
-         </View>
+         </Button>
       );
    }
 }
+
+export default connect(
+   state => ({
+      selectedFavorites: state.selectedFavorites
+   }),
+   dispatch => ({
+      addFavorite: _ => dispatch(addFavorite(_)),
+      removeFavorite: _ => dispatch(removeFavorite(_))
+   })
+)(Favorite);
 
 const styles = StyleSheet.create({
    favorite: {
       backgroundColor: '#fff',
       flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-      paddingRight: 10,
       paddingLeft: 15,
       paddingVertical: 10,
       marginBottom: 2
@@ -50,17 +53,8 @@ const styles = StyleSheet.create({
    foodTitle: {
       fontWeight: '300',
       fontSize: 20,
-      textAlign: 'center',
+      marginLeft: 15,
       flex: 1,
       fontFamily: Platform.OS === 'android' ? 'sans-serif-light' : undefined
-   },
-   removeButton: {
-      width: 32,
-      height: 32,
-      alignItems: 'center',
-      justifyContent: 'center'
-   },
-   foodContainer: {
-      backgroundColor: '#fff'
    }
 });

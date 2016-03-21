@@ -16,6 +16,7 @@ export default {
       style: undefined
    },
    favorites: [],
+   selectedFavorites: undefined,
    selectedRestaurants: undefined,
    location: undefined,
    restaurants: undefined,

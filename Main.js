@@ -7,7 +7,7 @@ import Router from './Router';
 import store from './store';
 import HttpCache from './store/HttpCache';
 import storage from './store/storage';
-import {setSelectedRestaurants, getAreas, setFavorites, getRestaurants, updateLocation} from './store/actions';
+import {setSelectedRestaurants, getAreas, setSelectedFavorites, getRestaurants, updateLocation} from './store/actions';
 
 const {AppState} = React;
 
@@ -23,8 +23,8 @@ export default class Main extends React.Component {
       });
 
       // populate selected restaurants and favorites
-      storage.getList('selectedRestaurants').then(s => store.dispatch(setSelectedRestaurants(s)));
-      storage.getList('storedFavorites').then(favorites => store.dispatch(setFavorites(favorites)));
+      storage.getList('selectedRestaurants').then(_ => store.dispatch(setSelectedRestaurants(_)));
+      storage.getList('selectedFavorites').then(_ => store.dispatch(setSelectedFavorites(_)));
 
       // get areas
       store.dispatch(getAreas());

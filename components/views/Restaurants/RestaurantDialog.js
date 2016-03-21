@@ -107,6 +107,7 @@ class RestaurantDialog extends React.Component {
                ref="map"
                style={{height: 300, borderRadius: 2}}
                rotateEnabled={false}
+               showsUserLocation={true}
                initialRegion={this.getInitialRegion()}>
                {location ?
                <Marker
@@ -171,7 +172,7 @@ class RestaurantDialog extends React.Component {
                      <Text style={styles.closeButtonText}>SULJE</Text>
                   </Button>
                </View>
-               
+
             </View>
 
          </View>

@@ -14,7 +14,7 @@ const {
    Text,
    View,
    Navigator,
-   StatusBarIOS,
+   StatusBar,
    Platform,
    DeviceEventEmitter
 } = React;
@@ -41,7 +41,7 @@ class Router extends React.Component {
       super();
       this.state = {};
 
-      Platform.OS == 'ios' && StatusBarIOS.setStyle('light-content');
+      StatusBar.setBarStyle('light-content');
    }
    changeScene(data) {
       this.refs.navigator.jumpTo(data);

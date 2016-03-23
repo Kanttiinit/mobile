@@ -39,8 +39,22 @@ class Favorites extends React.Component {
          },
          update: {
             type: 'spring',
-            springDamping: 1,
+            springDamping: 0.9,
          }
+      });
+   }
+   getFormattedFavorites() {
+      return this.props.favorites.map(f => ({
+         ...f,
+         selected: this.props.selectedFavorites.some(x => x === f.id)
+      }))
+      .sort((a, b) => {
+         if (a.selected && !b.selected)
+            return -1;
+         else if (!a.selected && b.selected)
+            return 1;
+
+         return a.name > b.name ? 1 : -1;
       });
    }
    render() {
@@ -50,24 +64,11 @@ class Favorites extends React.Component {
          <View style={styles.container}>
             {favorites && selectedFavorites ?
                <ScrollView style={styles.favoriteList} scrollsToTop={true}>
-                  {favorites
-                  .map(f => ({
-                     ...f,
-                     selected: selectedFavorites.some(x => x === f.id)
-                  }))
-                  .sort((a, b) => {
-                     if (a.selected && !b.selected)
-                        return -1;
-                     else if (!a.selected && b.selected)
-                        return 1;
-
-                     return a.name > b.name ? 1 : -1;
-                  })
-                  .map(_ =>
-                     <Favorite
-                        selected={_.selected}
-                        favorite={_}
-                        key={_.id} />
+                  {this.getFormattedFavorites().map(_ =>
+                  <Favorite
+                     selected={_.selected}
+                     favorite={_}
+                     key={_.id} />
                   )}
                </ScrollView>
             : <Loader color={colors.accent} />}

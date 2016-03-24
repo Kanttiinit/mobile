@@ -31,9 +31,13 @@ class Menu extends React.Component {
    onSwiperChange(p) {
       this.refs.daySelector.setCurrent(p);
    }
+   componentWillReceiveProps(props) {
+      if (this.props.viewChanges !== props.viewChanges && this.props.currentView === 'MENU')
+         this.refs.swiper.setPage(0);
+   }
    render() {
       const {areas, restaurants, days, restaurantsLoading} = this.props;
-      
+
       return (
          <View style={styles.container}>
             {!restaurants || !areas ?
@@ -75,7 +79,9 @@ export default connect(
       areas: state.areas,
       restaurants: state.restaurants,
       days: state.days,
-      restaurantsLoading: state.restaurantsLoading
+      restaurantsLoading: state.restaurantsLoading,
+      viewChanges: state.viewChanges,
+      currentView: state.currentView
    }),
    dispatch => ({
       updateLocation: () => dispatch(updateLocation()),

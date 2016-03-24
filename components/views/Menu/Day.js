@@ -36,10 +36,6 @@ class Day extends Component {
    }
    componentWillReceiveProps(props) {
       if (props.currentView === 'MENU') {
-
-         if (this.props.viewChanges !== props.viewChanges && this.props.currentView === 'MENU')
-            this.refs.list.scrollTo({y: 0});
-
          InteractionManager.runAfterInteractions(() => {
             this.setState({menu: props.menu});
          });
@@ -93,7 +89,6 @@ const styles = StyleSheet.create({
 
 export default connect(
    (state, props) => ({
-      viewChanges: state.viewChanges,
       currentView: state.currentView,
       now: state.now,
       menu: state.menus.find(m => m.date.isSame(props.date, 'day'))

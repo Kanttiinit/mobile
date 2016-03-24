@@ -15,6 +15,7 @@ import {showModal} from '../../../store/actions';
 const {
    View,
    Text,
+   Image,
    StyleSheet,
    Platform
 } = React;
@@ -36,7 +37,7 @@ export class Restaurant extends React.Component {
          this.props.restaurant.name.split('')
          .map(_ => _.charCodeAt(0))
          .reduce((code, sum) => sum + code, 0) % 360
-      + ', 25%, 40%)';
+      + ', 35%, 40%)';
    }
    getFavString(restaurant) {
       return restaurant.courses.map(c => +c.isFavorite).join('');
@@ -53,6 +54,7 @@ export class Restaurant extends React.Component {
       const {date, now, restaurant, showModal} = this.props;
       const courses = restaurant.courses;
       const isToday = now.isSame(date, 'day');
+      const metaColor = isToday && restaurant.isOpen ? colors.darkGrey : colors.grey;
       return (
          <View style={defaultStyles.card}>
 
@@ -60,19 +62,20 @@ export class Restaurant extends React.Component {
                onPress={() => showModal(<RestaurantDialog restaurant={restaurant} />)}
                style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}
                containerStyle={styles.header}>
-               <View>
-                  <Text style={[styles.restaurantName, {color: this.getColor()}]}>{restaurant.name}</Text>
-                  {restaurant.distance ?
-                  <View style={styles.distance}>
-                     <Icon style={styles.distanceText} name="ios-location" />
-                     <Text style={[styles.distanceText, {marginLeft: 3}]}>{Restaurant.formatDistance(restaurant.distance)}</Text>
-                  </View>
-                  : null}
-               </View>
-               <View style={{flex: 1}}>
-                  <Text style={[styles.openingHours, isToday && restaurant.isOpen && {color: colors.accent}, restaurant.hours && styles.openingHoursAvailable]}>
+               <Text style={[styles.restaurantName, !(isToday && restaurant.isOpen) && {color: colors.grey}]}>{restaurant.name}</Text>
+               <View style={{flex: 1, alignItems: 'flex-end'}}>
+                  <Text style={[styles.metaText, {color: metaColor}]}>
                      {this.formatOpeningHours()}
+                     {' '}
+                     <Icon name="android-time" />
                   </Text>
+                  {restaurant.distance ?
+                  <Text style={[styles.metaText, {color: metaColor}]}>
+                     {Restaurant.formatDistance(restaurant.distance)}
+                     {' '}
+                     <Icon name="android-pin" />
+                  </Text>
+                  : null}
                </View>
             </Button>
 
@@ -107,7 +110,8 @@ const styles = StyleSheet.create({
       paddingHorizontal: 8,
       paddingVertical: 6,
       borderBottomWidth: 1,
-      borderBottomColor: colors.lightGrey
+      borderBottomColor: colors.lightGrey,
+      justifyContent: 'center'
    },
    borderTop: {
       borderTopWidth: 1,
@@ -118,22 +122,14 @@ const styles = StyleSheet.create({
       fontSize: 12,
       textAlign: 'center'
    },
-   openingHours: {
-      textAlign: 'right',
+   metaText: {
       color: colors.grey,
-      fontSize: 12
-   },
-   distance: {
-      flexDirection: 'row',
-      height: 16,
-      alignItems: 'center'
-   },
-   distanceText: {
-      color: colors.grey,
-      fontSize: 10
+      fontSize: 11,
+      fontWeight: '300',
+      marginVertical: 2
    },
    restaurantName: {
-      fontSize: 16,
-      color: 'black'
+      fontSize: 20,
+      color: colors.darkGrey
    }
 });

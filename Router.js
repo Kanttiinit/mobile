@@ -41,7 +41,8 @@ class Router extends React.Component {
       super();
       this.state = {};
 
-      StatusBar.setBarStyle('light-content');
+      if (Platform.OS === 'ios')
+         StatusBar.setBarStyle('light-content');
    }
    changeScene(data) {
       this.refs.navigator.jumpTo(data);

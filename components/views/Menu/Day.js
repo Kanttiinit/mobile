@@ -54,10 +54,9 @@ class Day extends Component {
                </Text>
             </View>
             <ListView
-               ref="list"
                initialListSize={1}
                pageSize={2}
-               style={{paddingTop: 22}}
+               contentContainerStyle={{paddingVertical: 22}}
                dataSource={this.dataSource.cloneWithRows(menu.restaurants)}
                renderRow={restaurant =>
                   <Restaurant date={date} restaurant={restaurant} />} />

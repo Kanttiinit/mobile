@@ -29,7 +29,7 @@ class Restaurants extends React.Component {
          <View style={styles.container}>
             {this.props.areas ?
             <ListView
-               style={{paddingTop: 22}}
+               contentContainerStyle={{paddingVertical: 22}}
                dataSource={this.dataSource.cloneWithRows(this.props.areas)}
                renderRow={area => <Area area={area} />} />
             : <Loader color={colors.accent} />}

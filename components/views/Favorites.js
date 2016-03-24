@@ -39,7 +39,7 @@ class Favorites extends React.Component {
          },
          update: {
             type: 'spring',
-            springDamping: 0.9,
+            springDamping: 1,
          }
       });
    }

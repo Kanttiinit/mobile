@@ -37,7 +37,7 @@ export class Restaurant extends React.Component {
          this.props.restaurant.name.split('')
          .map(_ => _.charCodeAt(0))
          .reduce((code, sum) => sum + code, 0) % 360
-      + ', 35%, 40%)';
+      + ', 25%, 95%)';
    }
    getFavString(restaurant) {
       return restaurant.courses.map(c => +c.isFavorite).join('');
@@ -54,7 +54,7 @@ export class Restaurant extends React.Component {
       const {date, now, restaurant, showModal} = this.props;
       const courses = restaurant.courses;
       const isToday = now.isSame(date, 'day');
-      const metaColor = isToday && restaurant.isOpen ? colors.darkGrey : colors.grey;
+      const metaColor = isToday && restaurant.isOpen ? colors.darkAccent : colors.darkGrey;
       return (
          <View style={defaultStyles.card}>
 
@@ -62,21 +62,27 @@ export class Restaurant extends React.Component {
                onPress={() => showModal(<RestaurantDialog restaurant={restaurant} />)}
                style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}
                containerStyle={styles.header}>
-               <Text style={[styles.restaurantName, !(isToday && restaurant.isOpen) && {color: colors.grey}]}>{restaurant.name}</Text>
-               <View style={{flex: 1, alignItems: 'flex-end'}}>
-                  <Text style={[styles.metaText, {color: metaColor}]}>
-                     {this.formatOpeningHours()}
-                     {' '}
-                     <Icon name="android-time" />
-                  </Text>
-                  {restaurant.distance ?
-                  <Text style={[styles.metaText, {color: metaColor}]}>
-                     {Restaurant.formatDistance(restaurant.distance)}
-                     {' '}
-                     <Icon name="android-pin" />
-                  </Text>
-                  : null}
+               <View style={{flex: 1}}>
+                  <Text style={[styles.restaurantName, !(isToday && restaurant.isOpen) && {color: colors.darkGrey}]}>{restaurant.name}</Text>
+                  <View style={{flex: 1, marginTop: 2, flexDirection: 'row'}}>
+                     <Text style={[styles.metaText, {color: metaColor}]}>
+                        <Icon size={10} name="android-time" />
+                        {' '}
+                        {this.formatOpeningHours()}
+                     </Text>
+                     {restaurant.distance ?
+                     <Text style={[styles.metaText, {marginLeft: 8, color: metaColor}]}>
+                        <Icon size={10} name="android-pin" />
+                        {' '}
+                        {Restaurant.formatDistance(restaurant.distance)}
+                     </Text>
+                     : null}
+                  </View>
                </View>
+               <Image
+                  source={{uri: 'https://upload.wikimedia.org/wikipedia/en/thumb/c/ca/Sodexo.svg/1024px-Sodexo.svg.png'}}
+                  resizeMode="contain"
+                  style={{width: 48, height: 32, marginRight: 4}} />
             </Button>
 
             {!courses.length ?
@@ -107,8 +113,7 @@ export default connect(
 
 const styles = StyleSheet.create({
    header: {
-      paddingHorizontal: 8,
-      paddingVertical: 6,
+      padding: 8,
       borderBottomWidth: 1,
       borderBottomColor: colors.lightGrey,
       justifyContent: 'center'
@@ -123,13 +128,13 @@ const styles = StyleSheet.create({
       textAlign: 'center'
    },
    metaText: {
-      color: colors.grey,
+      color: colors.darkGrey,
       fontSize: 11,
-      fontWeight: '300',
-      marginVertical: 2
+      marginVertical: 2,
+      opacity: 0.8
    },
    restaurantName: {
-      fontSize: 20,
-      color: colors.darkGrey
+      fontSize: 18,
+      color: colors.accentDark
    }
 });

@@ -83,7 +83,7 @@ export class Restaurant extends React.Component {
                <Image
                   source={{uri: restaurant.image}}
                   resizeMode="contain"
-                  style={{width: 48, height: 32, marginRight: 4}} />
+                  style={{width: 42, height: 36, marginRight: 4}} />
                : null}
             </Button>
 

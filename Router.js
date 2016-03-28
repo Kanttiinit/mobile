@@ -45,7 +45,11 @@ class Router extends React.Component {
          StatusBar.setBarStyle('light-content');
    }
    changeScene(data) {
-      this.refs.navigator.jumpTo(data);
+      try {
+         this.refs.navigator.jumpTo(data);
+      } catch(e) {
+         this.refs.navigator.push(data);
+      }
       this.props.changeView(data.title);
    }
    componentDidMount() {

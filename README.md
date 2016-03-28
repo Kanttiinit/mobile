@@ -15,13 +15,17 @@ Sovellus ei ker채채 k채ytt채j채lt채 mit채채n tietoja. Sovelluksen l채hdekoodi l�
 ### English
 This app is currently only available in Finnish.
 
-Kanttiinit lists menus from canteens of your choice. Add your favourite dishes and you'll quickly see if your favourite dish is available in some nearby canteen!
+Kanttiinit lists menus from canteens of your choice. Add your favorite dishes and you'll quickly see if your favorite dish is available in some nearby canteen!
 
 Is your area missing from the list? Contact: contact@kanttiinit.fi
 
 The app doesn't collect any user data. The source code is available at http://github.com/Kanttiinit
 
 ## Change Log
+
+### v3.0
+* New favorite system.
+* Restaurant logos.
 
 ### v2.0
 * Restaurant detail dialog.

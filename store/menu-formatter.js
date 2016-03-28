@@ -1,4 +1,5 @@
 import moment from 'moment';
+import haversine from 'haversine';
 
 export default function getMenus(state) {
    const {days, restaurants, now, favorites, selectedFavorites, location} = state;
@@ -11,6 +12,7 @@ export default function getMenus(state) {
             restaurants: sortedRestaurants(
                restaurants.map(restaurant => {
                   let favoriteCourses = 0;
+
                   // iterate through courses for the current day
                   const courses = (restaurant.Menus.find(m => day.isSame(m.date, 'day')) || {courses: []})
                   .courses.map(course => {

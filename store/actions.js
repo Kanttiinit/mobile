@@ -46,7 +46,7 @@ export const updateSelectedRestaurants = (restaurants, areSelected) => {
          dispatch(setSelectedRestaurants(selected));
          return storage.setList('selectedRestaurants', selected);
       })
-      .then(() => HttpCache.reset('menus'));
+      //.then(() => HttpCache.reset('menus'));
    };
 };
 

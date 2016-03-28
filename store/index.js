@@ -2,7 +2,6 @@
 
 import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
-import haversine from 'haversine';
 import moment from 'moment';
 import formatMenus from './menu-formatter';
 

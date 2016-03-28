@@ -59,7 +59,6 @@ class Favorites extends React.Component {
    }
    render() {
       const {favorites, selectedFavorites} = this.props;
-      const favoritesCount = favorites.length;
       return (
          <View style={styles.container}>
             {favorites && selectedFavorites ?

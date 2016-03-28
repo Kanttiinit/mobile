@@ -15,13 +15,18 @@ export default function getMenus(state) {
                   const courses = (restaurant.Menus.find(m => day.isSame(m.date, 'day')) || {courses: []})
                   .courses.map(course => {
                      const isFavorite = checkIfFavorite(course.title, favorites, selectedFavorites);
-                     isFavorite && favoriteCourses++;
+                     if (isFavorite)
+                        favoriteCourses++;
                      return {...course, isFavorite};
                   });
+
+                  const openingHours = getOpeningHours(restaurant, day);
+
                   return {
                      ...restaurant,
                      distance: location ? haversine(restaurant, location) * 1000 : undefined,
-                     ...getOpeningHours(restaurant, day),
+                     isOpen: courses.length > 1 ? openingHours.isOpen : false,
+                     hours: courses.length > 1 ? openingHours.hours : undefined,
                      courses,
                      favoriteCourses
                   };

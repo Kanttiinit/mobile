@@ -32,8 +32,11 @@ class Menu extends React.Component {
       this.refs.daySelector.setCurrent(p);
    }
    componentWillReceiveProps(props) {
-      if (this.props.viewChanges !== props.viewChanges && this.props.currentView === 'MENU')
+      if (this.props.viewChanges !== props.viewChanges && props.currentView === 'MENU' && this.props.currentView === 'MENU' && this.refs.swiper)
          this.refs.swiper.setPage(0);
+   }
+   shouldComponentUpdate(props) {
+      return props.currentView === 'MENU';
    }
    render() {
       const {areas, restaurants, days, restaurantsLoading} = this.props;

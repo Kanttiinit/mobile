@@ -79,10 +79,12 @@ export class Restaurant extends React.Component {
                      : null}
                   </View>
                </View>
+               {restaurant.image ?
                <Image
-                  source={{uri: 'https://upload.wikimedia.org/wikipedia/en/thumb/c/ca/Sodexo.svg/1024px-Sodexo.svg.png'}}
+                  source={{uri: restaurant.image}}
                   resizeMode="contain"
                   style={{width: 48, height: 32, marginRight: 4}} />
+               : null}
             </Button>
 
             {!courses.length ?

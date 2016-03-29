@@ -2,7 +2,7 @@ import moment from 'moment';
 import haversine from 'haversine';
 
 export default function getMenus(state) {
-   const {days, restaurants, now, favorites, selectedFavorites, location} = state;
+   const {days, restaurants, now, favorites, location} = state;
    if (days && restaurants && now && favorites) {
       // iterate through all days
       return days.map(day => (
@@ -14,13 +14,13 @@ export default function getMenus(state) {
                   let favoriteCourses = 0;
 
                   // iterate through courses for the current day
-                  const courses = (restaurant.Menus.find(m => day.isSame(m.date, 'day')) || {courses: []})
-                  .courses.map(course => {
-                     const isFavorite = checkIfFavorite(course.title, favorites, selectedFavorites);
+                  const coursesForDay = restaurant.Menus.find(m => day.isSame(m.date, 'day'));
+                  const courses = coursesForDay ? coursesForDay.courses.map(course => {
+                     const isFavorite = checkIfFavorite(course.title, favorites);
                      if (isFavorite)
                         favoriteCourses++;
                      return {...course, isFavorite};
-                  });
+                  }) : [];
 
                   const openingHours = getOpeningHours(restaurant, day);
 
@@ -68,11 +68,11 @@ function getOpeningHours(restaurant, date) {
    return {hours, isOpen: hours && now >= hours[0] && now < hours[1]};
 }
 
-function checkIfFavorite(title, favorites, selectedFavorites) {
-   if (title && selectedFavorites.length)
-      return selectedFavorites
-         .map(f => favorites.find(_ => _.id === f))
-         .some(_ => title.match(new RegExp(_.regexp)));
+function checkIfFavorite(title, favorites) {
+   if (title)
+      return favorites.some(f =>
+         f.selected && title.match(new RegExp(f.regexp, 'i'))
+      );
 
    return false;
 }

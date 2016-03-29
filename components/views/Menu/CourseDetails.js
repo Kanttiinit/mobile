@@ -2,8 +2,9 @@
 
 import React from 'react-native';
 import {connect} from 'react-redux';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-import {dismissModal} from '../../../store/actions';
+import {dismissModal, addFavorite, removeFavorite} from '../../../store/actions';
 
 import Property from './Property';
 import Button from '../../Button';
@@ -18,8 +19,12 @@ const {
 } = React;
 
 class CourseDetails extends Component {
+   getFavorites() {
+      const title = this.props.course.title;
+      return this.props.favorites.filter(f => title.match(new RegExp(f.regexp, 'i')));
+   }
    render() {
-      const {course} = this.props;
+      const {course, addFavorite, removeFavorite} = this.props;
       return (
          <View style={styles.container}>
             <View>
@@ -28,8 +33,20 @@ class CourseDetails extends Component {
             <View style={styles.courseListWrapper}>
                {course.properties && course.properties.length ?
                course.properties.map(p => <Property key={p} containerStyle={{marginTop: 8}} large={true}>{p}</Property>)
-               :
-               undefined}
+               : undefined}
+            </View>
+            <View style={{flexDirection: 'row', marginVertical: 4}}>
+               {this.getFavorites().sort((a, b) => a.name < b.name ? -1 : 1).map(f =>
+               <Button
+                  key={f.id}
+                  onPress={() => f.selected ? removeFavorite(f.id) : addFavorite(f.id)}
+                  style={{padding: 4, marginRight: 4, backgroundColor: f.selected ? colors.red : 'transparent', borderColor: colors.red, borderWidth: 1, borderRadius: 2}}>
+                  <Text style={{color: f.selected ? 'white' : colors.red}}>
+                     <Icon name={'android-favorite' + (f.selected ? '' : '-outline')} />
+                     {' ' + f.name}
+                  </Text>
+               </Button>
+               )}
             </View>
             <View style={styles.footer}>
                <Text style={styles.restaurantName}>{course.restaurant.name}</Text>
@@ -45,9 +62,13 @@ class CourseDetails extends Component {
 }
 
 export default connect(
-   undefined,
+   state => ({
+      favorites: state.favorites
+   }),
    dispatch => ({
-      dismissModal: () => dispatch(dismissModal())
+      dismissModal: () => dispatch(dismissModal()),
+      addFavorite: _ => dispatch(addFavorite(_)),
+      removeFavorite: _ => dispatch(removeFavorite(_))
    })
 )(CourseDetails);
 

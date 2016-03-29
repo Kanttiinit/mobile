@@ -20,13 +20,32 @@ const defaultState = {
       visible: false,
       component: undefined,
       style: undefined
-   }
+   },
+   selectedFavorites: []
 };
 
 const updateMenu = state => {
    return {
       ...state,
       menus: formatMenus(state)
+   };
+};
+
+const formatFavorites = state => {
+   return {
+      ...state,
+      favorites: state.favorites.map(f => ({
+         ...f,
+         selected: state.selectedFavorites.some(x => x === f.id)
+      }))
+      .sort((a, b) => {
+         if (a.selected && !b.selected)
+            return -1;
+         else if (!a.selected && b.selected)
+            return 1;
+
+         return a.name > b.name ? 1 : -1;
+      })
    };
 };
 
@@ -55,7 +74,7 @@ const reducer = (state = defaultState, action) => {
       case 'SET_AREAS':
          return {...state, areas: action.areas};
       case 'SET_FAVORITES':
-         return {...state, favorites: action.favorites};
+         return formatFavorites({...state, favorites: action.favorites});
       case 'SET_SELECTED_RESTAURANTS':
          return {...state, selectedRestaurants: action.restaurants};
       case 'SET_RESTAURANTS_LOADING':
@@ -69,7 +88,7 @@ const reducer = (state = defaultState, action) => {
             days: Array(7).fill(1).map((n, i) => moment().add(i, 'days'))
          });
       case 'SET_SELECTED_FAVORITES':
-         return updateMenu({...state, selectedFavorites: action.favorites});
+         return updateMenu(formatFavorites({...state, selectedFavorites: action.favorites}));
       case 'SET_LOCATION':
          return updateMenu({...state, location: action.location});
       case 'SET_RESTAURANTS':

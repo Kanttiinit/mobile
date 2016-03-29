@@ -31,39 +31,15 @@ class Favorites extends React.Component {
       this.props.getFavorites();
    }
    componentWillReceiveProps() {
-      LayoutAnimation.configureNext({
-         duration: 500,
-         create: {
-            type: 'linear',
-            property: 'opacity',
-         },
-         update: {
-            type: 'spring',
-            springDamping: 1,
-         }
-      });
-   }
-   getFormattedFavorites() {
-      return this.props.favorites.map(f => ({
-         ...f,
-         selected: this.props.selectedFavorites.some(x => x === f.id)
-      }))
-      .sort((a, b) => {
-         if (a.selected && !b.selected)
-            return -1;
-         else if (!a.selected && b.selected)
-            return 1;
-
-         return a.name > b.name ? 1 : -1;
-      });
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
    }
    render() {
-      const {favorites, selectedFavorites} = this.props;
+      const {favorites} = this.props;
       return (
          <View style={styles.container}>
-            {favorites && selectedFavorites ?
+            {favorites ?
                <ScrollView style={styles.favoriteList} scrollsToTop={true}>
-                  {this.getFormattedFavorites().map(_ =>
+                  {favorites.map(_ =>
                   <Favorite
                      selected={_.selected}
                      favorite={_}
@@ -88,8 +64,7 @@ const styles = StyleSheet.create({
 
 export default connect(
    state => ({
-      favorites: state.favorites,
-      selectedFavorites: state.selectedFavorites
+      favorites: state.favorites
    }),
    dispatch => ({
       getFavorites: _ => dispatch(getFavorites())

@@ -5,12 +5,15 @@ import Loader from '../Loader';
 import {connect} from 'react-redux';
 
 import Area from './Restaurants/Area';
-import {getAreas} from '../../store/actions';
+import {getAreas, showModal} from '../../store/actions';
 import {colors} from '../../style';
+import Button from '../Button';
+import ContactForm from '../ContactForm';
 
 const {
    ListView,
    View,
+   Text,
    StyleSheet,
    Platform
 } = React;
@@ -27,9 +30,14 @@ class Restaurants extends React.Component {
    render() {
       return (
          <View style={styles.container}>
+            <Button
+               onPress={() => this.props.showModal(<ContactForm type="missing-restaurant">Mikä ravintola puuttuu?</ContactForm>)}
+               style={{padding: 8, margin: 8, borderRadius: 2, backgroundColor: colors.accent}}>
+               <Text style={{color: 'white', fontSize: 14, textAlign: 'center'}}>ILMOITA PUUTTUVASTA RAVINTOLASTA</Text>
+            </Button>
             {this.props.areas ?
             <ListView
-               contentContainerStyle={{paddingVertical: 22}}
+               contentContainerStyle={{paddingBottom: 22}}
                dataSource={this.dataSource.cloneWithRows(this.props.areas)}
                renderRow={area => <Area area={area} />} />
             : <Loader color={colors.accent} />}
@@ -50,6 +58,7 @@ export default connect(
       areas: state.areas
    }),
    dispatch => ({
-      getAreas: () => dispatch(getAreas())
+      getAreas: () => dispatch(getAreas()),
+      showModal: _ => dispatch(showModal(_))
    })
 )(Restaurants);

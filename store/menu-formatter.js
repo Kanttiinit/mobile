@@ -5,8 +5,9 @@ export default function getMenus(state) {
    const {days, restaurants, now, favorites, location} = state;
    if (days && restaurants && now && favorites) {
       // iterate through all days
-      return days.map(day => (
-         {
+      return days.map(day => {
+         const dayString = day.format('YYYY-MM-DD');
+         return {
             date: day,
             // iterate through all restaurants for each day
             restaurants: sortedRestaurants(
@@ -14,7 +15,7 @@ export default function getMenus(state) {
                   let favoriteCourses = 0;
 
                   // iterate through courses for the current day
-                  const coursesForDay = restaurant.Menus.find(m => day.isSame(m.date, 'day'));
+                  const coursesForDay = restaurant.Menus.find(m => dayString === m.day);
                   const courses = coursesForDay ? coursesForDay.courses.map(course => {
                      const isFavorite = checkIfFavorite(course.title, favorites);
                      if (isFavorite)
@@ -34,8 +35,8 @@ export default function getMenus(state) {
                   };
                }),
             now, day)
-         }
-      ));
+         };
+      });
    }
 }
 

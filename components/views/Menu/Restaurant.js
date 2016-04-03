@@ -39,6 +39,20 @@ export class Restaurant extends React.Component {
          .reduce((code, sum) => sum + code, 0) % 360
       + ', 25%, 95%)';
    }
+   getImage() {
+      const host = new URL(this.props.restaurant.url).host;
+      console.log(host);
+      switch (host) {
+         case 'www.sodexo.fi':
+            return require('../../../images/sodexo.png');
+         case 'www.teknologforeningen.fi':
+            return require('../../../images/taffa.png');
+         case 'www.amica.fi':
+            return require('../../../images/amica.jpg');
+         case 'www.hyyravintolat.fi':
+            return require('../../../images/unicafe.png');
+      }
+   }
    getFavString(restaurant) {
       return restaurant.courses.map(c => +c.isFavorite).join('');
    }
@@ -81,7 +95,7 @@ export class Restaurant extends React.Component {
                </View>
                {restaurant.image ?
                <Image
-                  source={{uri: restaurant.image}}
+                  source={this.getImage()}
                   resizeMode="contain"
                   style={{width: 42, height: 36, marginRight: 4}} />
                : null}

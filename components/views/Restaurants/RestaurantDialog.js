@@ -157,12 +157,18 @@ class RestaurantDialog extends React.Component {
                )}
 
                <View style={styles.footer}>
+                  <Button
+                     onPress={() => Linking.openURL(restaurant.url)}
+                     style={[styles.navButton, {marginRight: 10}]}>
+                     <Icon name="android-home" size={18} color={colors.accentLight} />
+                     <Text style={{color: colors.accentLight}}>{' '}Kotisivut</Text>
+                  </Button>
                   {restaurant.address ?
                   <Button
                      onPress={this.openDirections.bind(this)}
                      style={styles.navButton}>
-                     <Icon name="android-open" size={18} color={colors.accentLight} />
-                     <Text style={{marginLeft: 6, color: colors.accentLight}}>Reittiohjeet</Text>
+                     <Icon name="android-compass" size={18} color={colors.accentLight} />
+                     <Text style={{color: colors.accentLight}}>{' '}Reittiohjeet</Text>
                   </Button>
                   : null}
                   <View style={{flex: 1}} />

@@ -18,8 +18,12 @@ class Map extends React.Component {
 		super();
 		this.state = {};
 	}
+	switchRestaurant() {
+
+	}
 	render() {
 		const {restaurants} = this.props;
+		console.log("ASDASD", restaurants);
 		return (
 			<View
 				style={styles.container}>
@@ -36,6 +40,10 @@ class Map extends React.Component {
 					}}>
 					</MapView.Marker>) : null }
 				</MapView>
+				<View
+					style={styles.infoContainer}>
+					<Text>WOUU</Text>
+				</View>
 			</View>
 		);
 	}
@@ -49,13 +57,21 @@ const styles = StyleSheet.create({
 	},
 	mapView: {
 		flex: 1
+	},
+	infoContainer: {
+		position: 'absolute',
+		bottom: 50,
+		flex: 1,
+		marginHorizontal: 10,
+		backgroundColor: colors.lightGrey,
+		borderRadius: 2
 	}
 });
 
 
 export default connect(
 	state => ({
-		restaurants: state.restaurants
+		restaurants: state.areas ? [].concat.apply(this, state.areas.map(area => area.Restaurants)) : undefined
 	}),
 	dispatch => ({
 	})

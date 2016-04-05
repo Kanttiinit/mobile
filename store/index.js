@@ -34,21 +34,24 @@ const updateMenu = state => {
 };
 
 const formatFavorites = state => {
-   return {
-      ...state,
-      favorites: state.favorites.map(f => ({
-         ...f,
-         selected: state.selectedFavorites.some(x => x === f.id)
-      }))
-      .sort((a, b) => {
-         if (a.selected && !b.selected)
-            return -1;
-         else if (!a.selected && b.selected)
-            return 1;
+   if (state.favorites)
+      return {
+         ...state,
+         favorites: state.favorites.map(f => ({
+            ...f,
+            selected: state.selectedFavorites.some(x => x === f.id)
+         }))
+         .sort((a, b) => {
+            if (a.selected && !b.selected)
+               return -1;
+            else if (!a.selected && b.selected)
+               return 1;
 
-         return a.name > b.name ? 1 : -1;
-      })
-   };
+            return a.name > b.name ? 1 : -1;
+         })
+      };
+
+   return state;
 };
 
 const reducer = (state = defaultState, action) => {

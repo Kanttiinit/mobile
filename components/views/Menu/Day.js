@@ -29,13 +29,13 @@ class Day extends Component {
       this.setState({menu: this.props.menu});
    }
    shouldComponentUpdate(props) {
-      if (props.currentView === 'MENU')
+      if (props.currentView === 'RUOKALISTA')
          return !this.props.date.isSame(props.date, 'day') || this.state.menu !== props.menu || !props.now.isSame(this.props.date, 'minute');
 
       return false;
    }
    componentWillReceiveProps(props) {
-      if (props.currentView === 'MENU') {
+      if (props.currentView === 'RUOKALISTA') {
          InteractionManager.runAfterInteractions(() => {
             this.setState({menu: props.menu});
          });

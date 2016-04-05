@@ -40,8 +40,7 @@ export class Restaurant extends React.Component {
       + ', 25%, 95%)';
    }
    getImage() {
-      const host = "asd"; //new URL(this.props.restaurant.url).host;
-      return require('../../../images/sodexo.png');
+      const host = this.props.restaurant.url.match(/https?\:\/\/([^\/]+)/)[1];
       switch (host) {
          case 'www.sodexo.fi':
             return require('../../../images/sodexo.png');

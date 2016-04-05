@@ -3,6 +3,7 @@
 import React from 'react-native';
 import {Provider} from 'react-redux';
 import Router from './Router';
+import codePush from 'react-native-code-push';
 
 import store from './store';
 import HttpCache from './store/HttpCache';
@@ -13,6 +14,8 @@ const {AppState} = React;
 
 export default class Main extends React.Component {
    componentDidMount() {
+      codePush.sync();
+      
       AppState.addEventListener('change', currentAppState => {
          if (currentAppState === 'active') {
             this.refresh();

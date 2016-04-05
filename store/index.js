@@ -11,11 +11,11 @@ import Restaurants from '../components/views/Restaurants';
 import Map from '../components/views/Map';
 
 const defaultState = {
-   currentView: 'MENU',
+   currentView: 'RUOKA',
    views: [
-      { title: 'MENU', icon: 'android-restaurant', component: Menu },
+      { title: 'RUOKA', icon: 'android-restaurant', component: Menu },
       { title: 'SUOSIKIT', icon: 'android-favorite', component: Favorites },
-		{ title: 'KARTTA', icon: 'android-pin', component: Map},
+		//{ title: 'KARTTA', icon: 'android-pin', component: Map},
       { title: 'RAVINTOLAT', icon: 'ios-list', component: Restaurants }
    ],
    modal: {

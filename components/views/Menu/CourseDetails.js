@@ -1,10 +1,8 @@
 'use strict';
 
 import React from 'react-native';
-import {connect} from 'react-redux';
+import {connect} from 'redux-nimble';
 import Icon from 'react-native-vector-icons/Ionicons';
-
-import {dismissModal, addFavorite, removeFavorite} from '../../../store/actions';
 
 import Property from './Property';
 import Button from '../../Button';
@@ -62,14 +60,8 @@ class CourseDetails extends Component {
 }
 
 export default connect(
-   state => ({
-      favorites: state.favorites
-   }),
-   dispatch => ({
-      dismissModal: () => dispatch(dismissModal()),
-      addFavorite: _ => dispatch(addFavorite(_)),
-      removeFavorite: _ => dispatch(removeFavorite(_))
-   })
+   ['favorites'],
+   ['dismissModal', 'addFavorite', 'removeFavorite']
 )(CourseDetails);
 
 CourseDetails.defaultProps = {

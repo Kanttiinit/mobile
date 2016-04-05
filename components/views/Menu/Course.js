@@ -2,12 +2,11 @@
 
 import React from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {connect} from 'react-redux';
+import {connect} from 'redux-nimble';
 
 import CourseDetails from './CourseDetails';
 import Property from './Property';
 import Button from '../../Button';
-import {showModal} from '../../../store/actions';
 import {colors} from '../../../style';
 
 const {
@@ -32,7 +31,7 @@ class Course extends React.Component {
       return (
          <Button
             highlightColor={colors.lightGrey}
-            onPress={() => this.props.courseSelected(course, restaurant)}
+            onPress={() => this.props.showModal(<CourseDetails course={course} />)}
             style={[course.isFavorite ? styles.favoriteCourse : {borderRadius: 2}]}>
             <View style={[styles.course, style]}>
                {course.isFavorite ? <Icon style={{marginRight: 6}} color='#fc5151' name='android-favorite' /> : null}
@@ -44,12 +43,7 @@ class Course extends React.Component {
    }
 }
 
-export default connect(
-   undefined,
-   dispatch => ({
-      courseSelected: course => dispatch(showModal(<CourseDetails course={course} />))
-   })
-)(Course);
+export default connect(undefined, ['showModal'])(Course);
 
 const styles = StyleSheet.create({
    course: {

@@ -5,12 +5,11 @@ import moment from 'moment';
 import Swiper from '../Swiper';
 import Loader from '../Loader';
 import haversine from 'haversine';
-import {connect} from 'react-redux';
+import {connect} from 'redux-nimble';
 
 import Day from './Menu/Day';
 import DaySelector from './Menu/DaySelector';
 import AreaSelector from './Menu/AreaSelector';
-import {getRestaurants, getAreas, updateLocation} from '../../store/actions';
 import {colors} from '../../style';
 
 const {
@@ -40,7 +39,6 @@ class Menu extends React.Component {
    }
    render() {
       const {areas, restaurants, days, restaurantsLoading} = this.props;
-
       return (
          <View style={styles.container}>
             {!restaurants || !areas ?
@@ -78,16 +76,6 @@ const styles = StyleSheet.create({
 });
 
 export default connect(
-   state => ({
-      areas: state.areas,
-      restaurants: state.restaurants,
-      days: state.days,
-      restaurantsLoading: state.restaurantsLoading,
-      viewChanges: state.viewChanges,
-      currentView: state.currentView
-   }),
-   dispatch => ({
-      updateLocation: () => dispatch(updateLocation()),
-      getRestaurants: s => dispatch(getRestaurants(s))
-   })
+   ['areas', 'restaurants', 'days', 'viewChanges', 'currentView'],
+   ['getRestaurants']
 )(Menu);

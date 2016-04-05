@@ -1,9 +1,8 @@
 'use strict';
 
 import React from 'react-native';
-import {connect} from 'react-redux';
+import {connect} from 'redux-nimble';
 
-import {updateSelectedRestaurants} from '../../../store/actions';
 import Button from '../../Button';
 import {colors} from '../../../style';
 
@@ -36,7 +35,5 @@ class AreaSelector extends React.Component {
 
 export default connect(
    undefined,
-   dispatch => ({
-      updateSelectedRestaurants: (restaurants, areSelected) => dispatch(updateSelectedRestaurants(restaurants, areSelected))
-   })
+   ['updateSelectedRestaurants']
 )(AreaSelector);

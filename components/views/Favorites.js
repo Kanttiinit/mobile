@@ -1,11 +1,8 @@
-'use strict';
-
 import React from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Loader from '../Loader';
-import {connect} from 'react-redux';
+import {connect} from 'redux-nimble';
 
-import {getFavorites} from '../../store/actions';
 import {colors} from '../../style';
 
 import Favorite from './Favorites/Favorite';
@@ -62,11 +59,4 @@ const styles = StyleSheet.create({
    }
 });
 
-export default connect(
-   state => ({
-      favorites: state.favorites
-   }),
-   dispatch => ({
-      getFavorites: _ => dispatch(getFavorites())
-   })
-)(Favorites);
+export default connect(['favorites'], ['getFavorites'])(Favorites);

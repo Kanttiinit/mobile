@@ -7,8 +7,7 @@ import RestaurantDialog from './RestaurantDialog';
 import Checkbox from '../../Checkbox';
 import Button from '../../Button';
 
-import {showModal} from '../../../store/actions';
-import {connect} from 'react-redux';
+import {connect} from 'redux-nimble';
 
 const {
    View,
@@ -25,7 +24,7 @@ class Restaurant extends React.Component {
          <View style={style}>
             <Button
                containerStyle={{flex: 1}}
-               onPress={() => showModal(<RestaurantDialog restaurant={restaurant} />)}>
+               onPress={() => showModal(<RestaurantDialog restaurant={restaurant} />, {padding: 0})}>
                <Text style={{fontSize: 14, flex: 1}}>{restaurant.name}</Text>
             </Button>
             <Checkbox
@@ -36,9 +35,4 @@ class Restaurant extends React.Component {
    }
 }
 
-export default connect(
-   undefined,
-   dispatch => ({
-      showModal: m => dispatch(showModal(m, {padding: 0}))
-   })
-)(Restaurant);
+export default connect(undefined, ['showModal'])(Restaurant);

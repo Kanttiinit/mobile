@@ -2,8 +2,7 @@
 
 import React from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {connect} from 'react-redux';
-import {addFavorite, removeFavorite} from '../../../store/actions';
+import {connect} from 'redux-nimble';
 
 import Button from '../../Button';
 
@@ -29,15 +28,7 @@ class Favorite extends React.Component {
    }
 }
 
-export default connect(
-   state => ({
-      selectedFavorites: state.selectedFavorites
-   }),
-   dispatch => ({
-      addFavorite: _ => dispatch(addFavorite(_)),
-      removeFavorite: _ => dispatch(removeFavorite(_))
-   })
-)(Favorite);
+export default connect(undefined, ['addFavorite', 'removeFavorite'])(Favorite);
 
 const styles = StyleSheet.create({
    favorite: {

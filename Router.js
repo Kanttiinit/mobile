@@ -3,10 +3,9 @@
 import React from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-simple-modal';
-import {connect} from 'react-redux'
+import {connect} from 'redux-nimble';
 
 import Button from './components/Button';
-import {changeView, dismissModal} from './store/actions';
 import {colors} from './style';
 
 const {
@@ -62,6 +61,7 @@ class Router extends React.Component {
    }
    render() {
       const {views, currentView, modal} = this.props;
+      
       return (
          <View style={styles.wrapper}>
             {Platform.OS === 'ios' ? <View style={{height:20, backgroundColor:colors.accent}}></View> : null}
@@ -113,15 +113,4 @@ const styles = StyleSheet.create({
    }
 });
 
-const stateToProps = state => ({
-   currentView: state.currentView,
-   views: state.views,
-   modal: state.modal
-});
-
-const dispatchToProps = dispatch => ({
-   changeView: view => dispatch(changeView(view)),
-   dismissModal: () => dispatch(dismissModal())
-});
-
-export default connect(stateToProps, dispatchToProps)(Router);
+export default connect(['currentView', 'views', 'modal'], ['changeView', 'dismissModal'])(Router);

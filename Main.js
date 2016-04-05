@@ -1,19 +1,18 @@
 'use strict';
 
 import React from 'react-native';
-import {Provider} from 'react-redux';
+import {Provider} from 'redux-nimble';
 import Router from './Router';
 import codePush from 'react-native-code-push';
 
 import store from './store';
 import HttpCache from './store/HttpCache';
 import storage from './store/storage';
-import {setSelectedRestaurants, getAreas, setSelectedFavorites, getRestaurants, updateLocation} from './store/actions';
 
 const {AppState} = React;
 
 export default class Main extends React.Component {
-   componentDidMount() {
+   componentWillMount() {
       AppState.addEventListener('change', currentAppState => {
          if (currentAppState === 'active') {
             codePush.sync({installMode: codePush.InstallMode.ON_NEXT_RESUME});
@@ -25,21 +24,17 @@ export default class Main extends React.Component {
       });
 
       // populate selected restaurants and favorites
-      storage.getList('selectedRestaurants').then(_ => store.dispatch(setSelectedRestaurants(_)));
-      storage.getList('selectedFavorites').then(_ => store.dispatch(setSelectedFavorites(_)));
+      storage.getList('selectedRestaurants').then(_ => store.setSelectedRestaurants(_));
+      storage.getList('selectedFavorites').then(_ => store.setSelectedFavorites(_));
 
       // get areas
-      store.dispatch(getAreas());
+      store.getAreas();
 
       // update restaurants if selected restaurants have changed
-      let previousSelected;
-      store.subscribe(() => {
-         const selected = store.getState().selectedRestaurants;
-         if (selected !== previousSelected) {
-            HttpCache.reset('menus');
-            previousSelected = selected;
-            store.dispatch(getRestaurants(selected));
-         }
+      store.subscribe('selectedRestaurants', state => {
+         HttpCache.reset('menus');
+         if (state.selectedRestaurants)
+            store.getRestaurants(state.selectedRestaurants);
       });
 
       this.refresh();
@@ -57,8 +52,8 @@ export default class Main extends React.Component {
       this.updateInterval = undefined;
    }
    refresh() {
-      store.dispatch({type: 'UPDATE_NOW'});
-      store.dispatch(updateLocation());
+      store.updateNow();
+      store.updateLocation();
    }
    render() {
       return (

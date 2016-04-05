@@ -3,7 +3,7 @@
 import React from 'react-native';
 import moment from 'moment';
 import momentFI from 'moment/locale/fi';
-import {connect} from 'react-redux';
+import {connect} from 'redux-nimble';
 import {colors, defaultStyles} from '../../../style';
 
 import Restaurant from './Restaurant';
@@ -23,23 +23,26 @@ class Day extends Component {
       super();
       this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
       moment.locale('fi');
-      this.state = {};
-   }
-   componentWillMount() {
-      this.setState({menu: this.props.menu});
+      this.state = {menu: {}};
    }
    shouldComponentUpdate(props) {
       if (props.currentView === 'RUOKALISTA')
-         return !this.props.date.isSame(props.date, 'day') || this.state.menu !== props.menu || !props.now.isSame(this.props.date, 'minute');
+         return !this.props.date.isSame(props.date, 'day') || this.state.menus !== props.menus || !props.now.isSame(this.props.date, 'minute');
 
       return false;
    }
+   componentWillMount() {
+      this.setState({menu: this.getMenu(this.props)});
+   }
    componentWillReceiveProps(props) {
-      if (props.currentView === 'RUOKALISTA') {
+      if (props.currentView === 'RUOKALISTA' && props.menus) {
          InteractionManager.runAfterInteractions(() => {
-            this.setState({menu: props.menu});
+            this.setState({menu: this.getMenu(props)});
          });
       }
+   }
+   getMenu(props) {
+      return props.menus.find(m => m.date.isSame(props.date, 'day'));
    }
    render() {
       const {date} = this.props;
@@ -86,10 +89,4 @@ const styles = StyleSheet.create({
    }
 });
 
-export default connect(
-   (state, props) => ({
-      currentView: state.currentView,
-      now: state.now,
-      menu: state.menus.find(m => m.date.isSame(props.date, 'day'))
-   })
-)(Day);
+export default connect(['currentView', 'now', 'menus'])(Day);

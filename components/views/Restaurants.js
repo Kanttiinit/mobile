@@ -2,10 +2,9 @@
 
 import React from 'react-native';
 import Loader from '../Loader';
-import {connect} from 'react-redux';
+import {connect} from 'redux-nimble';
 
 import Area from './Restaurants/Area';
-import {getAreas, showModal} from '../../store/actions';
 import {colors} from '../../style';
 import Button from '../Button';
 import ContactForm from '../ContactForm';
@@ -53,12 +52,4 @@ const styles = StyleSheet.create({
    }
 });
 
-export default connect(
-   state => ({
-      areas: state.areas
-   }),
-   dispatch => ({
-      getAreas: () => dispatch(getAreas()),
-      showModal: _ => dispatch(showModal(_))
-   })
-)(Restaurants);
+export default connect(['areas'], ['getAreas', 'showModal'])(Restaurants);

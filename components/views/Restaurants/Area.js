@@ -2,10 +2,9 @@
 
 import React from 'react-native';
 import Checkbox from '../../Checkbox';
-import {connect} from 'react-redux';
+import {connect} from 'redux-nimble';
 
 import Restaurant from './Restaurant';
-import {updateSelectedRestaurants} from '../../../store/actions';
 import {colors, defaultStyles} from '../../../style';
 
 const {
@@ -90,11 +89,4 @@ const styles = StyleSheet.create({
    }
 });
 
-export default connect(
-   state => ({
-      selectedRestaurants: state.selectedRestaurants
-   }),
-   dispatch => ({
-      updateSelectedRestaurants: (restaurants, areSelected) => dispatch(updateSelectedRestaurants(restaurants, areSelected))
-   })
-)(Area);
+export default connect(['selectedRestaurants'], ['updateSelectedRestaurants'])(Area);

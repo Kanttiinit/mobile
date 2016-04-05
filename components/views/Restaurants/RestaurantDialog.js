@@ -10,9 +10,8 @@ import haversine from 'haversine';
 import {Restaurant} from '../Menu/Restaurant';
 import Button from '../../Button';
 import {colors} from '../../../style';
-import {dismissModal} from '../../../store/actions';
 
-import {connect} from 'react-redux';
+import {connect} from 'redux-nimble';
 
 const {
    Platform,
@@ -186,14 +185,7 @@ class RestaurantDialog extends React.Component {
    }
 }
 
-export default connect(
-   state => ({
-      location: state.location
-   }),
-   dispatch => ({
-      dismissModal: () => dispatch(dismissModal())
-   })
-)(RestaurantDialog);
+export default connect(['location'], ['dismissModal'])(RestaurantDialog);
 
 const styles = StyleSheet.create({
    container: {

@@ -1,8 +1,7 @@
 import moment from 'moment';
 import haversine from 'haversine';
 
-export default function getMenus(state) {
-   const {days, restaurants, now, favorites, location} = state;
+export default function getMenus(days, restaurants, now, favorites, location) {
    if (days && restaurants && now && favorites) {
       // iterate through all days
       return days.map(day => {

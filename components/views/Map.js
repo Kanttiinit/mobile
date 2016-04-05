@@ -2,7 +2,7 @@
 
 import React from 'react-native';
 import MapView from 'react-native-maps';
-import {connect} from 'react-redux';
+import {connect} from 'redux-nimble';
 import geolib from 'geolib';
 
 import {colors} from '../../style';
@@ -22,7 +22,7 @@ class Map extends React.Component {
 
 	}
 	render() {
-		const {restaurants} = this.props;
+		const {areas} = this.props;
 		console.log("ASDASD", restaurants);
 		return (
 			<View
@@ -30,7 +30,8 @@ class Map extends React.Component {
 				<MapView
 				style={styles.mapView}
 				showsUserLocation={true}>
-				{ restaurants ? restaurants.map((restaurant, i) =>
+				{ areas ? [].concat.apply(this, areas.map(area => area.Restaurants))
+					.map((restaurant, i) =>
 					<MapView.Marker
 					key={i}
 					title={restaurant.name}
@@ -69,10 +70,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default connect(
-	state => ({
-		restaurants: state.areas ? [].concat.apply(this, state.areas.map(area => area.Restaurants)) : undefined
-	}),
-	dispatch => ({
-	})
-)(Map);
+export default connect(['areas'])(Map);

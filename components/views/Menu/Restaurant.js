@@ -3,14 +3,13 @@
 import React from 'react-native';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {connect} from 'react-redux';
+import {connect} from 'redux-nimble';
 
 import Course from './Course';
 import {colors, defaultStyles} from '../../../style';
 
 import Button from '../../Button';
 import RestaurantDialog from '../Restaurants/RestaurantDialog';
-import {showModal} from '../../../store/actions';
 
 const {
    View,
@@ -72,7 +71,7 @@ export class Restaurant extends React.Component {
          <View style={defaultStyles.card}>
 
             <Button
-               onPress={() => showModal(<RestaurantDialog restaurant={restaurant} />)}
+               onPress={() => showModal(<RestaurantDialog restaurant={restaurant} />, {padding: 0})}
                style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}
                containerStyle={styles.header}>
                <View style={{flex: 1}}>
@@ -117,14 +116,7 @@ export class Restaurant extends React.Component {
    }
 }
 
-export default connect(
-   state => ({
-      now: state.now
-   }),
-   dispatch => ({
-      showModal: c => dispatch(showModal(c, {padding: 0}))
-   })
-)(Restaurant);
+export default connect(['now'], ['showModal'])(Restaurant);
 
 const styles = StyleSheet.create({
    header: {

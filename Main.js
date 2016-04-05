@@ -14,10 +14,9 @@ const {AppState} = React;
 
 export default class Main extends React.Component {
    componentDidMount() {
-      codePush.sync();
-      
       AppState.addEventListener('change', currentAppState => {
          if (currentAppState === 'active') {
+            codePush.sync({installMode: codePush.InstallMode.ON_NEXT_RESUME});
             this.refresh();
             this.startAutoUpdate();
          } else if (currentAppState === 'background' && this.updateInterval) {

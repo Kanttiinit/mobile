@@ -61,7 +61,7 @@ class Router extends React.Component {
    }
    render() {
       const {views, currentView, modal} = this.props;
-      
+
       return (
          <View style={styles.wrapper}>
             {Platform.OS === 'ios' ? <View style={{height:20, backgroundColor:colors.accent}}></View> : null}
@@ -70,7 +70,7 @@ class Router extends React.Component {
                style={{flex: 1}}
                initialRoute={views[0]}
                initialRouteStack={views}
-               renderScene={route=> React.createElement(route.component)} />
+               renderScene={route => React.createElement(route.component)} />
             <View style={styles.tabBar}>
                {views.map(v =>
                   <TabButton

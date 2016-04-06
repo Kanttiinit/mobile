@@ -15,13 +15,19 @@ const {
 
 class Favorite extends React.Component {
    shouldComponentUpdate(props) {
-      return props.favorite.name !== this.props.favorite.name || props.selected !== this.props.selected;
+      return props.favorite.name !== this.props.favorite.name
+         || props.favorite.selected !== this.props.favorite.selected;
    }
    render() {
-      const {favorite, selected, addFavorite, removeFavorite} = this.props;
+      const {favorite, addFavorite, removeFavorite} = this.props;
       return (
-         <Button style={styles.favorite} onPress={() => selected ? removeFavorite(favorite.id) : addFavorite(favorite.id)}>
-            <Icon style={styles.heartIcon} color={selected ? '#fc5151' : '#999'} name={'android-favorite' + (selected ? '' : '-outline')} />
+         <Button
+            style={styles.favorite}
+            onPress={() => favorite.selected ? removeFavorite(favorite.id) : addFavorite(favorite.id)}>
+            <Icon
+               style={styles.heartIcon}
+               color={favorite.selected ? '#fc5151' : '#999'}
+               name={'android-favorite' + (favorite.selected ? '' : '-outline')} />
             <Text style={styles.foodTitle}>{favorite.name}</Text>
          </Button>
       );

@@ -23,7 +23,7 @@ class Map extends React.Component {
 	}
 	render() {
 		const {areas} = this.props;
-		console.log("ASDASD", restaurants);
+		
 		return (
 			<View
 				style={styles.container}>

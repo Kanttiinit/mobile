@@ -43,7 +43,7 @@ class TabButton extends React.Component {
 const views = [
    { title: 'RUOKALISTA', icon: 'android-restaurant', component: Menu },
    { title: 'SUOSIKIT', icon: 'android-favorite', component: Favorites },
-   //{ title: 'KARTTA', icon: 'android-pin', component: Map},
+   { title: 'KARTTA', icon: 'android-pin', component: Map},
    { title: 'RAVINTOLAT', icon: 'ios-list', component: Restaurants }
 ];
 

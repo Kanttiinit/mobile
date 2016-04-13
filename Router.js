@@ -8,6 +8,11 @@ import {connect} from 'redux-nimble';
 import Button from './components/Button';
 import {colors} from './style';
 
+import Menu from './components/views/Menu';
+import Favorites from './components/views/Favorites';
+import Restaurants from './components/views/Restaurants';
+import Map from './components/views/Map';
+
 const {
    StyleSheet,
    Text,
@@ -35,6 +40,13 @@ class TabButton extends React.Component {
    }
 }
 
+const views = [
+   { title: 'RUOKALISTA', icon: 'android-restaurant', component: Menu },
+   { title: 'SUOSIKIT', icon: 'android-favorite', component: Favorites },
+   //{ title: 'KARTTA', icon: 'android-pin', component: Map},
+   { title: 'RAVINTOLAT', icon: 'ios-list', component: Restaurants }
+];
+
 class Router extends React.Component {
    constructor() {
       super();
@@ -60,7 +72,7 @@ class Router extends React.Component {
       });
    }
    render() {
-      const {views, currentView, modal} = this.props;
+      const {currentView, modal} = this.props;
 
       return (
          <View style={styles.wrapper}>

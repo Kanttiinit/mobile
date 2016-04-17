@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'redux-nimble';
@@ -18,12 +16,20 @@ class Favorite extends React.Component {
       return props.favorite.name !== this.props.favorite.name
          || props.favorite.selected !== this.props.favorite.selected;
    }
+   toggle() {
+      const {favorite, addFavorite, removeFavorite} = this.props;
+
+      if (favorite.selected)
+         removeFavorite(favorite.id);
+      else
+         addFavorite(favorite.id);
+   }
    render() {
       const {favorite, addFavorite, removeFavorite} = this.props;
       return (
          <Button
             style={styles.favorite}
-            onPress={() => favorite.selected ? removeFavorite(favorite.id) : addFavorite(favorite.id)}>
+            onPress={this.toggle.bind(this)}>
             <Icon
                style={styles.heartIcon}
                color={favorite.selected ? '#fc5151' : '#999'}

@@ -11,7 +11,7 @@ import Button from '../Button';
 const {
    View,
    Text,
-   ListView,
+   ScrollView,
    StyleSheet,
    LayoutAnimation,
    UIManager
@@ -21,13 +21,6 @@ UIManager.setLayoutAnimationEnabledExperimental
    && UIManager.setLayoutAnimationEnabledExperimental(true);
 
 class Favorites extends React.Component {
-   constructor() {
-      super();
-      this.dataSource = new ListView.DataSource({
-         rowHasChanged: (r1, r2) => r1 !== r2
-      });
-      this.state = {};
-   }
    componentDidMount() {
       this.props.getFavorites();
    }
@@ -36,14 +29,14 @@ class Favorites extends React.Component {
    }
    render() {
       const {favorites} = this.props;
-
       return (
          <View style={styles.container}>
             {favorites ?
-            <ListView
-               style={styles.favoriteList}
-               dataSource={this.dataSource.cloneWithRows(favorites)}
-               renderRow={favorite => <Favorite favorite={favorite} />} />
+            <ScrollView
+               style={styles.favoriteList}>
+               {favorites.map(favorite =>
+                  <Favorite key={favorite.id} favorite={favorite} />)}
+            </ScrollView>
             : <Loader color={colors.accent} />}
          </View>
       );

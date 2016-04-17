@@ -26,8 +26,11 @@ class Day extends Component {
       this.state = {menu: {}};
    }
    shouldComponentUpdate(props) {
-      if (props.currentView === 'RUOKALISTA')
-         return !this.props.date.isSame(props.date, 'day') || this.state.menus !== props.menus || !props.now.isSame(this.props.date, 'minute');
+      if (props.currentView === 'RUOKALISTA') {
+         return !this.props.date.isSame(props.date, 'day')
+            || this.props.menus !== props.menus
+            || !props.now.isSame(this.props.date, 'minute');
+      }
 
       return false;
    }
@@ -53,7 +56,7 @@ class Day extends Component {
             <View style={[defaultStyles.card, styles.daySelector]}>
                <Text style={styles.dayTitle}>
                   {date.format('dddd').toUpperCase()}
-                  <Text style={styles.date}> {date.format('DD.MM.')}</Text>
+                  <Text style={styles.date}> {date.format('D.M.')}</Text>
                </Text>
             </View>
             <ListView
@@ -74,10 +77,11 @@ const styles = StyleSheet.create({
       paddingVertical: 10,
       alignItems: 'center',
       backgroundColor: colors.accent,
-      marginBottom: 0
+      marginBottom: 0,
+      height: 50,
    },
    dayTitle: {
-      fontSize: 18,
+      fontSize: 20,
       fontWeight: '300',
       flexDirection: 'row',
       textAlign: 'center',

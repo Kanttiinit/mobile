@@ -19,7 +19,7 @@ const ArrowButton = props => (
       onPress={() => props.onPress()}
       pointerEvents={props.visible ? 'auto' : 'none'}
       style={[styles.arrowButton, props.style, !props.visible && {opacity: 0}]}>
-      <Icon name={props.icon} color={colors.lightGrey} />
+      <Icon size={16} name={props.icon} color={colors.lightGrey} />
    </Button>
 );
 
@@ -52,7 +52,7 @@ export default class DaySelector extends React.Component {
                end={[1, 0]}
                locations={[0.5, 1]}
                colors={[background, transparentBackground]}
-               style={[styles.buttonContainer, {left: 0, paddingHorizontal: 14}]}>
+               style={[styles.buttonContainer, {left: 0, paddingHorizontal: 18}]}>
                <ArrowButton
                   onPress={this.change.bind(this, -1)}
                   icon="chevron-left"
@@ -64,7 +64,7 @@ export default class DaySelector extends React.Component {
                end={[1, 0]}
                locations={[0, 0.5]}
                colors={[transparentBackground, background]}
-               style={[styles.buttonContainer, {right: 0, paddingHorizontal: 14}]}>
+               style={[styles.buttonContainer, {right: 0, paddingHorizontal: 18}]}>
                <ArrowButton
                   onPress={this.change.bind(this, 1)}
                   icon="chevron-right"
@@ -85,18 +85,19 @@ const styles = StyleSheet.create({
       backgroundColor: 'transparent',
       flexDirection: 'row',
       flex: 1,
-      height: 40
+      height: 50
    },
    buttonContainer: {
       position: 'absolute',
       top: 0,
       bottom: 0,
       paddingTop: 6,
-      height: 40
+      height: 50
    },
    arrowButton: {
-      width: 32,
-      height: 32,
+      width: 38,
+      height: 38,
+      opacity: 0.9,
       justifyContent: 'center',
       alignItems: 'center'
    }

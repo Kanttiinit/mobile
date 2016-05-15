@@ -1,9 +1,11 @@
 import HttpCache from './HttpCache';
 import storage from './storage';
 
+const API_BASE = 'https://api.kanttiinit.fi/';
+
 export default {
    getAreas() {
-      return HttpCache.get('areas', 'https://api.kanttiinit.fi/areas', {days: '1'})
+      return HttpCache.get('areas', API_BASE + 'areas', {days: '1'})
       .then(areas => this.setAreas(areas));
    },
    updateSelectedRestaurants(restaurants, areSelected) {
@@ -19,7 +21,7 @@ export default {
       });
    },
    getFavorites() {
-      return HttpCache.get('favorites', 'https://api.kanttiinit.fi/favorites', {hours: 1})
+      return HttpCache.get('favorites', API_BASE + 'favorites', {hours: 1})
       .then(favorites => this.setFavorites(favorites));
    },
    addFavorite(id) {
@@ -51,7 +53,7 @@ export default {
    },
    getRestaurants(selectedRestaurants) {
       if (selectedRestaurants.length) {
-         return HttpCache.get('menus', 'https://api.kanttiinit.fi/menus/' + selectedRestaurants.sort().join(','), {hours: 3})
+         return HttpCache.get('menus', API_BASE + 'menus/' + selectedRestaurants.sort().join(','), {hours: 3})
          .then(restaurants => this.setRestaurants(restaurants));
       }
 

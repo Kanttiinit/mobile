@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react-native';
 import {Provider} from 'redux-nimble';
 import Router from './Router';
@@ -11,7 +9,7 @@ import storage from './store/storage';
 
 const {AppState} = React;
 
-export default class Main extends React.Component {
+class Main extends React.Component {
    componentWillMount() {
       AppState.addEventListener('change', currentAppState => {
          if (currentAppState === 'active') {
@@ -64,4 +62,4 @@ export default class Main extends React.Component {
    };
 }
 
-export default Main;
+React.AppRegistry.registerComponent('kanttiinit', () => Main);

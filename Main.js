@@ -1,5 +1,5 @@
 import React from 'react-native';
-import {Provider} from 'redux-nimble';
+import {Provider} from 'react-redux';
 import Router from './Router';
 import codePush from 'react-native-code-push';
 
@@ -11,6 +11,7 @@ const {AppState} = React;
 
 class Main extends React.Component {
    componentWillMount() {
+      return;
       AppState.addEventListener('change', currentAppState => {
          if (currentAppState === 'active') {
             codePush.sync({installMode: codePush.InstallMode.ON_NEXT_RESUME});

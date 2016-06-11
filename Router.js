@@ -3,15 +3,15 @@
 import React from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-simple-modal';
-import {connect} from 'redux-nimble';
+import {connect} from 'react-redux';
 
 import Button from './components/Button';
 import {colors} from './style';
 
-import Menu from './components/views/Menu';
+// import Menu from './components/views/Menu';
 import Favorites from './components/views/Favorites';
-import Restaurants from './components/views/Restaurants';
-import Map from './components/views/Map';
+// import Restaurants from './components/views/Restaurants';
+// import Map from './components/views/Map';
 
 const {
    StyleSheet,
@@ -41,10 +41,10 @@ class TabButton extends React.Component {
 }
 
 const views = [
-   { title: 'RUOKALISTA', icon: 'android-restaurant', component: Menu },
+   //{ title: 'RUOKALISTA', icon: 'android-restaurant', component: Menu },
    { title: 'SUOSIKIT', icon: 'android-favorite', component: Favorites },
-   { title: 'KARTTA', icon: 'android-pin', component: Map},
-   { title: 'RAVINTOLAT', icon: 'ios-list', component: Restaurants }
+   //{ title: 'KARTTA', icon: 'android-pin', component: Map},
+   //{ title: 'RAVINTOLAT', icon: 'ios-list', component: Restaurants }
 ];
 
 class Router extends React.Component {
@@ -85,12 +85,12 @@ class Router extends React.Component {
                renderScene={route => React.createElement(route.component)} />
             <View style={styles.tabBar}>
                {views.map(v =>
-                  <TabButton
-                     current={currentView === v.title}
-                     changeScene={this.changeScene.bind(this)}
-                     icon={v.icon}
-                     key={v.title}
-                     data={v} />
+               <TabButton
+                  current={currentView === v.title}
+                  changeScene={this.changeScene.bind(this)}
+                  icon={v.icon}
+                  key={v.title}
+                  data={v} />
                )}
             </View>
             <Modal
@@ -125,4 +125,15 @@ const styles = StyleSheet.create({
    }
 });
 
-export default connect(['currentView', 'views', 'modal'], ['changeView', 'dismissModal'])(Router);
+const mapState = state => ({
+   currentView: state.currentView,
+   views: state.views,
+   modal: state.modal
+});
+
+const mapDispatch = dispatch => ({
+   changeView: title => dispatch(),
+   dismissModal: () => dispatch()
+});
+
+export default connect(mapState, mapDispatch)(Router);

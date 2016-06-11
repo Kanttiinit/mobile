@@ -20,28 +20,6 @@ export default {
          return storage.setList('selectedRestaurants', selected);
       });
    },
-   getFavorites() {
-      return HttpCache.get('favorites', API_BASE + 'favorites', {hours: 1})
-      .then(favorites => this.setFavorites(favorites));
-   },
-   addFavorite(id) {
-      return storage.getList('selectedFavorites')
-      .then(selectedFavorites => {
-         if (!selectedFavorites.some(f => f === id)) {
-            selectedFavorites.push(id);
-            this.setSelectedFavorites(selectedFavorites);
-            return storage.setList('selectedFavorites', selectedFavorites);
-         }
-      });
-   },
-   removeFavorite(id) {
-      return storage.getList('selectedFavorites')
-      .then(selectedFavorites => {
-         const favorites = selectedFavorites.filter(x => x !== id);
-         this.setSelectedFavorites(favorites);
-         return storage.setList('selectedFavorites', favorites);
-      });
-   },
    updateLocation() {
       return new Promise((resolve, reject) => {
          navigator.geolocation.getCurrentPosition(

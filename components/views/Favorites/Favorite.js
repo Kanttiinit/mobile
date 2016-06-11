@@ -1,6 +1,9 @@
 import React from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {connect} from 'redux-nimble';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+
+import * as actions from '../../../store/actions/favorites';
 
 import Button from '../../Button';
 
@@ -40,7 +43,9 @@ class Favorite extends React.Component {
    }
 }
 
-export default connect(undefined, ['addFavorite', 'removeFavorite'])(Favorite);
+const mapDispatchToProps = bindActionCreators(actions);
+
+export default connect(undefined, bindActionCreators)(Favorite);
 
 const styles = StyleSheet.create({
    favorite: {

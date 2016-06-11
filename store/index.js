@@ -1,16 +1,19 @@
-import Store from 'redux-nimble';
+import {createStore, combineReducers, applyMiddleware} from 'redux';
+import thunk from 'redux-thunk';
+import promiseMiddleware from 'redux-promise-middleware';
 
-import actions from './actions';
-import reducers from './reducers';
+import favorites from './reducers/favorites';
+import modal from './reducers/modal';
 
-const defaultState = {
-   currentView: 'RUOKALISTA',
-   modal: {
-      visible: false,
-      component: undefined,
-      style: undefined
-   },
-   selectedFavorites: []
-};
+const reducer = combineReducers({
+   favorites,
+   modal,
+   currentView(state, action) {
+      if (action.type === 'SET_CURRENT_VIEW') {
+         return action.payload;
+      }
+      return 'SUOSIKIT';
+   }
+});
 
-export default new Store(reducers, actions, defaultState);
+export default createStore(reducer, applyMiddleware(thunk, promiseMiddleware()));

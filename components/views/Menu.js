@@ -76,6 +76,5 @@ const styles = StyleSheet.create({
 });
 
 export default connect(
-   ['areas', 'restaurants', 'days', 'viewChanges', 'currentView'],
-   ['getRestaurants']
+   ['areas', 'restaurants', 'days', 'viewChanges', 'currentView']
 )(Menu);

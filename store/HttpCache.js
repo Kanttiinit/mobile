@@ -1,6 +1,7 @@
-'use strict';
 import moment from 'moment';
 import {AsyncStorage} from 'react-native';
+
+const API_BASE = 'https://api.kanttiinit.fi/';
 
 export default {
 	get(key, url, maxAge) {
@@ -15,7 +16,7 @@ export default {
 			}
 			console.log('cache miss', url);
 			let r;
-			return fetch(url)
+			return fetch(API_BASE + url)
 			.then(r => r.json())
 			.then(json => {
 				r = json;

@@ -2,47 +2,13 @@ import moment from 'moment';
 
 import formatMenus from './menu-formatter';
 
-function getFormattedFavorites(favorites, selectedFavorites) {
-   if (favorites)
-      return favorites.map(f => ({
-            ...f,
-            selected: selectedFavorites.some(x => x === f.id)
-         }))
-         .sort((a, b) => {
-            if (a.selected && !b.selected)
-               return -1;
-            else if (!a.selected && b.selected)
-               return 1;
 
-            return a.name > b.name ? 1 : -1;
-         });
-
-   return [];
-};
 
 export default {
    changeView(state, currentView) {
       return {
          currentView,
          viewChanges: (state.viewChanges || 0) + 1
-      };
-   },
-   showModal(state, component, style) {
-      return {
-         modal: {
-            visible: true,
-            component,
-            style
-         }
-      };
-   },
-   dismissModal(state) {
-      return {
-         modal: {
-            visible: false,
-            component: undefined,
-            style: state.modal.style
-         }
       };
    },
    setSelectedRestaurants(state, selectedRestaurants) {

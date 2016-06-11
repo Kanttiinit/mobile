@@ -1,8 +1,9 @@
 import React from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Loader from '../Loader';
-import {connect} from 'redux-nimble';
+import {connect} from 'react-redux';
 
+import {fetchFavorites} from '../../store/actions/favorites';
 import {colors} from '../../style';
 
 import Favorite from './Favorites/Favorite';
@@ -22,7 +23,7 @@ UIManager.setLayoutAnimationEnabledExperimental
 
 class Favorites extends React.Component {
    componentDidMount() {
-      this.props.getFavorites();
+      this.props.fetchFavorites();
    }
    componentWillReceiveProps() {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -53,4 +54,12 @@ const styles = StyleSheet.create({
    }
 });
 
-export default connect(['favorites'], ['getFavorites'])(Favorites);
+const mapState = state => ({
+   favorites: state.favorites.favorites
+});
+
+const mapDispatch = dispatch => ({
+   fetchFavorites: () => dispatch(fetchFavorites())
+});
+
+export default connect(mapState, mapDispatch)(Favorites);

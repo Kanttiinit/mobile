@@ -1,15 +1,13 @@
-'use strict';
+import React from 'react';
 
-import React from 'react-native';
-
-const {
+import {
    Component,
    Dimensions,
    Platform,
    ScrollView,
    View,
    ViewPagerAndroid
-} = React;
+} from 'react-native';
 
 class Swiper extends Component {
    constructor() {

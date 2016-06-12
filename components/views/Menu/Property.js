@@ -1,10 +1,10 @@
-import React from 'react-native';
+import React from 'react';
 
-const {
+import {
    View,
    Text,
    Component
-} = React;
+} from 'react-native';
 
 class Property extends Component {
    shouldComponentUpdate() {

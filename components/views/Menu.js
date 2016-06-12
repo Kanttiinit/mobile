@@ -1,6 +1,4 @@
-'use strict';
-
-import React from 'react-native';
+import React from 'react';
 import moment from 'moment';
 import Swiper from '../Swiper';
 import Loader from '../Loader';
@@ -12,13 +10,13 @@ import DaySelector from './Menu/DaySelector';
 import AreaSelector from './Menu/AreaSelector';
 import {colors} from '../../style';
 
-const {
+import {
    View,
    StyleSheet,
    AppState,
    DeviceEventEmitter,
    Text
-} = React;
+} from 'react-native';
 
 class Menu extends React.Component {
    constructor() {

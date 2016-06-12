@@ -1,6 +1,4 @@
-'use strict';
-
-import React from 'react-native';
+import React from 'react';
 import Checkbox from '../../Checkbox';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -10,12 +8,12 @@ import * as actions from '../../../store/actions/restaurants';
 import Restaurant from './Restaurant';
 import {colors, defaultStyles} from '../../../style';
 
-const {
+import {
    Text,
    View,
    StyleSheet,
    Platform
-} = React;
+} from 'react-native';
 
 class Area extends React.Component {
    constructor() {

@@ -1,6 +1,4 @@
-'use strict';
-
-import React from 'react-native';
+import React from 'react';
 import MapView from 'react-native-maps';
 import geolib from 'geolib';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -13,7 +11,7 @@ import Button from '../../Button';
 import {colors} from '../../../style';
 import {dismissModal} from '../../../store/actions/modal';
 
-const {
+import {
    Platform,
    Linking,
    Image,
@@ -21,7 +19,7 @@ const {
    Text,
    TouchableWithoutFeedback,
    StyleSheet
-} = React;
+} from 'react-native';
 
 const dayNumberToDayOfWeek = n => moment().day(n + 1).format('ddd').toUpperCase();
 

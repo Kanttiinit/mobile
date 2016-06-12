@@ -1,16 +1,14 @@
-'use strict';
-
-import React from 'react-native';
+import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import {colors} from '../style';
 import Button from './Button';
 
-const {
+import {
    Animated,
    View,
    Platform
-} = React;
+} from 'react-native';
 
 export default class Checkbox extends React.Component {
    constructor() {

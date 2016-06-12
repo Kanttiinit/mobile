@@ -1,4 +1,4 @@
-import React from 'react-native';
+import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -7,12 +7,12 @@ import * as actions from '../../../store/actions/favorites';
 
 import Button from '../../Button';
 
-const {
+import {
    View,
    Text,
    StyleSheet,
    Platform
-} = React;
+} from 'react-native';
 
 class Favorite extends React.Component {
    shouldComponentUpdate(props) {

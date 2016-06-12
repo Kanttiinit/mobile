@@ -1,14 +1,12 @@
-'use strict';
+import React from 'react';
 
-import React from 'react-native';
-
-const {
+import {
    View,
    Platform,
    TouchableOpacity,
    TouchableNativeFeedback,
    TouchableHighlight
-} = React;
+} from 'react-native';
 
 export default class Button extends React.Component {
    renderChildren() {

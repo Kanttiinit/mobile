@@ -1,4 +1,4 @@
-import React from 'react-native';
+import React from 'react';
 import {Provider} from 'react-redux';
 import Router from './Router';
 import codePush from 'react-native-code-push';
@@ -12,7 +12,7 @@ import {updateSelectedRestaurants, fetchRestaurants} from './store/actions/resta
 import {fetchAreas} from './store/actions/areas';
 import {updateNow, updateLocation} from './store/actions/misc';
 
-const {AppState} = React;
+import {AppState} from 'react-native';
 
 class Main extends React.Component {
    componentWillMount() {

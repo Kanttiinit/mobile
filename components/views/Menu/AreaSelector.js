@@ -1,15 +1,13 @@
-'use strict';
-
-import React from 'react-native';
+import React from 'react';
 import {connect} from 'redux-nimble';
 
 import Button from '../../Button';
 import {colors} from '../../../style';
 
-const {
+import {
    View,
    Text
-} = React;
+} from 'react-native';
 
 class AreaSelector extends React.Component {
    render() {

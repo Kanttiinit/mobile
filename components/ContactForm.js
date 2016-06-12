@@ -1,14 +1,14 @@
-import React from 'react-native';
+import React from 'react';
 import Button from './Button';
 
 import {colors} from '../style';
 
-const {
+import {
    View,
    Text,
    TextInput,
    StyleSheet
-} = React;
+} from 'react-native';
 
 export default class ContactForm extends React.Component {
    constructor() {

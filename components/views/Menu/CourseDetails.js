@@ -1,4 +1,4 @@
-import React from 'react-native';
+import React from 'react';
 import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -8,13 +8,13 @@ import {colors} from '../../../style';
 import {dismissModal} from '../../../store/actions/modal';
 import {addFavorite, removeFavorite} from '../../../store/actions/favorites';
 
-const {
+import {
    View,
    Text,
    Component,
    StyleSheet,
    TouchableOpacity
-} = React;
+} from 'react-native';
 
 class CourseDetails extends Component {
    getFavorites() {

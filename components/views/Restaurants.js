@@ -1,6 +1,4 @@
-'use strict';
-
-import React from 'react-native';
+import React from 'react';
 import Loader from '../Loader';
 import {connect} from 'react-redux';
 
@@ -12,13 +10,13 @@ import {colors} from '../../style';
 import Button from '../Button';
 import ContactForm from '../ContactForm';
 
-const {
+import {
    ListView,
    View,
    Text,
    StyleSheet,
    Platform
-} = React;
+} from 'react-native';
 
 class Restaurants extends React.Component {
    constructor() {

@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react-native';
+import React from 'react';
 import moment from 'moment';
 import momentFI from 'moment/locale/fi';
 import {connect} from 'redux-nimble';
@@ -8,7 +8,7 @@ import {colors, defaultStyles} from '../../../style';
 
 import Restaurant from './Restaurant';
 
-const {
+import {
    View,
    Text,
    ListView,
@@ -16,7 +16,7 @@ const {
    Platform,
    StyleSheet,
    InteractionManager
-} = React;
+} from 'react-native';
 
 class Day extends Component {
    constructor() {

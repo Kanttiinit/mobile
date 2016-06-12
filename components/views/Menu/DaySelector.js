@@ -1,6 +1,4 @@
-'use strict';
-
-import React from 'react-native';
+import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
@@ -8,11 +6,11 @@ import {colors} from '../../../style';
 
 import Button from '../../Button';
 
-const {
+import {
    View,
    StyleSheet,
    Text
-} = React;
+} from 'react-native';
 
 const ArrowButton = props => (
    <Button

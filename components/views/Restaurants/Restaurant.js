@@ -1,6 +1,4 @@
-'use strict';
-
-import React from 'react-native';
+import React from 'react';
 import {connect} from 'react-redux';
 
 import {openModal} from '../../../store/actions/modal';
@@ -9,11 +7,10 @@ import RestaurantDialog from './RestaurantDialog';
 import Checkbox from '../../Checkbox';
 import Button from '../../Button';
 
-
-const {
+import {
    View,
    Text
-} = React;
+} from 'react-native';
 
 class Restaurant extends React.Component {
    shouldComponentUpdate(props) {

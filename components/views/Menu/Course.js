@@ -1,4 +1,4 @@
-import React from 'react-native';
+import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import {openModal} from '../../../store/actions/modal';
@@ -8,12 +8,12 @@ import Property from './Property';
 import Button from '../../Button';
 import {colors} from '../../../style';
 
-const {
+import {
    View,
    Text,
    StyleSheet,
    Platform
-} = React;
+} from 'react-native';
 
 class Course extends React.Component {
    shouldComponentUpdate(props) {

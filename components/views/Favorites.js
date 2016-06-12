@@ -1,4 +1,4 @@
-import React from 'react-native';
+import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Loader from '../Loader';
 import {connect} from 'react-redux';
@@ -9,14 +9,14 @@ import {colors} from '../../style';
 import Favorite from './Favorites/Favorite';
 import Button from '../Button';
 
-const {
+import {
    View,
    Text,
    ScrollView,
    StyleSheet,
    LayoutAnimation,
    UIManager
-} = React;
+} from 'react-native';
 
 UIManager.setLayoutAnimationEnabledExperimental
    && UIManager.setLayoutAnimationEnabledExperimental(true);

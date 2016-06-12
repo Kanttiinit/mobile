@@ -1,17 +1,15 @@
-'use strict';
-
-import React from 'react-native';
+import React from 'react';
 import MapView from 'react-native-maps';
 import {connect} from 'redux-nimble';
 import geolib from 'geolib';
 
 import {colors} from '../../style';
 
-const {
+import {
 	View,
 	Text,
 	StyleSheet,
-} = React;
+} from 'react-native';
 
 class Map extends React.Component {
 	constructor() {
@@ -23,7 +21,7 @@ class Map extends React.Component {
 	}
 	render() {
 		const {areas} = this.props;
-		
+
 		return (
 			<View
 				style={styles.container}>

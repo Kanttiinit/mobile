@@ -1,6 +1,4 @@
-'use strict';
-
-import React from 'react-native';
+import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-simple-modal';
 import {connect} from 'react-redux';
@@ -13,7 +11,7 @@ import Favorites from './components/views/Favorites';
 //import Restaurants from './components/views/Restaurants';
 // import Map from './components/views/Map';
 
-const {
+import {
    StyleSheet,
    Text,
    View,
@@ -21,7 +19,7 @@ const {
    StatusBar,
    Platform,
    DeviceEventEmitter
-} = React;
+} from 'react-native';
 
 class TabButton extends React.Component {
    render() {

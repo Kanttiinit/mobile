@@ -1,12 +1,11 @@
-'use strict';
+import React from 'react';
 
-import React from 'react-native';
-const {
+import {
    View,
    ProgressBarAndroid,
    ActivityIndicatorIOS,
    Platform
-} = React;
+} from 'react-native';
 
 export default class Loader extends React.Component {
    render() {

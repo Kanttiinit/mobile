@@ -1,6 +1,4 @@
-'use strict';
-
-import React from 'react-native';
+import React from 'react';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
@@ -12,13 +10,13 @@ import {colors, defaultStyles} from '../../../style';
 import Button from '../../Button';
 import RestaurantDialog from '../Restaurants/RestaurantDialog';
 
-const {
+import {
    View,
    Text,
    Image,
    StyleSheet,
    Platform
-} = React;
+} from 'react-native';
 
 export class Restaurant extends React.Component {
    formatOpeningHours() {

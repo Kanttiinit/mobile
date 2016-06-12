@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import haversine from 'haversine';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 import {Restaurant} from '../Menu/Restaurant';
 import Button from '../../Button';
@@ -50,7 +51,7 @@ class Marker extends React.Component {
             coordinate={coordinate}>
             <View ref="container" style={{alignItems: 'center', opacity: 0.8, height: 29}}>
                <View style={[styles.markerViewText, {backgroundColor: color || colors.accent}, style]}>{children}</View>
-               <Icon name="android-arrow-dropdown" size={20} style={{marginTop: -8}} color={color || colors.accent} />
+               <Icon name="md-arrow-dropdown" size={20} style={{marginTop: -8}} color={color || colors.accent} />
             </View>
          </MapView.Marker>
       );
@@ -112,7 +113,7 @@ class RestaurantDialog extends React.Component {
                   title="Oma sijainti"
                   color={colors.accentLight}
                   style={{paddingHorizontal: 4}}>
-                  <Icon name="android-person" color="white" size={20}/>
+                  <Icon name="md-person" color="white" size={20}/>
                </Marker>
                : null}
                <Marker
@@ -124,7 +125,7 @@ class RestaurantDialog extends React.Component {
                   title={restaurant.name}
                   description={restaurant.address}
                   style={{paddingHorizontal: 6}}>
-                  <Icon size={20} color="white" name="android-restaurant" />
+                  <Icon size={20} color="white" name="md-restaurant" />
                </Marker>
             </MapView>
 
@@ -157,14 +158,14 @@ class RestaurantDialog extends React.Component {
                   <Button
                      onPress={() => Linking.openURL(restaurant.url)}
                      style={[styles.navButton, {marginRight: 10}]}>
-                     <Icon name="android-home" size={18} color={colors.accentLight} />
+                     <Icon name="md-home" size={18} color={colors.accentLight} />
                      <Text style={{color: colors.accentLight}}>{' '}Kotisivut</Text>
                   </Button>
                   {restaurant.address ?
                   <Button
                      onPress={this.openDirections.bind(this)}
                      style={styles.navButton}>
-                     <Icon name="android-compass" size={18} color={colors.accentLight} />
+                     <Icon name="md-compass" size={18} color={colors.accentLight} />
                      <Text style={{color: colors.accentLight}}>{' '}Reittiohjeet</Text>
                   </Button>
                   : null}
@@ -187,7 +188,7 @@ const mapState = state => ({
    location: state.location
 });
 
-const mapDispatch = dispatch => ({dismissModal});
+const mapDispatch = dispatch => bindActionCreators({dismissModal}, dispatch);
 
 export default connect(mapState, mapDispatch)(RestaurantDialog);
 

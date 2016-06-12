@@ -94,6 +94,6 @@ const mapState = state => ({
    selectedRestaurants: state.restaurants.selected
 });
 
-const mapDispatch = bindActionCreators(actions);
+const mapDispatch = dispatch => bindActionCreators(actions, dispatch);
 
 export default connect(mapState, mapDispatch)(Area);

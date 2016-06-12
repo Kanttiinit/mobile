@@ -51,6 +51,6 @@ const mapState = state => ({
    areas: state.areas
 });
 
-const mapDispatch = bindActionCreators({openModal});
+const mapDispatch = dispatch => bindActionCreators({openModal}, dispatch);
 
 export default connect(mapState, mapDispatch)(Restaurants);

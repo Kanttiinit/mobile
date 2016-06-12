@@ -7,12 +7,12 @@ import {bindActionCreators} from 'redux';
 import Button from './components/Button';
 import {colors} from './style';
 
-import {changeView} from './store/actions/misc';
+import {setCurrentView} from './store/actions/misc';
 import {dismissModal} from './store/actions/modal';
 
 // import Menu from './components/views/Menu';
 import Favorites from './components/views/Favorites';
-//import Restaurants from './components/views/Restaurants';
+import Restaurants from './components/views/Restaurants';
 // import Map from './components/views/Map';
 
 import {
@@ -46,7 +46,7 @@ const views = [
    //{ title: 'RUOKALISTA', icon: 'android-restaurant', component: Menu },
    { title: 'SUOSIKIT', icon: 'md-heart', component: Favorites },
    //{ title: 'KARTTA', icon: 'android-pin', component: Map},
-   //{ title: 'RAVINTOLAT', icon: 'ios-list', component: Restaurants }
+   { title: 'RAVINTOLAT', icon: 'ios-list', component: Restaurants }
 ];
 
 class Router extends React.Component {
@@ -63,7 +63,7 @@ class Router extends React.Component {
       } catch(e) {
          this.refs.navigator.push(data);
       }
-      this.props.changeView(data.title);
+      this.props.setCurrentView(data.title);
    }
    componentDidMount() {
       DeviceEventEmitter.addListener('keyboardDidShow', () => {
@@ -133,6 +133,6 @@ const mapState = state => ({
    modal: state.modal
 });
 
-const mapDispatch = bindActionCreators({dismissModal, changeView});
+const mapDispatch = dispatch => bindActionCreators({dismissModal, setCurrentView}, dispatch);
 
 export default connect(mapState, mapDispatch)(Router);

@@ -8,17 +8,23 @@ import restaurants from './reducers/restaurants';
 import modal from './reducers/modal';
 import areas from './reducers/areas';
 import misc from './reducers/misc';
+import menus from './reducers/menus';
 
 const reducer = combineReducers({
    favorites,
    restaurants,
    modal,
    areas,
-   misc
+   misc,
+   menus
 });
 
+const getStateToAction = store => next => action => {
+  next({ ...action, getState: store.getState });
+};
+
 const enhancer = compose(
-   applyMiddleware(thunk, promiseMiddleware()),
+   applyMiddleware(thunk, promiseMiddleware(), getStateToAction),
    devTools()
 );
 

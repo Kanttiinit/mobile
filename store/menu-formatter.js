@@ -2,6 +2,7 @@ import moment from 'moment';
 import haversine from 'haversine';
 
 export default function getMenus(days, restaurants, now, favorites, location) {
+   console.log(arguments);
    if (days && restaurants && now && favorites) {
       // iterate through all days
       return days.map(day => {

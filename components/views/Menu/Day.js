@@ -31,40 +31,28 @@ class Day extends React.Component {
 
       return false;
    }
-   componentWillMount() {
-      this.setState({menu: this.getMenu(this.props)});
-   }
-   componentWillReceiveProps(props) {
-      if (props.currentView === 'RUOKALISTA' && props.menus) {
-         InteractionManager.runAfterInteractions(() => {
-            this.setState({menu: this.getMenu(props)});
-         });
-      }
-   }
-   getMenu(props) {
-      return props.menus.find(m => m.date.isSame(props.date, 'day'));
-   }
    render() {
-      const {date} = this.props;
-      const {menu} = this.state;
-
-      return (
-         <View style={{flex: 1}}>
-            <View style={[defaultStyles.card, styles.daySelector]}>
-               <Text style={styles.dayTitle}>
-                  {date.format('dddd').toUpperCase()}
-                  <Text style={styles.date}> {date.format('D.M.')}</Text>
-               </Text>
+      const {date, menus} = this.props;
+      const menu = menus.find(m => m.date.isSame(date, 'day'));
+      if (menu)
+         return (
+            <View style={{flex: 1}}>
+               <View style={[defaultStyles.card, styles.daySelector]}>
+                  <Text style={styles.dayTitle}>
+                     {date.format('dddd').toUpperCase()}
+                     <Text style={styles.date}> {date.format('D.M.')}</Text>
+                  </Text>
+               </View>
+               <ListView
+                  initialListSize={1}
+                  pageSize={2}
+                  contentContainerStyle={{paddingVertical: 22}}
+                  dataSource={this.dataSource.cloneWithRows(menu.restaurants)}
+                  renderRow={restaurant =>
+                     <Restaurant date={date} restaurant={restaurant} />} />
             </View>
-            <ListView
-               initialListSize={1}
-               pageSize={2}
-               contentContainerStyle={{paddingVertical: 22}}
-               dataSource={this.dataSource.cloneWithRows(menu.restaurants)}
-               renderRow={restaurant =>
-                  <Restaurant date={date} restaurant={restaurant} />} />
-         </View>
-      );
+         );
+      return null;
    }
 }
 

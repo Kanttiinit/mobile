@@ -8,13 +8,13 @@ import {
    TouchableHighlight
 } from 'react-native';
 
-const Children = props => {
-   return <View style={props.style}>{props.children}</View>
+const renderChildren = props => {
+   return <View style={props.style}>{props.children}</View>;
 }
 
 const Button = props => {
    const {onPress, containerStyle, pointerEvents, highlightColor, style} = props;
-   const children = <Children style={style}>{props.children}</Children>
+   const children = renderChildren({children: props.children, style});
 
    const touchableProps = {
       onPress,
@@ -32,7 +32,7 @@ const Button = props => {
          </TouchableHighlight>
       );
    }
-   
+
    return (
       <TouchableOpacity
          activeOpacity={0.6}

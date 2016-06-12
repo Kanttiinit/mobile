@@ -78,13 +78,13 @@ export class Restaurant extends React.Component {
                   <Text style={[styles.restaurantName, !(isToday && restaurant.isOpen) && {color: colors.darkGrey}]}>{restaurant.name}</Text>
                   <View style={{flex: 1, marginTop: 2, flexDirection: 'row'}}>
                      <Text style={[styles.metaText, {color: metaColor}]}>
-                        <Icon size={10} name="android-time" />
+                        <Icon size={10} name="md-time" />
                         {' '}
                         {this.formatOpeningHours()}
                      </Text>
                      {restaurant.distance ?
                      <Text style={[styles.metaText, {marginLeft: 8, color: metaColor}]}>
-                        <Icon size={10} name="android-pin" />
+                        <Icon size={10} name="md-pin" />
                         {' '}
                         {Restaurant.formatDistance(restaurant.distance)}
                      </Text>
@@ -117,7 +117,7 @@ export class Restaurant extends React.Component {
 }
 
 const mapState = state => ({
-   now: state.now
+   now: state.misc.now
 });
 
 const mapDispatch = dispatch => bindActionCreators({openModal}, dispatch);

@@ -34,7 +34,7 @@ class Course extends React.Component {
             onPress={() => this.props.openModal(<CourseDetails course={course} />)}
             style={[course.isFavorite ? styles.favoriteCourse : {borderRadius: 2}]}>
             <View style={[styles.course, style]}>
-               {course.isFavorite ? <Icon style={{marginRight: 6}} color='#fc5151' name='android-favorite' /> : null}
+               {course.isFavorite ? <Icon style={{marginRight: 6}} color='#fc5151' name='md-heart' /> : null}
                <Text key={course.title} style={styles.courseTitle}>{course.title}</Text>
                {course.properties ? course.properties.map(p => <Property style={{marginLeft: 2}} key={p}>{p}</Property>) : null}
             </View>

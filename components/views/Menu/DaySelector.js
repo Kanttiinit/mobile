@@ -53,7 +53,7 @@ export default class DaySelector extends React.Component {
                style={[styles.buttonContainer, {left: 0, paddingHorizontal: 18}]}>
                <ArrowButton
                   onPress={this.change.bind(this, -1)}
-                  icon="chevron-left"
+                  icon="ios-arrow-back"
                   style={{alignItems: 'flex-start'}}
                   visible={current > 0} />
             </LinearGradient>
@@ -65,7 +65,7 @@ export default class DaySelector extends React.Component {
                style={[styles.buttonContainer, {right: 0, paddingHorizontal: 18}]}>
                <ArrowButton
                   onPress={this.change.bind(this, 1)}
-                  icon="chevron-right"
+                  icon="ios-arrow-forward"
                   style={{alignItems: 'flex-end'}}
                   visible={current < max} />
             </LinearGradient>

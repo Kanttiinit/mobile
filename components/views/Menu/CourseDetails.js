@@ -35,7 +35,7 @@ const CourseDetails = props => {
             : undefined}
          </View>
          <View style={{flexDirection: 'row', marginVertical: 4}}>
-            {getFavorites().sort((a, b) => a.name < b.name ? -1 : 1).map(f =>
+            {getFavorites(course, favorites).sort((a, b) => a.name < b.name ? -1 : 1).map(f =>
             <Button
                key={f.id}
                onPress={() => f.selected ? removeFavorite(f.id) : addFavorite(f.id)}

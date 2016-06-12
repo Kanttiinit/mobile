@@ -9,7 +9,7 @@ import store from './store';
 import HttpCache from './store/HttpCache';
 import storage from './store/storage';
 
-import {fetchSelectedFavorites} from './store/actions/favorites';
+import {fetchSelectedFavorites, fetchFavorites} from './store/actions/favorites';
 import {fetchSelectedRestaurants, fetchRestaurants} from './store/actions/restaurants';
 import {fetchAreas} from './store/actions/areas';
 import {updateNow, updateLocation, setKeyboardVisible} from './store/actions/misc';
@@ -21,7 +21,8 @@ const actions = bindActionCreators({
    fetchAreas,
    updateNow,
    updateLocation,
-   setKeyboardVisible
+   setKeyboardVisible,
+   fetchFavorites
 }, store.dispatch);
 
 class Main extends React.Component {
@@ -49,6 +50,7 @@ class Main extends React.Component {
       // populate selected restaurants and favorites
       actions.fetchSelectedRestaurants();
       actions.fetchSelectedFavorites();
+      actions.fetchFavorites();
 
       // get areas
       actions.fetchAreas();

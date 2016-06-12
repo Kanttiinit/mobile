@@ -8,7 +8,7 @@ import {
    ViewPagerAndroid
 } from 'react-native';
 
-class Swiper extends React.Component {
+export default class Swiper extends React.Component {
    constructor() {
       super();
       this.state = {width: Dimensions.get('window').width};
@@ -60,5 +60,3 @@ class Swiper extends React.Component {
 Swiper.defaultProps = {
    onPageChange: () => undefined
 };
-
-export default Swiper;

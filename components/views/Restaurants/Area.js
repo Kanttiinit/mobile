@@ -8,12 +8,7 @@ import * as actions from '../../../store/actions/restaurants';
 import Restaurant from './Restaurant';
 import {colors, defaultStyles} from '../../../style';
 
-import {
-   Text,
-   View,
-   StyleSheet,
-   Platform
-} from 'react-native';
+import {Text, View, StyleSheet, Platform} from 'react-native';
 
 class Area extends React.Component {
    checkedChange(restaurants, checked) {

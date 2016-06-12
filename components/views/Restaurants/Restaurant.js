@@ -7,10 +7,7 @@ import RestaurantDialog from './RestaurantDialog';
 import Checkbox from '../../Checkbox';
 import Button from '../../Button';
 
-import {
-   View,
-   Text
-} from 'react-native';
+import {View, Text} from 'react-native';
 
 class Restaurant extends React.Component {
    shouldComponentUpdate(props) {
@@ -39,4 +36,4 @@ const mapDispatch = dispatch => ({
    }
 });
 
-export default connect(undefined, mapDispatch)(Restaurant);
+export default connect(null, mapDispatch)(Restaurant);

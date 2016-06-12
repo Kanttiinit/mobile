@@ -10,13 +10,7 @@ import {colors} from '../../style';
 import Button from '../Button';
 import ContactForm from '../ContactForm';
 
-import {
-   ListView,
-   View,
-   Text,
-   StyleSheet,
-   Platform
-} from 'react-native';
+import {ListView, View, Text, StyleSheet, Platform} from 'react-native';
 
 const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
 

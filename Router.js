@@ -12,7 +12,7 @@ import {dismissModal} from './store/actions/modal';
 
 // import Menu from './components/views/Menu';
 import Favorites from './components/views/Favorites';
-import Restaurants from './components/views/Restaurants';
+//import Restaurants from './components/views/Restaurants';
 // import Map from './components/views/Map';
 
 import {
@@ -46,7 +46,7 @@ const views = [
    //{ title: 'RUOKALISTA', icon: 'android-restaurant', component: Menu },
    { title: 'SUOSIKIT', icon: 'md-heart', component: Favorites },
    //{ title: 'KARTTA', icon: 'android-pin', component: Map},
-   { title: 'RAVINTOLAT', icon: 'ios-list', component: Restaurants }
+   //{ title: 'RAVINTOLAT', icon: 'ios-list', component: Restaurants }
 ];
 
 class Router extends React.Component {
@@ -128,8 +128,8 @@ const styles = StyleSheet.create({
 });
 
 const mapState = state => ({
-   currentView: state.currentView,
-   views: state.views,
+   currentView: state.misc.currentView,
+   views: state.misc.views,
    modal: state.modal
 });
 

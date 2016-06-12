@@ -7,7 +7,7 @@ import store from './store';
 import HttpCache from './store/HttpCache';
 import storage from './store/storage';
 
-import {setSelectedFavorites} from './store/actions/favorites';
+import {fetchSelectedFavorites} from './store/actions/favorites';
 import {updateSelectedRestaurants, fetchRestaurants} from './store/actions/restaurants';
 import {fetchAreas} from './store/actions/areas';
 import {updateNow, updateLocation} from './store/actions/misc';
@@ -28,7 +28,7 @@ class Main extends React.Component {
 
       // populate selected restaurants and favorites
       storage.getList('selectedRestaurants').then(_ => store.dispatch(updateSelectedRestaurants(_)));
-      storage.getList('selectedFavorites').then(_ => store.dispatch(setSelectedFavorites(_)));
+      store.dispatch(fetchSelectedFavorites());
 
       // get areas
       store.dispatch(fetchAreas());

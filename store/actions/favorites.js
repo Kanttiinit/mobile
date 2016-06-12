@@ -4,33 +4,38 @@ import storage from '../storage';
 export const FETCH_FAVORITES = 'FETCH_FAVORITES';
 export const SET_SELECTED_FAVORITES = 'SET_SELECTED_FAVORITES';
 
-export function setSelectedFavorites(selectedFavorites) {
+export function fetchSelectedFavorites(selected) {
    return {
       type: SET_SELECTED_FAVORITES,
-      payload: selectedFavorites
+      payload: storage.getList('selectedFavorites')
+         .then(favorites => favorites || [])
    };
 }
 
 export function addFavorite(id) {
-   return dispatch =>
-      storage.getList('selectedFavorites')
-      .then(selectedFavorites => {
-         if (!selectedFavorites.some(f => f === id)) {
-            selectedFavorites.push(id);
-            dispatch(setSelectedFavorites(selectedFavorites));
-            return storage.setList('selectedFavorites', selectedFavorites);
-         }
-      });
+   return {
+      type: SET_SELECTED_FAVORITES,
+      payload: storage.getList('selectedFavorites')
+         .then(selectedFavorites => {
+            if (!selectedFavorites.some(f => f === id)) {
+               selectedFavorites.push(id);
+               return storage.setList('selectedFavorites', selectedFavorites)
+               .then(() => selectedFavorites);
+            }
+         })
+   };
 }
 
 export function removeFavorite(id) {
-   return dispatch =>
-      storage.getList('selectedFavorites')
-      .then(selectedFavorites => {
-         const favorites = selectedFavorites.filter(x => x !== id);
-         dispatch(setSelectedFavorites(selectedFavorites));
-         return storage.setList('selectedFavorites', favorites);
-      });
+   return {
+      type: SET_SELECTED_FAVORITES,
+      payload: storage.getList('selectedFavorites')
+         .then(selectedFavorites => {
+            const favorites = selectedFavorites.filter(x => x !== id);
+            return storage.setList('selectedFavorites', favorites)
+            .then(() => favorites);
+         })
+   };
 }
 
 export function fetchFavorites() {

@@ -3,7 +3,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import * as actions from '../../../store/actions/favorites';
+import {addFavorite, removeFavorite} from '../../../store/actions/favorites';
 
 import Button from '../../Button';
 
@@ -29,6 +29,7 @@ class Favorite extends React.Component {
    }
    render() {
       const {favorite, addFavorite, removeFavorite} = this.props;
+      console.log(this.props);
       return (
          <Button
             style={styles.favorite}
@@ -36,16 +37,16 @@ class Favorite extends React.Component {
             <Icon
                style={styles.heartIcon}
                color={favorite.selected ? '#fc5151' : '#999'}
-               name={'android-favorite' + (favorite.selected ? '' : '-outline')} />
+               name={'md-heart' + (favorite.selected ? '' : '-outline')} />
             <Text style={styles.foodTitle}>{favorite.name}</Text>
          </Button>
       );
    }
 }
 
-const mapDispatchToProps = bindActionCreators(actions);
+const mapDispatch = dispatch => bindActionCreators({addFavorite, removeFavorite}, dispatch);
 
-export default connect(undefined, bindActionCreators)(Favorite);
+export default connect(null, mapDispatch)(Favorite);
 
 const styles = StyleSheet.create({
    favorite: {

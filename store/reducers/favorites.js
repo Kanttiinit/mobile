@@ -28,9 +28,11 @@ export default typeToReducer({
          return {...state, favorites};
       }
    },
-   [SET_SELECTED_FAVORITES](state, action) {
-      const favorites = getFormattedFavorites(state.favorites, action.payload);
-      return {...state, favorites, selected: action.payload};
+   [SET_SELECTED_FAVORITES]: {
+      FULFILLED(state, action) {
+         const favorites = getFormattedFavorites(state.favorites, action.payload);
+         return {...state, favorites, selected: action.payload};
+      }
    }
 }, {
    selected: []

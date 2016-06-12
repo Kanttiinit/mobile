@@ -7,14 +7,14 @@ import favorites from './reducers/favorites';
 import restaurants from './reducers/restaurants';
 import modal from './reducers/modal';
 import areas from './reducers/areas';
-import * as misc from './reducers/misc';
+import misc from './reducers/misc';
 
 const reducer = combineReducers({
    favorites,
    restaurants,
    modal,
    areas,
-   ...misc
+   misc
 });
 
 const enhancer = compose(

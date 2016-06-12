@@ -1,6 +1,7 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {openModal} from '../../../store/actions/modal';
 
 import CourseDetails from './CourseDetails';
@@ -42,7 +43,9 @@ class Course extends React.Component {
    }
 }
 
-export default connect(undefined, dispatch => ({openModal}))(Course);
+const mapDispatch = dispatch => bindActionCreators({openModal}, dispatch);
+
+export default connect(null, mapDispatch)(Course);
 
 const styles = StyleSheet.create({
    course: {

@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {bindActionCreators} from 'redux';
 
 import Property from './Property';
 import Button from '../../Button';
@@ -16,54 +17,53 @@ import {
    TouchableOpacity
 } from 'react-native';
 
-class CourseDetails extends React.Component {
-   getFavorites() {
-      const title = this.props.course.title;
-      return this.props.favorites.filter(f => title.match(new RegExp(f.regexp, 'i')));
-   }
-   render() {
-      const {course, addFavorite, removeFavorite} = this.props;
-      return (
-         <View style={styles.container}>
-            <View>
-               <Text style={styles.courseTitle}>{course.title}</Text>
-            </View>
-            <View style={styles.courseListWrapper}>
-               {course.properties && course.properties.length ?
-               course.properties.map(p => <Property key={p} containerStyle={{marginTop: 8}} large={true}>{p}</Property>)
-               : undefined}
-            </View>
-            <View style={{flexDirection: 'row', marginVertical: 4}}>
-               {this.getFavorites().sort((a, b) => a.name < b.name ? -1 : 1).map(f =>
-               <Button
-                  key={f.id}
-                  onPress={() => f.selected ? removeFavorite(f.id) : addFavorite(f.id)}
-                  style={{padding: 4, marginRight: 4, backgroundColor: f.selected ? colors.red : 'transparent', borderColor: colors.red, borderWidth: 1, borderRadius: 2}}>
-                  <Text style={{color: f.selected ? 'white' : colors.red}}>
-                     <Icon name={'android-favorite' + (f.selected ? '' : '-outline')} />
-                     {' ' + f.name}
-                  </Text>
-               </Button>
-               )}
-            </View>
-            <View style={styles.footer}>
-               <Text style={styles.restaurantName}>{course.restaurant.name}</Text>
-               <Button
-                  onPress={() => this.props.dismissModal()}
-                  style={styles.closeButton}>
-                  <Text style={styles.closeButtonText}>SULJE</Text>
-               </Button>
-            </View>
+function getFavorites(course, favorites) {
+   const title = course.title;
+   return favorites.filter(f => title.match(new RegExp(f.regexp, 'i')));
+}
+
+const CourseDetails = props => {
+   const {course, favorites, addFavorite, removeFavorite, dismissModal} = props;
+   return (
+      <View style={styles.container}>
+         <View>
+            <Text style={styles.courseTitle}>{course.title}</Text>
          </View>
-      );
-   }
+         <View style={styles.courseListWrapper}>
+            {course.properties && course.properties.length ?
+            course.properties.map(p => <Property key={p} containerStyle={{marginTop: 8}} large={true}>{p}</Property>)
+            : undefined}
+         </View>
+         <View style={{flexDirection: 'row', marginVertical: 4}}>
+            {getFavorites().sort((a, b) => a.name < b.name ? -1 : 1).map(f =>
+            <Button
+               key={f.id}
+               onPress={() => f.selected ? removeFavorite(f.id) : addFavorite(f.id)}
+               style={{padding: 4, marginRight: 4, backgroundColor: f.selected ? colors.red : 'transparent', borderColor: colors.red, borderWidth: 1, borderRadius: 2}}>
+               <Text style={{color: f.selected ? 'white' : colors.red}}>
+                  <Icon name={'md-heart' + (f.selected ? '' : '-outline')} />
+                  {' ' + f.name}
+               </Text>
+            </Button>
+            )}
+         </View>
+         <View style={styles.footer}>
+            <Text style={styles.restaurantName}>{course.restaurant.name}</Text>
+            <Button
+               onPress={() => dismissModal()}
+               style={styles.closeButton}>
+               <Text style={styles.closeButtonText}>SULJE</Text>
+            </Button>
+         </View>
+      </View>
+   );
 }
 
 const mapState = state => ({
    favorites: state.favorites.favorites
 });
 
-const mapDispatch = state => ({dismissModal, addFavorite, removeFavorite});
+const mapDispatch = dispatch => bindActionCreators({dismissModal, addFavorite, removeFavorite}, dispatch);
 
 export default connect(mapState, mapDispatch)(CourseDetails);
 

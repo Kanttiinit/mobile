@@ -3,7 +3,7 @@ import moment from 'moment';
 import Swiper from '../Swiper';
 import Loader from '../Loader';
 import haversine from 'haversine';
-import {connect} from 'redux-nimble';
+import {connect} from 'react-redux';
 
 import Day from './Menu/Day';
 import DaySelector from './Menu/DaySelector';
@@ -73,6 +73,12 @@ const styles = StyleSheet.create({
    }
 });
 
-export default connect(
-   ['areas', 'restaurants', 'days', 'viewChanges', 'currentView']
-)(Menu);
+const mapState = state => ({
+   areas: state.areas,
+   restaurants: state.restaurants.restaurants,
+   days: state.misc.days,
+   viewChanges: state.misc.views,
+   currentView: state.misc.currentView
+});
+
+export default connect(mapState)(Menu);

@@ -1,11 +1,11 @@
-import {React, Component} from 'react';
+import React from 'react';
 
 import {
    View,
    Text
 } from 'react-native';
 
-class Property extends Component {
+class Property extends React.Component {
    shouldComponentUpdate() {
       return false;
    }

@@ -32,7 +32,7 @@ class Favorite extends React.Component {
       return (
          <Button
             style={styles.favorite}
-            onPress={this.toggle.bind(this)}>
+            onPress={() => this.toggle.bind(this)}>
             <Icon
                style={styles.heartIcon}
                color={favorite.selected ? '#fc5151' : '#999'}

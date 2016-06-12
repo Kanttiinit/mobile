@@ -16,10 +16,6 @@ import {
 } from 'react-native';
 
 class Area extends React.Component {
-   constructor() {
-      super();
-      this.state = {};
-   }
    checkedChange(restaurants, checked) {
       this.props.updateSelectedRestaurants(restaurants, checked);
    }

@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 import {openModal} from '../../../store/actions/modal';
 import Course from './Course';
@@ -119,7 +120,7 @@ const mapState = state => ({
    now: state.now
 });
 
-const mapDispatch = dispatch => ({openModal});
+const mapDispatch = dispatch => bindActionCreators({openModal}, dispatch);
 
 export default connect(mapState, mapDispatch)(Restaurant);
 

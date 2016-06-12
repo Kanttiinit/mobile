@@ -1,9 +1,7 @@
-'use strict';
-
 import React from 'react';
 import moment from 'moment';
 import momentFI from 'moment/locale/fi';
-import {connect} from 'redux-nimble';
+import {connect} from 'react-redux';
 import {colors, defaultStyles} from '../../../style';
 
 import Restaurant from './Restaurant';
@@ -12,13 +10,12 @@ import {
    View,
    Text,
    ListView,
-   Component,
    Platform,
    StyleSheet,
    InteractionManager
 } from 'react-native';
 
-class Day extends Component {
+class Day extends React.Component {
    constructor() {
       super();
       this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -93,4 +90,10 @@ const styles = StyleSheet.create({
    }
 });
 
-export default connect(['currentView', 'now', 'menus'])(Day);
+const mapState = state => ({
+   currentView: state.misc.currentView,
+   now: state.misc.now,
+   menus: state.menus
+});
+
+export default connect(mapState)(Day);

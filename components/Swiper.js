@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-   Component,
    Dimensions,
    Platform,
    ScrollView,
@@ -9,7 +8,7 @@ import {
    ViewPagerAndroid
 } from 'react-native';
 
-class Swiper extends Component {
+class Swiper extends React.Component {
    constructor() {
       super();
       this.state = {width: Dimensions.get('window').width};

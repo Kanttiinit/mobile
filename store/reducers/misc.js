@@ -16,4 +16,6 @@ export default typeToReducer({
       views: (state.views || 0) + 1
    }),
    [SET_KEYBOARD_VISIBLE]: (state, action) => ({...state, keyboardVisible: action.payload})
-}, {});
+}, {
+   currentView: 'RUOKALISTA'
+});

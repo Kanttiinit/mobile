@@ -1,12 +1,12 @@
 import storage from '../storage';
 import HttpCache from '../HttpCache';
 
-export const UPDATE_SELECTED_RESTAURANTS = 'UPDATE_SELECTED_RESTAURANTS';
+export const SET_SELECTED_RESTAURANTS = 'SET_SELECTED_RESTAURANTS';
 export const FETCH_RESTAURANTS = 'FETCH_RESTAURANTS';
 
 export function updateSelectedRestaurants(restaurants, areSelected) {
    return {
-      type: UPDATE_SELECTED_RESTAURANTS,
+      type: SET_SELECTED_RESTAURANTS,
       payload: storage.getList('selectedRestaurants')
          .then(selected => {
             if (areSelected)
@@ -18,6 +18,14 @@ export function updateSelectedRestaurants(restaurants, areSelected) {
             .then(() => selected);
          })
    }
+}
+
+export function fetchSelectedRestaurants() {
+   return {
+      type: SET_SELECTED_RESTAURANTS,
+      payload: storage.getList('selectedRestaurants')
+         .then(selected => selected || [])
+   };
 }
 
 export function fetchRestaurants(selectedRestaurants) {

@@ -1,5 +1,5 @@
 import typeToReducer from 'type-to-reducer';
-import {UPDATE_LOCATION, UPDATE_NOW, SET_CURRENT_VIEW} from '../actions/misc';
+import {UPDATE_LOCATION, UPDATE_NOW, SET_CURRENT_VIEW, SET_KEYBOARD_VISIBLE} from '../actions/misc';
 
 export default typeToReducer({
    [UPDATE_LOCATION]: {
@@ -14,5 +14,6 @@ export default typeToReducer({
       ...state,
       currentView: action.payload,
       views: (state.views || 0) + 1
-   })
+   }),
+   [SET_KEYBOARD_VISIBLE]: (state, action) => ({...state, keyboardVisible: action.payload})
 }, {});

@@ -29,7 +29,6 @@ class Favorite extends React.Component {
    }
    render() {
       const {favorite, addFavorite, removeFavorite} = this.props;
-      console.log(this.props);
       return (
          <Button
             style={styles.favorite}

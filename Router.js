@@ -20,7 +20,6 @@ import {
    Text,
    View,
    Navigator,
-   StatusBar,
    Platform,
    DeviceEventEmitter
 } from 'react-native';
@@ -50,13 +49,6 @@ const views = [
 ];
 
 class Router extends React.Component {
-   constructor() {
-      super();
-      this.state = {};
-
-      if (Platform.OS === 'ios')
-         StatusBar.setBarStyle('light-content');
-   }
    changeScene(data) {
       try {
          this.refs.navigator.jumpTo(data);
@@ -65,16 +57,8 @@ class Router extends React.Component {
       }
       this.props.setCurrentView(data.title);
    }
-   componentDidMount() {
-      DeviceEventEmitter.addListener('keyboardDidShow', () => {
-         this.setState({keyboardVisible: true});
-      });
-      DeviceEventEmitter.addListener('keyboardDidHide', () => {
-         this.setState({keyboardVisible: false});
-      });
-   }
    render() {
-      const {currentView, modal} = this.props;
+      const {currentView, modal, keyboardVisible} = this.props;
 
       return (
          <View style={styles.wrapper}>
@@ -99,7 +83,7 @@ class Router extends React.Component {
                ref="modal"
                style={modal.style}
                open={modal.visible}
-               offset={this.state.keyboardVisible ? -100 : 0}
+               offset={keyboardVisible ? -100 : 0}
                modalDidClose={() => this.props.dismissModal()}>
                {modal.component}
             </Modal>
@@ -130,7 +114,8 @@ const styles = StyleSheet.create({
 const mapState = state => ({
    currentView: state.misc.currentView,
    views: state.misc.views,
-   modal: state.modal
+   modal: state.modal,
+   keyboardVisible: state.misc.keyboardVisible
 });
 
 const mapDispatch = dispatch => bindActionCreators({dismissModal, setCurrentView}, dispatch);

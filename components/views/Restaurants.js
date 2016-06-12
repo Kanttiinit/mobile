@@ -2,7 +2,10 @@
 
 import React from 'react-native';
 import Loader from '../Loader';
-import {connect} from 'redux-nimble';
+import {connect} from 'react-redux';
+
+import {openModal} from '../../store/actions/modal';
+import {fetchAreas} from '../../store/actions/areas';
 
 import Area from './Restaurants/Area';
 import {colors} from '../../style';
@@ -24,7 +27,7 @@ class Restaurants extends React.Component {
       this.dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
    }
    componentDidMount() {
-      this.props.getAreas();
+      this.props.fetchAreas();
    }
    render() {
       return (
@@ -52,4 +55,17 @@ const styles = StyleSheet.create({
    }
 });
 
-export default connect(['areas'], ['getAreas', 'showModal'])(Restaurants);
+const mapState = state => ({
+   areas: state.areas
+});
+
+const mapDispatch = dispatch => ({
+   fetchAreas() {
+      dispatch(fetchAreas());
+   },
+   showModal() {
+      dispatch(openModal());
+   }
+});
+
+export default connect(mapState, mapDispatch)(Restaurants);

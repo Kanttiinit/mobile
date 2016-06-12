@@ -1,13 +1,14 @@
 'use strict';
 
 import React from 'react-native';
+import {connect} from 'react-redux';
 
+import {openModal} from '../../../store/actions/modal';
 import RestaurantDialog from './RestaurantDialog';
 
 import Checkbox from '../../Checkbox';
 import Button from '../../Button';
 
-import {connect} from 'redux-nimble';
 
 const {
    View,
@@ -35,4 +36,10 @@ class Restaurant extends React.Component {
    }
 }
 
-export default connect(undefined, ['showModal'])(Restaurant);
+const mapDispatch = dispatch => ({
+   showModal(...args) {
+      dispatch(openModal(...args));
+   }
+});
+
+export default connect(undefined, mapDispatch)(Restaurant);

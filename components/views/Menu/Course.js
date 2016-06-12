@@ -1,8 +1,7 @@
-'use strict';
-
 import React from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {connect} from 'redux-nimble';
+import {connect} from 'react-redux';
+import {openModal} from '../../../store/actions/modal';
 
 import CourseDetails from './CourseDetails';
 import Property from './Property';
@@ -31,7 +30,7 @@ class Course extends React.Component {
       return (
          <Button
             highlightColor={colors.lightGrey}
-            onPress={() => this.props.showModal(<CourseDetails course={course} />)}
+            onPress={() => this.props.openModal(<CourseDetails course={course} />)}
             style={[course.isFavorite ? styles.favoriteCourse : {borderRadius: 2}]}>
             <View style={[styles.course, style]}>
                {course.isFavorite ? <Icon style={{marginRight: 6}} color='#fc5151' name='android-favorite' /> : null}
@@ -43,7 +42,7 @@ class Course extends React.Component {
    }
 }
 
-export default connect(undefined, ['showModal'])(Course);
+export default connect(undefined, dispatch => ({openModal}))(Course);
 
 const styles = StyleSheet.create({
    course: {

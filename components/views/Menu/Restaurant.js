@@ -3,8 +3,9 @@
 import React from 'react-native';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {connect} from 'redux-nimble';
+import {connect} from 'react-redux';
 
+import {openModal} from '../../../store/actions/modal';
 import Course from './Course';
 import {colors, defaultStyles} from '../../../style';
 
@@ -63,7 +64,7 @@ export class Restaurant extends React.Component {
       return result;
    }
    render() {
-      const {date, now, restaurant, showModal} = this.props;
+      const {date, now, restaurant, openModal} = this.props;
       const courses = restaurant.courses;
       const isToday = now.isSame(date, 'day');
       const metaColor = isToday && restaurant.isOpen ? colors.darkAccent : colors.darkGrey;
@@ -71,7 +72,7 @@ export class Restaurant extends React.Component {
          <View style={defaultStyles.card}>
 
             <Button
-               onPress={() => showModal(<RestaurantDialog restaurant={restaurant} />, {padding: 0})}
+               onPress={() => openModal(<RestaurantDialog restaurant={restaurant} />, {padding: 0})}
                style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}
                containerStyle={styles.header}>
                <View style={{flex: 1}}>
@@ -116,7 +117,13 @@ export class Restaurant extends React.Component {
    }
 }
 
-export default connect(['now'], ['showModal'])(Restaurant);
+const mapState = state => ({
+   now: state.now
+});
+
+const mapDispatch = dispatch => ({openModal});
+
+export default connect(mapState, mapDispatch)(Restaurant);
 
 const styles = StyleSheet.create({
    header: {

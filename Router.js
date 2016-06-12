@@ -10,7 +10,7 @@ import {colors} from './style';
 
 // import Menu from './components/views/Menu';
 import Favorites from './components/views/Favorites';
-// import Restaurants from './components/views/Restaurants';
+//import Restaurants from './components/views/Restaurants';
 // import Map from './components/views/Map';
 
 const {
@@ -132,7 +132,10 @@ const mapState = state => ({
 });
 
 const mapDispatch = dispatch => ({
-   changeView: title => dispatch(),
+   changeView: title => dispatch({
+      type: 'CHANGE_VIEW',
+      payload: title
+   }),
    dismissModal: () => dispatch()
 });
 

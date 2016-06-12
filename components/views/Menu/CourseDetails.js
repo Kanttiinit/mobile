@@ -1,12 +1,12 @@
-'use strict';
-
 import React from 'react-native';
-import {connect} from 'redux-nimble';
+import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import Property from './Property';
 import Button from '../../Button';
 import {colors} from '../../../style';
+import {dismissModal} from '../../../store/actions/modal';
+import {addFavorite, removeFavorite} from '../../../store/actions/favorites';
 
 const {
    View,
@@ -59,10 +59,13 @@ class CourseDetails extends Component {
    }
 }
 
-export default connect(
-   ['favorites'],
-   ['dismissModal', 'addFavorite', 'removeFavorite']
-)(CourseDetails);
+const mapState = state => ({
+   favorites: state.favorites.favorites
+});
+
+const mapDispatch = state => ({dismissModal, addFavorite, removeFavorite});
+
+export default connect(mapState, mapDispatch)(CourseDetails);
 
 CourseDetails.defaultProps = {
    course: {}

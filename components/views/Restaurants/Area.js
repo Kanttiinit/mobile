@@ -2,7 +2,10 @@
 
 import React from 'react-native';
 import Checkbox from '../../Checkbox';
-import {connect} from 'redux-nimble';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+
+import * as actions from '../../../store/actions/restaurants';
 
 import Restaurant from './Restaurant';
 import {colors, defaultStyles} from '../../../style';
@@ -89,4 +92,10 @@ const styles = StyleSheet.create({
    }
 });
 
-export default connect(['selectedRestaurants'], ['updateSelectedRestaurants'])(Area);
+const mapState = state => ({
+   selectedRestaurants: state.selectedRestaurants
+});
+
+const mapDispatch = bindActionCreators(actions);
+
+export default connect(mapState, mapDispatch)(Area);

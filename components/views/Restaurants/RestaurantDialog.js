@@ -6,12 +6,12 @@ import geolib from 'geolib';
 import Icon from 'react-native-vector-icons/Ionicons';
 import moment from 'moment';
 import haversine from 'haversine';
+import {connect} from 'react-redux';
 
 import {Restaurant} from '../Menu/Restaurant';
 import Button from '../../Button';
 import {colors} from '../../../style';
-
-import {connect} from 'redux-nimble';
+import {dismissModal} from '../../../store/actions/modal';
 
 const {
    Platform,
@@ -185,7 +185,13 @@ class RestaurantDialog extends React.Component {
    }
 }
 
-export default connect(['location'], ['dismissModal'])(RestaurantDialog);
+const mapState = state => ({
+   location: state.location
+});
+
+const mapDispatch = dispatch => ({dismissModal});
+
+export default connect(mapState, mapDispatch)(RestaurantDialog);
 
 const styles = StyleSheet.create({
    container: {

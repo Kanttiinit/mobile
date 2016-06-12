@@ -7,11 +7,15 @@ import store from './store';
 import HttpCache from './store/HttpCache';
 import storage from './store/storage';
 
+import {setSelectedFavorites} from './store/actions/favorites';
+import {updateSelectedRestaurants, fetchRestaurants} from './store/actions/restaurants';
+import {fetchAreas} from './store/actions/areas';
+import {updateNow, updateLocation} from './store/actions/misc';
+
 const {AppState} = React;
 
 class Main extends React.Component {
    componentWillMount() {
-      return;
       AppState.addEventListener('change', currentAppState => {
          if (currentAppState === 'active') {
             codePush.sync({installMode: codePush.InstallMode.ON_NEXT_RESUME});
@@ -23,18 +27,18 @@ class Main extends React.Component {
       });
 
       // populate selected restaurants and favorites
-      storage.getList('selectedRestaurants').then(_ => store.setSelectedRestaurants(_));
-      storage.getList('selectedFavorites').then(_ => store.setSelectedFavorites(_));
+      storage.getList('selectedRestaurants').then(_ => store.dispatch(updateSelectedRestaurants(_)));
+      storage.getList('selectedFavorites').then(_ => store.dispatch(setSelectedFavorites(_)));
 
       // get areas
-      store.getAreas();
+      store.dispatch(fetchAreas());
 
       // update restaurants if selected restaurants have changed
-      store.subscribe('selectedRestaurants', state => {
-         HttpCache.reset('menus');
-         if (state.selectedRestaurants)
-            store.getRestaurants(state.selectedRestaurants);
-      });
+      // store.subscribe('selectedRestaurants', state => {
+      //    HttpCache.reset('menus');
+      //    if (state.selectedRestaurants)
+      //       store.getRestaurants(state.selectedRestaurants);
+      // });
 
       this.refresh();
       this.startAutoUpdate();
@@ -51,8 +55,8 @@ class Main extends React.Component {
       this.updateInterval = undefined;
    }
    refresh() {
-      store.updateNow();
-      store.updateLocation();
+      store.dispatch(updateNow());
+      store.dispatch(updateLocation());
    }
    render() {
       return (

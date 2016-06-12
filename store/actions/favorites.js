@@ -1,7 +1,15 @@
 import HttpCache from '../HttpCache';
+import storage from '../storage';
 
 export const FETCH_FAVORITES = 'FETCH_FAVORITES';
 export const SET_SELECTED_FAVORITES = 'SET_SELECTED_FAVORITES';
+
+export function setSelectedFavorites(selectedFavorites) {
+   return {
+      type: SET_SELECTED_FAVORITES,
+      payload: selectedFavorites
+   };
+}
 
 export function addFavorite(id) {
    return dispatch =>
@@ -9,10 +17,7 @@ export function addFavorite(id) {
       .then(selectedFavorites => {
          if (!selectedFavorites.some(f => f === id)) {
             selectedFavorites.push(id);
-            dispatch({
-               type: SET_SELECTED_FAVORITES,
-               payload: selectedFavorites
-            });
+            dispatch(setSelectedFavorites(selectedFavorites));
             return storage.setList('selectedFavorites', selectedFavorites);
          }
       });
@@ -23,10 +28,7 @@ export function removeFavorite(id) {
       storage.getList('selectedFavorites')
       .then(selectedFavorites => {
          const favorites = selectedFavorites.filter(x => x !== id);
-         dispatch({
-            type: SET_SELECTED_FAVORITES,
-            payload: selectedFavorites
-         });
+         dispatch(setSelectedFavorites(selectedFavorites));
          return storage.setList('selectedFavorites', favorites);
       });
 }

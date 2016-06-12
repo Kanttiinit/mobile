@@ -36,7 +36,8 @@ class Favorites extends React.Component {
             <ScrollView
                style={styles.favoriteList}>
                {favorites.map(favorite =>
-                  <Favorite key={favorite.id} favorite={favorite} />)}
+               <Favorite key={favorite.id} favorite={favorite} />
+               )}
             </ScrollView>
             : <Loader color={colors.accent} />}
          </View>

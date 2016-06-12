@@ -48,7 +48,7 @@ const Marker = props => {
          centerOffset={{x: 0, y: -29 / 2}}
          description={description}
          coordinate={coordinate}>
-         <View ref="container" style={{alignItems: 'center', opacity: 0.8, height: 29}}>
+         <View style={{alignItems: 'center', opacity: 0.8, height: 29}}>
             <View style={[styles.markerViewText, {backgroundColor: color || colors.accent}, style]}>{children}</View>
             <Icon name="md-arrow-dropdown" size={20} style={{marginTop: -8}} color={color || colors.accent} />
          </View>

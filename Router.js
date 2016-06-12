@@ -2,13 +2,17 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-simple-modal';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 import Button from './components/Button';
 import {colors} from './style';
 
+import {changeView} from './store/actions/misc';
+import {dismissModal} from './store/actions/modal';
+
 // import Menu from './components/views/Menu';
 import Favorites from './components/views/Favorites';
-//import Restaurants from './components/views/Restaurants';
+import Restaurants from './components/views/Restaurants';
 // import Map from './components/views/Map';
 
 import {
@@ -40,9 +44,9 @@ class TabButton extends React.Component {
 
 const views = [
    //{ title: 'RUOKALISTA', icon: 'android-restaurant', component: Menu },
-   { title: 'SUOSIKIT', icon: 'android-favorite', component: Favorites },
+   { title: 'SUOSIKIT', icon: 'md-heart', component: Favorites },
    //{ title: 'KARTTA', icon: 'android-pin', component: Map},
-   //{ title: 'RAVINTOLAT', icon: 'ios-list', component: Restaurants }
+   { title: 'RAVINTOLAT', icon: 'ios-list', component: Restaurants }
 ];
 
 class Router extends React.Component {
@@ -129,12 +133,6 @@ const mapState = state => ({
    modal: state.modal
 });
 
-const mapDispatch = dispatch => ({
-   changeView: title => dispatch({
-      type: 'CHANGE_VIEW',
-      payload: title
-   }),
-   dismissModal: () => dispatch()
-});
+const mapDispatch = bindActionCreators({dismissModal, changeView});
 
 export default connect(mapState, mapDispatch)(Router);

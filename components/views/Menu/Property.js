@@ -1,9 +1,8 @@
-import React from 'react';
+import {React, Component} from 'react';
 
 import {
    View,
-   Text,
-   Component
+   Text
 } from 'react-native';
 
 class Property extends Component {

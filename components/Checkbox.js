@@ -56,7 +56,7 @@ export default class Checkbox extends React.Component {
                      marginTop: Platform.OS === 'ios' ? 3 : 0
                   }}>
                   <Icon
-                     name="ios-checkmark-empty"
+                     name="ios-checkmark-outline"
                      color={color || 'white'}
                      size={32} />
                </View>

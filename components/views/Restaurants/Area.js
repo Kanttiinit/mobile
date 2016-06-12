@@ -27,11 +27,11 @@ class Area extends React.Component {
       return this.props.area.Restaurants.every(r => this.props.selectedRestaurants.indexOf(r.id) > -1);
    }
    shouldComponentUpdate(props) {
-      const getSelectedRestaurantString = props =>
-         props.selectedRestaurants.filter(_ => props.area.Restaurants.some(r => r.id === _)).join(',');
-
-      if (props.selectedRestaurants && this.props.selectedRestaurants)
-         return getSelectedRestaurantString(this.props) !== getSelectedRestaurantString(props);
+      // const getSelectedRestaurantString = props =>
+      //    props.selectedRestaurants.filter(_ => props.area.Restaurants.some(r => r.id === _)).join(',');
+      //
+      // if (props.selectedRestaurants && this.props.selectedRestaurants)
+      //    return getSelectedRestaurantString(this.props) !== getSelectedRestaurantString(props);
 
       return true;
    }
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
 });
 
 const mapState = state => ({
-   selectedRestaurants: state.selectedRestaurants
+   selectedRestaurants: state.restaurants.selected
 });
 
 const mapDispatch = bindActionCreators(actions);

@@ -12,7 +12,7 @@ import {updateSelectedRestaurants, fetchRestaurants} from './store/actions/resta
 import {fetchAreas} from './store/actions/areas';
 import {updateNow, updateLocation} from './store/actions/misc';
 
-import {AppState} from 'react-native';
+import {AppState, AppRegistry} from 'react-native';
 
 class Main extends React.Component {
    componentWillMount() {
@@ -67,4 +67,4 @@ class Main extends React.Component {
    };
 }
 
-React.AppRegistry.registerComponent('kanttiinit', () => Main);
+AppRegistry.registerComponent('kanttiinit', () => Main);

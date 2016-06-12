@@ -19,7 +19,7 @@ export function days(state = [], action) {
    return state;
 }
 
-export function currentView(state = 'SUOSIKIT', action) {
+export function currentView(state = 'RAVINTOLAT', action) {
    if (action.type === SET_CURRENT_VIEW)
       return action.payload;
    return state;

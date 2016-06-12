@@ -16,7 +16,7 @@ import {
    TouchableOpacity
 } from 'react-native';
 
-class CourseDetails extends Component {
+class CourseDetails extends React.Component {
    getFavorites() {
       const title = this.props.course.title;
       return this.props.favorites.filter(f => title.match(new RegExp(f.regexp, 'i')));

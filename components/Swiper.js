@@ -1,17 +1,14 @@
-'use strict';
+import React from 'react';
 
-import React from 'react-native';
-
-const {
-   Component,
+import {
    Dimensions,
    Platform,
    ScrollView,
    View,
    ViewPagerAndroid
-} = React;
+} from 'react-native';
 
-class Swiper extends Component {
+export default class Swiper extends React.Component {
    constructor() {
       super();
       this.state = {width: Dimensions.get('window').width};
@@ -19,7 +16,7 @@ class Swiper extends Component {
    }
    setPage(p) {
       if (this.iOS) {
-         this.refs.scrollView.scrollTo(0, p * this.state.width);
+         this.refs.scrollView.scrollTo({y: 0, x: p * this.state.width});
       } else {
          this.refs.viewPager.setPage(p);
       }
@@ -63,5 +60,3 @@ class Swiper extends Component {
 Swiper.defaultProps = {
    onPageChange: () => undefined
 };
-
-export default Swiper;

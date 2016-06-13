@@ -1,18 +1,24 @@
 package com.kanttiinit;
 
 import com.facebook.react.ReactActivity;
+import com.microsoft.codepush.react.CodePush;
+import com.AirMaps.AirPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 
 
 import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends ReactActivity {
+
+   @Override
+   protected String getJSBundleFile() {
+      return CodePush.getBundleUrl();
+   }
 
     /**
      * Returns the name of the main component registered from JavaScript.
@@ -40,9 +46,10 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
+        new CodePush("DCRdt9kX4Pi3zVZfF8Vk_haPpNrX4y8NxonCg", this, BuildConfig.DEBUG),
+        new AirPackage(),
         new LinearGradientPackage(),
-        new VectorIconsPackage(),
-        new ReactMaterialKitPackage(),
-        new LifecycleEvents(this));
+        new VectorIconsPackage()
+      );
     }
 }

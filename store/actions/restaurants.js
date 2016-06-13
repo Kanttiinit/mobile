@@ -1,7 +1,7 @@
 import storage from '../storage';
 import HttpCache from '../HttpCache';
 
-import {updateMenus} from './menus';
+import {fetchMenus} from './menus';
 
 export const SET_SELECTED_RESTAURANTS = 'SET_SELECTED_RESTAURANTS';
 export const FETCH_RESTAURANTS = 'FETCH_RESTAURANTS';
@@ -12,7 +12,7 @@ function setSelectedRestaurants(payload) {
          type: SET_SELECTED_RESTAURANTS,
          payload
       })
-      .then(promise => dispatch(fetchRestaurants(promise.value)));
+      .then(({value}) => dispatch(fetchMenus(value)));
    };
 }
 
@@ -38,13 +38,9 @@ export function fetchSelectedRestaurants() {
    );
 }
 
-export function fetchRestaurants(selectedRestaurants) {
-   const queryString = selectedRestaurants.sort().join(',');
-   return dispatch => {
-      return dispatch({
-         type: FETCH_RESTAURANTS,
-         payload: HttpCache.get('menus', `/menus/${queryString}`, {hours: 3})
-      })
-      .then(() => dispatch(updateMenus()));
+export function fetchRestaurants() {
+   return {
+      type: FETCH_RESTAURANTS,
+      payload: HttpCache.get('restaurants', '/restaurants', {days: 1})
    };
 }

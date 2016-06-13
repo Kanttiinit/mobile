@@ -32,6 +32,10 @@ const AreaSelector = props => {
    );
 }
 
+const mapState = state => ({
+   areas: state.areas
+});
+
 const mapDispatch = dispatch => bindActionCreators({updateSelectedRestaurants}, dispatch);
 
-export default connect(null, mapDispatch)(AreaSelector);
+export default connect(mapState, mapDispatch)(AreaSelector);

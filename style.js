@@ -20,9 +20,10 @@ export const defaultStyles = StyleSheet.create({
       elevation: 3,
       shadowColor: 'black',
       shadowOpacity: 0.2,
-      shadowOffset: {width: 0, height: 2},
-      shadowRadius: 3,
-      marginBottom: 22
+      shadowOffset: {width: 0, height: 1},
+      shadowRadius: 1,
+      marginBottom: 18,
+      borderRadius: 4
    },
    lightBorderTop: {
       borderTopWidth: 1,

@@ -1,18 +1,13 @@
 import HttpCache from '../HttpCache';
 import storage from '../storage';
 
-import {updateMenus} from './menus';
-
 export const FETCH_FAVORITES = 'FETCH_FAVORITES';
 export const SET_SELECTED_FAVORITES = 'SET_SELECTED_FAVORITES';
 
 function setSelectedFavorites(promise) {
-   return dispatch => {
-      return dispatch({
-         type: SET_SELECTED_FAVORITES,
-         payload: promise
-      })
-      .then(() => dispatch(updateMenus()));
+   return {
+      type: SET_SELECTED_FAVORITES,
+      payload: promise
    };
 }
 

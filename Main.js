@@ -4,7 +4,6 @@ import {Provider} from 'react-redux';
 import Router from './Router';
 import codePush from 'react-native-code-push';
 import {AppState, AppRegistry, Platform, StatusBar, Keyboard} from 'react-native';
-console.log(Keyboard);
 import store from './store';
 import HttpCache from './store/HttpCache';
 import storage from './store/storage';
@@ -51,6 +50,7 @@ class Main extends React.Component {
       actions.fetchSelectedRestaurants();
       actions.fetchSelectedFavorites();
       actions.fetchFavorites();
+      actions.fetchRestaurants();
 
       // get areas
       actions.fetchAreas();

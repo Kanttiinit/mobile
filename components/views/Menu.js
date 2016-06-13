@@ -5,7 +5,7 @@ import Loader from '../Loader';
 import haversine from 'haversine';
 import {connect} from 'react-redux';
 
-import Day from './Menu/Day';
+import RestaurantList from './Menu/RestaurantList';
 import DaySelector from './Menu/DaySelector';
 import AreaSelector from './Menu/AreaSelector';
 import {colors} from '../../style';
@@ -19,9 +19,6 @@ import {
 } from 'react-native';
 
 class Menu extends React.Component {
-   constructor() {
-      super();
-   }
    onDaySelectorChange(p) {
       this.refs.swiper.setPage(p);
    }
@@ -36,18 +33,23 @@ class Menu extends React.Component {
       return props.currentView === 'RUOKALISTA';
    }
    render() {
-      const {areas, restaurants, days, restaurantsLoading} = this.props;
+      const {restaurants, days, restaurantsLoading} = this.props;
       return (
          <View style={styles.container}>
-            {!restaurants || !areas ?
+            {!restaurants ?
             <Loader color={colors.accent} />
             : !restaurants.length ?
-            <AreaSelector areas={areas} />
+            <AreaSelector />
             :
             <Swiper
                ref="swiper"
                onPageChange={this.onSwiperChange.bind(this)}>
-               {days.map((date, i) => <Day key={i} date={date} />)}
+               {days.map(day =>
+                  <RestaurantList
+                     key={day}
+                     day={day}
+                     restaurants={restaurants} />
+               )}
             </Swiper>
             }
 
@@ -74,8 +76,7 @@ const styles = StyleSheet.create({
 });
 
 const mapState = state => ({
-   areas: state.areas,
-   restaurants: state.restaurants.restaurants,
+   restaurants: state.restaurants.restaurants.filter(r => state.restaurants.selected.indexOf(r.id) > -1),
    days: state.misc.days,
    viewChanges: state.misc.views,
    currentView: state.misc.currentView

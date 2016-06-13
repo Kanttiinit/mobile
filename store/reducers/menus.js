@@ -1,17 +1,10 @@
+import typeToReducer from 'type-to-reducer';
 import formatMenus from '../menu-formatter';
 
-import {UPDATE_MENUS} from '../actions/menus';
+import {FETCH_MENUS} from '../actions/menus';
 
-export default function(state = [], action) {
-   if (action.type === 'UPDATE_MENUS') {
-      const s = action.getState();
-      return formatMenus(
-         s.misc.days,
-         s.restaurants.restaurants,
-         s.misc.now,
-         s.favorites.favorites,
-         s.misc.location
-      ) || [];
+export default typeToReducer({
+   [FETCH_MENUS]: {
+      FULFILLED: (state, {payload}) => payload
    }
-   return state;
-}
+}, null);

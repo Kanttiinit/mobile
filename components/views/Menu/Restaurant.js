@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
@@ -20,52 +21,22 @@ import {
 } from 'react-native';
 
 export class Restaurant extends React.Component {
-   formatOpeningHours() {
-      const {restaurant, date} = this.props;
-      if (restaurant.hours) {
-         const h = restaurant.hours;
-         return String(h[0]).substr(0, 2) + ':' + String(h[0]).substr(2) + ' – ' + String(h[1]).substr(0, 2) + ':' + String(h[1]).substr(2);
-      }
-      return 'suljettu';
-   }
    static formatDistance(distance) {
-      return distance < 1000 ? distance.toFixed(0) + ' m' : (distance / 1000).toFixed(1) + ' km';
-   }
-   getColor() {
-      return 'hsl(' +
-         this.props.restaurant.name.split('')
-         .map(_ => _.charCodeAt(0))
-         .reduce((code, sum) => sum + code, 0) % 360
-      + ', 25%, 95%)';
+      return distance < 1 ? (distance * 1000).toFixed(0) + ' m' : (distance).toFixed(1) + ' km';
    }
    getImage() {
-      const host = this.props.restaurant.url.match(/https?\:\/\/([^\/]+)/)[1];
-      switch (host) {
-         case 'www.sodexo.fi':
-            return require('../../../images/sodexo.png');
-         case 'www.teknologforeningen.fi':
-            return require('../../../images/taffa.png');
-         case 'www.amica.fi':
-            return require('../../../images/amica.jpg');
-         case 'www.hyyravintolat.fi':
-            return require('../../../images/unicafe.png');
-      }
-   }
-   getFavString(restaurant) {
-      return restaurant.courses.map(c => +c.isFavorite).join('');
+      return require(`../../../images/${this.props.restaurant.type}.png`);
    }
    shouldComponentUpdate(props) {
       const result = props.restaurant.id !== this.props.restaurant.id
          || props.restaurant.isOpen !== this.props.restaurant.isOpen
-         || props.restaurant.distance !== this.props.restaurant.distance
-         || this.getFavString(props.restaurant) !== this.getFavString(this.props.restaurant);
+         || props.restaurant.distance !== this.props.restaurant.distance;
 
       return result;
    }
    render() {
-      const {date, now, restaurant, openModal} = this.props;
-      const courses = restaurant.courses;
-      const isToday = now.isSame(date, 'day');
+      const {day, now, restaurant, openModal, courses} = this.props;
+      const isToday = now.isSame(day, 'day');
       const metaColor = isToday && restaurant.isOpen ? colors.darkAccent : colors.darkGrey;
       return (
          <View style={defaultStyles.card}>
@@ -80,7 +51,7 @@ export class Restaurant extends React.Component {
                      <Text style={[styles.metaText, {color: metaColor}]}>
                         <Icon size={10} name="md-time" />
                         {' '}
-                        {this.formatOpeningHours()}
+                        {restaurant.openingHours[moment(day).weekday()]}
                      </Text>
                      {restaurant.distance ?
                      <Text style={[styles.metaText, {marginLeft: 8, color: metaColor}]}>
@@ -116,8 +87,9 @@ export class Restaurant extends React.Component {
    }
 }
 
-const mapState = state => ({
-   now: state.misc.now
+const mapState = (state, props) => ({
+   now: state.misc.now,
+   courses: _.get(state.menus, [props.restaurant.id, props.day], [])
 });
 
 const mapDispatch = dispatch => bindActionCreators({openModal}, dispatch);

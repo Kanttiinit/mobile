@@ -6,11 +6,7 @@ import {colors} from '../../../style';
 
 import Button from '../../Button';
 
-import {
-   View,
-   StyleSheet,
-   Text
-} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 
 const ArrowButton = props => (
    <Button

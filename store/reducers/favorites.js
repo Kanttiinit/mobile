@@ -4,19 +4,16 @@ import {FETCH_FAVORITES, SET_SELECTED_FAVORITES} from '../actions/favorites';
 
 function getFormattedFavorites(favorites, selectedFavorites) {
    if (favorites)
-      return favorites
-         .map(f => ({
-            ...f,
-            selected: selectedFavorites.some(x => x === f.id)
-         }))
-         .sort((a, b) => {
-            if (a.selected && !b.selected)
-               return -1;
-            else if (!a.selected && b.selected)
-               return 1;
-
-            return a.name > b.name ? 1 : -1;
-         });
+      return _.orderBy(
+         favorites
+         .map(f =>
+            ({
+               ...f,
+               selected: selectedFavorites.some(x => x === f.id)
+            })
+         ),
+         ['selected', 'name'], ['desc', 'asc']
+      );
 
    return [];
 };

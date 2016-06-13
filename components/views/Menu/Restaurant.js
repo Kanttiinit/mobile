@@ -51,7 +51,7 @@ export class Restaurant extends React.Component {
                      <Text style={[styles.metaText, {color: metaColor}]}>
                         <Icon size={10} name="md-time" />
                         {' '}
-                        {restaurant.openingHours[moment(day).weekday()]}
+                        {restaurant.openingHours[moment(day).weekday()] || 'suljettu'}
                      </Text>
                      {restaurant.distance ?
                      <Text style={[styles.metaText, {marginLeft: 8, color: metaColor}]}>
@@ -89,7 +89,7 @@ export class Restaurant extends React.Component {
 
 const mapState = (state, props) => ({
    now: state.misc.now,
-   courses: _.get(state.menus, [props.restaurant.id, props.day], [])
+   courses: _.get(state.menus.menus, [props.restaurant.id, props.day], [])
 });
 
 const mapDispatch = dispatch => bindActionCreators({openModal}, dispatch);
@@ -99,8 +99,6 @@ export default connect(mapState, mapDispatch)(Restaurant);
 const styles = StyleSheet.create({
    header: {
       padding: 8,
-      borderBottomWidth: 1,
-      borderBottomColor: colors.lightGrey,
       justifyContent: 'center'
    },
    borderTop: {

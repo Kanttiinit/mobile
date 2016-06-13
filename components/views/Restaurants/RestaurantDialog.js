@@ -24,17 +24,14 @@ import {
 
 const dayNumberToDayOfWeek = n => moment().day(n + 1).format('ddd').toUpperCase();
 
-const formatOpeningHours = number => moment(number, 'HHmm').format('HH:mm');
-
 const getOpeningHourString = hours =>
    hours.reduce((open, hour, i) => {
       if (hour) {
-         const hourString = formatOpeningHours(hour[0]) + ' – ' + formatOpeningHours(hour[1]);
-         const existingIndex = open.findIndex(_ => _.hourString === hourString);
+         const existingIndex = open.findIndex(_ => _.hour === hour);
          if (existingIndex > -1)
             open[existingIndex].endDay = dayNumberToDayOfWeek(i);
          else
-            open.push({startDay: dayNumberToDayOfWeek(i), hourString});
+            open.push({startDay: dayNumberToDayOfWeek(i), hour});
       }
       return open;
    }, []);
@@ -148,7 +145,7 @@ class RestaurantDialog extends React.Component {
                {getOpeningHourString(restaurant.openingHours).map((_, i) =>
                <View key={i} style={{flexDirection: 'row'}}>
                   <Text style={{fontWeight: '500', width: 64}}>{_.startDay + (_.endDay ? ' – ' + _.endDay : '')}</Text>
-                  <Text style={{color: colors.darkGrey}}>{_.hourString}</Text>
+                  <Text style={{color: colors.darkGrey}}>{_.hour}</Text>
                </View>
                )}
 

@@ -32,7 +32,7 @@ class RestaurantList extends React.Component {
       const {day, menus, restaurants} = this.props;
       return (
          <View style={{flex: 1}}>
-            <View style={[defaultStyles.card, styles.daySelector]}>
+            <View style={styles.daySelector}>
                <Text style={styles.dayTitle}>
                   {moment(day).format('dddd').toUpperCase()}
                   <Text style={styles.date}> {moment(day).format('D.M.')}</Text>
@@ -41,7 +41,7 @@ class RestaurantList extends React.Component {
             <ListView
                initialListSize={1}
                pageSize={2}
-               contentContainerStyle={{padding: 18}}
+               contentContainerStyle={{padding: 18, paddingTop: 9}}
                dataSource={dataSource.cloneWithRows(restaurants)}
                renderRow={restaurant =>
                   <Restaurant restaurant={restaurant} day={day} />
@@ -56,9 +56,9 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       paddingVertical: 10,
       alignItems: 'center',
-      backgroundColor: colors.accent,
       marginBottom: 0,
       height: 50,
+      backgroundColor: 'transparent'
    },
    dayTitle: {
       fontSize: 20,
@@ -66,10 +66,10 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       textAlign: 'center',
       flex: 1,
-      color: 'white'
+      color: 'black'
    },
    date: {
-      color: 'rgba(255, 255, 255, 0.6)'
+      color: 'rgba(0, 0, 0, 0.6)'
    }
 });
 

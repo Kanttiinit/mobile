@@ -1,7 +1,7 @@
 import moment from 'moment';
 import {AsyncStorage} from 'react-native';
 
-const API_BASE = 'http://localhost:3000';
+const API_BASE = 'https://kitchen.kanttiinit.fi';
 
 export default {
 	get(key, url, maxAge) {

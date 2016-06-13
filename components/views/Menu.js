@@ -33,10 +33,10 @@ class Menu extends React.Component {
       return props.currentView === 'RUOKALISTA';
    }
    render() {
-      const {restaurants, days, restaurantsLoading} = this.props;
+      const {restaurants, loading, days} = this.props;
       return (
          <View style={styles.container}>
-            {!restaurants ?
+            {loading ?
             <Loader color={colors.accent} />
             : !restaurants.length ?
             <AreaSelector />
@@ -53,15 +53,9 @@ class Menu extends React.Component {
             </Swiper>
             }
 
-            {restaurants && restaurants.length ?
+            {!loading && restaurants.length &&
             <DaySelector ref="daySelector" onChange={this.onDaySelectorChange.bind(this)} max={days.length - 1} />
-            : null}
-
-            {restaurantsLoading ?
-            <View style={{position: 'absolute', alignItems: 'center', padding: 8, top: 0, left: 0, right: 0, backgroundColor: colors.accent}}>
-               <Text style={{color: 'white'}}>Päivitetään...</Text>
-            </View>
-            : null}
+            }
          </View>
       );
    }
@@ -79,7 +73,8 @@ const mapState = state => ({
    restaurants: state.restaurants.restaurants.filter(r => state.restaurants.selected.indexOf(r.id) > -1),
    days: state.misc.days,
    viewChanges: state.misc.views,
-   currentView: state.misc.currentView
+   currentView: state.misc.currentView,
+   loading: state.menus.loading || state.restaurants.loading
 });
 
 export default connect(mapState)(Menu);

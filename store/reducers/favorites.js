@@ -32,5 +32,6 @@ export default typeToReducer({
       }
    }
 }, {
-   selected: []
+   selected: [],
+   favorites: []
 });

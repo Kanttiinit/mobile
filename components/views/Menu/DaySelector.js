@@ -13,7 +13,7 @@ const ArrowButton = props => (
       onPress={() => props.onPress()}
       pointerEvents={props.visible ? 'auto' : 'none'}
       style={[styles.arrowButton, props.style, !props.visible && {opacity: 0}]}>
-      <Icon size={16} name={props.icon} color={colors.lightGrey} />
+      <Icon size={16} name={props.icon} color={colors.darkGrey} />
    </Button>
 );
 
@@ -37,8 +37,8 @@ export default class DaySelector extends React.Component {
    render() {
       const {max} = this.props;
       const {current} = this.state;
-      const transparentBackground = 'rgba(0, 150, 136, 0)';
-      const background = colors.accent;
+      const transparentBackground = 'rgba(255, 255, 255, 0)';
+      const background = colors.lightGrey;
       return (
          <View style={styles.container}>
             <LinearGradient

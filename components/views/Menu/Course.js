@@ -21,20 +21,20 @@ class Course extends React.Component {
       const currentCourse = this.props.course;
       if (currentCourse) {
          const nextCourse = props.course;
-         return currentCourse.title !== nextCourse.title || currentCourse.isFavorite !== nextCourse.isFavorite;
+         return currentCourse.title !== nextCourse.title || props.isFavorite !== this.props.isFavorite;
       }
       return true;
    }
    render() {
-      const {course, restaurant, style, favorites} = this.props;
+      const {course, isFavorite, restaurant, style, selectedFavorites} = this.props;
       course.restaurant = restaurant;
       return (
          <Button
             highlightColor={colors.lightGrey}
             onPress={() => this.props.openModal(<CourseDetails course={course} />)}
-            style={[course.isFavorite ? styles.favoriteCourse : {borderRadius: 2}]}>
+            style={[isFavorite ? styles.favoriteCourse : {borderRadius: 2}]}>
             <View style={[styles.course, style]}>
-               {course.isFavorite ? <Icon style={{marginRight: 6}} color='#fc5151' name='md-heart' /> : null}
+               {isFavorite ? <Icon style={{marginRight: 6}} color='#fc5151' name='md-heart' /> : null}
                <Text key={course.title} style={styles.courseTitle}>{course.title}</Text>
                {course.properties ? course.properties.map(p => <Property style={{marginLeft: 2}} key={p}>{p}</Property>) : null}
             </View>
@@ -43,9 +43,19 @@ class Course extends React.Component {
    }
 }
 
+const mapState = (state, props) => ({
+   isFavorite: state.favorites.favorites.some(f => {
+      const isSelected = state.favorites.selected.indexOf(f.id) > -1;
+      if (isSelected) {
+         return props.course.title.match(new RegExp(f.regexp, 'i'));
+      }
+      return false;
+   })
+});
+
 const mapDispatch = dispatch => bindActionCreators({openModal}, dispatch);
 
-export default connect(null, mapDispatch)(Course);
+export default connect(mapState, mapDispatch)(Course);
 
 const styles = StyleSheet.create({
    course: {

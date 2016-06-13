@@ -17,7 +17,7 @@ export const colors = {
 export const defaultStyles = StyleSheet.create({
    card: {
       backgroundColor: 'white',
-      elevation: 3,
+      elevation: 1,
       shadowColor: 'black',
       shadowOpacity: 0.2,
       shadowOffset: {width: 0, height: 1},

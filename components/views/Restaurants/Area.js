@@ -15,11 +15,11 @@ class Area extends React.Component {
       this.props.updateSelectedRestaurants(restaurants, checked);
    }
    areAllChecked() {
-      return this.props.area.Restaurants.every(r => this.props.selectedRestaurants.indexOf(r.id) > -1);
+      return this.props.area.restaurants.every(r => this.props.selectedRestaurants.indexOf(r.id) > -1);
    }
    shouldComponentUpdate(props) {
       const getSelectedRestaurantString = props =>
-         props.selectedRestaurants.filter(_ => props.area.Restaurants.some(r => r.id === _)).join(',');
+         props.selectedRestaurants.filter(_ => props.area.restaurants.some(r => r.id === _)).join(',');
 
       if (props.selectedRestaurants && this.props.selectedRestaurants)
          return getSelectedRestaurantString(this.props) !== getSelectedRestaurantString(props);
@@ -38,9 +38,9 @@ class Area extends React.Component {
                      backgroundColor={colors.accentDark}
                      color="white"
                      checked={this.areAllChecked()}
-                     onCheckedChange={this.checkedChange.bind(this, area.Restaurants)} />
+                     onCheckedChange={this.checkedChange.bind(this, area.restaurants)} />
                </View>
-               {area.Restaurants.sort((a, b) => a.name > b.name ? 1 : -1).map((r, i) =>
+               {area.restaurants.sort((a, b) => a.name > b.name ? 1 : -1).map((r, i) =>
                   <Restaurant
                      key={r.id}
                      restaurant={r}

@@ -1,3 +1,4 @@
+import typeToReducer from 'type-to-reducer';
 import haversine from 'haversine';
 
 import {SET_SELECTED_RESTAURANTS, FETCH_RESTAURANTS} from '../actions/restaurants';
@@ -16,15 +17,25 @@ function formatRestaurants(restaurants, location) {
    );
 }
 
-export default function(state = {selected: [], restaurants: []}, {type, payload}) {
-   switch (type) {
-      case `${SET_SELECTED_RESTAURANTS}_FULFILLED`:
-         return {...state, selected: payload};
-      case `${FETCH_RESTAURANTS}_FULFILLED`:
-         return {...state, restaurants: payload};
-      case `${UPDATE_LOCATION}_FULFILLED`:
-         return {...state, restaurants: formatRestaurants(state.restaurants, payload)};
-      default:
-         return state;
+export default typeToReducer({
+   [SET_SELECTED_RESTAURANTS]: {
+      FULFILLED: (state, {payload}) => ({...state, selected: payload})
+   },
+   [FETCH_RESTAURANTS]: {
+      PENDING: state => ({...state, loading: true}),
+      FULFILLED: (state, {payload}) => ({
+         ...state,
+         loading: false,
+         restaurants: payload
+      })
+   },
+   [UPDATE_LOCATION]: {
+      FULFILLED: (state, {payload}) => ({
+         ...state,
+         restaurants: formatRestaurants(state.restaurants, payload)
+      })
    }
-}
+}, {
+   selected: [],
+   restaurants: []
+});

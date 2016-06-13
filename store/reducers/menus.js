@@ -5,6 +5,12 @@ import {FETCH_MENUS} from '../actions/menus';
 
 export default typeToReducer({
    [FETCH_MENUS]: {
-      FULFILLED: (state, {payload}) => payload
+      PENDING: state => ({...state, loading: true}),
+      FULFILLED: (state, {payload}) => ({
+         ...state,
+         payload,
+         menus: payload,
+         loading: false
+      })
    }
-}, null);
+}, {});

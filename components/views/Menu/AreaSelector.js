@@ -7,10 +7,7 @@ import {colors} from '../../../style';
 
 import {updateSelectedRestaurants} from '../../../store/actions/restaurants';
 
-import {
-   View,
-   Text
-} from 'react-native';
+import {View, Text} from 'react-native';
 
 const AreaSelector = props => {
    const {areas, onSelect, updateSelectedRestaurants} = props;

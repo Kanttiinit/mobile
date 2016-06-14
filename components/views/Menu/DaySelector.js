@@ -2,8 +2,11 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
-import {colors} from '../../../style';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
+import {setDayOffset} from '../../../store/actions/menus';
+import {colors} from '../../../style';
 import Button from '../../Button';
 
 import {View, StyleSheet, Text} from 'react-native';
@@ -17,26 +20,16 @@ const ArrowButton = props => (
    </Button>
 );
 
-export default class DaySelector extends React.Component {
-   constructor() {
-      super();
-
-      this.state = {current: 0};
-   }
+class DaySelector extends React.Component {
    shouldComponentUpdate(props, state) {
-      return state.current !== this.state.current;
-   }
-   setCurrent(day) {
-      this.setState({current: day});
+      return props.dayOffset !== this.props.dayOffset;
    }
    change(p) {
-      const current = Math.min(this.props.max, Math.max(0, this.state.current + p));
-      this.props.onChange(current);
-      this.setState({current});
+      const current = Math.min(this.props.max, Math.max(0, this.props.dayOffset + p));
+      this.props.setDayOffset(current);
    }
    render() {
-      const {max} = this.props;
-      const {current} = this.state;
+      const {max, dayOffset} = this.props;
       const transparentBackground = 'rgba(255, 255, 255, 0)';
       const background = colors.lightGrey;
       return (
@@ -51,7 +44,7 @@ export default class DaySelector extends React.Component {
                   onPress={this.change.bind(this, -1)}
                   icon="ios-arrow-back"
                   style={{alignItems: 'flex-start'}}
-                  visible={current > 0} />
+                  visible={dayOffset > 0} />
             </LinearGradient>
             <LinearGradient
                start={[0, 0]}
@@ -63,12 +56,20 @@ export default class DaySelector extends React.Component {
                   onPress={this.change.bind(this, 1)}
                   icon="ios-arrow-forward"
                   style={{alignItems: 'flex-end'}}
-                  visible={current < max} />
+                  visible={dayOffset < max} />
             </LinearGradient>
          </View>
       );
    }
 }
+
+const mapState = state => ({
+   dayOffset: state.menus.dayOffset
+});
+
+const mapDispatch = dispatch => bindActionCreators({setDayOffset}, dispatch);
+
+export default connect(mapState, mapDispatch)(DaySelector);
 
 const styles = StyleSheet.create({
    container: {

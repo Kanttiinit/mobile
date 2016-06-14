@@ -12,13 +12,7 @@ import {colors, defaultStyles} from '../../../style';
 import Button from '../../Button';
 import RestaurantDialog from '../Restaurants/RestaurantDialog';
 
-import {
-   View,
-   Text,
-   Image,
-   StyleSheet,
-   Platform
-} from 'react-native';
+import {View, Text, Image, StyleSheet} from 'react-native';
 
 export class Restaurant extends React.Component {
    static formatDistance(distance) {

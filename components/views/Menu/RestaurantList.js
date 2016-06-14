@@ -6,14 +6,7 @@ import {colors, defaultStyles} from '../../../style';
 
 import Restaurant from './Restaurant';
 
-import {
-   View,
-   Text,
-   ListView,
-   Platform,
-   StyleSheet,
-   InteractionManager
-} from 'react-native';
+import {View, Text, ListView, StyleSheet} from 'react-native';
 
 moment.locale('fi');
 const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -41,7 +34,7 @@ class RestaurantList extends React.Component {
             <ListView
                initialListSize={1}
                pageSize={2}
-               contentContainerStyle={{padding: 18, paddingTop: 9}}
+               contentContainerStyle={{padding: 14, paddingTop: 4}}
                dataSource={dataSource.cloneWithRows(restaurants)}
                renderRow={restaurant =>
                   <Restaurant restaurant={restaurant} day={day} />

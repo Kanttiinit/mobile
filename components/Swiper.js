@@ -14,11 +14,13 @@ export default class Swiper extends React.Component {
       this.state = {width: Dimensions.get('window').width};
       this.iOS = Platform.OS === 'ios';
    }
-   setPage(p) {
-      if (this.iOS) {
-         this.refs.scrollView.scrollTo({y: 0, x: p * this.state.width});
-      } else {
-         this.refs.viewPager.setPage(p);
+   componentWillReceiveProps(props) {
+      if (props.page !== this.props.page) {
+         if (this.iOS) {
+            this.refs.scrollView.scrollTo({y: 0, x: props.page * this.state.width});
+         } else {
+            this.refs.viewPager.setPage(props.page);
+         }
       }
    }
    render() {

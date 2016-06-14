@@ -1,7 +1,7 @@
 import typeToReducer from 'type-to-reducer';
 import formatMenus from '../menu-formatter';
 
-import {FETCH_MENUS} from '../actions/menus';
+import {FETCH_MENUS, SET_DAY_OFFSET} from '../actions/menus';
 
 export default typeToReducer({
    [FETCH_MENUS]: {
@@ -12,5 +12,9 @@ export default typeToReducer({
          menus: payload,
          loading: false
       })
-   }
-}, {});
+   },
+   [SET_DAY_OFFSET]: (state, {payload}) => ({...state, dayOffset: payload})
+}, {
+   dayOffset: 0,
+   menus: {}
+});

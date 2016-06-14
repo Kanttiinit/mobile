@@ -9,13 +9,7 @@ import {colors} from '../../../style';
 import {dismissModal} from '../../../store/actions/modal';
 import {addFavorite, removeFavorite} from '../../../store/actions/favorites';
 
-import {
-   View,
-   Text,
-   Component,
-   StyleSheet,
-   TouchableOpacity
-} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
 function getFavorites(course, favorites) {
    const title = course.title;

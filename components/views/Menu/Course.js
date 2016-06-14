@@ -9,12 +9,7 @@ import Property from './Property';
 import Button from '../../Button';
 import {colors} from '../../../style';
 
-import {
-   View,
-   Text,
-   StyleSheet,
-   Platform
-} from 'react-native';
+import {View, Text, StyleSheet, Platform} from 'react-native';
 
 class Course extends React.Component {
    shouldComponentUpdate(props) {

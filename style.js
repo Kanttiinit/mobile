@@ -22,7 +22,7 @@ export const defaultStyles = StyleSheet.create({
       shadowOpacity: 0.2,
       shadowOffset: {width: 0, height: 1},
       shadowRadius: 1,
-      marginBottom: 18,
+      marginBottom: 14,
       borderRadius: 4
    },
    lightBorderTop: {

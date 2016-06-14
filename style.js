@@ -14,19 +14,27 @@ export const colors = {
    red: '#B71C1C'
 };
 
+const roundedElevated = {
+   elevation: 1,
+   shadowColor: 'black',
+   shadowOpacity: 0.2,
+   shadowOffset: {width: 0, height: 1},
+   shadowRadius: 1,
+   borderRadius: 4
+};
+
 export const defaultStyles = StyleSheet.create({
    card: {
+      ...roundedElevated,
       backgroundColor: 'white',
-      elevation: 1,
-      shadowColor: 'black',
-      shadowOpacity: 0.2,
-      shadowOffset: {width: 0, height: 1},
-      shadowRadius: 1,
       marginBottom: 14,
-      borderRadius: 4
    },
    lightBorderTop: {
       borderTopWidth: 1,
       borderTopColor: colors.lightGrey
+   },
+   button: {
+      ...roundedElevated,
+      backgroundColor: colors.accent
    }
 });

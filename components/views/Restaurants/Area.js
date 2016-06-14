@@ -59,9 +59,7 @@ const styles = StyleSheet.create({
    area: {
       padding: 6,
       flexDirection: 'row',
-      alignItems: 'center',
-      borderBottomWidth: 1,
-      borderBottomColor: colors.lightGrey
+      alignItems: 'center'
    },
    areaTitle: {
       fontSize: 20,

@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 import {openModal} from '../../store/actions/modal';
 
 import Area from './Restaurants/Area';
-import {colors} from '../../style';
+import {colors, defaultStyles} from '../../style';
 import Button from '../Button';
 import ContactForm from '../ContactForm';
 
@@ -20,13 +20,13 @@ const Restaurants = props => {
       <View style={styles.container}>
          <Button
             onPress={() => openModal(<ContactForm type="missing-restaurant">Mikä ravintola puuttuu?</ContactForm>)}
-            style={{padding: 8, margin: 8, borderRadius: 2, backgroundColor: colors.accent}}>
+            style={[defaultStyles.button, {padding: 12, margin: 12}]}>
             <Text style={{color: 'white', fontSize: 14, textAlign: 'center'}}>ILMOITA PUUTTUVASTA RAVINTOLASTA</Text>
          </Button>
          {areas ?
          <ListView
             enableEmptySections={true}
-            contentContainerStyle={{padding: 18}}
+            contentContainerStyle={{padding: 12, paddingTop: 0}}
             dataSource={dataSource.cloneWithRows(areas)}
             renderRow={area => <Area area={area} />} />
          : <Loader color={colors.accent} />}

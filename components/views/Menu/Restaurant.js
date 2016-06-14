@@ -29,8 +29,7 @@ export class Restaurant extends React.Component {
       return result;
    }
    render() {
-      const {day, now, restaurant, openModal, courses} = this.props;
-      const isToday = now.isSame(day, 'day');
+      const {day, now, isToday, restaurant, openModal, courses} = this.props;
       const metaColor = isToday && restaurant.isOpen ? colors.darkAccent : colors.darkGrey;
 
       return (
@@ -41,12 +40,14 @@ export class Restaurant extends React.Component {
                style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}
                containerStyle={styles.header}>
                <View style={{flex: 1}}>
-                  <Text style={[styles.restaurantName, !(isToday && restaurant.isOpen) && {color: colors.darkGrey}]}>{restaurant.name}</Text>
+                  <Text style={[styles.restaurantName, !(isToday && restaurant.isOpen) && {color: colors.darkGrey}]}>
+                     {restaurant.name}
+                  </Text>
                   <View style={{flex: 1, marginTop: 2, flexDirection: 'row'}}>
                      <Text style={[styles.metaText, {color: metaColor}]}>
                         <Icon size={10} name="md-time" />
                         {' '}
-                        {restaurant.openingHours[moment(day).weekday()] || 'suljettu'}
+                        {restaurant.openingHours[now.weekday()] || 'suljettu'}
                      </Text>
                      {restaurant.distance ?
                      <Text style={[styles.metaText, {marginLeft: 8, color: metaColor}]}>
@@ -84,7 +85,8 @@ export class Restaurant extends React.Component {
 
 const mapState = (state, props) => ({
    now: state.misc.now,
-   courses: _.get(state.menus.menus, [props.restaurant.id, props.day], [])
+   courses: _.get(state.menus.menus, [props.restaurant.id, props.day], []),
+   isToday: state.misc.now.isSame(moment(props.day), 'day')
 });
 
 const mapDispatch = dispatch => bindActionCreators({openModal}, dispatch);

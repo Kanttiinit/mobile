@@ -32,8 +32,9 @@ export class Restaurant extends React.Component {
       const {day, now, restaurant, openModal, courses} = this.props;
       const isToday = now.isSame(day, 'day');
       const metaColor = isToday && restaurant.isOpen ? colors.darkAccent : colors.darkGrey;
+
       return (
-         <View style={defaultStyles.card}>
+         <View style={[defaultStyles.card, !courses.length && {opacity: 0.75}]}>
 
             <Button
                onPress={() => openModal(<RestaurantDialog restaurant={restaurant} />, {padding: 0})}

@@ -9,7 +9,7 @@ function formatRestaurants(restaurants, location) {
       restaurants.map(restaurant =>
          ({
             ...restaurant,
-            distance: haversine(location, restaurant)
+            distance: location ? haversine(location, restaurant) : undefined
          })
       ),
       ['distance'],
@@ -23,10 +23,10 @@ export default typeToReducer({
    },
    [FETCH_RESTAURANTS]: {
       PENDING: state => ({...state, loading: true}),
-      FULFILLED: (state, {payload}) => ({
+      FULFILLED: (state, {payload, getState}) => ({
          ...state,
          loading: false,
-         restaurants: payload
+         restaurants: formatRestaurants(payload, getState().misc.location)
       })
    },
    [UPDATE_LOCATION]: {

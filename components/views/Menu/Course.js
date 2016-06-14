@@ -22,6 +22,7 @@ class Course extends React.Component {
    }
    render() {
       const {course, isFavorite, restaurant, style, selectedFavorites} = this.props;
+
       course.restaurant = restaurant;
       return (
          <Button
@@ -39,12 +40,11 @@ class Course extends React.Component {
 }
 
 const mapState = (state, props) => ({
-   isFavorite: state.favorites.favorites.some(f => {
-      const isSelected = state.favorites.selected.indexOf(f.id) > -1;
-      if (isSelected) {
-         return props.course.title.match(new RegExp(f.regexp, 'i'));
+   isFavorite: state.favorites.selected.some(selectedId => {
+      const favorite = state.favorites.favorites.find(f => f.id === selectedId);
+      if (favorite) {
+         return props.course.title.match(new RegExp(favorite.regexp, 'i'));
       }
-      return false;
    })
 });
 

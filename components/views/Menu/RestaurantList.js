@@ -15,8 +15,7 @@ class RestaurantList extends React.Component {
    shouldComponentUpdate(props) {
       if (props.currentView === 'RUOKALISTA') {
          return this.props.day !== props.day
-            || this.props.menus !== props.menus
-            || !props.now.isSame(this.props.date, 'minute');
+            || !props.now.isSame(this.props.now, 'minute');
       }
 
       return false;
@@ -68,8 +67,7 @@ const styles = StyleSheet.create({
 
 const mapState = state => ({
    currentView: state.misc.currentView,
-   now: state.misc.now,
-   menus: state.menus
+   now: state.misc.now
 });
 
 export default connect(mapState)(RestaurantList);

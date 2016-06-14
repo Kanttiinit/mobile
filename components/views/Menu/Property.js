@@ -41,18 +41,25 @@ function getColor(p) {
    return '#9E9E9E';
 }
 
-const Property = ({children, size = 16, large, containerStyle}) => {
-   const color = getColor(children);
-   const fontSize = large ? 12 : 10;
-   const width = large ? 18 : undefined;
-   return (
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
-         <Text style={{fontSize, width, fontWeight: 'bold', marginLeft: 3, color, backgroundColor: 'transparent'}}>{children}</Text>
-         {large ?
-            <Text style={{marginLeft: 6}}>{getName(children)}</Text>
-         : null}
-      </View>
-   );
+class Property extends React.Component {
+   shouldComponentUpdate(props) {
+      return props.children !== this.props.children;
+   }
+   render() {
+      const {children, size = 16, large, containerStyle} = this.props;
+      const color = getColor(children);
+      const fontSize = large ? 12 : 10;
+      const width = large ? 18 : undefined;
+
+      return (
+         <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Text style={{fontSize, width, fontWeight: 'bold', marginLeft: 3, color, backgroundColor: 'transparent'}}>{children}</Text>
+            {large ?
+               <Text style={{marginLeft: 6}}>{getName(children)}</Text>
+            : null}
+         </View>
+      );
+   }
 }
 
 export default Property;

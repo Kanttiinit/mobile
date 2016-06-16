@@ -7,7 +7,7 @@ import Property from './Property';
 import Button from '../../Button';
 import {colors} from '../../../style';
 import {dismissModal} from '../../../store/actions/modal';
-import {addFavorite, removeFavorite} from '../../../store/actions/favorites';
+import {setIsSelected} from '../../../store/actions/favorites';
 
 import {View, Text, StyleSheet} from 'react-native';
 
@@ -17,7 +17,7 @@ function getFavorites(course, favorites) {
 }
 
 const CourseDetails = props => {
-   const {course, favorites, addFavorite, removeFavorite, dismissModal} = props;
+   const {course, favorites, restaurant, setIsSelected, dismissModal} = props;
    return (
       <View style={styles.container}>
          <View>
@@ -32,7 +32,7 @@ const CourseDetails = props => {
             {getFavorites(course, favorites).sort((a, b) => a.name < b.name ? -1 : 1).map(f =>
             <Button
                key={f.id}
-               onPress={() => f.selected ? removeFavorite(f.id) : addFavorite(f.id)}
+               onPress={() => setIsSelected(f.id, !f.selected)}
                style={{padding: 4, marginRight: 4, backgroundColor: f.selected ? colors.red : 'transparent', borderColor: colors.red, borderWidth: 1, borderRadius: 2}}>
                <Text style={{color: f.selected ? 'white' : colors.red}}>
                   <Icon name={'md-heart' + (f.selected ? '' : '-outline')} />
@@ -42,7 +42,7 @@ const CourseDetails = props => {
             )}
          </View>
          <View style={styles.footer}>
-            <Text style={styles.restaurantName}>{course.restaurant.name}</Text>
+            <Text style={styles.restaurantName}>{restaurant.name}</Text>
             <Button
                onPress={() => dismissModal()}
                style={styles.closeButton}>
@@ -54,10 +54,10 @@ const CourseDetails = props => {
 }
 
 const mapState = state => ({
-   favorites: state.favorites.favorites
+   favorites: state.favorites.items
 });
 
-const mapDispatch = dispatch => bindActionCreators({dismissModal, addFavorite, removeFavorite}, dispatch);
+const mapDispatch = dispatch => bindActionCreators({setIsSelected, dismissModal}, dispatch);
 
 export default connect(mapState, mapDispatch)(CourseDetails);
 

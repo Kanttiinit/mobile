@@ -15,7 +15,7 @@ import {ListView, View, Text, StyleSheet, Platform} from 'react-native';
 const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
 
 const Restaurants = props => {
-   const {openModal, areas} = props;
+   const {openModal, areas, loading} = props;
    return (
       <View style={styles.container}>
          <Button
@@ -23,13 +23,13 @@ const Restaurants = props => {
             style={[defaultStyles.button, {padding: 12, margin: 12}]}>
             <Text style={{color: 'white', fontSize: 14, textAlign: 'center'}}>ILMOITA PUUTTUVASTA RAVINTOLASTA</Text>
          </Button>
-         {areas ?
+         {loading ? <Loader color={colors.accent} /> :
          <ListView
             enableEmptySections={true}
             contentContainerStyle={{padding: 12, paddingTop: 0}}
             dataSource={dataSource.cloneWithRows(areas)}
             renderRow={area => <Area area={area} />} />
-         : <Loader color={colors.accent} />}
+         }
       </View>
    );
 }
@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
 });
 
 const mapState = state => ({
-   areas: state.areas
+   areas: state.areas.items,
+   loading: state.areas.loading
 });
 
 const mapDispatch = dispatch => bindActionCreators({openModal}, dispatch);

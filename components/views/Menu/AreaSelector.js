@@ -3,14 +3,15 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import Button from '../../Button';
-import {colors} from '../../../style';
+import {colors, defaultStyles} from '../../../style';
 
 import {updateSelectedRestaurants} from '../../../store/actions/restaurants';
 
 import {View, Text} from 'react-native';
 
 const AreaSelector = props => {
-   const {areas, onSelect, updateSelectedRestaurants} = props;
+   const {areas, updateSelectedRestaurants} = props;
+
    return (
       <View style={{justifyContent: 'center', flex: 1}}>
          <Text style={{fontSize: 20, textAlign: 'center', padding: 18, marginBottom: 8}}>
@@ -18,9 +19,9 @@ const AreaSelector = props => {
          </Text>
          {areas.map(a =>
             <Button
-               onPress={() => updateSelectedRestaurants(a.Restaurants, true)}
+               onPress={() => updateSelectedRestaurants(a.restaurants, true)}
                key={a.id}
-               style={{backgroundColor: colors.accent, borderRadius: 4, padding: 18, margin: 8, marginTop: 0}}>
+               style={[defaultStyles.button, {padding: 20, marginVertical: 5, marginHorizontal: 10}]}>
                <Text style={{color: 'white', fontSize: 20}}>{a.name}</Text>
             </Button>
          )}
@@ -30,7 +31,7 @@ const AreaSelector = props => {
 }
 
 const mapState = state => ({
-   areas: state.areas
+   areas: state.areas.items
 });
 
 const mapDispatch = dispatch => bindActionCreators({updateSelectedRestaurants}, dispatch);

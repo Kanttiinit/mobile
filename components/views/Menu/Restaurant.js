@@ -18,9 +18,6 @@ export class Restaurant extends React.Component {
    static formatDistance(distance) {
       return distance < 1 ? (distance * 1000).toFixed(0) + ' m' : (distance).toFixed(1) + ' km';
    }
-   getImage() {
-      return require(`../../../images/${this.props.restaurant.type}.png`);
-   }
    shouldComponentUpdate(props) {
       const result = props.restaurant.id !== this.props.restaurant.id
          || props.restaurant.isOpen !== this.props.restaurant.isOpen
@@ -58,9 +55,9 @@ export class Restaurant extends React.Component {
                      : null}
                   </View>
                </View>
-               {restaurant.image ?
+               {restaurant.type ?
                <Image
-                  source={this.getImage()}
+                  source={require(`../../../images/${restaurant.type}.png`)}
                   resizeMode="contain"
                   style={{width: 42, height: 36, marginRight: 4}} />
                : null}

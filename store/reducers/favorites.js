@@ -20,18 +20,20 @@ function getFormattedFavorites(favorites, selectedFavorites) {
 
 export default typeToReducer({
    [FETCH_FAVORITES]: {
+      PENDING: (state, {payload}) => ({...state, loading: true}),
       FULFILLED(state, action) {
-         const favorites = getFormattedFavorites(action.payload, state.selected);
-         return {...state, favorites};
+         const items = getFormattedFavorites(action.payload, state.selected);
+         return {...state, items, loading: false};
       }
    },
    [SET_SELECTED_FAVORITES]: {
       FULFILLED(state, action) {
-         const favorites = getFormattedFavorites(state.favorites, action.payload);
-         return {...state, favorites, selected: action.payload};
+         const items = getFormattedFavorites(state.items, action.payload);
+         return {...state, items, selected: action.payload};
       }
    }
 }, {
    selected: [],
-   favorites: []
+   items: [],
+   loading: false
 });

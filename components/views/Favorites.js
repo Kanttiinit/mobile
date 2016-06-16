@@ -25,7 +25,11 @@ class Favorites extends React.Component {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
    }
    render() {
-      const {favorites} = this.props;
+      const {favorites, loading} = this.props;
+      if (loading) {
+         return <Loader />;
+      }
+
       return (
          <View style={styles.container}>
             {favorites ?
@@ -52,7 +56,8 @@ const styles = StyleSheet.create({
 });
 
 const mapState = state => ({
-   favorites: state.favorites.favorites
+   favorites: state.favorites.items,
+   loading: state.favorites.loading
 });
 
 export default connect(mapState)(Favorites);

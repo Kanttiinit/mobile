@@ -3,16 +3,11 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {addFavorite, removeFavorite} from '../../../store/actions/favorites';
+import {setIsSelected} from '../../../store/actions/favorites';
 
 import Button from '../../Button';
 
-import {
-   View,
-   Text,
-   StyleSheet,
-   Platform
-} from 'react-native';
+import {View, Text, StyleSheet, Platform} from 'react-native';
 
 class Favorite extends React.Component {
    shouldComponentUpdate(props) {
@@ -20,15 +15,11 @@ class Favorite extends React.Component {
          || props.favorite.selected !== this.props.favorite.selected;
    }
    toggle() {
-      const {favorite, addFavorite, removeFavorite} = this.props;
-
-      if (favorite.selected)
-         removeFavorite(favorite.id);
-      else
-         addFavorite(favorite.id);
+      const {favorite, setIsSelected} = this.props;
+      setIsSelected(favorite.id, !favorite.selected);
    }
    render() {
-      const {favorite, addFavorite, removeFavorite} = this.props;
+      const {favorite} = this.props;
       return (
          <Button
             style={styles.favorite}
@@ -43,7 +34,7 @@ class Favorite extends React.Component {
    }
 }
 
-const mapDispatch = dispatch => bindActionCreators({addFavorite, removeFavorite}, dispatch);
+const mapDispatch = dispatch => bindActionCreators({setIsSelected}, dispatch);
 
 export default connect(null, mapDispatch)(Favorite);
 

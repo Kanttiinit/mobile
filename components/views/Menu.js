@@ -16,36 +16,40 @@ import {View, StyleSheet, Text} from 'react-native';
 
 class Menu extends React.Component {
    componentWillReceiveProps(props) {
-      if (this.props.viewChanges !== props.viewChanges && props.currentView === 'RUOKALISTA' && this.props.currentView === 'RUOKALISTA' && this.refs.swiper)
+      if (this.props.viewChanges !== props.viewChanges && props.currentView === 'RUOKALISTA' && this.props.currentView === 'RUOKALISTA')
          this.props.setDayOffset(0);
    }
    shouldComponentUpdate(props) {
       return props.currentView === 'RUOKALISTA';
    }
+   renderContent() {
+      const {dayOffset, loading, days, restaurants} = this.props;
+      if (this.props.loading) {
+         return <Loader color={colors.accent} />
+      } else if (!restaurants.length) {
+         return <AreaSelector />;
+      } else {
+         return (
+            <View>
+               <Swiper
+                  page={dayOffset}
+                  onPageChange={page => this.props.setDayOffset(page)}>
+                  {days.map(day =>
+                  <RestaurantList
+                     key={day}
+                     day={day}
+                     restaurants={restaurants} />
+                  )}
+               </Swiper>
+               <DaySelector max={days.length - 1} />
+            </View>
+         );
+      }
+   }
    render() {
-      const {restaurants, loading, days, dayOffset} = this.props;
-
       return (
          <View style={styles.container}>
-            {loading ?
-            <Loader color={colors.accent} />
-            : !restaurants.length ?
-            <AreaSelector />
-            :
-            <Swiper
-               ref="swiper"
-               page={dayOffset}
-               onPageChange={page => this.props.setDayOffset(page)}>
-               {days.map(day =>
-               <RestaurantList
-                  key={day}
-                  day={day}
-                  restaurants={restaurants} />
-               )}
-            </Swiper>
-            }
-
-            {!loading && restaurants.length && <DaySelector max={days.length - 1} />}
+            {this.renderContent()}
          </View>
       );
    }

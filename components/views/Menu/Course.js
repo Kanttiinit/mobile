@@ -12,22 +12,12 @@ import {colors} from '../../../style';
 import {View, Text, StyleSheet, Platform} from 'react-native';
 
 class Course extends React.Component {
-   shouldComponentUpdate(props) {
-      const currentCourse = this.props.course;
-      if (currentCourse) {
-         const nextCourse = props.course;
-         return currentCourse.title !== nextCourse.title || props.isFavorite !== this.props.isFavorite;
-      }
-      return true;
-   }
    render() {
-      const {course, isFavorite, restaurant, style, selectedFavorites} = this.props;
-
-      course.restaurant = restaurant;
+      const {course, isFavorite, restaurant, style} = this.props;
       return (
          <Button
             highlightColor={colors.lightGrey}
-            onPress={() => this.props.openModal(<CourseDetails course={course} />)}
+            onPress={() => this.props.openModal(<CourseDetails course={course} restaurant={restaurant} />)}
             style={[isFavorite ? styles.favoriteCourse : {borderRadius: 2}]}>
             <View style={[styles.course, style]}>
                {isFavorite ? <Icon style={{marginRight: 6}} color='#fc5151' name='md-heart' /> : null}
@@ -41,7 +31,7 @@ class Course extends React.Component {
 
 const mapState = (state, props) => ({
    isFavorite: state.favorites.selected.some(selectedId => {
-      const favorite = state.favorites.favorites.find(f => f.id === selectedId);
+      const favorite = state.favorites.items.find(f => f.id === selectedId);
       if (favorite) {
          return props.course.title.match(new RegExp(favorite.regexp, 'i'));
       }

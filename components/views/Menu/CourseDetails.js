@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 
 import Property from './Property';
 import Button from '../../Button';
-import {colors} from '../../../style';
+import {colors, defaultStyles} from '../../../style';
 import {dismissModal} from '../../../store/actions/modal';
 import {setIsSelected} from '../../../store/actions/favorites';
 
@@ -44,9 +44,8 @@ const CourseDetails = props => {
          <View style={styles.footer}>
             <Text style={styles.restaurantName}>{restaurant.name}</Text>
             <Button
-               onPress={() => dismissModal()}
-               style={styles.closeButton}>
-               <Text style={styles.closeButtonText}>SULJE</Text>
+               onPress={() => dismissModal()}>
+               <Text style={defaultStyles.lightButtonText}>SULJE</Text>
             </Button>
          </View>
       </View>
@@ -86,15 +85,5 @@ const styles = StyleSheet.create({
       alignSelf: 'flex-end',
       color: '#777',
       flex: 1
-   },
-   closeButton: {
-      backgroundColor: colors.accent,
-      borderRadius: 2,
-      padding: 6,
-   },
-   closeButtonText: {
-      fontSize: 12,
-      color: 'white',
-      fontWeight: 'bold'
    }
 });

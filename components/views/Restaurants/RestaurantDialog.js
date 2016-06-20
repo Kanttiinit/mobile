@@ -9,7 +9,7 @@ import {bindActionCreators} from 'redux';
 
 import {Restaurant} from '../Menu/Restaurant';
 import Button from '../../Button';
-import {colors} from '../../../style';
+import {colors, defaultStyles} from '../../../style';
 import {dismissModal} from '../../../store/actions/modal';
 
 import {
@@ -157,9 +157,8 @@ class RestaurantDialog extends React.Component {
                   : null}
                   <View style={{flex: 1}} />
                   <Button
-                     onPress={() => this.props.dismissModal()}
-                     style={styles.closeButton}>
-                     <Text style={styles.closeButtonText}>SULJE</Text>
+                     onPress={() => this.props.dismissModal()}>
+                     <Text style={defaultStyles.lightButtonText}>SULJE</Text>
                   </Button>
                </View>
 

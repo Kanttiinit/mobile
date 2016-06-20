@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
       fontFamily: Platform.OS === 'android' ? 'sans-serif-light' : undefined
    },
    date: {
-      color: 'rgba(0, 0, 0, 0.6)'
+      color: 'rgba(0, 0, 0, 0.4)'
    }
 });
 

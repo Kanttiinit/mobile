@@ -39,5 +39,11 @@ export const defaultStyles = StyleSheet.create({
    button: {
       ...roundedElevated,
       backgroundColor: colors.accent
+   },
+   lightButtonText: {
+      fontSize: 12,
+      color: 'white',
+      fontWeight: 'bold',
+      color: colors.accent
    }
 });

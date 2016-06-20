@@ -20,13 +20,13 @@ const Restaurants = props => {
       <View style={styles.container}>
          <Button
             onPress={() => openModal(<ContactForm type="missing-restaurant">Mikä ravintola puuttuu?</ContactForm>)}
-            style={[defaultStyles.button, {padding: 12, margin: 12}]}>
+            style={[defaultStyles.button, {padding: 12, margin: 8}]}>
             <Text style={{color: 'white', fontSize: 14, textAlign: 'center'}}>ILMOITA PUUTTUVASTA RAVINTOLASTA</Text>
          </Button>
          {loading ? <Loader color={colors.accent} /> :
          <ListView
             enableEmptySections={true}
-            contentContainerStyle={{padding: 12, paddingTop: 0}}
+            contentContainerStyle={{padding: 4, paddingTop: 0}}
             dataSource={dataSource.cloneWithRows(areas)}
             renderRow={area => <Area area={area} />} />
          }

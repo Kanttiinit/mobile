@@ -16,11 +16,11 @@ import {View, StyleSheet, Text} from 'react-native';
 
 class Menu extends React.Component {
    componentWillReceiveProps(props) {
-      if (this.props.viewChanges !== props.viewChanges && props.currentView === 'RUOKALISTA' && this.props.currentView === 'RUOKALISTA')
+      if (this.props.viewChanges !== props.viewChanges && props.currentView === 'Ruokalista' && this.props.currentView === 'Ruokalista')
          this.props.setDayOffset(0);
    }
    shouldComponentUpdate(props) {
-      return props.currentView === 'RUOKALISTA';
+      return props.currentView === 'Ruokalista';
    }
    renderContent() {
       const {dayOffset, loading, days, restaurants} = this.props;

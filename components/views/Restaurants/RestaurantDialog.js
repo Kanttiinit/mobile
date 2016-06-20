@@ -102,15 +102,6 @@ class RestaurantDialog extends React.Component {
                rotateEnabled={false}
                showsUserLocation={true}
                initialRegion={this.getInitialRegion()}>
-               {location ?
-               <Marker
-                  coordinate={location}
-                  title="Oma sijainti"
-                  color={colors.accentLight}
-                  style={{paddingHorizontal: 4}}>
-                  <Icon name="md-person" color="white" size={20}/>
-               </Marker>
-               : null}
                <Marker
                   coordinate={{
                      latitude: restaurant.latitude,
@@ -136,7 +127,7 @@ class RestaurantDialog extends React.Component {
                   </TouchableWithoutFeedback>
                   {location ?
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                     <Icon style={styles.distance} name="ios-location" />
+                     <Icon style={styles.distance} name="md-pin" />
                      <Text style={[styles.distance, {marginLeft: 3}]}>{Restaurant.formatDistance(haversine(location, restaurant) * 1000)}</Text>
                   </View>
                   : null}
@@ -180,7 +171,7 @@ class RestaurantDialog extends React.Component {
 }
 
 const mapState = state => ({
-   location: state.location
+   location: state.misc.location
 });
 
 const mapDispatch = dispatch => bindActionCreators({dismissModal}, dispatch);

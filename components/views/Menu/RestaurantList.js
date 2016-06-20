@@ -13,14 +13,6 @@ moment.locale('fi');
 const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 class RestaurantList extends React.Component {
-   shouldComponentUpdate(props) {
-      if (props.currentView === 'Ruokalista') {
-         return this.props.day !== props.day
-            || !props.now.isSame(this.props.now, 'minute');
-      }
-
-      return false;
-   }
    render() {
       const {day, isToday, restaurants} = this.props;
       console.log(restaurants);
@@ -35,9 +27,8 @@ class RestaurantList extends React.Component {
             <ListView
                initialListSize={1}
                pageSize={2}
-               contentContainerStyle={{padding: 4, paddingTop: 4}}
                dataSource={dataSource.cloneWithRows(restaurants)}
-               renderRow={(restaurant, i) =>
+               renderRow={restaurant =>
                   <Restaurant
                      restaurant={restaurant}
                      courses={restaurant.courses}

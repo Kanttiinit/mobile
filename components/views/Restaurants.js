@@ -26,7 +26,6 @@ const Restaurants = props => {
          {loading ? <Loader color={colors.accent} /> :
          <ListView
             enableEmptySections={true}
-            contentContainerStyle={{padding: 4, paddingTop: 0}}
             dataSource={dataSource.cloneWithRows(areas)}
             renderRow={area => <Area area={area} />} />
          }

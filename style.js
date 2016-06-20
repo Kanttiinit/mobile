@@ -21,10 +21,6 @@ const roundedElevated = {
    shadowOffset: {width: 0, height: 1},
    shadowRadius: 1,
    backgroundColor: 'white',
-  //  borderWidth: 1,
-  //  borderColor: '#f0f0f0',
-  //  borderRadius: 1,
-  //  borderTopWidth: 0,
    margin: 4,
    borderRadius: 2
 };
@@ -33,7 +29,8 @@ export const defaultStyles = StyleSheet.create({
    card: {
       ...roundedElevated,
       backgroundColor: 'white',
-      marginBottom: 4,
+      margin: 10,
+      marginTop: 0
    },
    lightBorderTop: {
       borderTopWidth: 1,

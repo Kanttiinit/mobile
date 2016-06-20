@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
@@ -30,7 +29,7 @@ export class Restaurant extends React.Component {
       const metaColor = isToday && restaurant.isOpen ? colors.darkAccent : colors.darkGrey;
 
       return (
-         <View style={[defaultStyles.card, !courses.length && {opacity: 0.75}]}>
+         <View style={[defaultStyles.card, !courses.length && {opacity: 0.8}]}>
 
             <Button
                onPress={() => openModal(<RestaurantDialog restaurant={restaurant} />, {padding: 0})}
@@ -81,9 +80,7 @@ export class Restaurant extends React.Component {
 }
 
 const mapState = (state, props) => ({
-   now: state.misc.now,
-   courses: _.get(state.menus.menus, [props.restaurant.id, props.day], []),
-   isToday: state.misc.now.isSame(moment(props.day), 'day')
+   now: moment(state.misc.now)
 });
 
 const mapDispatch = dispatch => bindActionCreators({openModal}, dispatch);

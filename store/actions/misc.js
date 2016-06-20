@@ -8,7 +8,7 @@ export const SET_CURRENT_VIEW = 'SET_CURRENT_VIEW';
 export function updateNow() {
    return {
       type: UPDATE_NOW,
-      payload: moment()
+      payload: moment('Mon Jun 20 2016 15:56:02 GMT+0300 (EEST)').toDate() //new Date()
    };
 }
 

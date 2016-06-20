@@ -1,60 +1,37 @@
 import React from 'react';
 
-import {
-   Dimensions,
-   Platform,
-   ScrollView,
-   View,
-   ViewPagerAndroid
-} from 'react-native';
+import {Dimensions, ListView, View, InteractionManager} from 'react-native';
+
+const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 export default class Swiper extends React.Component {
    constructor() {
       super();
       this.state = {width: Dimensions.get('window').width};
-      this.iOS = Platform.OS === 'ios';
    }
    componentWillReceiveProps(props) {
       if (props.page !== this.props.page) {
-         if (this.iOS) {
-            this.refs.scrollView.scrollTo({y: 0, x: props.page * this.state.width});
-         } else {
-            this.refs.viewPager.setPage(props.page);
-         }
+         this.refs.scrollView.scrollTo({y: 0, x: props.page * this.state.width});
       }
    }
    render() {
       const {width} = this.state;
       const {children} = this.props;
-      if (this.iOS)
-         return (
-            <ScrollView
-               ref="scrollView"
-               contentContainerStyle={{flex: 1}}
-               horizontal={true}
-               showsHorizontalScrollIndicator={false}
-               onMomentumScrollEnd={event => {
-                  const page = Math.round(event.nativeEvent.contentOffset.x / width);
-                  this.props.onPageChange(page);
-               }}
-               pagingEnabled={true}>
-               {this.props.children.map((c, i) =>
-                  <View key={i} style={{width}}>
-                     {c}
-                  </View>
-               )}
-            </ScrollView>
-         );
-
       return (
-         <ViewPagerAndroid
-            onPageScroll={event => {
-               this.props.onPageChange(event.nativeEvent.position);
+         <ListView
+            ref="scrollView"
+            contentContainerStyle={{flex: 1}}
+            horizontal={true}
+            initialListSize={2}
+            pageSize={1}
+            showsHorizontalScrollIndicator={false}
+            onMomentumScrollEnd={event => {
+               const page = Math.round(event.nativeEvent.contentOffset.x / width);
+               this.props.onPageChange(page);
             }}
-            ref="viewPager"
-            style={{flex: 1}}>
-            {this.props.children.map((c, i) => <View key={i}>{c}</View>)}
-         </ViewPagerAndroid>
+            dataSource={dataSource.cloneWithRows(children)}
+            pagingEnabled={true}
+            renderRow={child => <View style={{width}}>{child}</View>} />
       );
    }
 }

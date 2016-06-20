@@ -1,12 +1,12 @@
 import typeToReducer from 'type-to-reducer';
+import _ from 'lodash';
 
 import {FETCH_FAVORITES, SET_SELECTED_FAVORITES} from '../actions/favorites';
 
 function getFormattedFavorites(favorites, selectedFavorites) {
    if (favorites)
       return _.orderBy(
-         favorites
-         .map(f =>
+         favorites.map(f =>
             ({
                ...f,
                selected: selectedFavorites.some(x => x === f.id)

@@ -24,13 +24,13 @@ class Menu extends React.Component {
    }
    renderContent() {
       const {dayOffset, loading, days, restaurants} = this.props;
-      if (this.props.loading) {
+      if (loading) {
          return <Loader color={colors.accent} />
       } else if (!restaurants.length) {
          return <AreaSelector />;
       } else {
          return (
-            <View>
+            <View style={{flex: 1}}>
                <Swiper
                   page={dayOffset}
                   onPageChange={page => this.props.setDayOffset(page)}>

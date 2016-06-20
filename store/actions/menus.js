@@ -7,7 +7,7 @@ export function fetchMenus(restaurantIds) {
    const idString = restaurantIds.join(',');
    return {
       type: FETCH_MENUS,
-      payload: HttpCache.get('menus', `/menus?restaurants=${idString}`, {hours: 3})
+      payload: HttpCache.get(`menus-${idString}`, `/menus?restaurants=${idString}`, {hours: 3})
    };
 }
 

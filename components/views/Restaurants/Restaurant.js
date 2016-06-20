@@ -1,8 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {bindActionCreators} from 'redux';
 
 import {openModal} from '../../../store/actions/modal';
+import {setFavoritedRestaurants, updateSelectedRestaurants} from '../../../store/actions/restaurants';
 import RestaurantDialog from './RestaurantDialog';
+import {colors} from '../../../style';
 
 import Checkbox from '../../Checkbox';
 import Button from '../../Button';
@@ -10,30 +14,36 @@ import Button from '../../Button';
 import {View, Text} from 'react-native';
 
 class Restaurant extends React.Component {
-   shouldComponentUpdate(props) {
-      return props.restaurant.id !== this.props.restaurant.id || props.checked !== this.props.checked;
-   }
    render() {
-      const {restaurant, checkedChange, style, checked, showModal} = this.props;
+      const {restaurant, updateSelectedRestaurants, setFavoritedRestaurants, style, selected, favorited, openModal} = this.props;
       return (
          <View style={style}>
             <Button
+               onPress={() => setFavoritedRestaurants([restaurant.id], !favorited)}
+               style={{marginHorizontal: 6}}>
+               <Icon
+                  size={24}
+                  color={favorited ? colors.red : colors.grey}
+                  name={'md-heart' + (!favorited ? '-outline' : '')} />
+            </Button>
+            <Button
                containerStyle={{flex: 1}}
-               onPress={() => showModal(<RestaurantDialog restaurant={restaurant} />, {padding: 0})}>
+               onPress={() => openModal(<RestaurantDialog restaurant={restaurant} />, {padding: 0})}>
                <Text style={{fontSize: 14, flex: 1}}>{restaurant.name}</Text>
             </Button>
             <Checkbox
-               onCheckedChange={checked => checkedChange([restaurant], checked)}
-               checked={checked} />
+               onCheckedChange={selected => updateSelectedRestaurants([restaurant.id], selected)}
+               checked={selected} />
          </View>
       );
    }
 }
 
-const mapDispatch = dispatch => ({
-   showModal(...args) {
-      dispatch(openModal(...args));
-   }
+const mapState = (state, props) => ({
+   selected: state.restaurants.selected.some(id => id === props.restaurant.id),
+   favorited: state.restaurants.favorited.some(id => id === props.restaurant.id)
 });
 
-export default connect(null, mapDispatch)(Restaurant);
+const mapDispatch = dispatch => bindActionCreators({openModal, setFavoritedRestaurants, updateSelectedRestaurants}, dispatch);
+
+export default connect(mapState, mapDispatch)(Restaurant);

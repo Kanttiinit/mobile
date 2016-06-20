@@ -13,14 +13,6 @@ moment.locale('fi');
 const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 class RestaurantList extends React.Component {
-   shouldComponentUpdate(props) {
-      if (props.currentView === 'RUOKALISTA') {
-         return this.props.day !== props.day
-            || !props.now.isSame(this.props.now, 'minute');
-      }
-
-      return false;
-   }
    render() {
       const {day, isToday, restaurants} = this.props;
       console.log(restaurants);

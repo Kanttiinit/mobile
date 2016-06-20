@@ -12,46 +12,32 @@ import {Text, View, StyleSheet, Platform} from 'react-native';
 
 class Area extends React.Component {
    checkedChange(restaurants, checked) {
-      this.props.updateSelectedRestaurants(restaurants, checked);
+      this.props.updateSelectedRestaurants(restaurants.map(r => r.id), checked);
    }
    areAllChecked() {
       return this.props.area.restaurants.every(r => this.props.selectedRestaurants.indexOf(r.id) > -1);
    }
-   shouldComponentUpdate(props) {
-      const getSelectedRestaurantString = props =>
-         props.selectedRestaurants.filter(_ => props.area.restaurants.some(r => r.id === _)).join(',');
-
-      if (props.selectedRestaurants && this.props.selectedRestaurants)
-         return getSelectedRestaurantString(this.props) !== getSelectedRestaurantString(props);
-
-      return true;
-   }
    render() {
       const {selectedRestaurants, area} = this.props;
 
-      if (selectedRestaurants)
-         return (
-            <View style={defaultStyles.card}>
-               <View style={styles.area}>
-                  <Text style={styles.areaTitle}>{area.name}</Text>
-                  <Checkbox
-                     backgroundColor={colors.accentDark}
-                     color="white"
-                     checked={this.areAllChecked()}
-                     onCheckedChange={this.checkedChange.bind(this, area.restaurants)} />
-               </View>
-               {area.restaurants.sort((a, b) => a.name > b.name ? 1 : -1).map((r, i) =>
-                  <Restaurant
-                     key={r.id}
-                     restaurant={r}
-                     checked={!!selectedRestaurants.find(id => id === r.id)}
-                     style={[styles.restaurant, i > 0 && styles.borderTop]}
-                     checkedChange={this.checkedChange.bind(this)} />
-               )}
+      return (
+         <View style={defaultStyles.card}>
+            <View style={styles.area}>
+               <Text style={styles.areaTitle}>{area.name}</Text>
+               <Checkbox
+                  backgroundColor={colors.accentDark}
+                  color="white"
+                  checked={this.areAllChecked()}
+                  onCheckedChange={this.checkedChange.bind(this, area.restaurants)} />
             </View>
-         );
-
-      return <View />;
+            {area.restaurants.sort((a, b) => a.name > b.name ? 1 : -1).map((r, i) =>
+               <Restaurant
+                  key={r.id}
+                  restaurant={r}
+                  style={[styles.restaurant, i > 0 && styles.borderTop]} />
+            )}
+         </View>
+      );
    }
 }
 

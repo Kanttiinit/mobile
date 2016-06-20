@@ -20,6 +20,7 @@ export class Restaurant extends React.Component {
    shouldComponentUpdate(props) {
       const result = props.restaurant.id !== this.props.restaurant.id
          || props.restaurant.isOpen !== this.props.restaurant.isOpen
+         || props.restaurant.favorited !== this.props.restaurant.favorited
          || props.restaurant.distance !== this.props.restaurant.distance;
 
       return result;
@@ -60,6 +61,7 @@ export class Restaurant extends React.Component {
                   resizeMode="contain"
                   style={{width: 42, height: 36, marginRight: 4}} />
                : null}
+               {restaurant.favorited ? <Icon size={22} color={colors.red} name="md-heart" /> : null}
             </Button>
 
             {!courses.length ?

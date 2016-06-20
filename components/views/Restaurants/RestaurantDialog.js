@@ -125,12 +125,11 @@ class RestaurantDialog extends React.Component {
                         <Text style={{marginTop: -2, color: colors.grey}}>{restaurant.address}</Text>
                      </View>
                   </TouchableWithoutFeedback>
-                  {location ?
+                  {location &&
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>
                      <Icon style={styles.distance} name="md-pin" />
-                     <Text style={[styles.distance, {marginLeft: 3}]}>{Restaurant.formatDistance(haversine(location, restaurant) * 1000)}</Text>
-                  </View>
-                  : null}
+                     <Text style={[styles.distance, {marginLeft: 3}]}>{Restaurant.formatDistance(haversine(location, restaurant))}</Text>
+                  </View>}
                </View>
 
                {getOpeningHourString(restaurant.openingHours).map((_, i) =>
@@ -143,18 +142,17 @@ class RestaurantDialog extends React.Component {
                <View style={styles.footer}>
                   <Button
                      onPress={() => Linking.openURL(restaurant.url)}
-                     style={[styles.navButton, {marginRight: 10}]}>
-                     <Icon name="md-home" size={18} color={colors.accentLight} />
-                     <Text style={{color: colors.accentLight}}>{' '}Kotisivut</Text>
+                     style={[defaultStyles.button, styles.navButton, {marginRight: 10}]}>
+                     <Icon name="md-home" size={18} color="white" />
+                     <Text style={{color: 'white'}}>{' '}Kotisivut</Text>
                   </Button>
-                  {restaurant.address ?
+                  {restaurant.address &&
                   <Button
                      onPress={this.openDirections.bind(this)}
-                     style={styles.navButton}>
-                     <Icon name="md-compass" size={18} color={colors.accentLight} />
-                     <Text style={{color: colors.accentLight}}>{' '}Reittiohjeet</Text>
-                  </Button>
-                  : null}
+                     style={[defaultStyles.button, styles.navButton]}>
+                     <Icon name="md-compass" size={18} color="white" />
+                     <Text style={{color: 'white'}}>{' '}Reittiohjeet</Text>
+                  </Button>}
                   <View style={{flex: 1}} />
                   <Button
                      onPress={() => this.props.dismissModal()}>
@@ -198,7 +196,7 @@ const styles = StyleSheet.create({
       color: '#bebebe'
    },
    footer: {
-      alignItems: 'center',
+      alignItems: 'flex-end',
       flex: 1,
       marginTop: 10,
       flexDirection: 'row'
@@ -206,13 +204,8 @@ const styles = StyleSheet.create({
    navButton: {
       flexDirection: 'row',
       alignItems: 'center',
-      alignSelf: 'flex-start'
-   },
-   closeButton: {
-      alignSelf: 'flex-end',
-      backgroundColor: colors.accent,
-      borderRadius: 2,
-      padding: 6
+      alignSelf: 'flex-start',
+      padding: 4
    },
    closeButtonText: {
       fontSize: 12,

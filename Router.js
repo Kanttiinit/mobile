@@ -27,8 +27,8 @@ import {
 class TabButton extends React.Component {
    render() {
       const {data, changeScene, parent, current, icon} = this.props;
-      const textColor = current ? colors.accent : '#666666';
-      const backgroundColor = current ? '#e3e0e0' : colors.lightGrey;
+      const textColor = current ? colors.accent : '#b0b0b0';
+      const backgroundColor = current ? '#f8f8f8' : colors.lightGrey;
       return (
          <Button
             onPress={() => changeScene(data)}
@@ -42,10 +42,10 @@ class TabButton extends React.Component {
 }
 
 const views = [
-   { title: 'RUOKALISTA', icon: 'md-restaurant', component: Menu },
-   { title: 'SUOSIKIT', icon: 'md-heart', component: Favorites },
+   { title: 'Ruokalista', icon: 'md-restaurant', component: Menu },
+   { title: 'Suosikit', icon: 'md-heart', component: Favorites },
    //{ title: 'KARTTA', icon: 'android-pin', component: Map},
-   { title: 'RAVINTOLAT', icon: 'ios-list', component: Restaurants }
+   { title: 'Ravintolat', icon: 'ios-list', component: Restaurants }
 ];
 
 class Router extends React.Component {
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
    },
    tabBar: {
       borderTopWidth: 1,
-      borderTopColor: '#d7d7d7',
+      borderTopColor: '#ececec',
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center'

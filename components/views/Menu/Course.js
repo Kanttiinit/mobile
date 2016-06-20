@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
       marginRight: 8
    },
    favoriteCourse: {
-      backgroundColor: '#f7eaea',
+      backgroundColor: '#fff9f9',
       borderRadius: 0
    },
    courseTitle: {

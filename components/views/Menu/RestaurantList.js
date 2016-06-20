@@ -27,9 +27,8 @@ class RestaurantList extends React.Component {
             <ListView
                initialListSize={1}
                pageSize={2}
-               contentContainerStyle={{padding: 14, paddingTop: 4}}
                dataSource={dataSource.cloneWithRows(restaurants)}
-               renderRow={(restaurant, i) =>
+               renderRow={restaurant =>
                   <Restaurant
                      restaurant={restaurant}
                      courses={restaurant.courses}

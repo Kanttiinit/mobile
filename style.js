@@ -3,11 +3,11 @@
 import {StyleSheet} from 'react-native';
 
 export const colors = {
-   accent: '#009688',
-   accentLight: '#4DB6AC',
-   accentDark: '#00796B',
+   accent: '#3eab79',
+   accentLight: '#40bf85',
+   accentDark: '#339568',
    grey: '#BDBDBD',
-   lightGrey: '#f4f4f4',
+   lightGrey: '#f8f8f8',
    white: '#FFFFFF',
    black: '#000000',
    darkGrey: '#424242',
@@ -20,14 +20,17 @@ const roundedElevated = {
    shadowOpacity: 0.2,
    shadowOffset: {width: 0, height: 1},
    shadowRadius: 1,
-   borderRadius: 4
+   backgroundColor: 'white',
+   margin: 4,
+   borderRadius: 2
 };
 
 export const defaultStyles = StyleSheet.create({
    card: {
       ...roundedElevated,
       backgroundColor: 'white',
-      marginBottom: 14,
+      margin: 10,
+      marginTop: 0
    },
    lightBorderTop: {
       borderTopWidth: 1,

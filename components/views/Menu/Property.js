@@ -53,7 +53,7 @@ class Property extends React.Component {
 
       return (
          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text style={{fontSize, width, fontWeight: 'bold', marginLeft: 3, color, backgroundColor: 'transparent'}}>{children}</Text>
+            <Text style={{fontSize, width, fontWeight: 'normal', marginLeft: 3, color, backgroundColor: 'transparent'}}>{children}</Text>
             {large ?
                <Text style={{marginLeft: 6}}>{getName(children)}</Text>
             : null}

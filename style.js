@@ -11,7 +11,14 @@ export const colors = {
    white: '#FFFFFF',
    black: '#000000',
    darkGrey: '#424242',
-   red: '#B71C1C'
+   red: '#B71C1C',
+   lightRed: '#fff9f9'
+};
+
+export const spaces = {
+   big: 20,
+   medium: 10,
+   small: 6
 };
 
 const roundedElevated = {
@@ -29,7 +36,7 @@ export const defaultStyles = StyleSheet.create({
    card: {
       ...roundedElevated,
       backgroundColor: 'white',
-      margin: 10,
+      margin: spaces.medium,
       marginTop: 0
    },
    lightBorderTop: {
@@ -45,5 +52,12 @@ export const defaultStyles = StyleSheet.create({
       color: 'white',
       fontWeight: 'bold',
       color: colors.accent
+   },
+   bigText: {
+      fontSize: 20
+   },
+   smallText: {
+      fontSize: 12,
+      color: colors.grey
    }
 });

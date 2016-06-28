@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 import {openModal} from '../../../store/actions/modal';
 import {setFavoritedRestaurants, updateSelectedRestaurants} from '../../../store/actions/restaurants';
 import RestaurantDialog from './RestaurantDialog';
-import {colors} from '../../../style';
+import {colors, spaces} from '../../../style';
 
 import Checkbox from '../../Checkbox';
 import Button from '../../Button';
@@ -17,7 +17,7 @@ const Restaurant = ({restaurant, updateSelectedRestaurants, setFavoritedRestaura
    <View style={style}>
       <Button
          onPress={() => setFavoritedRestaurants([restaurant.id], !favorited)}
-         style={{marginHorizontal: 6}}>
+         style={{marginHorizontal: spaces.small}}>
          <Icon
             size={24}
             color={favorited ? colors.red : colors.grey}

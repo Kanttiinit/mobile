@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {setDayOffset} from '../../../store/actions/menus';
-import {colors} from '../../../style';
+import {colors, spaces} from '../../../style';
 import Button from '../../Button';
 
 import {View, StyleSheet, Text} from 'react-native';
@@ -39,7 +39,7 @@ class DaySelector extends React.Component {
                end={[1, 0]}
                locations={[0.5, 1]}
                colors={[background, transparentBackground]}
-               style={[styles.buttonContainer, {left: 0, paddingHorizontal: 18}]}>
+               style={[styles.buttonContainer, {left: 0, paddingHorizontal: spaces.big}]}>
                <ArrowButton
                   onPress={this.change.bind(this, -1)}
                   icon="ios-arrow-back"
@@ -51,7 +51,7 @@ class DaySelector extends React.Component {
                end={[1, 0]}
                locations={[0, 0.5]}
                colors={[transparentBackground, background]}
-               style={[styles.buttonContainer, {right: 0, paddingHorizontal: 18}]}>
+               style={[styles.buttonContainer, {right: 0, paddingHorizontal: spaces.big}]}>
                <ArrowButton
                   onPress={this.change.bind(this, 1)}
                   icon="ios-arrow-forward"

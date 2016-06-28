@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 import * as actions from '../../../store/actions/restaurants';
 
 import Restaurant from './Restaurant';
-import {colors, defaultStyles} from '../../../style';
+import {colors, spaces, defaultStyles} from '../../../style';
 
 import {Text, View, StyleSheet, Platform} from 'react-native';
 
@@ -43,7 +43,7 @@ class Area extends React.Component {
 
 const styles = StyleSheet.create({
    area: {
-      padding: 6,
+      padding: spaces.small,
       flexDirection: 'row',
       alignItems: 'center'
    },
@@ -54,8 +54,8 @@ const styles = StyleSheet.create({
       fontFamily: Platform.OS === 'android' ? 'sans-serif-light' : undefined
    },
    restaurant: {
-      marginLeft: 6,
-      marginRight: 6,
+      marginLeft: spaces.small,
+      marginRight: spaces.small,
       flexDirection: 'row',
       alignItems: 'center'
    },

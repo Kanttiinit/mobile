@@ -3,20 +3,19 @@ import moment from 'moment';
 import _ from 'lodash';
 import momentFI from 'moment/locale/fi';
 import {connect} from 'react-redux';
-import {colors, defaultStyles} from '../../../style';
+import {colors, spaces, defaultStyles} from '../../../style';
 
 import Restaurant from './Restaurant';
 
 import {View, Text, ListView, StyleSheet, Platform} from 'react-native';
 
-moment.locale('fi');
 const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 const RestaurantList = ({day, isToday, restaurants}) => (
    <View style={{flex: 1}}>
       <View style={styles.daySelector}>
          <Text style={styles.dayTitle}>
-            {moment(day).format('dddd').toUpperCase()}
+            {moment(day).locale('fi').format('dddd').toUpperCase()}
             <Text style={styles.date}> {moment(day).format('D.M.')}</Text>
          </Text>
       </View>
@@ -36,7 +35,7 @@ const RestaurantList = ({day, isToday, restaurants}) => (
 const styles = StyleSheet.create({
    daySelector: {
       flexDirection: 'row',
-      paddingVertical: 10,
+      paddingVertical: spaces.medium,
       alignItems: 'center',
       marginBottom: 0,
       height: 50,

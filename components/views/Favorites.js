@@ -8,14 +8,7 @@ import {colors} from '../../style';
 import Favorite from './Favorites/Favorite';
 import Button from '../Button';
 
-import {
-   View,
-   Text,
-   ScrollView,
-   StyleSheet,
-   LayoutAnimation,
-   UIManager
-} from 'react-native';
+import {View, Text, ScrollView, StyleSheet, LayoutAnimation, UIManager} from 'react-native';
 
 UIManager.setLayoutAnimationEnabledExperimental
    && UIManager.setLayoutAnimationEnabledExperimental(true);

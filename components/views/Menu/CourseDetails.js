@@ -2,17 +2,18 @@ import React from 'react';
 import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {bindActionCreators} from 'redux';
+import _ from 'lodash';
 
 import Property from './Property';
 import Button from '../../Button';
-import {colors, defaultStyles} from '../../../style';
+import {colors, defaultStyles, spaces} from '../../../style';
 import {dismissModal} from '../../../store/actions/modal';
 import {setIsSelected} from '../../../store/actions/favorites';
 
 import {View, Text, StyleSheet} from 'react-native';
 
 function getFavorites(course, favorites) {
-   return favorites.filter(f => course.title.match(new RegExp(f.regexp, 'i')));
+   return _.sortBy(favorites.filter(f => course.title.match(new RegExp(f.regexp, 'i'))), 'name');
 }
 
 const CourseDetails = ({course, favorites, restaurant, setIsSelected, dismissModal}) => (
@@ -21,16 +22,18 @@ const CourseDetails = ({course, favorites, restaurant, setIsSelected, dismissMod
          <Text style={styles.courseTitle}>{course.title}</Text>
       </View>
       <View style={styles.courseListWrapper}>
-         {course.properties && course.properties.length ?
-         course.properties.map(p => <Property key={p} containerStyle={{marginTop: 8}} large={true}>{p}</Property>)
-         : undefined}
+      {course.properties && course.properties.length &&
+         course.properties.map(p =>
+         <Property key={p} containerStyle={{marginTop: spaces.medium}} large={true}>{p}</Property>
+         )
+      }
       </View>
-      <View style={{flexDirection: 'row', marginVertical: 4}}>
-         {getFavorites(course, favorites).sort((a, b) => a.name < b.name ? -1 : 1).map(f =>
+      <View style={{flexDirection: 'row', marginVertical: spaces.small}}>
+         {getFavorites(course, favorites).map(f =>
          <Button
             key={f.id}
             onPress={() => setIsSelected(f.id, !f.selected)}
-            style={{padding: 4, marginRight: 4, backgroundColor: f.selected ? colors.red : 'transparent', borderColor: colors.red, borderWidth: 1, borderRadius: 2}}>
+            style={[styles.favoriteButton, {backgroundColor: f.selected ? colors.red : 'transparent'}]}>
             <Text style={{color: f.selected ? 'white' : colors.red}}>
                <Icon name={'md-heart' + (f.selected ? '' : '-outline')} />
                {' ' + f.name}
@@ -69,17 +72,24 @@ const styles = StyleSheet.create({
       color: 'black'
    },
    courseListWrapper: {
-      marginTop: 10,
-      marginBottom: 10,
+      marginTop: spaces.medium,
+      marginBottom: spaces.medium,
       paddingTop: 0
    },
    footer: {
       alignItems: 'center',
       flexDirection: 'row'
    },
+   favoriteButton: {
+      padding: spaces.small,
+      marginRight: spaces.small,
+      borderColor: colors.red,
+      borderWidth: 1,
+      borderRadius: 2
+   },
    restaurantName: {
       alignSelf: 'flex-end',
-      color: '#777',
+      color: colors.darkGrey,
       flex: 1
    }
 });

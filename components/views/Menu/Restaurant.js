@@ -6,12 +6,33 @@ import {bindActionCreators} from 'redux';
 
 import {openModal} from '../../../store/actions/modal';
 import Course from './Course';
-import {colors, defaultStyles} from '../../../style';
+import {colors, spaces, defaultStyles} from '../../../style';
 
 import Button from '../../Button';
 import RestaurantDialog from '../Restaurants/RestaurantDialog';
 
 import {View, Text, Image, StyleSheet} from 'react-native';
+
+const Courses = ({courses, restaurant}) => {
+   if (courses.length) {
+      return (
+         <View>
+            {courses.map((course, i) =>
+            <Course
+               key={i}
+               course={course}
+               restaurant={restaurant}
+               style={[i > 0 && styles.borderTop]} />
+            )}
+         </View>
+      );
+   }
+   return (
+      <View style={{padding: 10}}>
+         <Text style={styles.emptyMenuText}>Ei menua saatavilla.</Text>
+      </View>
+   );
+};
 
 export class Restaurant extends React.Component {
    static formatDistance(distance) {
@@ -46,35 +67,25 @@ export class Restaurant extends React.Component {
                         {' '}
                         {restaurant.openingHours[now.weekday()] || 'suljettu'}
                      </Text>
-                     {restaurant.distance ?
+                     {restaurant.distance &&
                      <Text style={[styles.metaText, {marginLeft: 8, color: metaColor}]}>
                         <Icon size={10} name="md-pin" />
                         {' '}
                         {Restaurant.formatDistance(restaurant.distance)}
                      </Text>
-                     : null}
+                     }
                   </View>
                </View>
-               {restaurant.type ?
+               {restaurant.type &&
                <Image
                   source={require(`../../../images/${restaurant.type}.png`)}
                   resizeMode="contain"
                   style={{width: 42, height: 36, marginRight: 4}} />
-               : null}
-               {restaurant.favorited ? <Icon size={22} color={colors.red} name="md-heart" /> : null}
+               }
+               {restaurant.favorited && <Icon size={22} color={colors.red} name="md-heart" />}
             </Button>
 
-            {!courses.length ?
-            <View style={{padding: 10}}>
-               <Text style={styles.emptyMenuText}>Ei menua saatavilla.</Text>
-            </View>
-            : courses.map((course, i) =>
-            <Course
-               key={i}
-               course={course}
-               restaurant={restaurant}
-               style={[i > 0 && styles.borderTop]} />
-            )}
+            <Courses courses={courses} restaurant={restaurant} />
 
          </View>
       );
@@ -91,7 +102,7 @@ export default connect(mapState, mapDispatch)(Restaurant);
 
 const styles = StyleSheet.create({
    header: {
-      padding: 8,
+      padding: spaces.medium,
       justifyContent: 'center'
    },
    borderTop: {

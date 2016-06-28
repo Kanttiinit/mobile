@@ -3,12 +3,7 @@ import Button from './Button';
 
 import {colors} from '../style';
 
-import {
-   View,
-   Text,
-   TextInput,
-   StyleSheet
-} from 'react-native';
+import {View, Text, TextInput, StyleSheet} from 'react-native';
 
 export default class ContactForm extends React.Component {
    constructor() {

@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import Button from './components/Button';
-import {colors} from './style';
+import {colors, spaces} from './style';
 
 import {setCurrentView} from './store/actions/misc';
 import {dismissModal} from './store/actions/modal';
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
    },
    tabButton: {
      flex: 1,
-     padding: 8,
+     padding: spaces.medium,
      alignItems: 'center'
    }
 });

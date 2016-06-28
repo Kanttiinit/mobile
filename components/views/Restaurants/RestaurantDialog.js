@@ -9,7 +9,7 @@ import {bindActionCreators} from 'redux';
 
 import {Restaurant} from '../Menu/Restaurant';
 import Button from '../../Button';
-import {colors, defaultStyles} from '../../../style';
+import {colors, defaultStyles, spaces} from '../../../style';
 import {dismissModal} from '../../../store/actions/modal';
 
 import {
@@ -107,7 +107,7 @@ class RestaurantDialog extends React.Component {
                   color="#469cc6"
                   title={restaurant.name}
                   description={restaurant.address}
-                  style={{paddingHorizontal: 6}}>
+                  style={{paddingHorizontal: spaces.small}}>
                   <Icon size={20} color="white" name="md-restaurant" />
                </Marker>
             </MapView>
@@ -174,15 +174,15 @@ export default connect(mapState, mapDispatch)(RestaurantDialog);
 
 const styles = StyleSheet.create({
    container: {
-      padding: 10
+      padding: spaces.medium
    },
    markerViewText: {
       padding: 2,
-      borderRadius: 10
+      borderRadius: spaces.medium
    },
    header: {
       flexDirection: 'row',
-      marginBottom: 10
+      marginBottom: spaces.medium
    },
    title: {
       fontSize: 22,
@@ -195,14 +195,14 @@ const styles = StyleSheet.create({
    footer: {
       alignItems: 'flex-end',
       flex: 1,
-      marginTop: 10,
+      marginTop: spaces.medium,
       flexDirection: 'row'
    },
    navButton: {
       flexDirection: 'row',
       alignItems: 'center',
       alignSelf: 'flex-start',
-      padding: 4
+      padding: spaces.small
    },
    closeButtonText: {
       fontSize: 12,

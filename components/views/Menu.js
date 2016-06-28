@@ -23,7 +23,7 @@ class Menu extends React.Component {
       return props.currentView === 'Ruokalista';
    }
    renderContent() {
-      const {dayOffset, loading, days, restaurants} = this.props;
+      const {dayOffset, setDayOffset, loading, days, restaurants} = this.props;
       if (loading) {
          return <Loader color={colors.accent} />
       } else if (!restaurants.length) {
@@ -33,7 +33,7 @@ class Menu extends React.Component {
             <View style={{flex: 1}}>
                <Swiper
                   page={dayOffset}
-                  onPageChange={page => this.props.setDayOffset(page)}>
+                  onPageChange={page => setDayOffset(page)}>
                   {days.map(day =>
                   <RestaurantList
                      key={day}

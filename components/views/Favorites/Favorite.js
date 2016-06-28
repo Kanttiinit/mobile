@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {setIsSelected} from '../../../store/actions/favorites';
+import {spaces, colors} from '../../../style';
 
 import Button from '../../Button';
 
@@ -25,8 +26,8 @@ class Favorite extends React.Component {
             style={styles.favorite}
             onPress={this.toggle.bind(this)}>
             <Icon
-               style={styles.heartIcon}
-               color={favorite.selected ? '#fc5151' : '#999'}
+               size={24}
+               color={favorite.selected ? colors.red : colors.grey}
                name={'md-heart' + (favorite.selected ? '' : '-outline')} />
             <Text style={styles.foodTitle}>{favorite.name}</Text>
          </Button>
@@ -42,17 +43,14 @@ const styles = StyleSheet.create({
    favorite: {
       backgroundColor: '#fff',
       flexDirection: 'row',
-      paddingLeft: 15,
-      paddingVertical: 10,
+      paddingLeft: spaces.big,
+      paddingVertical: spaces.medium,
       marginBottom: 2
-   },
-   heartIcon: {
-      fontSize: 26
    },
    foodTitle: {
       fontWeight: '300',
       fontSize: 20,
-      marginLeft: 15,
+      marginLeft: spaces.big,
       flex: 1,
       fontFamily: Platform.OS === 'android' ? 'sans-serif-light' : undefined
    }

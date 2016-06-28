@@ -7,19 +7,19 @@ import {openModal} from '../../../store/actions/modal';
 import CourseDetails from './CourseDetails';
 import Property from './Property';
 import Button from '../../Button';
-import {colors} from '../../../style';
+import {colors, defaultStyles, spaces} from '../../../style';
 
 import {View, Text, StyleSheet, Platform} from 'react-native';
 
-const Course = ({course, isFavorite, restaurant, style}) => (
+const Course = ({course, openModal, isFavorite, restaurant, style}) => (
    <Button
       highlightColor={colors.lightGrey}
-      onPress={() => this.props.openModal(<CourseDetails course={course} restaurant={restaurant} />)}
-      style={[isFavorite ? styles.favoriteCourse : {borderRadius: 2}]}>
+      onPress={() => openModal(<CourseDetails course={course} restaurant={restaurant} />)}
+      style={isFavorite && styles.favoriteCourse}>
       <View style={[styles.course, style]}>
-         {isFavorite ? <Icon style={{marginRight: 6}} color='#fc5151' name='md-heart' /> : null}
+         {isFavorite && <Icon style={{marginRight: spaces.small}} color={colors.red} name='md-heart' />}
          <Text key={course.title} style={styles.courseTitle}>{course.title}</Text>
-         {course.properties ? course.properties.map(p => <Property style={{marginLeft: 2}} key={p}>{p}</Property>) : null}
+         {course.properties && course.properties.map(p => <Property style={{marginLeft: 2}} key={p}>{p}</Property>)}
       </View>
    </Button>
 );
@@ -40,19 +40,19 @@ export default connect(mapState, mapDispatch)(Course);
 const styles = StyleSheet.create({
    course: {
       flexDirection: 'row',
-      paddingTop: 6,
-      paddingBottom: 6,
+      paddingTop: spaces.small,
+      paddingBottom: spaces.small,
       alignItems: 'center',
-      marginLeft: 8,
-      marginRight: 8
+      marginLeft: spaces.medium,
+      marginRight: spaces.medium
    },
    favoriteCourse: {
-      backgroundColor: '#fff9f9',
+      backgroundColor: colors.lightRed,
       borderRadius: 0
    },
    courseTitle: {
       flex: 1,
-      fontSize: 12,
-      color: colors.darkGrey
+      color: colors.darkGrey,
+      fontSize: 12
    }
 });

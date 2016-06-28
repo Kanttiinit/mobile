@@ -7,8 +7,12 @@ import {SET_SELECTED_RESTAURANTS, FETCH_RESTAURANTS, SET_FAVORITED_RESTAURANTS} 
 import {UPDATE_LOCATION} from '../actions/misc';
 
 function isOpen(openingHours, now) {
-   const [open, close] = openingHours[now.weekday()].split(' - ').map(n => moment(n, 'HH:mm'));
-   return now.isAfter(open) && now.isBefore(close);
+   const hours = openingHours[now.weekday()];
+   if (hours) {
+      const [open, close] = hours.split(' - ').map(n => moment(n, 'HH:mm'));
+      return now.isAfter(open) && now.isBefore(close);
+   }
+   return false;
 }
 
 function formatRestaurants(restaurants, location, now, favorited) {

@@ -36,22 +36,19 @@ const getOpeningHourString = hours =>
       return open;
    }, []);
 
-const Marker = props => {
-   const {color, children, style, coordinate, title, description} = props;
-   return (
-      <MapView.Marker
-         title={title}
-         anchor={{x: 0.5, y: 1}}
-         centerOffset={{x: 0, y: -29 / 2}}
-         description={description}
-         coordinate={coordinate}>
-         <View style={{alignItems: 'center', opacity: 0.8, height: 29}}>
-            <View style={[styles.markerViewText, {backgroundColor: color || colors.accent}, style]}>{children}</View>
-            <Icon name="md-arrow-dropdown" size={20} style={{marginTop: -8}} color={color || colors.accent} />
-         </View>
-      </MapView.Marker>
-   );
-}
+const Marker = ({color, children, style, coordinate, title, description}) => (
+   <MapView.Marker
+      title={title}
+      anchor={{x: 0.5, y: 1}}
+      centerOffset={{x: 0, y: -29 / 2}}
+      description={description}
+      coordinate={coordinate}>
+      <View style={{alignItems: 'center', opacity: 0.8, height: 29}}>
+         <View style={[styles.markerViewText, {backgroundColor: color || colors.accent}, style]}>{children}</View>
+         <Icon name="md-arrow-dropdown" size={20} style={{marginTop: -8}} color={color || colors.accent} />
+      </View>
+   </MapView.Marker>
+);
 
 class RestaurantDialog extends React.Component {
    panToRestaurant() {

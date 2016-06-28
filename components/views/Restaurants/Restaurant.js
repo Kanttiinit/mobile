@@ -13,31 +13,26 @@ import Button from '../../Button';
 
 import {View, Text} from 'react-native';
 
-class Restaurant extends React.Component {
-   render() {
-      const {restaurant, updateSelectedRestaurants, setFavoritedRestaurants, style, selected, favorited, openModal} = this.props;
-      return (
-         <View style={style}>
-            <Button
-               onPress={() => setFavoritedRestaurants([restaurant.id], !favorited)}
-               style={{marginHorizontal: 6}}>
-               <Icon
-                  size={24}
-                  color={favorited ? colors.red : colors.grey}
-                  name={'md-heart' + (!favorited ? '-outline' : '')} />
-            </Button>
-            <Button
-               containerStyle={{flex: 1}}
-               onPress={() => openModal(<RestaurantDialog restaurant={restaurant} />, {padding: 0})}>
-               <Text style={{fontSize: 14, flex: 1}}>{restaurant.name}</Text>
-            </Button>
-            <Checkbox
-               onCheckedChange={selected => updateSelectedRestaurants([restaurant.id], selected)}
-               checked={selected} />
-         </View>
-      );
-   }
-}
+const Restaurant = ({restaurant, updateSelectedRestaurants, setFavoritedRestaurants, style, selected, favorited, openModal}) => (
+   <View style={style}>
+      <Button
+         onPress={() => setFavoritedRestaurants([restaurant.id], !favorited)}
+         style={{marginHorizontal: 6}}>
+         <Icon
+            size={24}
+            color={favorited ? colors.red : colors.grey}
+            name={'md-heart' + (!favorited ? '-outline' : '')} />
+      </Button>
+      <Button
+         containerStyle={{flex: 1}}
+         onPress={() => openModal(<RestaurantDialog restaurant={restaurant} />, {padding: 0})}>
+         <Text style={{fontSize: 14, flex: 1}}>{restaurant.name}</Text>
+      </Button>
+      <Checkbox
+         onCheckedChange={selected => updateSelectedRestaurants([restaurant.id], selected)}
+         checked={selected} />
+   </View>
+);
 
 const mapState = (state, props) => ({
    selected: state.restaurants.selected.some(id => id === props.restaurant.id),

@@ -14,24 +14,21 @@ import {ListView, View, Text, StyleSheet, Platform} from 'react-native';
 
 const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
 
-const Restaurants = props => {
-   const {openModal, areas, loading} = props;
-   return (
-      <View style={styles.container}>
-         <Button
-            onPress={() => openModal(<ContactForm type="missing-restaurant">Mikä ravintola puuttuu?</ContactForm>)}
-            style={[defaultStyles.button, {padding: 12, margin: 8}]}>
-            <Text style={{color: 'white', fontSize: 14, textAlign: 'center'}}>ILMOITA PUUTTUVASTA RAVINTOLASTA</Text>
-         </Button>
-         {loading ? <Loader color={colors.accent} /> :
-         <ListView
-            enableEmptySections={true}
-            dataSource={dataSource.cloneWithRows(areas)}
-            renderRow={area => <Area area={area} />} />
-         }
-      </View>
-   );
-}
+const Restaurants = ({openModal, areas, loading}) => (
+   <View style={styles.container}>
+      <Button
+         onPress={() => openModal(<ContactForm type="missing-restaurant">Mikä ravintola puuttuu?</ContactForm>)}
+         style={[defaultStyles.button, {padding: 12, margin: 8}]}>
+         <Text style={{color: 'white', fontSize: 14, textAlign: 'center'}}>ILMOITA PUUTTUVASTA RAVINTOLASTA</Text>
+      </Button>
+      {loading ? <Loader color={colors.accent} /> :
+      <ListView
+         enableEmptySections={true}
+         dataSource={dataSource.cloneWithRows(areas)}
+         renderRow={area => <Area area={area} />} />
+      }
+   </View>
+);
 
 const styles = StyleSheet.create({
    container: {

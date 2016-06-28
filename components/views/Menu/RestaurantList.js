@@ -12,32 +12,26 @@ import {View, Text, ListView, StyleSheet, Platform} from 'react-native';
 moment.locale('fi');
 const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-class RestaurantList extends React.Component {
-   render() {
-      const {day, isToday, restaurants} = this.props;
-      console.log(restaurants);
-      return (
-         <View style={{flex: 1}}>
-            <View style={styles.daySelector}>
-               <Text style={styles.dayTitle}>
-                  {moment(day).format('dddd').toUpperCase()}
-                  <Text style={styles.date}> {moment(day).format('D.M.')}</Text>
-               </Text>
-            </View>
-            <ListView
-               initialListSize={1}
-               pageSize={2}
-               dataSource={dataSource.cloneWithRows(restaurants)}
-               renderRow={restaurant =>
-                  <Restaurant
-                     restaurant={restaurant}
-                     courses={restaurant.courses}
-                     isToday={isToday} />
-               } />
-         </View>
-      );
-   }
-}
+const RestaurantList = ({day, isToday, restaurants}) => (
+   <View style={{flex: 1}}>
+      <View style={styles.daySelector}>
+         <Text style={styles.dayTitle}>
+            {moment(day).format('dddd').toUpperCase()}
+            <Text style={styles.date}> {moment(day).format('D.M.')}</Text>
+         </Text>
+      </View>
+      <ListView
+         initialListSize={1}
+         pageSize={2}
+         dataSource={dataSource.cloneWithRows(restaurants)}
+         renderRow={restaurant =>
+            <Restaurant
+               restaurant={restaurant}
+               courses={restaurant.courses}
+               isToday={isToday} />
+         } />
+   </View>
+);
 
 const styles = StyleSheet.create({
    daySelector: {

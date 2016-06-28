@@ -11,23 +11,18 @@ import {colors} from '../../../style';
 
 import {View, Text, StyleSheet, Platform} from 'react-native';
 
-class Course extends React.Component {
-   render() {
-      const {course, isFavorite, restaurant, style} = this.props;
-      return (
-         <Button
-            highlightColor={colors.lightGrey}
-            onPress={() => this.props.openModal(<CourseDetails course={course} restaurant={restaurant} />)}
-            style={[isFavorite ? styles.favoriteCourse : {borderRadius: 2}]}>
-            <View style={[styles.course, style]}>
-               {isFavorite ? <Icon style={{marginRight: 6}} color='#fc5151' name='md-heart' /> : null}
-               <Text key={course.title} style={styles.courseTitle}>{course.title}</Text>
-               {course.properties ? course.properties.map(p => <Property style={{marginLeft: 2}} key={p}>{p}</Property>) : null}
-            </View>
-         </Button>
-      );
-   }
-}
+const Course = ({course, isFavorite, restaurant, style}) => (
+   <Button
+      highlightColor={colors.lightGrey}
+      onPress={() => this.props.openModal(<CourseDetails course={course} restaurant={restaurant} />)}
+      style={[isFavorite ? styles.favoriteCourse : {borderRadius: 2}]}>
+      <View style={[styles.course, style]}>
+         {isFavorite ? <Icon style={{marginRight: 6}} color='#fc5151' name='md-heart' /> : null}
+         <Text key={course.title} style={styles.courseTitle}>{course.title}</Text>
+         {course.properties ? course.properties.map(p => <Property style={{marginLeft: 2}} key={p}>{p}</Property>) : null}
+      </View>
+   </Button>
+);
 
 const mapState = (state, props) => ({
    isFavorite: state.favorites.selected.some(selectedId => {

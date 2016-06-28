@@ -11,12 +11,12 @@ import Button from '../../Button';
 
 import {View, StyleSheet, Text} from 'react-native';
 
-const ArrowButton = props => (
+const ArrowButton = ({onPress, visible, style, icon}) => (
    <Button
-      onPress={() => props.onPress()}
-      pointerEvents={props.visible ? 'auto' : 'none'}
-      style={[styles.arrowButton, props.style, !props.visible && {opacity: 0}]}>
-      <Icon size={16} name={props.icon} color={colors.darkGrey} />
+      onPress={() => onPress()}
+      pointerEvents={visible ? 'auto' : 'none'}
+      style={[styles.arrowButton, style, !visible && {opacity: 0}]}>
+      <Icon size={16} name={icon} color={colors.darkGrey} />
    </Button>
 );
 

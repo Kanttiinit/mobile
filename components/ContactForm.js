@@ -1,47 +1,29 @@
 import React from 'react';
-import Button from './Button';
-
-import {colors} from '../style';
-
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {View, Text, TextInput, StyleSheet} from 'react-native';
 
-export default class ContactForm extends React.Component {
-   constructor() {
-      super();
-      this.state = {};
-   }
-   send() {
-      this.setState({sending: true});
-      fetch('https://api.kanttiinit.fi/send-message', {
-         method: 'post',
-         headers: {'Content-Type': 'application/json'},
-         body: JSON.stringify({message: this.props.type + ': ' + this.state.text})
-      })
-      .then(r => r.json())
-      .then(r => {
-         this.setState({sent: true});
-      });
-   }
-   render() {
-      const {question} = this.props;
-      const {sending, sent} = this.state;
+import Button from './Button';
+import {colors} from '../style';
+import * as actions from '../store/actions/feedback';
 
-      if (sent)
-         return <Text style={styles.confirmation}>Kiitos palautteestasi!</Text>;
+const ContactForm = ({children, message, type, sending, send, setMessage, sent, error}) => {
+   if (sent)
+      return <Text style={styles.confirmation}>Kiitos palautteestasi!</Text>;
 
-      return (
-         <View style={{padding: 8}}>
-            <Text style={styles.headerText}>{this.props.children || 'Anna palautetta:'}</Text>
-            <TextInput
-               style={styles.textInput}
-               onChangeText={text => this.setState({text})}
-               value={this.state.text} />
-            <Button style={styles.button} onPress={() => this.send()}>
-               <Text style={{color: 'white', textAlign: 'center'}}>{sending ? 'Lähetetään...' : 'LÄHETÄ'}</Text>
-            </Button>
-         </View>
-      );
-   }
+   return (
+      <View style={{padding: 8}}>
+         <Text style={styles.headerText}>{children || 'Anna palautetta:'}</Text>
+         <TextInput
+            style={styles.textInput}
+            onChangeText={text => setMessage(text)}
+            value={message} />
+         <Button style={styles.button} onPress={() => send(type, message)}>
+            <Text style={{color: 'white', textAlign: 'center'}}>{sending ? 'Lähetetään...' : 'LÄHETÄ'}</Text>
+         </Button>
+         {error && <Text>{JSON.stringify(error)}</Text>}
+      </View>
+   );
 }
 
 const styles = StyleSheet.create({
@@ -68,3 +50,14 @@ const styles = StyleSheet.create({
       marginTop: 8
    }
 });
+
+const stateToProps = state => ({
+   sending: state.feedback.sending,
+   sent: state.feedback.sent,
+   error: state.feedback.error,
+   message: state.feedback.message
+});
+
+const dispatchToProps = dispatch => bindActionCreators(actions, dispatch);
+
+export default connect(stateToProps, dispatchToProps)(ContactForm);

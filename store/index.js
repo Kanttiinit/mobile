@@ -9,6 +9,7 @@ import modal from './reducers/modal';
 import areas from './reducers/areas';
 import misc from './reducers/misc';
 import menus from './reducers/menus';
+import feedback from './reducers/feedback';
 
 const reducer = combineReducers({
    favorites,
@@ -16,7 +17,8 @@ const reducer = combineReducers({
    modal,
    areas,
    misc,
-   menus
+   menus,
+   feedback
 });
 
 const getStateToAction = store => next => action => {

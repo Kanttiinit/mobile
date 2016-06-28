@@ -17,7 +17,7 @@ const AreaSelector = ({areas, updateSelectedRestaurants}) => (
       {areas.map(a =>
          <Button
             key={a.id}
-            onPress={() => updateSelectedRestaurants(a.restaurants, true)}
+            onPress={() => updateSelectedRestaurants(a.restaurants.map(r => r.id), true)}
             style={[defaultStyles.button, {padding: spaces.big, marginVertical: spaces.small, marginHorizontal: spaces.medium}]}>
             <Text
                style={[defaultStyles.bigText, {color: 'white'}]}>

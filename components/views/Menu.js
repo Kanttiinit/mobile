@@ -11,6 +11,7 @@ import DaySelector from './Menu/DaySelector';
 import AreaSelector from './Menu/AreaSelector';
 import {colors} from '../../style';
 import {setDayOffset} from '../../store/actions/menus';
+import {selectedRestaurants} from '../../store/selectors';
 
 import {View, StyleSheet, Text} from 'react-native';
 
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
 });
 
 const mapState = state => ({
-   restaurants: state.restaurants.restaurants.filter(r => state.restaurants.selected.indexOf(r.id) > -1),
+   restaurants: selectedRestaurants(state),
    days: state.misc.days,
    viewChanges: state.misc.views,
    currentView: state.misc.currentView,

@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {bindActionCreators} from 'redux';
 
 import {openModal} from '../../../store/actions/modal';
+import {isSelectedRestaurant, isFavoritedRestaurant} from '../../../store/selectors';
 import {setFavoritedRestaurants, updateSelectedRestaurants} from '../../../store/actions/restaurants';
 import RestaurantDialog from './RestaurantDialog';
 import {colors, spaces} from '../../../style';
@@ -35,8 +36,8 @@ const Restaurant = ({restaurant, updateSelectedRestaurants, setFavoritedRestaura
 );
 
 const mapState = (state, props) => ({
-   selected: state.restaurants.selected.some(id => id === props.restaurant.id),
-   favorited: state.restaurants.favorited.some(id => id === props.restaurant.id)
+   selected: isSelectedRestaurant(state, props),
+   favorited: isFavoritedRestaurant(state, props)
 });
 
 const mapDispatch = dispatch => bindActionCreators({openModal, setFavoritedRestaurants, updateSelectedRestaurants}, dispatch);

@@ -3,6 +3,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {openModal} from '../../../store/actions/modal';
+import {isFavorite} from '../../../store/selectors';
 
 import CourseDetails from './CourseDetails';
 import Property from './Property';
@@ -25,12 +26,7 @@ const Course = ({course, openModal, isFavorite, restaurant, style}) => (
 );
 
 const mapState = (state, props) => ({
-   isFavorite: state.favorites.selected.some(selectedId => {
-      const favorite = state.favorites.items.find(f => f.id === selectedId);
-      if (favorite) {
-         return props.course.title.match(new RegExp(favorite.regexp, 'i'));
-      }
-   })
+   isFavorite: isFavorite(state, props)
 });
 
 const mapDispatch = dispatch => bindActionCreators({openModal}, dispatch);

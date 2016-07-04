@@ -1,9 +1,9 @@
 import React from 'react';
 import moment from 'moment';
-import _ from 'lodash';
 import momentFI from 'moment/locale/fi';
 import {connect} from 'react-redux';
 import {colors, spaces, defaultStyles} from '../../../style';
+import {formatRestaurants, isToday} from '../../../store/selectors';
 
 import Restaurant from './Restaurant';
 
@@ -58,13 +58,8 @@ const styles = StyleSheet.create({
 const mapState = (state, props) => ({
    currentView: state.misc.currentView,
    now: moment(state.misc.now),
-   isToday: moment(state.misc.now).isSame(moment(props.day), 'day'),
-   restaurants: _.orderBy(
-      props.restaurants.map(restaurant => {
-         const courses = _.get(state.menus.menus, [restaurant.id, props.day], []);
-         return {...restaurant, courses, noCourses: !courses.length};
-      }),
-   ['noCourses'])
+   isToday: isToday(state, props),
+   restaurants: formatRestaurants(state, props)
 });
 
 export default connect(mapState)(RestaurantList);

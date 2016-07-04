@@ -18,7 +18,8 @@ export const colors = {
 export const spaces = {
    big: 20,
    medium: 10,
-   small: 6
+   small: 6,
+   mini: 3
 };
 
 const roundedElevated = {

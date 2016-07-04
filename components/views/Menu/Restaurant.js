@@ -69,7 +69,7 @@ export class Restaurant extends React.Component {
                      </Text>
                      {restaurant.distance &&
                      <Text style={[styles.metaText, {marginLeft: 8, color: metaColor}]}>
-                        <Icon size={10} name="md-pin" />
+                        <Icon size={10} name="md-walk" />
                         {' '}
                         {Restaurant.formatDistance(restaurant.distance)}
                      </Text>

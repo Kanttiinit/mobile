@@ -17,9 +17,9 @@ function getFavorites(course, favorites) {
 }
 
 const CourseDetails = ({course, favorites, restaurant, setIsSelected, dismissModal}) => (
-   <View style={styles.container}>
+   <View>
       <View>
-         <Text style={styles.courseTitle}>{course.title}</Text>
+         <Text style={defaultStyles.bigText}>{course.title}</Text>
       </View>
       <View style={styles.courseListWrapper}>
       {course.properties && course.properties.length &&
@@ -64,13 +64,6 @@ CourseDetails.defaultProps = {
 };
 
 const styles = StyleSheet.create({
-   container: {
-      borderRadius: 2
-   },
-   courseTitle: {
-      fontSize: 18,
-      color: 'black'
-   },
    courseListWrapper: {
       marginTop: spaces.medium,
       marginBottom: spaces.medium,
@@ -78,10 +71,11 @@ const styles = StyleSheet.create({
    },
    footer: {
       alignItems: 'center',
-      flexDirection: 'row'
+      flexDirection: 'row',
+      padding: spaces.medium
    },
    favoriteButton: {
-      padding: spaces.small,
+      padding: spaces.mini,
       marginRight: spaces.small,
       borderColor: colors.red,
       borderWidth: 1,

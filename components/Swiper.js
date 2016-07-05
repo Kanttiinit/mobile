@@ -10,7 +10,7 @@ export default class Swiper extends React.Component {
       this.state = {width: Dimensions.get('window').width};
    }
    componentWillReceiveProps(props) {
-      if (props.page !== this.props.page) {
+      if (props.page !== this.page) {
          this.refs.scrollView.scrollTo({y: 0, x: props.page * this.state.width});
       }
    }
@@ -25,9 +25,13 @@ export default class Swiper extends React.Component {
             initialListSize={2}
             pageSize={1}
             showsHorizontalScrollIndicator={false}
-            onMomentumScrollEnd={event => {
-               const page = Math.round(event.nativeEvent.contentOffset.x / width);
-               this.props.onPageChange(page);
+            onScroll={event => {
+               clearTimeout(this.timeout);
+               const offset = event.nativeEvent.contentOffset.x;
+               this.timeout = setTimeout(() => {
+                  this.page = Math.round(offset / width);
+                  this.props.onPageChange(this.page);
+               }, 100);
             }}
             dataSource={dataSource.cloneWithRows(children)}
             pagingEnabled={true}

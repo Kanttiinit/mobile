@@ -50,7 +50,6 @@ export const defaultStyles = StyleSheet.create({
    },
    lightButtonText: {
       fontSize: 12,
-      color: 'white',
       fontWeight: 'bold',
       color: colors.accent
    },

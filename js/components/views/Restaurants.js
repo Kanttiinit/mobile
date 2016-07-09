@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 import {openModal} from '../../store/actions/modal';
 
 import Area from './Restaurants/Area';
-import {colors, spaces, defaultStyles} from '../../style';
+
 import Button from '../reusable/Button';
 import ContactForm from '../reusable/ContactForm';
 

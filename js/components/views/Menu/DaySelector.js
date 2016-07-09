@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {setDayOffset} from '../../../store/actions/menus';
-import {colors, spaces} from '../../../style';
+
 import Button from '../../reusable/Button';
 
 import {View, StyleSheet, Text} from 'react-native';

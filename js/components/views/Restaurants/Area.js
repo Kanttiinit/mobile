@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 import * as actions from '../../../store/actions/restaurants';
 
 import Restaurant from './Restaurant';
-import {colors, spaces, defaultStyles} from '../../../style';
+
 
 import {Text, View, StyleSheet, Platform} from 'react-native';
 

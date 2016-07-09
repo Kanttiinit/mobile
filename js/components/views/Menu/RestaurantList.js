@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import momentFI from 'moment/locale/fi';
 import {connect} from 'react-redux';
-import {colors, spaces, defaultStyles} from '../../../style';
+
 import {formatRestaurants, isToday} from '../../../store/selectors';
 
 import Restaurant from './Restaurant';

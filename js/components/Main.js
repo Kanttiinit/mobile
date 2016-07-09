@@ -1,11 +1,12 @@
+import '../style';
 import React from 'react';
 import {bindActionCreators} from 'redux';
 import {Provider} from 'react-redux';
 import Router from './Router';
 import codePush from 'react-native-code-push';
 import {AppState, AppRegistry, Platform, StatusBar, Keyboard} from 'react-native';
-import store from '../store';
 
+import store from '../store';
 import {fetchSelectedFavorites, fetchFavorites} from '../store/actions/favorites';
 import {fetchSelectedRestaurants, fetchRestaurants, fetchFavoritedRestaurants} from '../store/actions/restaurants';
 import {fetchAreas} from '../store/actions/areas';

@@ -1,7 +1,7 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import {colors} from '../../style';
+
 import Button from './Button';
 
 import {Animated, View, Platform} from 'react-native';

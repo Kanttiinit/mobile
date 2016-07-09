@@ -3,7 +3,7 @@ import MapView from 'react-native-maps';
 import {connect} from 'redux-nimble';
 import geolib from 'geolib';
 
-import {colors} from '../../style';
+
 
 import {
 	View,

@@ -6,7 +6,7 @@ import _ from 'lodash';
 
 import Property from './Property';
 import Button from '../../reusable/Button';
-import {colors, defaultStyles, spaces} from '../../../style';
+
 import {dismissModal} from '../../../store/actions/modal';
 import {setIsSelected} from '../../../store/actions/favorites';
 

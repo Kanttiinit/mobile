@@ -1,8 +1,6 @@
-'use strict';
-
 import {StyleSheet} from 'react-native';
 
-export const colors = {
+const colors = {
    accent: '#009688',
    accentLight: '#4DB6AC',
    accentDark: '#00796B',
@@ -15,7 +13,7 @@ export const colors = {
    lightRed: '#fff9f9'
 };
 
-export const spaces = {
+const spaces = {
    big: 20,
    medium: 10,
    small: 6,
@@ -33,7 +31,7 @@ const roundedElevated = {
    borderRadius: 2
 };
 
-export const defaultStyles = StyleSheet.create({
+const defaultStyles = StyleSheet.create({
    card: {
       ...roundedElevated,
       backgroundColor: 'white',
@@ -61,3 +59,7 @@ export const defaultStyles = StyleSheet.create({
       color: colors.grey
    }
 });
+
+global.colors = colors;
+global.defaultStyles = defaultStyles;
+global.spaces = spaces;

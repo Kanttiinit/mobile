@@ -3,7 +3,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Loader from '../reusable/Loader';
 import {connect} from 'react-redux';
 
-import {colors} from '../../style';
+
 
 import Favorite from './Favorites/Favorite';
 import Button from '../reusable/Button';

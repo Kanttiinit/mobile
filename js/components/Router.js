@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import Button from './reusable/Button';
-import {colors, spaces} from '../style';
+
 
 import {setCurrentView} from '../store/actions/misc';
 import {dismissModal} from '../store/actions/modal';

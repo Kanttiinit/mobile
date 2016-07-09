@@ -7,7 +7,7 @@ import {openModal} from '../../../store/actions/modal';
 import {isSelectedRestaurant, isFavoritedRestaurant} from '../../../store/selectors';
 import {setFavoritedRestaurants, updateSelectedRestaurants} from '../../../store/actions/restaurants';
 import RestaurantDialog from './RestaurantDialog';
-import {colors, spaces} from '../../../style';
+
 
 import Checkbox from '../../reusable/Checkbox';
 import Button from '../../reusable/Button';

@@ -9,7 +9,7 @@ import {bindActionCreators} from 'redux';
 
 import {Restaurant} from '../Menu/Restaurant';
 import Button from '../../reusable/Button';
-import {colors, defaultStyles, spaces} from '../../../style';
+
 import {dismissModal} from '../../../store/actions/modal';
 
 import {Platform, Linking, View, Text, TouchableWithoutFeedback, StyleSheet} from 'react-native';

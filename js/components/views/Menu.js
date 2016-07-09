@@ -9,7 +9,7 @@ import {bindActionCreators} from 'redux';
 import RestaurantList from './Menu/RestaurantList';
 import DaySelector from './Menu/DaySelector';
 import AreaSelector from './Menu/AreaSelector';
-import {colors} from '../../style';
+
 import {setDayOffset} from '../../store/actions/menus';
 import {selectedRestaurants} from '../../store/selectors';
 

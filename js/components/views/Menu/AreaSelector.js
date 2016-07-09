@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import Button from '../../reusable/Button';
-import {colors, defaultStyles, spaces} from '../../../style';
+
 
 import {updateSelectedRestaurants} from '../../../store/actions/restaurants';
 

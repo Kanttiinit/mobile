@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {setIsSelected} from '../../../store/actions/favorites';
-import {spaces, colors} from '../../../style';
+
 
 import Button from '../../reusable/Button';
 

@@ -1,13 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {View, Text} from 'react-native';
 
 import Button from './reusable/Button';
-
-
 import {updateSelectedRestaurants} from '../store/actions/restaurants';
-
-import {View, Text} from 'react-native';
 
 const AreaSelector = ({areas, updateSelectedRestaurants}) => (
    <View style={{justifyContent: 'center', flex: 1}}>

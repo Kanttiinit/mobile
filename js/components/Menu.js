@@ -1,19 +1,17 @@
 import React from 'react';
 import moment from 'moment';
-import Swiper from './reusable/Swiper';
-import Loader from './reusable/Loader';
 import haversine from 'haversine';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {View, StyleSheet, Text} from 'react-native';
 
+import Swiper from './reusable/Swiper';
+import Loader from './reusable/Loader';
 import RestaurantList from './RestaurantList';
 import DaySelector from './DaySelector';
 import AreaSelector from './AreaSelector';
-
 import {setDayOffset} from '../store/actions/menus';
 import {selectedRestaurants} from '../store/selectors';
-
-import {View, StyleSheet, Text} from 'react-native';
 
 class Menu extends React.Component {
    componentWillReceiveProps(props) {

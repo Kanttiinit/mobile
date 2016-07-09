@@ -2,15 +2,13 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {View, Text, StyleSheet, Platform} from 'react-native';
+
 import {openModal} from '../store/actions/modal';
 import {isFavorite} from '../store/selectors';
-
 import CourseDetails from './CourseDetails';
 import Property from './reusable/Property';
 import Button from './reusable/Button';
-
-
-import {View, Text, StyleSheet, Platform} from 'react-native';
 
 const Course = ({course, openModal, isFavorite, restaurant, style}) => (
    <Button

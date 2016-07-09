@@ -2,13 +2,10 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {View, Text, StyleSheet, Platform} from 'react-native';
 
 import {setIsSelected} from '../store/actions/favorites';
-
-
 import Button from './reusable/Button';
-
-import {View, Text, StyleSheet, Platform} from 'react-native';
 
 class Favorite extends React.Component {
    shouldComponentUpdate(props) {

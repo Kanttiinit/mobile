@@ -1,5 +1,4 @@
 import typeToReducer from 'type-to-reducer';
-import formatMenus from '../menu-formatter';
 
 import {FETCH_MENUS, SET_DAY_OFFSET} from '../actions/menus';
 

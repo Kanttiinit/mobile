@@ -8,6 +8,7 @@
     "android-install": "./android/gradlew installRelease"
   },
   "dependencies": {
+    "color-js": "^1.0.3",
     "geolib": "^2.0.18",
     "haversine": "^1.0.0",
     "lodash": "^4.13.1",

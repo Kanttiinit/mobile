@@ -6,6 +6,7 @@ import moment from 'moment';
 import haversine from 'haversine';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import Color from 'color-js';
 
 import {Restaurant} from '../Menu/Restaurant';
 import Button from '../../reusable/Button';
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
    header: {
       flexDirection: 'row',
       padding: spaces.medium,
-      backgroundColor: 'rgba(43, 43, 43, 0.8)',
+      backgroundColor: Color(colors.accentDark).setAlpha(0.9),
       position: 'absolute',
       bottom: 0,
       left: 0,

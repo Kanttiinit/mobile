@@ -1,16 +1,19 @@
 import {StyleSheet} from 'react-native';
+import Color from 'color-js';
+
+const accent = Color('#009688');
+const red = Color('#B71C1C');
+const white = Color('#fff');
+const black = Color('#000');
 
 const colors = {
-   accent: '#009688',
-   accentLight: '#4DB6AC',
-   accentDark: '#00796B',
-   grey: '#BDBDBD',
-   lightGrey: '#f8f8f8',
-   white: '#FFFFFF',
-   black: '#000000',
-   darkGrey: '#424242',
-   red: '#B71C1C',
-   lightRed: '#fff9f9'
+   accent, white, black, red,
+   accentLight: accent.lightenByRatio(0.1),
+   accentDark: accent.darkenByRatio(0.3),
+   grey: white.darkenByRatio(0.3),
+   lightGrey: white.darkenByRatio(0.03),
+   darkGrey: black.lightenByRatio(0.1),
+   lightRed: red.setLightness(0.97).desaturateByRatio(0.2)
 };
 
 const spaces = {
@@ -22,11 +25,11 @@ const spaces = {
 
 const roundedElevated = {
    elevation: 1,
-   shadowColor: 'black',
+   shadowColor: colors.black,
    shadowOpacity: 0.2,
    shadowOffset: {width: 0, height: 1},
    shadowRadius: 1,
-   backgroundColor: 'white',
+   backgroundColor: colors.white,
    margin: 4,
    borderRadius: 2
 };
@@ -34,7 +37,7 @@ const roundedElevated = {
 const defaultStyles = StyleSheet.create({
    card: {
       ...roundedElevated,
-      backgroundColor: 'white',
+      backgroundColor: colors.white,
       margin: spaces.medium,
       marginTop: 0
    },
@@ -60,6 +63,9 @@ const defaultStyles = StyleSheet.create({
    }
 });
 
-global.colors = colors;
+global.colors = Object.keys(colors).reduce((acc, colorName) => {
+   acc[colorName] = colors[colorName].toString();
+   return acc;
+}, {});
 global.defaultStyles = defaultStyles;
 global.spaces = spaces;

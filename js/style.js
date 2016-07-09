@@ -5,9 +5,10 @@ const accent = Color('#009688');
 const red = Color('#B71C1C');
 const white = Color('#fff');
 const black = Color('#000');
+const yellow = Color('#FDD835');
 
 const colors = {
-   accent, white, black, red,
+   accent, white, black, red, yellow,
    accentLight: accent.lightenByRatio(0.1),
    accentDark: accent.darkenByRatio(0.3),
    grey: white.darkenByRatio(0.3),

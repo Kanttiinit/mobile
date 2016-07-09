@@ -82,7 +82,7 @@ export class Restaurant extends React.Component {
                   resizeMode="contain"
                   style={{width: 42, height: 36, marginRight: 4}} />
                }
-               {restaurant.favorited && <Icon size={22} color={colors.red} name="md-heart" />}
+               {restaurant.favorited && <Icon size={22} color={colors.yellow} name="md-star" />}
             </Button>
 
             <Courses courses={courses} restaurant={restaurant} />

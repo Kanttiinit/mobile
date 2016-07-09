@@ -21,8 +21,8 @@ const Restaurant = ({restaurant, updateSelectedRestaurants, setFavoritedRestaura
          style={{marginHorizontal: spaces.small}}>
          <Icon
             size={24}
-            color={favorited ? colors.red : colors.grey}
-            name={'md-heart' + (!favorited ? '-outline' : '')} />
+            color={favorited ? colors.yellow : colors.grey}
+            name={'md-star' + (!favorited ? '-outline' : '')} />
       </Button>
       <Button
          containerStyle={{flex: 1}}

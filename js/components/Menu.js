@@ -1,17 +1,17 @@
 import React from 'react';
 import moment from 'moment';
-import Swiper from '../reusable/Swiper';
-import Loader from '../reusable/Loader';
+import Swiper from './reusable/Swiper';
+import Loader from './reusable/Loader';
 import haversine from 'haversine';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import RestaurantList from './Menu/RestaurantList';
-import DaySelector from './Menu/DaySelector';
-import AreaSelector from './Menu/AreaSelector';
+import RestaurantList from './RestaurantList';
+import DaySelector from './DaySelector';
+import AreaSelector from './AreaSelector';
 
-import {setDayOffset} from '../../store/actions/menus';
-import {selectedRestaurants} from '../../store/selectors';
+import {setDayOffset} from '../store/actions/menus';
+import {selectedRestaurants} from '../store/selectors';
 
 import {View, StyleSheet, Text} from 'react-native';
 

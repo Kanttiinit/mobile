@@ -2,10 +2,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import Button from '../../reusable/Button';
+import Button from './reusable/Button';
 
 
-import {updateSelectedRestaurants} from '../../../store/actions/restaurants';
+import {updateSelectedRestaurants} from '../store/actions/restaurants';
 
 import {View, Text} from 'react-native';
 

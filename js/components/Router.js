@@ -3,26 +3,16 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-simple-modal';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {StyleSheet, Text, View, Navigator, Platform, DeviceEventEmitter} from 'react-native';
 
 import Button from './reusable/Button';
-
-
 import {setCurrentView} from '../store/actions/misc';
 import {dismissModal} from '../store/actions/modal';
+import Menu from './Menu';
+import Favorites from './Favorites';
+import Restaurants from './Restaurants';
+// import Map from './components/Map';
 
-import Menu from './views/Menu';
-import Favorites from './views/Favorites';
-import Restaurants from './views/Restaurants';
-// import Map from './components/views/Map';
-
-import {
-   StyleSheet,
-   Text,
-   View,
-   Navigator,
-   Platform,
-   DeviceEventEmitter
-} from 'react-native';
 
 class TabButton extends React.Component {
    render() {

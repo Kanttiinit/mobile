@@ -20,6 +20,13 @@ export const isFavorite = createSelector(
    })
  );
 
+export const isAreaChecked = createSelector(
+   state => state.restaurants.selected,
+   (state, props) => props.area.restaurants,
+   (selectedRestaurants, areaRestaurants) =>
+      areaRestaurants.every(r => selectedRestaurants.indexOf(r.id) > -1)
+);
+
 export const formatRestaurants = createSelector(
    (state, props) => props.restaurants,
    state => state.menus.menus,

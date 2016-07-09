@@ -1,16 +1,13 @@
 import React from 'react';
-import Loader from '../reusable/Loader';
+import Loader from './reusable/Loader';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
-import {openModal} from '../../store/actions/modal';
-
-import Area from './Restaurants/Area';
-
-import Button from '../reusable/Button';
-import ContactForm from '../reusable/ContactForm';
-
 import {ListView, View, Text, StyleSheet, Platform} from 'react-native';
+
+import {openModal} from '../store/actions/modal';
+import Area from './Area';
+import Button from './reusable/Button';
+import ContactForm from './reusable/ContactForm';
 
 const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
 

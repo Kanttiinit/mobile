@@ -2,17 +2,14 @@ import React from 'react';
 import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {bindActionCreators} from 'redux';
-
-import {openModal} from '../../../store/actions/modal';
-import {isSelectedRestaurant, isFavoritedRestaurant} from '../../../store/selectors';
-import {setFavoritedRestaurants, updateSelectedRestaurants} from '../../../store/actions/restaurants';
-import RestaurantDialog from './RestaurantDialog';
-
-
-import Checkbox from '../../reusable/Checkbox';
-import Button from '../../reusable/Button';
-
 import {View, Text} from 'react-native';
+
+import {openModal} from '../store/actions/modal';
+import {isSelectedRestaurant, isFavoritedRestaurant} from '../store/selectors';
+import {setFavoritedRestaurants, updateSelectedRestaurants} from '../store/actions/restaurants';
+import RestaurantDialog from './RestaurantDialog';
+import Checkbox from './reusable/Checkbox';
+import Button from './reusable/Button';
 
 const Restaurant = ({restaurant, updateSelectedRestaurants, setFavoritedRestaurants, style, selected, favorited, openModal}) => (
    <View style={style}>

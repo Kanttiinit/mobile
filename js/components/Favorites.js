@@ -1,14 +1,11 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Loader from '../reusable/Loader';
+import Loader from './reusable/Loader';
 import {connect} from 'react-redux';
-
-
-
-import Favorite from './Favorites/Favorite';
-import Button from '../reusable/Button';
-
 import {View, Text, ScrollView, StyleSheet, LayoutAnimation, UIManager} from 'react-native';
+
+import Favorite from './Favorite';
+import Button from './reusable/Button';
 
 UIManager.setLayoutAnimationEnabledExperimental
    && UIManager.setLayoutAnimationEnabledExperimental(true);

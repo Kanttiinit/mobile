@@ -1,4 +1,4 @@
-import '../style';
+import '../utils/style';
 import React from 'react';
 import {bindActionCreators} from 'redux';
 import {Provider} from 'react-redux';

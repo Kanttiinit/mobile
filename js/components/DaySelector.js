@@ -4,12 +4,10 @@ import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
-import {setDayOffset} from '../../../store/actions/menus';
-
-import Button from '../../reusable/Button';
-
 import {View, StyleSheet, Text} from 'react-native';
+
+import {setDayOffset} from '../store/actions/menus';
+import Button from './reusable/Button';
 
 const ArrowButton = ({onPress, visible, style, icon}) => (
    <Button

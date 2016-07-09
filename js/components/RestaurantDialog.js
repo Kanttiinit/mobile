@@ -7,13 +7,11 @@ import haversine from 'haversine';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Color from 'color-js';
-
-import {Restaurant} from '../Menu/Restaurant';
-import Button from '../../reusable/Button';
-
-import {dismissModal} from '../../../store/actions/modal';
-
 import {Platform, Linking, View, Text, TouchableWithoutFeedback, StyleSheet} from 'react-native';
+
+import {Restaurant} from './RestaurantCourses';
+import Button from './reusable/Button';
+import {dismissModal} from '../store/actions/modal';
 
 const dayNumberToDayOfWeek = n => moment().day(n + 1).format('ddd').toUpperCase();
 

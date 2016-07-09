@@ -2,12 +2,10 @@ import React from 'react';
 import moment from 'moment';
 import momentFI from 'moment/locale/fi';
 import {connect} from 'react-redux';
-
-import {formatRestaurants, isToday} from '../../../store/selectors';
-
-import Restaurant from './Restaurant';
-
 import {View, Text, ListView, StyleSheet, Platform} from 'react-native';
+
+import {formatRestaurants, isToday} from '../store/selectors';
+import Restaurant from './RestaurantCourses';
 
 const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 

@@ -3,14 +3,12 @@ import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {bindActionCreators} from 'redux';
 import _ from 'lodash';
-
-import Property from './Property';
-import Button from '../../reusable/Button';
-
-import {dismissModal} from '../../../store/actions/modal';
-import {setIsSelected} from '../../../store/actions/favorites';
-
 import {View, Text, StyleSheet} from 'react-native';
+
+import Property from './reusable/Property';
+import Button from './reusable/Button';
+import {dismissModal} from '../store/actions/modal';
+import {setIsSelected} from '../store/actions/favorites';
 
 function getFavorites(course, favorites) {
    return _.sortBy(favorites.filter(f => course.title.match(new RegExp(f.regexp, 'i'))), 'name');

@@ -3,15 +3,12 @@ import moment from 'moment';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
-import {openModal} from '../../../store/actions/modal';
-import Course from './Course';
-
-
-import Button from '../../reusable/Button';
-import RestaurantDialog from '../Restaurants/RestaurantDialog';
-
 import {View, Text, Image, StyleSheet} from 'react-native';
+
+import {openModal} from '../store/actions/modal';
+import Course from './Course';
+import Button from './reusable/Button';
+import RestaurantDialog from './RestaurantDialog';
 
 const Courses = ({courses, restaurant}) => {
    if (courses.length) {

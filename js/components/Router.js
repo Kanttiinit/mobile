@@ -4,15 +4,15 @@ import Modal from 'react-native-simple-modal';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import Button from './components/reusable/Button';
-import {colors, spaces} from './style';
+import Button from './reusable/Button';
+import {colors, spaces} from '../style';
 
-import {setCurrentView} from './store/actions/misc';
-import {dismissModal} from './store/actions/modal';
+import {setCurrentView} from '../store/actions/misc';
+import {dismissModal} from '../store/actions/modal';
 
-import Menu from './components/views/Menu';
-import Favorites from './components/views/Favorites';
-import Restaurants from './components/views/Restaurants';
+import Menu from './views/Menu';
+import Favorites from './views/Favorites';
+import Restaurants from './views/Restaurants';
 // import Map from './components/views/Map';
 
 import {

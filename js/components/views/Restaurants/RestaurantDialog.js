@@ -85,7 +85,7 @@ const RestaurantDialog = ({restaurant, location, address, dismissModal}) => (
                         <Icon size={14} name="md-restaurant" color={colors.white} />
                      </View>
                   </View>
-                  <Icon name="md-arrow-dropdown" size={22} style={{marginTop: -10}} color={colors.red} />
+                  <Icon name="md-arrow-dropdown" size={22} style={{marginTop: -10}} color={colors.accentDark} />
                </View>
             </MapView.Marker>
          </MapView>
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
       width: 30,
       height: 30,
       borderRadius: 15,
-      backgroundColor: colors.red,
+      backgroundColor: colors.accentDark,
       paddingHorizontal: spaces.small
    },
    header: {

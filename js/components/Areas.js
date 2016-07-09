@@ -16,7 +16,7 @@ const Restaurants = ({openModal, areas, loading}) => (
       <Button
          onPress={() => openModal(<ContactForm type="missing-restaurant">Mikä ravintola puuttuu?</ContactForm>)}
          style={[defaultStyles.button, {padding: spaces.medium, margin: spaces.medium}]}>
-         <Text style={{color: 'white', fontSize: 14, textAlign: 'center'}}>ILMOITA PUUTTUVASTA RAVINTOLASTA</Text>
+         <Text style={{color: colors.white, fontSize: 14, textAlign: 'center'}}>ILMOITA PUUTTUVASTA RAVINTOLASTA</Text>
       </Button>
       {loading ? <Loader color={colors.accent} /> :
       <ListView

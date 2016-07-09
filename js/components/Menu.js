@@ -3,7 +3,7 @@ import moment from 'moment';
 import haversine from 'haversine';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, Text} from 'react-native';
 
 import Swiper from './reusable/Swiper';
 import Loader from './reusable/Loader';
@@ -47,20 +47,12 @@ class Menu extends React.Component {
    }
    render() {
       return (
-         <View style={styles.container}>
+         <View style={{flex: 1, backgroundColor: colors.lightGrey}}>
             {this.renderContent()}
          </View>
       );
    }
 }
-
-const styles = StyleSheet.create({
-   container: {
-      backgroundColor: colors.lightGrey,
-      flex: 1,
-      position: 'relative'
-   }
-});
 
 const mapState = state => ({
    restaurants: selectedRestaurants(state),

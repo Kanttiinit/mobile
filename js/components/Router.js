@@ -10,7 +10,7 @@ import {setCurrentView} from '../store/actions/misc';
 import {dismissModal} from '../store/actions/modal';
 import Menu from './Menu';
 import Favorites from './Favorites';
-import Restaurants from './Restaurants';
+import Areas from './Areas';
 // import Map from './components/Map';
 
 
@@ -35,7 +35,7 @@ const views = [
    { title: 'Ruokalista', icon: 'md-restaurant', component: Menu },
    { title: 'Suosikit', icon: 'md-heart', component: Favorites },
    //{ title: 'KARTTA', icon: 'android-pin', component: Map},
-   { title: 'Ravintolat', icon: 'ios-list', component: Restaurants }
+   { title: 'Ravintolat', icon: 'ios-list', component: Areas }
 ];
 
 class Router extends React.Component {

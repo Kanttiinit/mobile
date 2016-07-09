@@ -54,8 +54,6 @@ const styles = StyleSheet.create({
 });
 
 const mapState = (state, props) => ({
-   currentView: state.misc.currentView,
-   now: moment(state.misc.now),
    isToday: isToday(state, props),
    restaurants: formatRestaurants(state, props)
 });

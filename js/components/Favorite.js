@@ -38,7 +38,7 @@ export default connect(null, mapDispatch)(Favorite);
 
 const styles = StyleSheet.create({
    favorite: {
-      backgroundColor: '#fff',
+      backgroundColor: colors.white,
       flexDirection: 'row',
       paddingLeft: spaces.big,
       paddingVertical: spaces.medium,

@@ -2,37 +2,33 @@ import React from 'react';
 import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {bindActionCreators} from 'redux';
-import _ from 'lodash';
 import {View, Text, StyleSheet} from 'react-native';
 
 import Property from './reusable/Property';
 import Button from './reusable/Button';
+import {getCourseFavorites} from '../store/selectors';
 import {dismissModal} from '../store/actions/modal';
 import {setIsSelected} from '../store/actions/favorites';
 
-function getFavorites(course, favorites) {
-   return _.sortBy(favorites.filter(f => course.title.match(new RegExp(f.regexp, 'i'))), 'name');
-}
-
-const CourseDetails = ({course, favorites, restaurant, setIsSelected, dismissModal}) => (
+const CourseDetails = ({course, courseFavorites, restaurant, setIsSelected, dismissModal}) => (
    <View>
       <View>
          <Text style={defaultStyles.bigText}>{course.title}</Text>
       </View>
       <View style={styles.courseListWrapper}>
-      {course.properties && course.properties.length &&
+      {course.properties && !!course.properties.length &&
          course.properties.map(p =>
          <Property key={p} containerStyle={{marginTop: spaces.medium}} large={true}>{p}</Property>
          )
       }
       </View>
       <View style={{flexDirection: 'row', marginVertical: spaces.small}}>
-         {getFavorites(course, favorites).map(f =>
+         {courseFavorites.map(f =>
          <Button
             key={f.id}
             onPress={() => setIsSelected(f.id, !f.selected)}
             style={[styles.favoriteButton, {backgroundColor: f.selected ? colors.red : 'transparent'}]}>
-            <Text style={{color: f.selected ? 'white' : colors.red}}>
+            <Text style={{color: f.selected ? colors.white : colors.red}}>
                <Icon name={'md-heart' + (f.selected ? '' : '-outline')} />
                {' ' + f.name}
             </Text>
@@ -49,17 +45,13 @@ const CourseDetails = ({course, favorites, restaurant, setIsSelected, dismissMod
    </View>
 );
 
-const mapState = state => ({
-   favorites: state.favorites.items
+const mapState = (state, props) => ({
+   courseFavorites: getCourseFavorites(state, props)
 });
 
 const mapDispatch = dispatch => bindActionCreators({setIsSelected, dismissModal}, dispatch);
 
 export default connect(mapState, mapDispatch)(CourseDetails);
-
-CourseDetails.defaultProps = {
-   course: {}
-};
 
 const styles = StyleSheet.create({
    courseListWrapper: {

@@ -2,7 +2,7 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Loader from './reusable/Loader';
 import {connect} from 'react-redux';
-import {View, Text, ScrollView, StyleSheet, LayoutAnimation, UIManager} from 'react-native';
+import {View, Text, ScrollView, LayoutAnimation, UIManager} from 'react-native';
 
 import Favorite from './Favorite';
 import Button from './reusable/Button';
@@ -21,10 +21,10 @@ class Favorites extends React.Component {
       }
 
       return (
-         <View style={styles.container}>
+         <View style={{flex: 1, backgroundColor: colors.lightGrey}}>
             {favorites ?
             <ScrollView
-               style={styles.favoriteList}>
+               style={{flex: 1}}>
                {favorites.map(favorite =>
                <Favorite key={favorite.id} favorite={favorite} />
                )}
@@ -34,16 +34,6 @@ class Favorites extends React.Component {
       );
    }
 }
-
-const styles = StyleSheet.create({
-   container: {
-      flex: 1,
-      backgroundColor: colors.lightGrey
-   },
-   favoriteList: {
-      flex: 1
-   }
-});
 
 const mapState = state => ({
    favorites: state.favorites.items,

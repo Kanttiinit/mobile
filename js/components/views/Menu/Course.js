@@ -7,7 +7,7 @@ import {isFavorite} from '../../../store/selectors';
 
 import CourseDetails from './CourseDetails';
 import Property from './Property';
-import Button from '../../Button';
+import Button from '../../reusable/Button';
 import {colors, defaultStyles, spaces} from '../../../style';
 
 import {View, Text, StyleSheet, Platform} from 'react-native';

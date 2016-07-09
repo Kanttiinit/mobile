@@ -4,8 +4,8 @@ import {bindActionCreators} from 'redux';
 import {View, Text, TextInput, StyleSheet} from 'react-native';
 
 import Button from './Button';
-import {colors} from '../style';
-import * as actions from '../store/actions/feedback';
+import {colors} from '../../style';
+import * as actions from '../../store/actions/feedback';
 
 const ContactForm = ({children, message, type, sending, send, setMessage, sent, error}) => {
    if (sent)

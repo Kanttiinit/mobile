@@ -9,8 +9,8 @@ import {setFavoritedRestaurants, updateSelectedRestaurants} from '../../../store
 import RestaurantDialog from './RestaurantDialog';
 import {colors, spaces} from '../../../style';
 
-import Checkbox from '../../Checkbox';
-import Button from '../../Button';
+import Checkbox from '../../reusable/Checkbox';
+import Button from '../../reusable/Button';
 
 import {View, Text} from 'react-native';
 

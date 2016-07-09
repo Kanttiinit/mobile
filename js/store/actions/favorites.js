@@ -1,5 +1,5 @@
-import HttpCache from '../HttpCache';
-import storage from '../storage';
+import HttpCache from '../../utils/HttpCache';
+import storage from '../../utils/storage';
 
 export const FETCH_FAVORITES = 'FETCH_FAVORITES';
 export const SET_SELECTED_FAVORITES = 'SET_SELECTED_FAVORITES';

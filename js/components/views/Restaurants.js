@@ -1,5 +1,5 @@
 import React from 'react';
-import Loader from '../Loader';
+import Loader from '../reusable/Loader';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
@@ -7,8 +7,8 @@ import {openModal} from '../../store/actions/modal';
 
 import Area from './Restaurants/Area';
 import {colors, spaces, defaultStyles} from '../../style';
-import Button from '../Button';
-import ContactForm from '../ContactForm';
+import Button from '../reusable/Button';
+import ContactForm from '../reusable/ContactForm';
 
 import {ListView, View, Text, StyleSheet, Platform} from 'react-native';
 

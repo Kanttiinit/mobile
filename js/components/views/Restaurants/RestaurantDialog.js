@@ -8,7 +8,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import {Restaurant} from '../Menu/Restaurant';
-import Button from '../../Button';
+import Button from '../../reusable/Button';
 import {colors, defaultStyles, spaces} from '../../../style';
 import {dismissModal} from '../../../store/actions/modal';
 

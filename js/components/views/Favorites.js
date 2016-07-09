@@ -1,12 +1,12 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Loader from '../Loader';
+import Loader from '../reusable/Loader';
 import {connect} from 'react-redux';
 
 import {colors} from '../../style';
 
 import Favorite from './Favorites/Favorite';
-import Button from '../Button';
+import Button from '../reusable/Button';
 
 import {View, Text, ScrollView, StyleSheet, LayoutAnimation, UIManager} from 'react-native';
 

@@ -6,7 +6,7 @@ import {bindActionCreators} from 'redux';
 import {setIsSelected} from '../../../store/actions/favorites';
 import {spaces, colors} from '../../../style';
 
-import Button from '../../Button';
+import Button from '../../reusable/Button';
 
 import {View, Text, StyleSheet, Platform} from 'react-native';
 

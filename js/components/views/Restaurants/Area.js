@@ -1,5 +1,5 @@
 import React from 'react';
-import Checkbox from '../../Checkbox';
+import Checkbox from '../../reusable/Checkbox';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 

@@ -1,4 +1,4 @@
-import HttpCache from '../HttpCache';
+import HttpCache from '../../utils/HttpCache';
 
 export const FETCH_AREAS = 'FETCH_AREAS';
 

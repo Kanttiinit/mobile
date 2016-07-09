@@ -1,4 +1,4 @@
-import HttpCache from '../HttpCache';
+import HttpCache from '../../utils/HttpCache';
 
 export const FETCH_MENUS = 'FETCH_MENUS';
 export const SET_DAY_OFFSET = 'SET_DAY_OFFSET';

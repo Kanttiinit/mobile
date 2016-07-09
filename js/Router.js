@@ -4,7 +4,7 @@ import Modal from 'react-native-simple-modal';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import Button from './components/Button';
+import Button from './components/reusable/Button';
 import {colors, spaces} from './style';
 
 import {setCurrentView} from './store/actions/misc';

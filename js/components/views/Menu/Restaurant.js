@@ -8,7 +8,7 @@ import {openModal} from '../../../store/actions/modal';
 import Course from './Course';
 import {colors, spaces, defaultStyles} from '../../../style';
 
-import Button from '../../Button';
+import Button from '../../reusable/Button';
 import RestaurantDialog from '../Restaurants/RestaurantDialog';
 
 import {View, Text, Image, StyleSheet} from 'react-native';

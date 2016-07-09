@@ -1,5 +1,5 @@
-import storage from '../storage';
-import HttpCache from '../HttpCache';
+import storage from '../../utils/storage';
+import HttpCache from '../../utils/HttpCache';
 
 import {fetchMenus} from './menus';
 

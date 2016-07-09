@@ -5,8 +5,6 @@ import Router from './Router';
 import codePush from 'react-native-code-push';
 import {AppState, AppRegistry, Platform, StatusBar, Keyboard} from 'react-native';
 import store from './store';
-import HttpCache from './store/HttpCache';
-import storage from './store/storage';
 
 import {fetchSelectedFavorites, fetchFavorites} from './store/actions/favorites';
 import {fetchSelectedRestaurants, fetchRestaurants, fetchFavoritedRestaurants} from './store/actions/restaurants';

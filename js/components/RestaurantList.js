@@ -23,6 +23,7 @@ const RestaurantList = ({day, isToday, restaurants}) => (
          dataSource={dataSource.cloneWithRows(restaurants)}
          renderRow={restaurant =>
             <Restaurant
+               day={day}
                restaurant={restaurant}
                courses={restaurant.courses}
                isToday={isToday} />

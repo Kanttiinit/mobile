@@ -27,6 +27,12 @@ export const isAreaChecked = createSelector(
       areaRestaurants.every(r => selectedRestaurants.indexOf(r.id) > -1)
 );
 
+export const isRestaurantFavorited = createSelector(
+   state => state.restaurants.favorited,
+   (state, props) => props.restaurant.id,
+   (favorited, id) => favorited.some(i => id === i)
+);
+
 export const getCourseFavorites = createSelector(
    state => state.favorites.items,
    (state, props) => props.course.title,

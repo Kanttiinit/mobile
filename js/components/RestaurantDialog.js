@@ -12,6 +12,8 @@ import {Platform, Linking, View, Text, TouchableWithoutFeedback, StyleSheet} fro
 import {Restaurant} from './RestaurantCourses';
 import Button from './reusable/Button';
 import {dismissModal} from '../store/actions/modal';
+import {setFavoritedRestaurants} from '../store/actions/restaurants';
+import {isRestaurantFavorited} from '../store/selectors';
 
 const dayNumberToDayOfWeek = n => moment().day(n + 1).format('ddd').toUpperCase();
 
@@ -58,7 +60,7 @@ function openDirections(address) {
    }
 }
 
-const RestaurantDialog = ({restaurant, location, address, dismissModal}) => (
+const RestaurantDialog = ({restaurant, isFavorited, location, dismissModal, setFavoritedRestaurants}) => (
    <View>
 
       <View>
@@ -93,17 +95,25 @@ const RestaurantDialog = ({restaurant, location, address, dismissModal}) => (
                   latitude: restaurant.latitude,
                   longitude: restaurant.longitude
                })}>
-               <View style={{flex: 1}}>
-                  <Text style={[defaultStyles.bigText, {color: colors.white}]}>{restaurant.name}</Text>
-                  <Text style={[defaultStyles.smallText, {color: colors.white, opacity: 0.8}]}>
-                     <Icon name="md-pin" />{' '}
-                     {restaurant.address + ' '}
-                     {location &&
-                     <Text>
-                        {' '}<Icon name="md-walk" />{' '}
-                        {Restaurant.formatDistance(haversine(location, restaurant))}
-                     </Text>}
-                  </Text>
+               <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+                  <View style={{flex: 1}}>
+                     <Text style={[defaultStyles.bigText, {color: colors.white}]}>{restaurant.name}</Text>
+                     <Text style={[defaultStyles.smallText, {color: colors.white, opacity: 0.8}]}>
+                        <Icon name="md-pin" />{' '}
+                        {restaurant.address + ' '}
+                        {location &&
+                        <Text>
+                           {' '}<Icon name="md-walk" />{' '}
+                           {Restaurant.formatDistance(haversine(location, restaurant))}
+                        </Text>}
+                     </Text>
+                  </View>
+                  <Button onPress={() => setFavoritedRestaurants([restaurant.id], !isFavorited)}>
+                     <Icon
+                        name={'md-star' + (!isFavorited ? '-outline' : '')}
+                        color={isFavorited ? colors.yellow : colors.grey}
+                        size={24} />
+                  </Button>
                </View>
             </TouchableWithoutFeedback>
          </View>
@@ -145,11 +155,12 @@ const RestaurantDialog = ({restaurant, location, address, dismissModal}) => (
    </View>
 );
 
-const mapState = state => ({
-   location: state.misc.location
+const mapState = (state, props) => ({
+   location: state.misc.location,
+   isFavorited: isRestaurantFavorited(state, props)
 });
 
-const mapDispatch = dispatch => bindActionCreators({dismissModal}, dispatch);
+const mapDispatch = dispatch => bindActionCreators({dismissModal, setFavoritedRestaurants}, dispatch);
 
 export default connect(mapState, mapDispatch)(RestaurantDialog);
 

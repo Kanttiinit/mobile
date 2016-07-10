@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {Dimensions, ListView, View, InteractionManager} from 'react-native';
 
 const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -25,7 +24,7 @@ export default class Swiper extends React.Component {
             initialListSize={2}
             pageSize={1}
             showsHorizontalScrollIndicator={false}
-            onScroll={event => {
+            onMomentumScrollEnd={event => {
                clearTimeout(this.timeout);
                const offset = event.nativeEvent.contentOffset.x;
                this.timeout = setTimeout(() => {

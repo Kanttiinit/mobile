@@ -11,7 +11,7 @@ import RestaurantList from './RestaurantList';
 import DaySelector from './DaySelector';
 import AreaSelector from './AreaSelector';
 import {setDayOffset} from '../store/actions/menus';
-import {selectedRestaurants} from '../store/selectors';
+import {orderedRestaurants} from '../store/selectors';
 
 class Menu extends React.Component {
    componentWillReceiveProps(props) {
@@ -55,7 +55,7 @@ class Menu extends React.Component {
 }
 
 const mapState = state => ({
-   restaurants: selectedRestaurants(state),
+   restaurants: orderedRestaurants(state),
    days: state.misc.days,
    viewChanges: state.misc.views,
    currentView: state.misc.currentView,

@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
 });
 
 const mapState = state => ({
-   areas: state.areas.items,
-   loading: state.areas.loading
+   areas: state.data.areas,
+   loading: state.pending.areas
 });
 
 const mapDispatch = dispatch => bindActionCreators({openModal}, dispatch);

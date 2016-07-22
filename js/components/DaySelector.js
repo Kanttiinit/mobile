@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {View, StyleSheet, Text} from 'react-native';
 
-import {setDayOffset} from '../store/actions/menus';
+import {setDayOffset} from '../store/actions/misc';
 import Button from './reusable/Button';
 
 const ArrowButton = ({onPress, visible, style, icon}) => (
@@ -61,7 +61,7 @@ class DaySelector extends React.Component {
 }
 
 const mapState = state => ({
-   dayOffset: state.menus.dayOffset
+   dayOffset: state.misc.dayOffset
 });
 
 const mapDispatch = dispatch => bindActionCreators({setDayOffset}, dispatch);

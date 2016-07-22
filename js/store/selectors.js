@@ -10,7 +10,7 @@ const selectedRestaurantIds = state => state.restaurants.selected;
 const favoritedRestaurantIds = state => state.restaurants.favorited;
 const selectedFavorites = state => state.favorites.selected;
 const favorites = state => state.favorites.items;
-const menus = state => state.menus.menus;
+const menus = state => state.data.menus;
 
 function isOpen(openingHours, now) {
    const hours = openingHours[now.weekday()];

@@ -6,19 +6,44 @@ import devTools from 'remote-redux-devtools';
 import favorites from './reducers/favorites';
 import restaurants from './reducers/restaurants';
 import modal from './reducers/modal';
-import areas from './reducers/areas';
 import misc from './reducers/misc';
-import menus from './reducers/menus';
 import feedback from './reducers/feedback';
 
 const reducer = combineReducers({
    favorites,
    restaurants,
    modal,
-   areas,
    misc,
-   menus,
-   feedback
+   feedback,
+   pending: (state = {}, {type, payload, meta = {}}) => {
+      const key = meta.data;
+      if (key) {
+         if (type.endsWith('_FULFILLED') || type.endsWith('_REJECTED')) {
+            return {...state, [key]: false};
+         } else if (type.endsWith('_PENDING')) {
+            return {...state, [key]: true};
+         }
+      }
+      return state;
+   },
+   data: (state = {}, {type, payload, meta = {}}) => {
+      const key = meta.data;
+      if (key && type.endsWith('_FULFILLED')) {
+         return {...state, [key]: payload};
+      }
+      return state;
+   },
+   error: (state = {}, {type, payload, meta = {}}) => {
+      const key = meta.data;
+      if (key) {
+         if (type.endsWith('_FULFILLED')) {
+            return {...state, [key]: undefined};
+         } else if (type.endsWith('_REJECTED')) {
+            return {...state, [key]: payload};
+         }
+      }
+      return state;
+   }
 });
 
 const getStateToAction = store => next => action => {

@@ -10,7 +10,7 @@ import Loader from './reusable/Loader';
 import RestaurantList from './RestaurantList';
 import DaySelector from './DaySelector';
 import AreaSelector from './AreaSelector';
-import {setDayOffset} from '../store/actions/menus';
+import {setDayOffset} from '../store/actions/misc';
 import {orderedRestaurants} from '../store/selectors';
 
 class Menu extends React.Component {
@@ -59,8 +59,8 @@ const mapState = state => ({
    days: state.misc.days,
    viewChanges: state.misc.views,
    currentView: state.misc.currentView,
-   loading: state.menus.loading || state.restaurants.loading,
-   dayOffset: state.menus.dayOffset
+   loading: state.pending.menus || state.restaurants.loading,
+   dayOffset: state.misc.dayOffset
 });
 
 const mapDispatch = dispatch => bindActionCreators({setDayOffset}, dispatch);

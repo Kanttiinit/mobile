@@ -4,6 +4,7 @@ export const UPDATE_LOCATION = 'UPDATE_LOCATION';
 export const UPDATE_NOW = 'UPDATE_NOW';
 export const SET_KEYBOARD_VISIBLE = 'SET_KEYBOARD_VISIBLE';
 export const SET_CURRENT_VIEW = 'SET_CURRENT_VIEW';
+export const SET_DAY_OFFSET = 'SET_DAY_OFFSET';
 
 export function updateNow() {
    return {
@@ -36,5 +37,12 @@ export function setKeyboardVisible(visible) {
    return {
       type: SET_KEYBOARD_VISIBLE,
       payload: visible
+   };
+}
+
+export function setDayOffset(day) {
+   return {
+      type: SET_DAY_OFFSET,
+      payload: day
    };
 }

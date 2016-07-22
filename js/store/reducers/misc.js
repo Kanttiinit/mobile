@@ -1,7 +1,7 @@
 import typeToReducer from 'type-to-reducer';
 import moment from 'moment';
 import _ from 'lodash';
-import {UPDATE_LOCATION, UPDATE_NOW, SET_CURRENT_VIEW, SET_KEYBOARD_VISIBLE} from '../actions/misc';
+import {UPDATE_LOCATION, UPDATE_NOW, SET_DAY_OFFSET, SET_CURRENT_VIEW, SET_KEYBOARD_VISIBLE} from '../actions/misc';
 
 export default typeToReducer({
    [UPDATE_LOCATION]: {
@@ -18,8 +18,10 @@ export default typeToReducer({
       currentView: action.payload,
       views: state.views + 1
    }),
-   [SET_KEYBOARD_VISIBLE]: (state, action) => ({...state, keyboardVisible: action.payload})
+   [SET_KEYBOARD_VISIBLE]: (state, action) => ({...state, keyboardVisible: action.payload}),
+   [SET_DAY_OFFSET]: (state, {payload}) => ({...state, dayOffset: payload})
 }, {
    currentView: 'Ruokalista',
-   views: 0
+   views: 0,
+   dayOffset: 0
 });

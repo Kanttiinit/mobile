@@ -52,9 +52,9 @@ const styles = StyleSheet.create({
 });
 
 const stateToProps = state => ({
-   sending: state.feedback.sending,
-   sent: state.feedback.sent,
-   error: state.feedback.error,
+   sending: state.pending.feedback,
+   sent: state.data.feedback && !state.error.feedback,
+   error: state.error.feedback,
    message: state.feedback.message
 });
 

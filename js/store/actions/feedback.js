@@ -10,8 +10,10 @@ export function send(type, message) {
          body: JSON.stringify({
             message: `New feedback from app: "${type}":\n"${message}"`
          })
-      })
-      .then(r => r.json())
+      }).then(r => r.json()),
+      meta: {
+         data: 'feedback'
+      }
    };
 }
 

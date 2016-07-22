@@ -5,7 +5,7 @@ import haversine from 'haversine';
 
 const now = state => moment(state.misc.now);
 const location = state => state.misc.location;
-const restaurants = state => state.restaurants.restaurants;
+const restaurants = state => state.data.restaurants;
 const selectedRestaurantIds = state => state.restaurants.selected;
 const favoritedRestaurantIds = state => state.restaurants.favorited;
 const selectedFavoriteIds = state => state.selectedFavorites;

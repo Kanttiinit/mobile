@@ -65,7 +65,7 @@ const mapState = state => ({
    days: state.misc.days,
    viewChanges: state.misc.views,
    currentView: state.misc.currentView,
-   loading: state.pending.menus || state.restaurants.loading,
+   loading: state.pending.menus || state.pending.restaurants,
    dayOffset: state.misc.dayOffset
 });
 

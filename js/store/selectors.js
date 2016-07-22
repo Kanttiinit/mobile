@@ -8,7 +8,7 @@ const location = state => state.misc.location;
 const restaurants = state => state.restaurants.restaurants;
 const selectedRestaurantIds = state => state.restaurants.selected;
 const favoritedRestaurantIds = state => state.restaurants.favorited;
-const selectedFavorites = state => state.favorites.selected;
+const selectedFavoriteIds = state => state.favorites.selected;
 const favorites = state => state.favorites.items;
 const menus = state => state.data.menus;
 
@@ -23,11 +23,11 @@ function isOpen(openingHours, now) {
 
 export const selectedRestaurants = createSelector(
    restaurants, selectedRestaurantIds,
-   (all, selected) => all.filter(r => selected.indexOf(r.id) > -1)
+   (all, selected) => all.filter(r => selected.has(r.id))
 );
 
 export const isFavorite = createSelector(
-   favorites, selectedFavorites, (state, props) => props.course.title,
+   favorites, selectedFavoriteIds, (state, props) => props.course.title,
    (all, selected, title) => selected.some(selectedId => {
       const favorite = all.find(f => f.id === selectedId);
       if (favorite) {
@@ -39,12 +39,12 @@ export const isFavorite = createSelector(
 export const isAreaChecked = createSelector(
    selectedRestaurantIds, (state, props) => props.area.restaurants,
    (selectedRestaurantIds, areaRestaurants) =>
-      areaRestaurants.every(r => selectedRestaurantIds.indexOf(r.id) > -1)
+      areaRestaurants.every(r => selectedRestaurantIds.has(r.id))
 );
 
 export const isRestaurantFavorited = createSelector(
    favoritedRestaurantIds, (state, props) => props.restaurant.id,
-   (favoritedIds, restaurantId) => favoritedIds.some(id => restaurantId === id)
+   (favoritedIds, restaurantId) => favoritedIds.has(restaurantId)
 );
 
 export const getCourseFavorites = createSelector(
@@ -72,12 +72,7 @@ export const isToday = createSelector(
 
 export const isSelectedRestaurant = createSelector(
    selectedRestaurantIds, (state, props) => props.restaurant.id,
-   (selectedIds, currentId) => selectedIds.some(id => id === currentId)
-);
-
-export const isFavoritedRestaurant = createSelector(
-   favoritedRestaurantIds, (state, props) => props.restaurant.id,
-   (favoritedIds, currentId) => favoritedIds.some(id => id === currentId)
+   (selectedIds, currentId) => selectedIds.has(currentId)
 );
 
 export const orderedRestaurants = createSelector(
@@ -89,7 +84,7 @@ export const orderedRestaurants = createSelector(
                ...restaurant,
                distance: location ? haversine(location, restaurant) : undefined,
                isOpen: isOpen(restaurant.openingHours, now),
-               favorited: favorited.some(id => restaurant.id === id)
+               favorited: favorited.has(restaurant.id)
             })
          ),
          ['favorited', 'isOpen', 'distance'],

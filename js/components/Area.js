@@ -5,10 +5,10 @@ import {bindActionCreators} from 'redux';
 import {Text, View, StyleSheet, Platform} from 'react-native';
 
 import {isAreaChecked} from '../store/selectors';
-import {updateSelectedRestaurants} from '../store/actions/restaurants';
+import {setSelectedRestaurants} from '../store/actions/restaurants';
 import Restaurant from './AreaRestaurant';
 
-const Area = ({isAreaChecked, area, updateSelectedRestaurants}) => (
+const Area = ({isAreaChecked, area, setSelectedRestaurants}) => (
    <View style={defaultStyles.card}>
       <View style={styles.area}>
          <Text style={styles.areaTitle}>{area.name}</Text>
@@ -16,7 +16,7 @@ const Area = ({isAreaChecked, area, updateSelectedRestaurants}) => (
             backgroundColor={colors.accentDark}
             color={colors.white}
             checked={isAreaChecked}
-            onCheckedChange={checked => updateSelectedRestaurants(area.restaurants.map(r => r.id), checked)} />
+            onCheckedChange={checked => setSelectedRestaurants(area.restaurants.map(r => r.id), checked)} />
       </View>
       {area.restaurants.sort((a, b) => a.name > b.name ? 1 : -1).map((r, i) =>
          <Restaurant
@@ -55,6 +55,6 @@ const mapState = (state, props) => ({
    isAreaChecked: isAreaChecked(state, props)
 });
 
-const mapDispatch = dispatch => bindActionCreators({updateSelectedRestaurants}, dispatch);
+const mapDispatch = dispatch => bindActionCreators({setSelectedRestaurants}, dispatch);
 
 export default connect(mapState, mapDispatch)(Area);

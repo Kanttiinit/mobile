@@ -5,13 +5,13 @@ import {bindActionCreators} from 'redux';
 import {View, Text} from 'react-native';
 
 import {openModal} from '../store/actions/modal';
-import {isSelectedRestaurant, isFavoritedRestaurant} from '../store/selectors';
-import {setFavoritedRestaurants, updateSelectedRestaurants} from '../store/actions/restaurants';
+import {isSelectedRestaurant, isRestaurantFavorited} from '../store/selectors';
+import {setFavoritedRestaurants, setSelectedRestaurants} from '../store/actions/restaurants';
 import RestaurantDialog from './RestaurantDialog';
 import Checkbox from './reusable/Checkbox';
 import Button from './reusable/Button';
 
-const Restaurant = ({restaurant, updateSelectedRestaurants, setFavoritedRestaurants, style, selected, favorited, openModal}) => (
+const Restaurant = ({restaurant, setSelectedRestaurants, setFavoritedRestaurants, style, selected, favorited, openModal}) => (
    <View style={style}>
       <Button
          onPress={() => setFavoritedRestaurants([restaurant.id], !favorited)}
@@ -27,16 +27,16 @@ const Restaurant = ({restaurant, updateSelectedRestaurants, setFavoritedRestaura
          <Text style={{fontSize: 14, flex: 1}}>{restaurant.name}</Text>
       </Button>
       <Checkbox
-         onCheckedChange={selected => updateSelectedRestaurants([restaurant.id], selected)}
+         onCheckedChange={selected => setSelectedRestaurants([restaurant.id], selected)}
          checked={selected} />
    </View>
 );
 
 const mapState = (state, props) => ({
    selected: isSelectedRestaurant(state, props),
-   favorited: isFavoritedRestaurant(state, props)
+   favorited: isRestaurantFavorited(state, props)
 });
 
-const mapDispatch = dispatch => bindActionCreators({openModal, setFavoritedRestaurants, updateSelectedRestaurants}, dispatch);
+const mapDispatch = dispatch => bindActionCreators({openModal, setFavoritedRestaurants, setSelectedRestaurants}, dispatch);
 
 export default connect(mapState, mapDispatch)(Restaurant);

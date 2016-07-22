@@ -1,7 +1,9 @@
 import typeToReducer from 'type-to-reducer';
 import _ from 'lodash';
+import Immutable from 'immutable';
+import {REHYDRATE} from 'redux-persist/constants';
 
-import {FETCH_FAVORITES, SET_SELECTED_FAVORITES} from '../actions/favorites';
+import {FETCH_FAVORITES, SET_SELECTED_FAVORITE} from '../actions/favorites';
 
 function getFormattedFavorites(favorites, selectedFavorites) {
    if (favorites)
@@ -9,7 +11,7 @@ function getFormattedFavorites(favorites, selectedFavorites) {
          favorites.map(f =>
             ({
                ...f,
-               selected: selectedFavorites.some(x => x === f.id)
+               selected: selectedFavorites.has(f.id)
             })
          ),
          ['selected', 'name'], ['desc', 'asc']
@@ -19,6 +21,11 @@ function getFormattedFavorites(favorites, selectedFavorites) {
 };
 
 export default typeToReducer({
+   [REHYDRATE]: (state, {payload: {favorites}}) => ({
+      ...state,
+      ...favorites,
+      selected: new Immutable.Set(favorites.selected)
+   }),
    [FETCH_FAVORITES]: {
       PENDING: (state, {payload}) => ({...state, loading: true}),
       FULFILLED(state, action) {
@@ -26,14 +33,13 @@ export default typeToReducer({
          return {...state, items, loading: false};
       }
    },
-   [SET_SELECTED_FAVORITES]: {
-      FULFILLED(state, action) {
-         const items = getFormattedFavorites(state.items, action.payload);
-         return {...state, items, selected: action.payload};
-      }
+   [SET_SELECTED_FAVORITE](state, {payload: {id, isSelected}}) {
+      const selected = isSelected ? state.selected.add(id) : state.selected.delete(id);
+      const items = getFormattedFavorites(state.items, selected);
+      return {...state, items, selected};
    }
 }, {
-   selected: [],
+   selected: new Immutable.Set(),
    items: [],
    loading: false
 });

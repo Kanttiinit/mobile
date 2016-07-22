@@ -7,21 +7,18 @@ import codePush from 'react-native-code-push';
 import {AppState, AppRegistry, Platform, StatusBar, Keyboard} from 'react-native';
 
 import store from '../store';
-import {fetchSelectedFavorites, fetchFavorites} from '../store/actions/favorites';
-import {fetchSelectedRestaurants, fetchRestaurants, fetchFavoritedRestaurants} from '../store/actions/restaurants';
+import {fetchFavorites} from '../store/actions/favorites';
+import {fetchRestaurants} from '../store/actions/restaurants';
 import {fetchAreas} from '../store/actions/areas';
 import {updateNow, updateLocation, setKeyboardVisible} from '../store/actions/misc';
 
 const actions = bindActionCreators({
-   fetchSelectedFavorites,
-   fetchSelectedRestaurants,
    fetchRestaurants,
    fetchAreas,
    updateNow,
    updateLocation,
    setKeyboardVisible,
-   fetchFavorites,
-   fetchFavoritedRestaurants
+   fetchFavorites
 }, store.dispatch);
 
 class Main extends React.Component {
@@ -46,9 +43,6 @@ class Main extends React.Component {
          }
       });
 
-      actions.fetchSelectedRestaurants();
-      actions.fetchFavoritedRestaurants();
-      actions.fetchSelectedFavorites();
       actions.fetchFavorites();
       actions.fetchRestaurants();
       actions.fetchAreas();

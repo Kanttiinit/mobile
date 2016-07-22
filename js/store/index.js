@@ -2,8 +2,7 @@ import {createStore, combineReducers, compose, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import promiseMiddleware from 'redux-promise-middleware';
 import devTools from 'remote-redux-devtools';
-import {persistStore, autoRehydrate} from 'redux-persist';
-import {AsyncStorage} from 'react-native';
+import {autoRehydrate} from 'redux-persist';
 
 import favorites from './reducers/favorites';
 import restaurants from './reducers/restaurants';
@@ -54,11 +53,4 @@ const enhancer = compose(
    devTools()
 );
 
-const store = createStore(reducer, enhancer);
-
-persistStore(store, {
-   whitelist: ['favorites', 'restaurants'],
-   storage: AsyncStorage
-});
-
-export default store;
+export default createStore(reducer, enhancer);

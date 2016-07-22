@@ -4,13 +4,15 @@ import {bindActionCreators} from 'redux';
 import {Provider} from 'react-redux';
 import Router from './Router';
 import codePush from 'react-native-code-push';
-import {AppState, AppRegistry, Platform, StatusBar, Keyboard} from 'react-native';
+import {AsyncStorage, AppState, AppRegistry, Platform, StatusBar, Keyboard} from 'react-native';
+import {persistStore} from 'redux-persist';
 
 import store from '../store';
 import {fetchFavorites} from '../store/actions/favorites';
 import {fetchRestaurants} from '../store/actions/restaurants';
 import {fetchAreas} from '../store/actions/areas';
-import {updateNow, updateLocation, setKeyboardVisible} from '../store/actions/misc';
+import {fetchMenus} from '../store/actions/menus';
+import {updateNow, updateLocation, setKeyboardVisible, setInitializing} from '../store/actions/misc';
 
 const actions = bindActionCreators({
    fetchRestaurants,
@@ -18,7 +20,9 @@ const actions = bindActionCreators({
    updateNow,
    updateLocation,
    setKeyboardVisible,
-   fetchFavorites
+   fetchFavorites,
+   fetchMenus,
+   setInitializing
 }, store.dispatch);
 
 class Main extends React.Component {
@@ -46,6 +50,14 @@ class Main extends React.Component {
       actions.fetchFavorites();
       actions.fetchRestaurants();
       actions.fetchAreas();
+
+      persistStore(store, {
+         whitelist: ['favorites', 'restaurants'],
+         storage: AsyncStorage
+      }, () => {
+         actions.fetchMenus(store.getState().restaurants.selected);
+         actions.setInitializing(false);
+      });
 
       this.refresh();
       this.startAutoUpdate();

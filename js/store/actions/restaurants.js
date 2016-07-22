@@ -7,9 +7,12 @@ export const FETCH_RESTAURANTS = 'FETCH_RESTAURANTS';
 export const SET_FAVORITED_RESTAURANTS = 'SET_FAVORITED_RESTAURANTS';
 
 export function setSelectedRestaurants(ids, areSelected) {
-   return {
-      type: SET_SELECTED_RESTAURANTS,
-      payload: {ids, areSelected}
+   return (dispatch, getState) => {
+      dispatch({
+         type: SET_SELECTED_RESTAURANTS,
+         payload: {ids, areSelected}
+      });
+      dispatch(fetchMenus(getState().restaurants.selected.toArray()));
    };
 }
 

@@ -6,6 +6,7 @@ import {bindActionCreators} from 'redux';
 import {StyleSheet, Text, View, Navigator, Platform, DeviceEventEmitter} from 'react-native';
 
 import Button from './reusable/Button';
+import LaunchScreen from './LaunchScreen';
 import {setCurrentView} from '../store/actions/misc';
 import {dismissModal} from '../store/actions/modal';
 import Menu from './Menu';
@@ -48,7 +49,10 @@ class Router extends React.Component {
       this.props.setCurrentView(data.title);
    }
    render() {
-      const {currentView, modal, keyboardVisible} = this.props;
+      const {currentView, modal, keyboardVisible, initializing} = this.props;
+      if (initializing) {
+         return <LaunchScreen />;
+      }
 
       return (
          <View style={styles.wrapper}>
@@ -104,6 +108,7 @@ const styles = StyleSheet.create({
 const mapState = state => ({
    currentView: state.misc.currentView,
    views: state.misc.views,
+   initializing: state.misc.initializing,
    modal: state.modal,
    keyboardVisible: state.misc.keyboardVisible
 });

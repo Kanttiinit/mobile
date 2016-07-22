@@ -8,8 +8,8 @@ const location = state => state.misc.location;
 const restaurants = state => state.restaurants.restaurants;
 const selectedRestaurantIds = state => state.restaurants.selected;
 const favoritedRestaurantIds = state => state.restaurants.favorited;
-const selectedFavoriteIds = state => state.favorites.selected;
-const favorites = state => state.favorites.items;
+const selectedFavoriteIds = state => state.selectedFavorites;
+const favorites = state => state.data.favorites;
 const menus = state => state.data.menus;
 
 function isOpen(openingHours, now) {
@@ -47,12 +47,6 @@ export const isRestaurantFavorited = createSelector(
    (favoritedIds, restaurantId) => favoritedIds.has(restaurantId)
 );
 
-export const getCourseFavorites = createSelector(
-   favorites, (state, props) => props.course.title,
-   (favorites, courseTitle) =>
-      _.sortBy(favorites.filter(f => courseTitle.match(new RegExp(f.regexp, 'i'))), 'name')
-);
-
 export const formatRestaurants = createSelector(
    (state, props) => props.restaurants,
    menus,
@@ -63,6 +57,26 @@ export const formatRestaurants = createSelector(
          return {...restaurant, courses, noCourses: !courses.length};
       }),
    ['noCourses'])
+);
+
+export const formatFavorites = createSelector(
+   favorites, selectedFavoriteIds,
+   (favorites, selectedFavoriteIds) =>
+      _.orderBy(
+         favorites.map(f =>
+            ({
+               ...f,
+               selected: selectedFavoriteIds.has(f.id)
+            })
+         ),
+         ['selected', 'name'], ['desc', 'asc']
+      )
+);
+
+export const getCourseFavorites = createSelector(
+   formatFavorites, (state, props) => props.course.title,
+   (favorites, courseTitle) =>
+   _.sortBy(favorites.filter(f => courseTitle.match(new RegExp(f.regexp, 'i'))), 'name')
 );
 
 export const isToday = createSelector(

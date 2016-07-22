@@ -4,6 +4,7 @@ import Loader from './reusable/Loader';
 import {connect} from 'react-redux';
 import {View, Text, ScrollView, LayoutAnimation, UIManager} from 'react-native';
 
+import {formatFavorites} from '../store/selectors';
 import Favorite from './Favorite';
 import Button from './reusable/Button';
 
@@ -36,8 +37,8 @@ class Favorites extends React.Component {
 }
 
 const mapState = state => ({
-   favorites: state.favorites.items,
-   loading: state.favorites.loading
+   favorites: formatFavorites(state),
+   loading: state.pending.favorites
 });
 
 export default connect(mapState)(Favorites);

@@ -4,14 +4,14 @@ import promiseMiddleware from 'redux-promise-middleware';
 import devTools from 'remote-redux-devtools';
 import {autoRehydrate} from 'redux-persist';
 
-import favorites from './reducers/favorites';
+import selectedFavorites from './reducers/selectedFavorites';
 import restaurants from './reducers/restaurants';
 import modal from './reducers/modal';
 import misc from './reducers/misc';
 import feedback from './reducers/feedback';
 
 const reducer = combineReducers({
-   favorites,
+   selectedFavorites,
    restaurants,
    modal,
    misc,

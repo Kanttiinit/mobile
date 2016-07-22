@@ -1,23 +1,34 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Image, Text, StyleSheet} from 'react-native';
 
 const LaunchScreen = () => (
    <View style={styles.container}>
-      <Text style={styles.logo}>Kanttiinit</Text>
+      <View style={styles.logoWrapper}>
+         <Image
+            resizeMode="contain"
+            style={{width: 70, height: 70}}
+            source={require('../../images/logo.png')} />
+         <Text style={styles.logo}>Kanttiinit</Text>
+      </View>
    </View>
 );
 
 const styles = StyleSheet.create({
    container: {
-      backgroundColor: colors.accent,
+      backgroundColor: colors.lightGrey,
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center'
    },
+   logoWrapper: {
+      flexDirection: 'row',
+      alignItems: 'center'
+   },
    logo: {
-      color: colors.white,
+      color: colors.accent,
       fontSize: 48,
-      fontWeight: '300'
+      fontWeight: '300',
+      marginLeft: spaces.big
    }
 });
 

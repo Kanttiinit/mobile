@@ -36,19 +36,20 @@ export class Restaurant extends React.Component {
       return distance < 1 ? (distance * 1000).toFixed(0) + ' m' : (distance).toFixed(1) + ' km';
    }
    shouldComponentUpdate(props) {
-      const result = props.restaurant.id !== this.props.restaurant.id
+      if (this.props.day !== props.day)
+         return true;
+
+      return props.restaurant.id !== this.props.restaurant.id
          || props.restaurant.isOpen !== this.props.restaurant.isOpen
          || props.restaurant.favorited !== this.props.restaurant.favorited
          || props.restaurant.distance !== this.props.restaurant.distance;
-
-      return result;
    }
    render() {
       const {day, isToday, restaurant, openModal, courses} = this.props;
       const metaColor = isToday && restaurant.isOpen ? colors.darkAccent : colors.darkGrey;
 
       return (
-         <View style={[defaultStyles.card, !courses.length && {opacity: 0.8}]}>
+         <View style={[defaultStyles.card, !courses.length && {backgroundColor: 0.8}]}>
 
             <Button
                onPress={() => openModal(<RestaurantDialog restaurant={restaurant} />, {padding: 0})}

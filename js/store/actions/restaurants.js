@@ -5,20 +5,20 @@ import {fetchMenus} from './menus';
 export const SET_SELECTED_RESTAURANTS = 'SET_SELECTED_RESTAURANTS';
 export const SET_FAVORITED_RESTAURANTS = 'SET_FAVORITED_RESTAURANTS';
 
-export function setSelectedRestaurants(ids, areSelected) {
-   return (dispatch, getState) => {
+export function setSelectedRestaurants(values, include) {
+   return dispatch => {
       dispatch({
          type: SET_SELECTED_RESTAURANTS,
-         payload: {ids, areSelected}
+         payload: {values, include}
       });
-      dispatch(fetchMenus(getState().restaurants.selected.toArray()));
+      dispatch(fetchMenus());
    };
 }
 
-export function setFavoritedRestaurants(ids, areFavorited) {
+export function setFavoritedRestaurants(values, include) {
    return {
       type: SET_FAVORITED_RESTAURANTS,
-      payload: {ids, areFavorited}
+      payload: {values, include}
    }
 }
 

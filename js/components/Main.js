@@ -52,10 +52,10 @@ class Main extends React.Component {
       actions.fetchAreas();
 
       persistStore(store, {
-         whitelist: ['selectedFavorites', 'restaurants'],
+         whitelist: 'preferences',
          storage: AsyncStorage
       }, () => {
-         actions.fetchMenus(store.getState().restaurants.selected);
+         actions.fetchMenus();
          actions.setInitializing(false);
       });
 

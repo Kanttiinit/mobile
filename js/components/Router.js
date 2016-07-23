@@ -106,11 +106,11 @@ const styles = StyleSheet.create({
 });
 
 const mapState = state => ({
-   currentView: state.misc.currentView,
-   views: state.misc.views,
-   initializing: state.misc.initializing,
+   currentView: state.value.currentView,
+   views: state.value.views,
+   initializing: state.value.initializing,
    modal: state.modal,
-   keyboardVisible: state.misc.keyboardVisible
+   keyboardVisible: state.value.keyboardVisible
 });
 
 const mapDispatch = dispatch => bindActionCreators({dismissModal, setCurrentView}, dispatch);

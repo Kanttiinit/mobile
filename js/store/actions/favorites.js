@@ -2,10 +2,10 @@ import HttpCache from '../../utils/HttpCache';
 
 export const SET_SELECTED_FAVORITE = 'SET_SELECTED_FAVORITE';
 
-export function setIsSelected(id, isSelected) {
+export function setIsSelected(value, include) {
    return {
       type: SET_SELECTED_FAVORITE,
-      payload: {id, isSelected}
+      payload: {value, include}
    };
 }
 

@@ -1,5 +1,3 @@
-export const SET_MESSAGE = 'SET_MESSAGE';
-
 export function send(type, message) {
    return {
       type: 'SEND_FEEDBACK',
@@ -16,9 +14,9 @@ export function send(type, message) {
    };
 }
 
-export function setMessage(message) {
+export function setFeedbackMessage(feedbackMessage) {
    return {
-      type: SET_MESSAGE,
-      payload: message
-   };
+      type: 'SET_VALUE_FEEDBACK_MESSAGE',
+      payload: {feedbackMessage}
+   }
 }

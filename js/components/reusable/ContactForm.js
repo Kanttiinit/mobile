@@ -7,7 +7,7 @@ import Button from './Button';
 
 import * as actions from '../../store/actions/feedback';
 
-const ContactForm = ({children, message, type, sending, send, setMessage, sent, error}) => {
+const ContactForm = ({children, message, type, sending, send, setFeedbackMessage, sent, error}) => {
    if (sent)
       return <Text style={styles.confirmation}>Kiitos palautteestasi!</Text>;
 
@@ -16,7 +16,7 @@ const ContactForm = ({children, message, type, sending, send, setMessage, sent, 
          <Text style={styles.headerText}>{children || 'Anna palautetta:'}</Text>
          <TextInput
             style={styles.textInput}
-            onChangeText={text => setMessage(text)}
+            onChangeText={text => setFeedbackMessage(text)}
             value={message} />
          <Button style={styles.button} onPress={() => send(type, message)}>
             <Text style={{color: 'white', textAlign: 'center'}}>{sending ? 'Lähetetään...' : 'LÄHETÄ'}</Text>
@@ -55,7 +55,7 @@ const stateToProps = state => ({
    sending: state.pending.feedback,
    sent: state.data.feedback && !state.error.feedback,
    error: state.error.feedback,
-   message: state.feedback.message
+   message: state.value.feedbackMessage
 });
 
 const dispatchToProps = dispatch => bindActionCreators(actions, dispatch);

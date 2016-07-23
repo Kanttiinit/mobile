@@ -4,18 +4,18 @@ import promiseMiddleware from 'redux-promise-middleware';
 import devTools from 'remote-redux-devtools';
 import {autoRehydrate} from 'redux-persist';
 
-import selectedFavorites from './reducers/selectedFavorites';
-import restaurants from './reducers/restaurants';
+import preferences from './reducers/preferences';
 import modal from './reducers/modal';
-import misc from './reducers/misc';
-import feedback from './reducers/feedback';
 
 const reducer = combineReducers({
-   selectedFavorites,
-   restaurants,
+   preferences,
    modal,
-   misc,
-   feedback,
+   value: (state = {}, {type, payload}) => {
+      if (type.startsWith('SET_VALUE_')) {
+         return {...state, ...payload};
+      }
+      return state;
+   },
    pending: (state = {}, {type, payload, meta = {}}) => {
       const key = meta.data;
       if (key) {
@@ -53,4 +53,11 @@ const enhancer = compose(
    devTools()
 );
 
-export default createStore(reducer, enhancer);
+export default createStore(reducer, {
+   value: {
+      currentView: 'Ruokalista',
+      views: 0,
+      dayOffset: 0,
+      initializing: true
+   }
+}, enhancer);

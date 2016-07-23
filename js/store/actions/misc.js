@@ -1,56 +1,58 @@
 import moment from 'moment';
-
-export const UPDATE_LOCATION = 'UPDATE_LOCATION';
-export const UPDATE_NOW = 'UPDATE_NOW';
-export const SET_KEYBOARD_VISIBLE = 'SET_KEYBOARD_VISIBLE';
-export const SET_CURRENT_VIEW = 'SET_CURRENT_VIEW';
-export const SET_DAY_OFFSET = 'SET_DAY_OFFSET';
-export const SET_INITIALIZING = 'SET_INITIALIZING';
+import _ from 'lodash';
 
 export function updateNow() {
+   const date = new Date();
    return {
-      type: UPDATE_NOW,
-      payload: new Date()
+      type: 'SET_VALUE_NOW',
+      payload: {
+         date,
+         days: _.times(7, i => moment(date).add(i, 'days').format('YYYY-MM-DD'))
+      }
    };
 }
 
 export function updateLocation() {
    return {
-      type: UPDATE_LOCATION,
+      type: 'UPDATE_LOCATION',
       payload: new Promise((resolve, reject) => {
          navigator.geolocation.getCurrentPosition(
             position => resolve(position.coords),
             error => console.log('could not get location', error),
             {timeout: 3000, maximumAge: 60000}
          );
-      })
+      }),
+      meta: {data: 'location'}
    };
 }
 
 export function setCurrentView(view) {
+   return (dispatch, getState) => dispatch({
+      type: 'SET_VALUE_CURRENT_VIEW',
+      payload: {
+         currentView: view,
+         views: getState().value.views++
+      }
+   });
+}
+
+export function setKeyboardVisible(keyboardVisible) {
    return {
-      type: SET_CURRENT_VIEW,
-      payload: view
+      type: 'SET_VALUE_KEYBOARD_VISIBLE',
+      payload: {keyboardVisible}
    };
 }
 
-export function setKeyboardVisible(visible) {
+export function setDayOffset(dayOffset) {
    return {
-      type: SET_KEYBOARD_VISIBLE,
-      payload: visible
-   };
-}
-
-export function setDayOffset(day) {
-   return {
-      type: SET_DAY_OFFSET,
-      payload: day
+      type: 'SET_VALUE_DAY_OFFSET',
+      payload: {dayOffset}
    };
 }
 
 export function setInitializing(initializing) {
    return {
-      type: SET_INITIALIZING,
-      payload: initializing
+      type: 'SET_VALUE_INITIALIZING',
+      payload: {initializing}
    };
 }

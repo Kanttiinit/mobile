@@ -156,7 +156,7 @@ const RestaurantDialog = ({restaurant, isFavorited, location, dismissModal, setF
 );
 
 const mapState = (state, props) => ({
-   location: state.misc.location,
+   location: state.data.location,
    isFavorited: isRestaurantFavorited(state, props)
 });
 

@@ -62,11 +62,11 @@ class Menu extends React.Component {
 
 const mapState = state => ({
    restaurants: orderedRestaurants(state),
-   days: state.misc.days,
-   viewChanges: state.misc.views,
-   currentView: state.misc.currentView,
+   days: state.value.days,
+   viewChanges: state.value.views,
+   currentView: state.value.currentView,
    loading: state.pending.menus || state.pending.restaurants,
-   dayOffset: state.misc.dayOffset
+   dayOffset: state.value.dayOffset
 });
 
 const mapDispatch = dispatch => bindActionCreators({setDayOffset}, dispatch);

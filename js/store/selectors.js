@@ -3,12 +3,12 @@ import _ from 'lodash';
 import moment from 'moment';
 import haversine from 'haversine';
 
-const now = state => moment(state.misc.now);
-const location = state => state.misc.location;
+const now = state => moment(state.value.now);
+const location = state => state.data.location;
 const restaurants = state => state.data.restaurants;
-const selectedRestaurantIds = state => state.restaurants.selected;
-const favoritedRestaurantIds = state => state.restaurants.favorited;
-const selectedFavoriteIds = state => state.selectedFavorites;
+const selectedRestaurantIds = state => state.preferences.selectedRestaurants;
+const favoritedRestaurantIds = state => state.preferences.favoritedRestaurants;
+const selectedFavoriteIds = state => state.preferences.selectedFavorites;
 const favorites = state => state.data.favorites;
 const menus = state => state.data.menus;
 
@@ -23,7 +23,7 @@ function isOpen(openingHours, now) {
 
 export const selectedRestaurants = createSelector(
    restaurants, selectedRestaurantIds,
-   (all, selected) => all.filter(r => selected.has(r.id))
+   (all, selected) => all.filter(r => selected.includes(r.id))
 );
 
 export const isFavorite = createSelector(
@@ -39,12 +39,12 @@ export const isFavorite = createSelector(
 export const isAreaChecked = createSelector(
    selectedRestaurantIds, (state, props) => props.area.restaurants,
    (selectedRestaurantIds, areaRestaurants) =>
-      areaRestaurants.every(r => selectedRestaurantIds.has(r.id))
+      areaRestaurants.every(r => selectedRestaurantIds.includes(r.id))
 );
 
 export const isRestaurantFavorited = createSelector(
    favoritedRestaurantIds, (state, props) => props.restaurant.id,
-   (favoritedIds, restaurantId) => favoritedIds.has(restaurantId)
+   (favoritedIds, restaurantId) => favoritedIds.includes(restaurantId)
 );
 
 export const formatRestaurants = createSelector(
@@ -66,7 +66,7 @@ export const formatFavorites = createSelector(
          favorites.map(f =>
             ({
                ...f,
-               selected: selectedFavoriteIds.has(f.id)
+               selected: selectedFavoriteIds.includes(f.id)
             })
          ),
          ['selected', 'name'], ['desc', 'asc']
@@ -86,7 +86,7 @@ export const isToday = createSelector(
 
 export const isSelectedRestaurant = createSelector(
    selectedRestaurantIds, (state, props) => props.restaurant.id,
-   (selectedIds, currentId) => selectedIds.has(currentId)
+   (selectedIds, currentId) => selectedIds.includes(currentId)
 );
 
 export const orderedRestaurants = createSelector(
@@ -98,7 +98,7 @@ export const orderedRestaurants = createSelector(
                ...restaurant,
                distance: location ? haversine(location, restaurant) : undefined,
                isOpen: isOpen(restaurant.openingHours, now),
-               favorited: favorited.has(restaurant.id)
+               favorited: favorited.includes(restaurant.id)
             })
          ),
          ['favorited', 'isOpen', 'distance'],

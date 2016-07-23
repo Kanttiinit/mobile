@@ -1,18 +1,15 @@
-import typeToReducer from 'type-to-reducer';
 import {OPEN, DISMISS} from '../actions/modal';
 
-export default typeToReducer({
-   [OPEN](state, action) {
-      return {
-         visible: true,
-         ...action.payload
-      }
-   },
-   [DISMISS](state, action) {
-      return {
+export default function(state = {}, {type, payload}) {
+   switch (type) {
+      case OPEN: return {
+         visible: true, ...payload
+      };
+      case DISMISS: return {
          visible: false,
          component: null,
          style: state.style
       };
+      default: return state;
    }
-}, {});
+}

@@ -7,10 +7,17 @@ import {autoRehydrate} from 'redux-persist';
 import preferences from './reducers/preferences';
 import modal from './reducers/modal';
 
+const defaultValues = {
+   currentView: 'Ruokalista',
+   views: 0,
+   dayOffset: 0,
+   initializing: true
+};
+
 const reducer = combineReducers({
    preferences,
    modal,
-   value: (state = {}, {type, payload}) => {
+   value: (state = defaultValues, {type, payload}) => {
       if (type.startsWith('SET_VALUE_')) {
          return {...state, ...payload};
       }
@@ -53,11 +60,4 @@ const enhancer = compose(
    devTools()
 );
 
-export default createStore(reducer, {
-   value: {
-      currentView: 'Ruokalista',
-      views: 0,
-      dayOffset: 0,
-      initializing: true
-   }
-}, enhancer);
+export default createStore(reducer, enhancer);

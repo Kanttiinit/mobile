@@ -5,12 +5,12 @@ import haversine from 'haversine';
 
 const now = state => moment(state.value.now);
 const location = state => state.data.location;
-const restaurants = state => state.data.restaurants;
+const restaurants = state => state.data.restaurants || [];
 const selectedRestaurantIds = state => state.preferences.selectedRestaurants;
 const favoritedRestaurantIds = state => state.preferences.favoritedRestaurants;
 const selectedFavoriteIds = state => state.preferences.selectedFavorites;
-const favorites = state => state.data.favorites;
-const menus = state => state.data.menus;
+const favorites = state => state.data.favorites || [];
+const menus = state => state.data.menus || [];
 
 function isOpen(openingHours, now) {
    const hours = openingHours[now.weekday()];

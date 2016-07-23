@@ -8,10 +8,7 @@ import {AsyncStorage, AppState, AppRegistry, Platform, StatusBar, Keyboard} from
 import {persistStore} from 'redux-persist';
 
 import store from '../store';
-import {fetchFavorites} from '../store/actions/favorites';
-import {fetchRestaurants} from '../store/actions/restaurants';
-import {fetchAreas} from '../store/actions/areas';
-import {fetchMenus} from '../store/actions/menus';
+import {fetchAreas, fetchMenus, fetchRestaurants, fetchFavorites} from '../store/actions/api';
 import {updateNow, updateLocation, setKeyboardVisible, setInitializing} from '../store/actions/misc';
 
 const actions = bindActionCreators({

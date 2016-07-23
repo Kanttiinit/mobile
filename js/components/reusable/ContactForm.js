@@ -5,9 +5,10 @@ import {View, Text, TextInput, StyleSheet} from 'react-native';
 
 import Button from './Button';
 
-import * as actions from '../../store/actions/feedback';
+import {setFeedbackMessage} from '../../store/actions/feedback';
+import {sendFeedback} from '../../store/actions/api';
 
-const ContactForm = ({children, message, type, sending, send, setFeedbackMessage, sent, error}) => {
+const ContactForm = ({children, message, type, sending, sendFeedback, setFeedbackMessage, sent, error}) => {
    if (sent)
       return <Text style={styles.confirmation}>Kiitos palautteestasi!</Text>;
 
@@ -18,7 +19,7 @@ const ContactForm = ({children, message, type, sending, send, setFeedbackMessage
             style={styles.textInput}
             onChangeText={text => setFeedbackMessage(text)}
             value={message} />
-         <Button style={styles.button} onPress={() => send(type, message)}>
+         <Button style={styles.button} onPress={() => sendFeedback(type, message)}>
             <Text style={{color: 'white', textAlign: 'center'}}>{sending ? 'Lähetetään...' : 'LÄHETÄ'}</Text>
          </Button>
          {error && <Text>{JSON.stringify(error)}</Text>}
@@ -58,6 +59,6 @@ const stateToProps = state => ({
    message: state.value.feedbackMessage
 });
 
-const dispatchToProps = dispatch => bindActionCreators(actions, dispatch);
+const dispatchToProps = dispatch => bindActionCreators({setFeedbackMessage, sendFeedback}, dispatch);
 
 export default connect(stateToProps, dispatchToProps)(ContactForm);

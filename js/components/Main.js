@@ -8,14 +8,14 @@ import {AsyncStorage, AppState, AppRegistry, Platform, StatusBar, Keyboard} from
 import {persistStore} from 'redux-persist';
 
 import store from '../store';
-import {fetchAreas, fetchMenus, fetchRestaurants, fetchFavorites} from '../store/actions/api';
-import {updateNow, updateLocation, setKeyboardVisible, setInitializing} from '../store/actions/values';
+import {fetchAreas, fetchLocation, fetchMenus, fetchRestaurants, fetchFavorites} from '../store/actions/async';
+import {updateNow, setKeyboardVisible, setInitializing} from '../store/actions/values';
 
 const actions = bindActionCreators({
    fetchRestaurants,
    fetchAreas,
    updateNow,
-   updateLocation,
+   fetchLocation,
    setKeyboardVisible,
    fetchFavorites,
    fetchMenus,
@@ -72,7 +72,7 @@ class Main extends React.Component {
    }
    refresh() {
       actions.updateNow();
-      actions.updateLocation();
+      actions.fetchLocation();
    }
    render() {
       return <Provider store={store}><Router /></Provider>;

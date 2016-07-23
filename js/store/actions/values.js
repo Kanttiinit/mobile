@@ -12,20 +12,6 @@ export function updateNow() {
    };
 }
 
-export function updateLocation() {
-   return {
-      type: 'UPDATE_LOCATION',
-      payload: new Promise((resolve, reject) => {
-         navigator.geolocation.getCurrentPosition(
-            position => resolve(position.coords),
-            error => console.log('could not get location', error),
-            {timeout: 3000, maximumAge: 60000}
-         );
-      }),
-      meta: {data: 'location'}
-   };
-}
-
 export function setCurrentView(view) {
    return (dispatch, getState) => dispatch({
       type: 'SET_VALUE_CURRENT_VIEW',

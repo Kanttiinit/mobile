@@ -1,4 +1,4 @@
-import {fetchMenus} from './api';
+import {fetchMenus} from './async';
 
 export const SET_SELECTED_RESTAURANTS = 'SET_SELECTED_RESTAURANTS';
 export const SET_FAVORITED_RESTAURANTS = 'SET_FAVORITED_RESTAURANTS';

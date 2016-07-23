@@ -6,7 +6,7 @@ import {View, Text, TextInput, StyleSheet} from 'react-native';
 import Button from './Button';
 
 import {setFeedbackMessage} from '../../store/actions/values';
-import {sendFeedback} from '../../store/actions/api';
+import {sendFeedback} from '../../store/actions/async';
 
 const ContactForm = ({children, message, type, sending, sendFeedback, setFeedbackMessage, sent, error}) => {
    if (sent)

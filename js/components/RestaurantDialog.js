@@ -72,22 +72,12 @@ const RestaurantDialog = ({restaurant, isFavorited, location, dismissModal, setF
             initialRegion={getInitialRegion(restaurant, location)}>
             <MapView.Marker
                title={restaurant.name}
-               anchor={{x: 0.5, y: 1}}
-               centerOffset={{x: 0, y: -30 / 2}}
                description={restaurant.address}
+               pinColor={colors.accent}
                coordinate={{
                   latitude: restaurant.latitude,
                   longitude: restaurant.longitude
-               }}>
-               <View style={{alignItems: 'center', opacity: 0.9}}>
-                  <View style={styles.markerViewText}>
-                     <View style={{flex: 1, justifyContent: 'center',alignItems: 'center'}}>
-                        <Icon size={14} name="md-restaurant" color={colors.white} />
-                     </View>
-                  </View>
-                  <Icon name="md-arrow-dropdown" size={22} style={{marginTop: -10}} color={colors.accentDark} />
-               </View>
-            </MapView.Marker>
+               }} />
          </MapView>
          <View style={styles.header}>
             <TouchableWithoutFeedback
@@ -168,13 +158,6 @@ const styles = StyleSheet.create({
    container: {
       padding: spaces.big
    },
-   markerViewText: {
-      width: 30,
-      height: 30,
-      borderRadius: 15,
-      backgroundColor: colors.accentDark,
-      paddingHorizontal: spaces.small
-   },
    header: {
       flexDirection: 'row',
       padding: spaces.medium,
@@ -189,10 +172,5 @@ const styles = StyleSheet.create({
       flex: 1,
       marginTop: spaces.big,
       flexDirection: 'row'
-   },
-   closeButtonText: {
-      fontSize: 12,
-      color: 'white',
-      fontWeight: 'bold'
    }
 });

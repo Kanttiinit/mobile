@@ -17,7 +17,7 @@ export function setCurrentView(view) {
       type: 'SET_VALUE_CURRENT_VIEW',
       payload: {
          currentView: view,
-         views: getState().value.views++
+         views: getState().value.views + 1
       }
    });
 }

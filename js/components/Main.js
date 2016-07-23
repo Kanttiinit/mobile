@@ -9,7 +9,7 @@ import {persistStore} from 'redux-persist';
 
 import store from '../store';
 import {fetchAreas, fetchMenus, fetchRestaurants, fetchFavorites} from '../store/actions/api';
-import {updateNow, updateLocation, setKeyboardVisible, setInitializing} from '../store/actions/misc';
+import {updateNow, updateLocation, setKeyboardVisible, setInitializing} from '../store/actions/values';
 
 const actions = bindActionCreators({
    fetchRestaurants,

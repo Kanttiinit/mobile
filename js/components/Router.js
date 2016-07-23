@@ -7,7 +7,7 @@ import {StyleSheet, Text, View, Navigator, Platform, DeviceEventEmitter} from 'r
 
 import Button from './reusable/Button';
 import LaunchScreen from './LaunchScreen';
-import {setCurrentView} from '../store/actions/misc';
+import {setCurrentView} from '../store/actions/values';
 import {dismissModal} from '../store/actions/modal';
 import Menu from './Menu';
 import Favorites from './Favorites';

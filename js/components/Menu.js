@@ -9,7 +9,7 @@ import {View, Text, Picker} from 'react-native';
 import Loader from './reusable/Loader';
 import RestaurantList from './RestaurantList';
 import AreaSelector from './AreaSelector';
-import {setDayOffset} from '../store/actions/misc';
+import {setDayOffset} from '../store/actions/values';
 import {orderedRestaurants} from '../store/selectors';
 
 class Menu extends React.Component {

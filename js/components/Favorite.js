@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {View, Text, StyleSheet, Platform} from 'react-native';
 
-import {setIsSelected} from '../store/actions/favorites';
+import {setIsSelected} from '../store/actions/preferences';
 import Button from './reusable/Button';
 
 class Favorite extends React.Component {

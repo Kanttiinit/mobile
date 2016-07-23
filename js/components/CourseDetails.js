@@ -8,7 +8,7 @@ import Property from './reusable/Property';
 import Button from './reusable/Button';
 import {getCourseFavorites} from '../store/selectors';
 import {dismissModal} from '../store/actions/modal';
-import {setIsSelected} from '../store/actions/favorites';
+import {setIsSelected} from '../store/actions/preferences';
 
 const CourseDetails = ({course, courseFavorites, restaurant, setIsSelected, dismissModal}) => (
    <View>

@@ -6,7 +6,7 @@ import {View, Text} from 'react-native';
 
 import {openModal} from '../store/actions/modal';
 import {isSelectedRestaurant, isRestaurantFavorited} from '../store/selectors';
-import {setFavoritedRestaurants, setSelectedRestaurants} from '../store/actions/restaurants';
+import {setFavoritedRestaurants, setSelectedRestaurants} from '../store/actions/preferences';
 import RestaurantDialog from './RestaurantDialog';
 import Checkbox from './reusable/Checkbox';
 import Button from './reusable/Button';

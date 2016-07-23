@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import {View, Text} from 'react-native';
 
 import Button from './reusable/Button';
-import {setSelectedRestaurants} from '../store/actions/restaurants';
+import {setSelectedRestaurants} from '../store/actions/preferences';
 
 const AreaSelector = ({areas, setSelectedRestaurants}) => (
    <View style={{justifyContent: 'center', flex: 1}}>

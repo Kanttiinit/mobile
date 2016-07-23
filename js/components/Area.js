@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import {Text, View, StyleSheet, Platform} from 'react-native';
 
 import {isAreaChecked} from '../store/selectors';
-import {setSelectedRestaurants} from '../store/actions/restaurants';
+import {setSelectedRestaurants} from '../store/actions/preferences';
 import Restaurant from './AreaRestaurant';
 
 const Area = ({isAreaChecked, area, setSelectedRestaurants}) => (

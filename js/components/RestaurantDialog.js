@@ -12,7 +12,7 @@ import {Platform, Linking, View, Text, TouchableWithoutFeedback, StyleSheet} fro
 import {Restaurant} from './RestaurantCourses';
 import Button from './reusable/Button';
 import {dismissModal} from '../store/actions/modal';
-import {setFavoritedRestaurants} from '../store/actions/restaurants';
+import {setFavoritedRestaurants} from '../store/actions/preferences';
 import {isRestaurantFavorited} from '../store/selectors';
 
 const dayNumberToDayOfWeek = n => moment().day(n + 1).format('ddd').toUpperCase();

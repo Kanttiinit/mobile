@@ -2,9 +2,7 @@ import {combineReducers} from 'redux';
 import Immutable from 'immutable';
 import {REHYDRATE} from 'redux-persist/constants';
 
-import {SET_SELECTED_FAVORITE} from '../actions/favorites';
-import {SET_SELECTED_RESTAURANTS} from '../actions/restaurants';
-import {SET_FAVORITED_RESTAURANTS} from '../actions/restaurants';
+import {SET_SELECTED_FAVORITE, SET_SELECTED_RESTAURANTS, SET_FAVORITED_RESTAURANTS} from '../actions/preferences';
 
 const createNumberListReducer = (actionType, key) =>
 (state = Immutable.Set([-1]), {type, payload}) => {

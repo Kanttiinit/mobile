@@ -34,22 +34,6 @@ export function fetchLocation() {
    };
 }
 
-export function sendFeedback(type, message) {
-   return {
-      type: 'SEND_FEEDBACK',
-      payload: fetch('https://bot.kanttiinit.fi/feedback', {
-         method: 'post',
-         headers: {'Content-Type': 'application/json'},
-         body: JSON.stringify({
-            message: `New feedback from app: "${type}":\n"${message}"`
-         })
-      }).then(r => r.json()),
-      meta: {
-         data: 'feedback'
-      }
-   };
-}
-
 export function fetchMenus() {
    return (dispatch, getState) => {
       const idString = getState().preferences.selectedRestaurants.join(',');

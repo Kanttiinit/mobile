@@ -1,30 +1,84 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {View, Text, TextInput, StyleSheet} from 'react-native';
+import {View, Alert, Text, TextInput, StyleSheet} from 'react-native';
+import {Makiko} from 'react-native-textinput-effects';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import Button from './Button';
+import {dismissModal} from '../../store/actions/modal';
 
-import {setFeedbackMessage} from '../../store/actions/values';
-import {sendFeedback} from '../../store/actions/async';
+class ContactForm extends React.Component {
+   constructor() {
+      super();
+      this.state = {message: ''};
+   }
+   sendFeedback() {
+      const {type} = this.props;
+      const {message, sending} = this.state;
 
-const ContactForm = ({children, message, type, sending, sendFeedback, setFeedbackMessage, sent, error}) => {
-   if (sent)
-      return <Text style={styles.confirmation}>Kiitos palautteestasi!</Text>;
+      if (message.length < 3) {
+         Alert.alert(
+            'Viestisi on liian lyhyt!',
+            'Ole hyvä, ja yritä uudestaan.',
+            [{text: 'OK'}]
+         );
+      } else if (!sending) {
+         this.setState({sending: true});
+         fetch('https://bot.kanttiinit.fi/feedback', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+               message: `New feedback from app: "${type}":\n"${message}"`
+            })
+         })
+         .then(response => {
+            this.setState({sending: false, sent: true});
+         })
+         .catch(error => {
+            this.setState({sending: false, sent: true});
+            Alert.alert(
+               'Tapahtui odottamaton virhe!',
+               'Yritä myöhemmin uudestaan.',
+               [{text: 'OK'}]
+            )
+         });
+      }
 
-   return (
-      <View style={{padding: 8}}>
-         <Text style={styles.headerText}>{children || 'Anna palautetta:'}</Text>
-         <TextInput
-            style={styles.textInput}
-            onChangeText={text => setFeedbackMessage(text)}
-            value={message} />
-         <Button style={styles.button} onPress={() => sendFeedback(type, message)}>
-            <Text style={{color: 'white', textAlign: 'center'}}>{sending ? 'Lähetetään...' : 'LÄHETÄ'}</Text>
-         </Button>
-         {error && <Text>{JSON.stringify(error)}</Text>}
-      </View>
-   );
+   }
+   render() {
+      const {children, dismissModal} = this.props;
+      const {message, sent, sending} = this.state;
+
+      if (sent)
+         return <Text style={styles.confirmation}>Kiitos palautteestasi!</Text>;
+
+      return (
+         <View style={{padding: 8}}>
+            <Makiko
+               label={children || 'Anna palautetta'}
+               iconName="comment"
+               iconClass={FontAwesome}
+               iconColor={colors.white}
+               value={message}
+               onChangeText={message => this.setState({message})}
+               style={{backgroundColor: colors.accent}} />
+            <View style={{marginTop: spaces.big, flexDirection: 'row'}}>
+               <Button
+                  containerStyle={{flex: 1}}
+                  onPress={() => this.sendFeedback()}>
+                  <Text style={defaultStyles.lightButtonText}>
+                     {sending ? 'LÄHETETÄÄN...' : 'LÄHETÄ'}
+                  </Text>
+               </Button>
+               <Button
+                  onPress={() => dismissModal()}>
+                  <Text style={defaultStyles.lightButtonText}>SULJE</Text>
+               </Button>
+            </View>
+         </View>
+      );
+   }
 }
 
 const styles = StyleSheet.create({
@@ -32,17 +86,6 @@ const styles = StyleSheet.create({
       fontSize: 16,
       margin: 6,
       textAlign: 'center'
-   },
-   headerText: {
-      fontSize: 14,
-      marginBottom: 8
-   },
-   textInput: {
-      height: 40,
-      borderRadius: 4,
-      marginVertical: 8,
-      borderColor: 'gray',
-      borderWidth: 1
    },
    button: {
       backgroundColor: colors.accent,
@@ -52,13 +95,6 @@ const styles = StyleSheet.create({
    }
 });
 
-const stateToProps = state => ({
-   sending: state.pending.feedback,
-   sent: state.data.feedback && !state.error.feedback,
-   error: state.error.feedback,
-   message: state.value.feedbackMessage
-});
+const dispatchToProps = dispatch => bindActionCreators({dismissModal}, dispatch);
 
-const dispatchToProps = dispatch => bindActionCreators({setFeedbackMessage, sendFeedback}, dispatch);
-
-export default connect(stateToProps, dispatchToProps)(ContactForm);
+export default connect(null, dispatchToProps)(ContactForm);

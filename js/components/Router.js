@@ -74,8 +74,7 @@ class Router extends React.Component {
                )}
             </View>
             <Modal
-               ref="modal"
-               style={modal.style}
+               modalStyle={modal.style}
                open={modal.visible}
                offset={keyboardVisible ? -100 : 0}
                modalDidClose={() => this.props.dismissModal()}>

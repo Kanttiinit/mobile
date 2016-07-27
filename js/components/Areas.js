@@ -20,7 +20,7 @@ const Restaurants = ({openModal, areas, loading}) => (
       </Button>
       {loading ? <Loader color={colors.accent} /> :
       <ListView
-         enableEmptySections={true}
+         removeClippedSubviews={false}
          dataSource={dataSource.cloneWithRows(areas)}
          renderRow={area => <Area area={area} />} />
       }

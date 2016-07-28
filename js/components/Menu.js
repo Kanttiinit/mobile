@@ -37,7 +37,7 @@ class Menu extends React.Component {
                <View style={{flex: 1}}>
                   <Picker
                      mode="dropdown"
-                     style={Platform.iOS ? styles.iOSPicker : styles.androidPicker}
+                     style={Platform.OS === 'ios' ? styles.iOSPicker : styles.androidPicker}
                      selectedValue={dayOffset}
                      onValueChange={dayOffset => setDayOffset(dayOffset)}>
                      {days.map((day, i) =>

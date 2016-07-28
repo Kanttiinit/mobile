@@ -4,7 +4,7 @@ import 'moment/locale/fi';
 import haversine from 'haversine';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {View, Text, Picker} from 'react-native';
+import {View, Text, Picker, Platform, StyleSheet} from 'react-native';
 
 import Loader from './reusable/Loader';
 import RestaurantList from './RestaurantList';
@@ -37,7 +37,7 @@ class Menu extends React.Component {
                <View style={{flex: 1}}>
                   <Picker
                      mode="dropdown"
-                     style={{height: 150, marginTop: -70}}
+                     style={Platform.iOS ? styles.iOSPicker : styles.androidPicker}
                      selectedValue={dayOffset}
                      onValueChange={dayOffset => setDayOffset(dayOffset)}>
                      {days.map((day, i) =>
@@ -59,6 +59,17 @@ class Menu extends React.Component {
       );
    }
 }
+
+const styles = StyleSheet.create({
+   iOSPicker: {
+      height: 150,
+      marginTop: -70
+   },
+   androidPicker: {
+      marginVertical: spaces.small,
+      marginHorizontal: spaces.medium
+   }
+});
 
 const mapState = state => ({
    restaurants: orderedRestaurants(state),

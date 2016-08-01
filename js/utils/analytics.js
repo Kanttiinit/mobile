@@ -24,8 +24,9 @@ export default function analyticsMiddleware() {
       case SET_VALUE_CURRENT_VIEW:
         GA.trackScreenView(action.payload.currentView); break;
       case SET_VALUE_DAY_OFFSET:
-        GA.trackEvent('day changed', action.payload.dayOffset); break;
+        GA.trackEvent('day changed', String(action.payload.dayOffset)); break;
       case MODAL_OPEN:
+        GA.trackScreenView(action.type + ': ' + action.payload.component.displayName); break;
       case MODAL_DISMISS:
         GA.trackScreenView(action.type); break;
       default:

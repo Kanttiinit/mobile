@@ -1,13 +1,13 @@
-export const OPEN = 'MODAL_OPEN';
-export const DISMISS = 'MODAL_DISMISS';
+export const MODAL_OPEN = 'MODAL_OPEN';
+export const MODAL_DISMISS = 'MODAL_DISMISS';
 
 export function dismissModal() {
-  return {type: DISMISS};
+  return {type: MODAL_DISMISS};
 }
 
 export function openModal(component, style) {
   return {
-    type: OPEN,
+    type: MODAL_OPEN,
     payload: {component, style}
   };
 }

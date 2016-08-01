@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 import promiseMiddleware from 'redux-promise-middleware';
 import devTools from 'remote-redux-devtools';
 import {autoRehydrate} from 'redux-persist';
+import analyticsMiddleware from '../utils/analytics';
 
 import preferences from './reducers/preferences';
 import modal from './reducers/modal';
@@ -56,7 +57,7 @@ const reducer = combineReducers({
 
 const enhancer = compose(
   autoRehydrate(),
-  applyMiddleware(thunk, promiseMiddleware()),
+  applyMiddleware(thunk, promiseMiddleware(), analyticsMiddleware),
   devTools()
 );
 

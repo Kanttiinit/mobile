@@ -1,44 +1,42 @@
 import React from 'react';
-import Icon from 'react-native-vector-icons/Ionicons';
 import Loader from './reusable/Loader';
 import {connect} from 'react-redux';
-import {View, Text, ScrollView, LayoutAnimation, UIManager} from 'react-native';
+import {View, ScrollView, LayoutAnimation, UIManager} from 'react-native';
 
 import {formatFavorites} from '../store/selectors';
 import Favorite from './Favorite';
-import Button from './reusable/Button';
 
 UIManager.setLayoutAnimationEnabledExperimental
-   && UIManager.setLayoutAnimationEnabledExperimental(true);
+&& UIManager.setLayoutAnimationEnabledExperimental(true);
 
 class Favorites extends React.Component {
-   componentWillReceiveProps() {
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-   }
-   render() {
-      const {favorites, loading} = this.props;
-      if (loading) {
-         return <Loader />;
-      }
+  componentWillReceiveProps() {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  }
+  render() {
+    const {favorites, loading} = this.props;
+    if (loading) {
+      return <Loader />;
+    }
 
-      return (
-         <View style={{flex: 1, backgroundColor: colors.lightGrey}}>
-            {favorites ?
-            <ScrollView
-               style={{flex: 1}}>
-               {favorites.map(favorite =>
-               <Favorite key={favorite.id} favorite={favorite} />
-               )}
-            </ScrollView>
+    return (
+      <View style={{flex: 1, backgroundColor: colors.lightGrey}}>
+        {favorites ?
+          <ScrollView
+            style={{flex: 1}}>
+            {favorites.map(favorite =>
+              <Favorite key={favorite.id} favorite={favorite} />
+            )}
+          </ScrollView>
             : <Loader color={colors.accent} />}
-         </View>
-      );
-   }
+      </View>
+    );
+  }
 }
 
 const mapState = state => ({
-   favorites: formatFavorites(state),
-   loading: state.pending.favorites
+  favorites: formatFavorites(state),
+  loading: state.pending.favorites
 });
 
 export default connect(mapState)(Favorites);

@@ -81,6 +81,8 @@ class ContactForm extends React.Component {
   }
 }
 
+ContactForm.displayName = 'ContactForm';
+
 const styles = StyleSheet.create({
   confirmation: {
     fontSize: 16,

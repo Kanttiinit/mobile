@@ -45,6 +45,8 @@ const CourseDetails = ({course, courseFavorites, restaurant, setIsSelected, dism
   </View>
 );
 
+CourseDetails.displayName = 'CourseDetails';
+
 const mapState = (state, props) => ({
   courseFavorites: getCourseFavorites(state, props)
 });

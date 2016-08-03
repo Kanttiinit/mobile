@@ -141,6 +141,8 @@ const RestaurantDialog = ({restaurant, isFavorited, location, dismissModal, setF
   </View>
 );
 
+RestaurantDialog.displayName = 'RestaurantDialog';
+
 const mapState = (state, props) => ({
   location: state.data.location,
   isFavorited: isRestaurantFavorited(state, props)

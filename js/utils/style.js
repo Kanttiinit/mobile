@@ -13,6 +13,7 @@ const colors = {
   accentDark: accent.darkenByRatio(0.3),
   grey: white.darkenByRatio(0.3),
   lightGrey: white.darkenByRatio(0.03),
+  mediumGrey: white.darkenByRatio(0.1),
   darkGrey: black.lightenByRatio(0.1),
   lightRed: red.setLightness(0.97).desaturateByRatio(0.2)
 };
@@ -61,6 +62,13 @@ const defaultStyles = StyleSheet.create({
   smallText: {
     fontSize: 12,
     color: colors.grey
+  },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0
   }
 });
 

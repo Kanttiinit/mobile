@@ -12,32 +12,39 @@ import {dismissModal} from '../store/actions/modal';
 import Menu from './Menu';
 import Favorites from './Favorites';
 import Areas from './Areas';
-// import Map from './components/Map';
-
-
-class TabButton extends React.Component {
-  render() {
-    const {data, changeScene, current, icon} = this.props;
-    const textColor = current ? colors.accent : '#b0b0b0';
-    const backgroundColor = current ? '#f8f8f8' : colors.lightGrey;
-    return (
-      <Button
-        onPress={() => changeScene(data)}
-        containerStyle={{flex: 1}}
-        style={[styles.tabButton, {backgroundColor}]}>
-        <Icon name={icon} size={18} color={textColor} />
-        <Text style={{fontSize: 12, color: textColor}}>{data.title}</Text>
-      </Button>
-    );
-  }
-}
 
 const views = [
   { title: 'Ruokalista', icon: 'md-restaurant', component: Menu },
   { title: 'Suosikit', icon: 'md-heart', component: Favorites },
-  //{ title: 'KARTTA', icon: 'android-pin', component: Map},
   { title: 'Ravintolat', icon: 'ios-list', component: Areas }
 ];
+
+const TabButton = ({title, onPress, style, color, icon}) => (
+  <Button
+    onPress={() => onPress()}
+    containerStyle={{flex: 1}}
+    style={[styles.tabButton, style]}>
+    <Icon name={icon} size={18} color={color} />
+    <Text style={{fontSize: 12, color: color}}>{title}</Text>
+  </Button>
+);
+
+const NavBar = ({currentView, changeScene, initializing}) => {
+  return (
+    <View style={styles.tabBar}>
+      {views.map(v =>
+        <TabButton
+          color={currentView === v.title ? colors.accent : '#b0b0b0'}
+          style={{backgroundColor: currentView === v.title ? '#f8f8f8' : colors.lightGrey}}
+          onPress={() => changeScene(v)}
+          icon={v.icon}
+          key={v.title}
+          title={v.title} />
+      )}
+      {initializing && <View style={[defaultStyles.overlay, {backgroundColor: colors.grey}]} />}
+    </View>
+  );
+};
 
 class Router extends React.Component {
   changeScene(data) {
@@ -50,9 +57,6 @@ class Router extends React.Component {
   }
   render() {
     const {currentView, modal, keyboardVisible, initializing} = this.props;
-    if (initializing) {
-      return <LaunchScreen />;
-    }
 
     return (
       <View style={styles.wrapper}>
@@ -63,16 +67,11 @@ class Router extends React.Component {
           initialRoute={views[0]}
           initialRouteStack={views}
           renderScene={route => React.createElement(route.component)} />
-        <View style={styles.tabBar}>
-          {views.map(v =>
-            <TabButton
-              current={currentView === v.title}
-              changeScene={this.changeScene.bind(this)}
-              icon={v.icon}
-              key={v.title}
-              data={v} />
-          )}
-        </View>
+        {initializing && <LaunchScreen />}
+        <NavBar
+          initializing={initializing}
+          changeScene={this.changeScene.bind(this)}
+          currentView={currentView} />
         <Modal
           modalStyle={modal.style}
           open={modal.visible}

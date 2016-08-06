@@ -12,10 +12,6 @@ import {setDayOffset} from '../store/actions/values';
 import {orderedRestaurants} from '../store/selectors';
 
 class Menu extends React.Component {
-  componentWillReceiveProps(props) {
-    if (this.props.viewChanges !== props.viewChanges && props.currentView === 'Ruokalista' && this.props.currentView === 'Ruokalista')
-      this.props.setDayOffset(0);
-  }
   shouldComponentUpdate(props) {
     return props.currentView === 'Ruokalista';
   }
@@ -73,7 +69,6 @@ const styles = StyleSheet.create({
 const mapState = state => ({
   restaurants: orderedRestaurants(state),
   days: state.value.days,
-  viewChanges: state.value.views,
   currentView: state.value.currentView,
   loading: state.pending.menus || state.pending.restaurants,
   dayOffset: state.value.dayOffset

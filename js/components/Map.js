@@ -1,71 +1,47 @@
 import React from 'react';
 import MapView from 'react-native-maps';
-import {connect} from 'redux-nimble';
-import geolib from 'geolib';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {View, StyleSheet} from 'react-native';
 
+import RestaurantDialog from './RestaurantDialog';
+import {openModal} from '../store/actions/modal';
+import {selectRestaurants} from '../store/selectors';
 
-
-import {
-	View,
-	Text,
-	StyleSheet,
-} from 'react-native';
-
-class Map extends React.Component {
-	constructor() {
-		super();
-		this.state = {};
-	}
-	switchRestaurant() {
-
-	}
-	render() {
-		const {areas} = this.props;
-
-		return (
-			<View
-				style={styles.container}>
-				<MapView
-				style={styles.mapView}
-				showsUserLocation={true}>
-				{ areas ? [].concat.apply(this, areas.map(area => area.Restaurants))
-					.map((restaurant, i) =>
-					<MapView.Marker
-					key={i}
-					title={restaurant.name}
-					coordinate={{
-						latitude: restaurant.latitude,
-						longitude: restaurant.longitude
-					}}>
-					</MapView.Marker>) : null }
-				</MapView>
-				<View
-					style={styles.infoContainer}>
-					<Text>WOUU</Text>
-				</View>
-			</View>
-		);
-	}
-
-
-}
+const Map = ({restaurants, openModal}) => (
+  <View
+    style={styles.container}>
+    <MapView
+      style={styles.mapView}
+      followsUserLocation={true}
+      showsUserLocation={true}>
+      {restaurants.map(restaurant =>
+        <MapView.Marker
+          key={restaurant.id}
+          pinColor={colors.accent}
+          title={restaurant.title}
+          description={restaurant.address}
+          onCalloutPress={() => openModal(<RestaurantDialog restaurant={restaurant} />, {padding: 0})}
+          coordinate={restaurant}
+          title={restaurant.title} />
+      )}
+    </MapView>
+  </View>
+);
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1
-	},
-	mapView: {
-		flex: 1
-	},
-	infoContainer: {
-		position: 'absolute',
-		bottom: 50,
-		flex: 1,
-		marginHorizontal: 10,
-		backgroundColor: colors.lightGrey,
-		borderRadius: 2
-	}
+  container: {
+    flex: 1
+  },
+  mapView: {
+    flex: 1
+  }
 });
 
+const mapStateToProps = state => ({
+  restaurants: selectRestaurants(state)
+});
 
-export default connect(['areas'])(Map);
+const mapDispatchToProps = dispatch => bindActionCreators({openModal}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Map);

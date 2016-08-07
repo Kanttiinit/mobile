@@ -12,10 +12,12 @@ import {dismissModal} from '../store/actions/modal';
 import Menu from './Menu';
 import Favorites from './Favorites';
 import Areas from './Areas';
+import Map from './Map';
 
 const views = [
   { title: 'Ruokalista', icon: 'md-restaurant', component: Menu },
   { title: 'Suosikit', icon: 'md-heart', component: Favorites },
+  { title: 'Kartta', icon: 'md-map', component: Map},
   { title: 'Ravintolat', icon: 'ios-list', component: Areas }
 ];
 

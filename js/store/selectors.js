@@ -5,7 +5,7 @@ import haversine from 'haversine';
 
 const now = state => moment(state.value.now);
 const location = state => state.data.location;
-const restaurants = state => state.data.restaurants || [];
+export const selectRestaurants = state => state.data.restaurants || [];
 const selectedRestaurantIds = state => state.preferences.selectedRestaurants;
 const favoritedRestaurantIds = state => state.preferences.favoritedRestaurants;
 const selectedFavoriteIds = state => state.preferences.selectedFavorites;
@@ -22,7 +22,7 @@ function isOpen(openingHours, now) {
 }
 
 export const selectedRestaurants = createSelector(
-  restaurants, selectedRestaurantIds,
+  selectRestaurants, selectedRestaurantIds,
   (all, selected) => all.filter(r => selected.includes(r.id))
 );
 

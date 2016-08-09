@@ -3,13 +3,14 @@ import moment from 'moment';
 import 'moment/locale/fi';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {View, Picker, Platform, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 
 import Loader from './reusable/Loader';
 import RestaurantList from './RestaurantList';
 import AreaSelector from './AreaSelector';
 import {setDayOffset} from '../store/actions/values';
 import {orderedRestaurants} from '../store/selectors';
+import Dropdown from './reusable/Dropdown';
 
 class Menu extends React.Component {
   shouldComponentUpdate(props) {
@@ -30,15 +31,10 @@ class Menu extends React.Component {
       } else {
         return (
           <View style={{flex: 1}}>
-            <Picker
-              mode="dropdown"
-              style={Platform.OS === 'ios' ? styles.iOSPicker : styles.androidPicker}
-              selectedValue={dayOffset}
-              onValueChange={dayOffset => setDayOffset(dayOffset)}>
-              {days.map((day, i) =>
-              <Picker.Item key={i} value={i} label={this.renderDayTitle(day)} />
-              )}
-            </Picker>
+            <Dropdown
+              options={days.map((day, i) => ({value: i, label: this.renderDayTitle(day)}))}
+              selected={dayOffset}
+              onSelect={value => setDayOffset(value)} />
             <RestaurantList
               day={days[dayOffset]}
               restaurants={restaurants} />

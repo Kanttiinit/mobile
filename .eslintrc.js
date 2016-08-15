@@ -19,7 +19,8 @@ module.exports = {
     "spaces": true,
     "defaultStyles": true,
     "require": true,
-    "global": true
+    "global": true,
+    "translations": true
   },
   "rules": {
     "no-console": 0,

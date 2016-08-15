@@ -13,18 +13,18 @@ import {Restaurant} from './RestaurantCourses';
 import Button from './reusable/Button';
 import {dismissModal} from '../store/actions/modal';
 import {setFavoritedRestaurants} from '../store/actions/preferences';
-import {isRestaurantFavorited} from '../store/selectors';
+import {isRestaurantFavorited, selectLang} from '../store/selectors';
 
-const dayNumberToDayOfWeek = n => moment().day(n + 1).format('ddd').toUpperCase();
+const dayNumberToDayOfWeek = (n, lang) => moment().locale(lang).day(n + 1).format('ddd').toUpperCase();
 
-function getOpeningHourString(hours) {
+function getOpeningHourString(hours, lang) {
   return hours.reduce((open, hour, i) => {
     if (hour) {
       const existingIndex = open.findIndex(_ => _.hour === hour);
       if (existingIndex > -1)
-        open[existingIndex].endDay = dayNumberToDayOfWeek(i);
+        open[existingIndex].endDay = dayNumberToDayOfWeek(i, lang);
       else
-        open.push({startDay: dayNumberToDayOfWeek(i), hour});
+        open.push({startDay: dayNumberToDayOfWeek(i, lang), hour});
     }
     return open;
   }, []);
@@ -57,7 +57,7 @@ function openDirections(address) {
   }
 }
 
-const RestaurantDialog = ({restaurant, isFavorited, location, dismissModal, setFavoritedRestaurants}) => (
+const RestaurantDialog = ({lang, restaurant, isFavorited, location, dismissModal, setFavoritedRestaurants}) => (
   <View>
 
     <View>
@@ -108,7 +108,7 @@ const RestaurantDialog = ({restaurant, isFavorited, location, dismissModal, setF
 
     <View style={styles.container}>
 
-      {getOpeningHourString(restaurant.openingHours).map((_, i) =>
+      {getOpeningHourString(restaurant.openingHours, lang).map((_, i) =>
         <View key={i} style={{flexDirection: 'row'}}>
           <Text style={{fontWeight: '500', width: 64}}>{_.startDay + (_.endDay ? ' – ' + _.endDay : '')}</Text>
           <Text style={{color: colors.darkGrey}}>{_.hour}</Text>
@@ -120,20 +120,20 @@ const RestaurantDialog = ({restaurant, isFavorited, location, dismissModal, setF
           onPress={() => Linking.openURL(restaurant.url)}
           style={{marginRight: spaces.medium}}>
           <Text style={defaultStyles.lightButtonText}>
-            <Icon name="md-home" />{' '}KOTISIVUT
+            <Icon name="md-home" />{' ' + translations.homepage[lang].toUpperCase()}
           </Text>
         </Button>
         {restaurant.address &&
           <Button
             onPress={() => openDirections(restaurant.address)}>
             <Text style={defaultStyles.lightButtonText}>
-              <Icon name="md-compass" />{' '}REITTIOHJEET
+              <Icon name="md-compass" />{' ' + translations.directions[lang].toUpperCase()}
             </Text>
           </Button>}
         <View style={{flex: 1}} />
         <Button
           onPress={() => dismissModal()}>
-          <Text style={defaultStyles.lightButtonText}>SULJE</Text>
+          <Text style={defaultStyles.lightButtonText}>{translations.close[lang].toUpperCase()}</Text>
         </Button>
       </View>
 
@@ -145,7 +145,8 @@ RestaurantDialog.displayName = 'RestaurantDialog';
 
 const mapState = (state, props) => ({
   location: state.data.location,
-  isFavorited: isRestaurantFavorited(state, props)
+  isFavorited: isRestaurantFavorited(state, props),
+  lang: selectLang(state)
 });
 
 const mapDispatch = dispatch => bindActionCreators({dismissModal, setFavoritedRestaurants}, dispatch);

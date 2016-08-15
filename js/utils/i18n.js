@@ -1,9 +1,6 @@
-const en = {
-  restaurants: () => 'Restaurants'
+global.lang = {
+  restaurants: () => ({
+    en: 'Restaurants',
+    fi: 'Ravintolat'
+  })
 };
-
-const fi = {
-  restaurants: () => 'Ravintolat'
-};
-
-global.lang = {en, fi};

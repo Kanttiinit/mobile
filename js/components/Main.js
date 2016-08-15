@@ -7,10 +7,12 @@ import Router from './Router';
 //import codePush from 'react-native-code-push';
 import {AsyncStorage, AppState, AppRegistry, Platform, StatusBar, Keyboard} from 'react-native';
 import {persistStore} from 'redux-persist';
+import watch from 'redux-watch';
 
 import store from '../store';
 import {fetchAreas, fetchLocation, fetchMenus, fetchRestaurants, fetchFavorites} from '../store/actions/async';
 import {updateNow, setKeyboardVisible, setInitializing} from '../store/actions/values';
+import {selectLang} from '../store/selectors';
 
 const actions = bindActionCreators({
   fetchRestaurants,
@@ -45,20 +47,26 @@ class Main extends React.Component {
       }
     });
 
-    actions.fetchFavorites();
-    actions.fetchRestaurants();
-    actions.fetchAreas();
-
     persistStore(store, {
       whitelist: 'preferences',
       storage: AsyncStorage
     }, () => {
-      actions.fetchMenus();
+      this.fetchWithLang(selectLang(store.getState()));
       actions.setInitializing(false);
     });
 
     this.refresh();
     this.startAutoUpdate();
+
+    store.subscribe(watch(() => selectLang(store.getState()))(lang => {
+      this.fetchWithLang(lang);
+    }));
+  }
+  fetchWithLang(lang) {
+    actions.fetchFavorites(lang);
+    actions.fetchRestaurants(lang);
+    actions.fetchAreas(lang);
+    actions.fetchMenus(lang);
   }
   componentWillUnmount() {
     this.stopAutoUpdate();

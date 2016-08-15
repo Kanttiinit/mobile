@@ -1,16 +1,16 @@
 import HttpCache from '../../utils/HttpCache';
 
-export const fetchAreas = () => ({
+export const fetchAreas = lang => ({
   type: 'FETCH_AREAS',
-  payload: HttpCache.get('areas', '/areas', {days: '1'}),
+  payload: HttpCache.get('areas', '/areas?', lang, {days: '1'}),
   meta: {
     data: 'areas'
   }
 });
 
-export const fetchFavorites = () => ({
+export const fetchFavorites = lang => ({
   type: 'FETCH_FAVORITES',
-  payload: HttpCache.get('favorites', '/favorites', {hours: 1}),
+  payload: HttpCache.get('favorites', '/favorites?', lang, {hours: 1}),
   meta: {
     data: 'favorites'
   }
@@ -28,20 +28,20 @@ export const fetchLocation = () => ({
   meta: {data: 'location'}
 });
 
-export const fetchMenus = () => (dispatch, getState) => {
+export const fetchMenus = lang => (dispatch, getState) => {
   const idString = getState().preferences.selectedRestaurants.join(',');
   return dispatch({
     type: 'FETCH_MENUS',
-    payload: HttpCache.get(`menus-${idString}`, `/menus?restaurants=${idString}`, {hours: 3}),
+    payload: HttpCache.get(`menus-${idString}`, `/menus?restaurants=${idString}`, lang, {hours: 3}),
     meta: {
       data: 'menus'
     }
   });
 };
 
-export const fetchRestaurants = () => ({
+export const fetchRestaurants = lang => ({
   type: 'FETCH_RESTAURANTS',
-  payload: HttpCache.get('restaurants', '/restaurants', {days: 1}),
+  payload: HttpCache.get('restaurants', '/restaurants?', lang, {days: 1}),
   meta: {
     data: 'restaurants'
   }

@@ -4,8 +4,9 @@ import {AsyncStorage} from 'react-native';
 const API_BASE = 'https://kitchen.kanttiinit.fi';
 
 export default {
-  get(key, url, maxAge) {
-    key = 'HTTPCache-' + key;
+  get(key, url, lang, maxAge) {
+    key = `HTCache-${key}-${lang}`;
+    url = `${url}&lang=${lang}`;
     return AsyncStorage.getItem(key)
     .then(item => {
       if (item) {

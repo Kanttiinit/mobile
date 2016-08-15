@@ -18,7 +18,7 @@ const Restaurants = ({openModal, areas, loading}) => (
       style={[defaultStyles.button, {padding: spaces.medium, margin: spaces.medium}]}>
       <Text style={{color: colors.white, fontSize: 14, textAlign: 'center'}}>ILMOITA PUUTTUVASTA RAVINTOLASTA</Text>
     </Button>
-    {loading ? <Loader color={colors.accent} /> :
+    {loading || !areas ? <Loader color={colors.accent} /> :
       <ListView
         removeClippedSubviews={false}
         dataSource={dataSource.cloneWithRows(areas)}

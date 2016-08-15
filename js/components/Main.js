@@ -1,4 +1,5 @@
 import '../utils/style';
+import '../utils/i18n';
 import React from 'react';
 import {bindActionCreators} from 'redux';
 import {Provider} from 'react-redux';

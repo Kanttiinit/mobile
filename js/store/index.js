@@ -12,7 +12,8 @@ const defaultValues = {
   currentView: 'Ruokalista',
   views: 0,
   dayOffset: 0,
-  initializing: true
+  initializing: true,
+  lang: 'en'
 };
 
 const reducer = combineReducers({

@@ -56,7 +56,6 @@ export default class Dropdown extends React.Component {
               backgroundColor: 'rgba(0, 0, 0, 0.5)'
             }} />
           <ScrollView style={{
-            height: 200,
             backgroundColor: 'white',
             shadowColor: 'rgba(0, 0, 0, 0.5)',
             shadowOffset: {width: 0, height: 12},

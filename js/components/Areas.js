@@ -58,10 +58,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   setting: {
-    fontSize: 16,
     marginVertical: 2,
-    paddingVertical: 8,
-    color: '#535353'
+    paddingVertical: 8
   },
   settingLabel: {
     marginVertical: 4

@@ -6,11 +6,11 @@ import {View, Text, StyleSheet} from 'react-native';
 
 import Property from './reusable/Property';
 import Button from './reusable/Button';
-import {getCourseFavorites} from '../store/selectors';
+import {getCourseFavorites, selectLang} from '../store/selectors';
 import {dismissModal} from '../store/actions/modal';
 import {setIsSelected} from '../store/actions/preferences';
 
-const CourseDetails = ({course, courseFavorites, restaurant, setIsSelected, dismissModal}) => (
+const CourseDetails = ({course, lang, courseFavorites, restaurant, setIsSelected, dismissModal}) => (
   <View>
     <View>
       <Text style={defaultStyles.bigText}>{course.title}</Text>
@@ -39,7 +39,7 @@ const CourseDetails = ({course, courseFavorites, restaurant, setIsSelected, dism
       <Text style={styles.restaurantName}>{restaurant.name}</Text>
       <Button
         onPress={() => dismissModal()}>
-        <Text style={defaultStyles.lightButtonText}>SULJE</Text>
+        <Text style={defaultStyles.lightButtonText}>{translations.close[lang].toUpperCase()}</Text>
       </Button>
     </View>
   </View>
@@ -48,7 +48,8 @@ const CourseDetails = ({course, courseFavorites, restaurant, setIsSelected, dism
 CourseDetails.displayName = 'CourseDetails';
 
 const mapState = (state, props) => ({
-  courseFavorites: getCourseFavorites(state, props)
+  courseFavorites: getCourseFavorites(state, props),
+  lang: selectLang(state)
 });
 
 const mapDispatch = dispatch => bindActionCreators({setIsSelected, dismissModal}, dispatch);

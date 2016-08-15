@@ -9,19 +9,19 @@ import Loader from './reusable/Loader';
 import RestaurantList from './RestaurantList';
 import AreaSelector from './AreaSelector';
 import {setDayOffset} from '../store/actions/values';
-import {orderedRestaurants} from '../store/selectors';
+import {orderedRestaurants, selectLang} from '../store/selectors';
 import Dropdown from './reusable/Dropdown';
 
 class Menu extends React.Component {
   shouldComponentUpdate(props) {
     return props.currentView === 'Ruokalista';
   }
-  renderDayTitle(day) {
-    day = moment(day).locale('fi');
+  renderDayTitle(day, lang) {
+    day = moment(day).locale(lang);
     return `${day.format('dddd').toUpperCase()} ${day.format('D.M.')}`;
   }
   render() {
-    const {dayOffset, setDayOffset, loading, days, restaurants} = this.props;
+    const {dayOffset, lang, setDayOffset, loading, days, restaurants} = this.props;
 
     const renderContent = () => {
       if (loading) {
@@ -32,7 +32,7 @@ class Menu extends React.Component {
         return (
           <View style={{flex: 1}}>
             <Dropdown
-              options={days.map((day, i) => ({value: i, label: this.renderDayTitle(day)}))}
+              options={days.map((day, i) => ({value: i, label: this.renderDayTitle(day, lang)}))}
               selected={dayOffset}
               onSelect={value => setDayOffset(value)} />
             <RestaurantList
@@ -56,7 +56,8 @@ const mapState = state => ({
   days: state.value.days,
   currentView: state.value.currentView,
   loading: state.pending.menus || state.pending.restaurants,
-  dayOffset: state.value.dayOffset
+  dayOffset: state.value.dayOffset,
+  lang: selectLang(state)
 });
 
 const mapDispatch = dispatch => bindActionCreators({setDayOffset}, dispatch);

@@ -9,17 +9,19 @@ import Button from './reusable/Button';
 import LaunchScreen from './LaunchScreen';
 import {setCurrentView} from '../store/actions/values';
 import {dismissModal} from '../store/actions/modal';
+import {selectLang} from '../store/selectors';
 import Menu from './Menu';
 import Favorites from './Favorites';
 import Areas from './Areas';
 import Map from './Map';
 
 const views = [
-  { title: 'Ruokalista', icon: 'md-restaurant', component: Menu },
-  { title: 'Suosikit', icon: 'md-heart', component: Favorites },
-  { title: 'Kartta', icon: 'md-map', component: Map},
-  { title: 'Ravintolat', icon: 'ios-list', component: Areas }
+  { key: 'menus', icon: 'md-restaurant', component: Menu },
+  { key: 'favorites', icon: 'md-heart', component: Favorites },
+  { key: 'map', icon: 'md-map', component: Map},
+  { key: 'settings', icon: 'md-settings', component: Areas }
 ];
+
 
 const TabButton = ({title, onPress, style, color, icon}) => (
   <Button
@@ -31,17 +33,17 @@ const TabButton = ({title, onPress, style, color, icon}) => (
   </Button>
 );
 
-const NavBar = ({currentView, changeScene, initializing}) => {
+const NavBar = ({lang, currentView, changeScene, initializing}) => {
   return (
     <View style={styles.tabBar}>
       {views.map(v =>
         <TabButton
-          color={currentView === v.title ? colors.accent : '#b0b0b0'}
-          style={{backgroundColor: currentView === v.title ? '#f8f8f8' : colors.lightGrey}}
+          color={currentView === v.key ? colors.accent : '#b0b0b0'}
+          style={{backgroundColor: currentView === v.key ? '#f8f8f8' : colors.lightGrey}}
           onPress={() => changeScene(v)}
           icon={v.icon}
-          key={v.title}
-          title={v.title} />
+          key={v.key}
+          title={translations[v.key][lang]} />
       )}
       {initializing && <View style={[defaultStyles.overlay, {backgroundColor: colors.grey}]} />}
     </View>
@@ -55,10 +57,10 @@ class Router extends React.Component {
     } catch(e) {
       this.refs.navigator.push(data);
     }
-    this.props.setCurrentView(data.title);
+    this.props.setCurrentView(data.key);
   }
   render() {
-    const {currentView, modal, keyboardVisible, initializing} = this.props;
+    const {lang, currentView, modal, keyboardVisible, initializing} = this.props;
 
     return (
       <View style={styles.wrapper}>
@@ -71,6 +73,7 @@ class Router extends React.Component {
           renderScene={route => React.createElement(route.component)} />
         {initializing && <LaunchScreen />}
         <NavBar
+          lang={lang}
           initializing={initializing}
           changeScene={this.changeScene.bind(this)}
           currentView={currentView} />
@@ -110,7 +113,8 @@ const mapState = state => ({
   views: state.value.views,
   initializing: state.value.initializing,
   modal: state.modal,
-  keyboardVisible: state.value.keyboardVisible
+  keyboardVisible: state.value.keyboardVisible,
+  lang: selectLang(state)
 });
 
 const mapDispatch = dispatch => bindActionCreators({dismissModal, setCurrentView}, dispatch);

@@ -28,9 +28,11 @@ export default combineReducers({
   selectedFavorites: createNumberListReducer(SET_SELECTED_FAVORITE, 'selectedFavorites'),
   selectedRestaurants: createNumberListReducer(SET_SELECTED_RESTAURANTS, 'selectedRestaurants'),
   favoritedRestaurants: createNumberListReducer(SET_FAVORITED_RESTAURANTS, 'favoritedRestaurants'),
-  lang: (state = 'en', {type, payload: lang}) => {
-    if (type === SET_LANG) {
-      return lang;
+  lang: (state = 'en', {type, payload}) => {
+    if (type === REHYDRATE) {
+      return payload.preferences.lang;
+    } else if (type === SET_LANG) {
+      return payload;
     }
     return state;
   }

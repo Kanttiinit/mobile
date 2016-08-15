@@ -14,7 +14,7 @@ import Dropdown from './reusable/Dropdown';
 
 class Menu extends React.Component {
   shouldComponentUpdate(props) {
-    return props.currentView === 'Ruokalista';
+    return props.currentView === 'menus';
   }
   renderDayTitle(day, lang) {
     day = moment(day).locale(lang);

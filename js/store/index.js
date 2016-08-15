@@ -9,7 +9,7 @@ import preferences from './reducers/preferences';
 import modal from './reducers/modal';
 
 const defaultValues = {
-  currentView: 'Ruokalista',
+  currentView: 'menus',
   views: 0,
   dayOffset: 0,
   initializing: true

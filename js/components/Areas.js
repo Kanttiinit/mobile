@@ -22,8 +22,7 @@ const Settings = ({openModal, setLang, lang, areas, loading}) => (
           <Dropdown
             options={[{value: 'fi', label: 'Suomi'}, {value: 'en', label: 'English'}]}
             selected={lang}
-            onSelect={value => setLang(value)}
-            />
+            onSelect={value => setLang(value)} />
         </View>
       </View>
       <View style={styles.settingGroup}>
@@ -33,13 +32,12 @@ const Settings = ({openModal, setLang, lang, areas, loading}) => (
             style={[defaultStyles.button, {padding: spaces.medium, margin: spaces.medium}]}>
             <Text style={{color: colors.white, fontSize: 14, textAlign: 'center'}}>ILMOITA PUUTTUVASTA RAVINTOLASTA</Text>
           </Button>
-          { loading || !areas ? <Loader color={colors.accent}/> :
+          {loading || !areas ? <Loader color={colors.accent}/> :
           areas.map((area) =>
             <View style={styles.setting} key={area.id}>
               <Area area={area} />
             </View>
-          )
-          }
+          )}
       </View>
     </ScrollView>
   </View>

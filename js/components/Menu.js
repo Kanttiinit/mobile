@@ -3,7 +3,7 @@ import moment from 'moment';
 import 'moment/locale/fi';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {View, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 
 import Loader from './reusable/Loader';
 import RestaurantList from './RestaurantList';
@@ -50,17 +50,6 @@ class Menu extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  iOSPicker: {
-    height: 150,
-    marginTop: -70
-  },
-  androidPicker: {
-    marginVertical: spaces.small,
-    marginHorizontal: spaces.medium
-  }
-});
 
 const mapState = state => ({
   restaurants: orderedRestaurants(state),

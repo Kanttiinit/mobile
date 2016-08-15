@@ -7,6 +7,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import Button from './Button';
 import {dismissModal} from '../../store/actions/modal';
+import {selectLang} from '../../store/selectors';
 
 class ContactForm extends React.Component {
   constructor() {
@@ -47,7 +48,7 @@ class ContactForm extends React.Component {
 
   }
   render() {
-    const {children, dismissModal} = this.props;
+    const {lang, children, dismissModal} = this.props;
     const {message, sent, sending} = this.state;
 
     if (sent)
@@ -68,12 +69,12 @@ class ContactForm extends React.Component {
             containerStyle={{flex: 1}}
             onPress={() => this.sendFeedback()}>
             <Text style={defaultStyles.lightButtonText}>
-            {sending ? 'LÄHETETÄÄN...' : 'LÄHETÄ'}
+            {sending ? translations.sending[lang] + '...' : translations.send[lang].toUpperCase()}
             </Text>
           </Button>
           <Button
             onPress={() => dismissModal()}>
-            <Text style={defaultStyles.lightButtonText}>SULJE</Text>
+            <Text style={defaultStyles.lightButtonText}>{translations.close[lang].toUpperCase()}</Text>
           </Button>
         </View>
       </View>
@@ -97,6 +98,10 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapState = state => ({
+  lang: selectLang(state)
+});
+
 const dispatchToProps = dispatch => bindActionCreators({dismissModal}, dispatch);
 
-export default connect(null, dispatchToProps)(ContactForm);
+export default connect(mapState, dispatchToProps)(ContactForm);

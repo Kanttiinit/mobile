@@ -1,4 +1,12 @@
 global.translations = {
+  general: {
+    en: 'General',
+    fi: 'Yleiset'
+  },
+  lang: {
+    en: 'Language',
+    fi: 'Kieli'
+  },
   menus: {
     en: 'Menus',
     fi: 'Ruokalistat'
@@ -7,6 +15,10 @@ global.translations = {
     en: 'Favorites',
     fi: 'Suosikit'
   },
+  restaurants: {
+    en: 'Restaurants',
+    fi: 'Ravintolat'
+  },
   map: {
     en: 'Map',
     fi: 'Kartta'
@@ -14,6 +26,14 @@ global.translations = {
   settings: {
     en: 'Settings',
     fi: 'Asetukset'
+  },
+  send: {
+    en: 'Send',
+    fi: 'Lähetä'
+  },
+  sending: {
+    en: 'Sending',
+    fi: 'Lähetetään'
   },
   close: {
     en: 'Close',
@@ -34,5 +54,13 @@ global.translations = {
   changeSettingsLaterText: {
     en: 'You can change your choice later',
     fi: 'Voit muuttaa valintaasi myöhemmin'
+  },
+  missingRestaurant: {
+    en: 'Report missing restaurant',
+    fi: 'Ilmoita puuttuvasta ravintolasta'
+  },
+  whichRestaurantIsMissing: {
+    en: 'Which restaurants is missing?',
+    fi: 'Mikä ravintola puuttuu?'
   }
 };

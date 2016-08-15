@@ -16,21 +16,22 @@ const Settings = ({openModal, setLang, lang, areas, loading}) => (
   <View style={styles.container}>
     <ScrollView>
       <View style={[styles.settingGroup, {zIndex: 999}]}>
-        <Text style={styles.settingsHeader}>Yleiset</Text>
+        <Text style={styles.settingsHeader}>{translations.general[lang]}</Text>
         <View style={styles.setting}>
-          <Text style={styles.settingLabel}>Kieli</Text>
+          <Text style={styles.settingLabel}>{translations.lang[lang]}</Text>
           <Dropdown
+            value={lang}
             options={[{value: 'fi', label: 'Suomi'}, {value: 'en', label: 'English'}]}
             selected={lang}
             onSelect={value => setLang(value)} />
         </View>
       </View>
       <View style={styles.settingGroup}>
-        <Text style={styles.settingsHeader}>Ravintolat</Text>
+        <Text style={styles.settingsHeader}>{translations.restaurants[lang]}</Text>
           <Button
-            onPress={() => openModal(<ContactForm type="missing-restaurant">Mikä ravintola puuttuu?</ContactForm>)}
+            onPress={() => openModal(<ContactForm type="missing-restaurant">{translations.whichRestaurantIsMissing[lang]}</ContactForm>)}
             style={[defaultStyles.button, {padding: spaces.medium, margin: spaces.medium}]}>
-            <Text style={{color: colors.white, fontSize: 14, textAlign: 'center'}}>ILMOITA PUUTTUVASTA RAVINTOLASTA</Text>
+            <Text style={{color: colors.white, fontSize: 14, textAlign: 'center'}}>{translations.missingRestaurant[lang]}</Text>
           </Button>
           {loading || !areas ? <Loader color={colors.accent}/> :
           areas.map((area) =>

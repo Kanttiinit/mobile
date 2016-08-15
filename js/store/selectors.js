@@ -6,7 +6,7 @@ import haversine from 'haversine';
 const now = state => moment(state.value.now);
 const location = state => state.data.location;
 export const selectRestaurants = state => state.data.restaurants || [];
-export const selectLang = state => state.value.lang || 'en';
+export const selectLang = state => state.preferences.lang || 'en';
 const selectedRestaurantIds = state => state.preferences.selectedRestaurants;
 const favoritedRestaurantIds = state => state.preferences.favoritedRestaurants;
 const selectedFavoriteIds = state => state.preferences.selectedFavorites;

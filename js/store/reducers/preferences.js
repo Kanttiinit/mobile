@@ -2,7 +2,12 @@ import {combineReducers} from 'redux';
 import Immutable from 'immutable';
 import {REHYDRATE} from 'redux-persist/constants';
 
-import {SET_SELECTED_FAVORITE, SET_SELECTED_RESTAURANTS, SET_FAVORITED_RESTAURANTS} from '../actions/preferences';
+import {
+  SET_LANG,
+  SET_SELECTED_FAVORITE,
+  SET_SELECTED_RESTAURANTS,
+  SET_FAVORITED_RESTAURANTS
+} from '../actions/preferences';
 
 const createNumberListReducer = (actionType, key) =>
 (state = Immutable.Set([-1]), {type, payload}) => {
@@ -22,5 +27,11 @@ const createNumberListReducer = (actionType, key) =>
 export default combineReducers({
   selectedFavorites: createNumberListReducer(SET_SELECTED_FAVORITE, 'selectedFavorites'),
   selectedRestaurants: createNumberListReducer(SET_SELECTED_RESTAURANTS, 'selectedRestaurants'),
-  favoritedRestaurants: createNumberListReducer(SET_FAVORITED_RESTAURANTS, 'favoritedRestaurants')
+  favoritedRestaurants: createNumberListReducer(SET_FAVORITED_RESTAURANTS, 'favoritedRestaurants'),
+  lang: (state = 'en', {type, payload: lang}) => {
+    if (type === SET_LANG) {
+      return lang;
+    }
+    return state;
+  }
 });

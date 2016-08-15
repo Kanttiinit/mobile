@@ -17,11 +17,6 @@ export const setCurrentView = currentView => ({
   payload: {currentView}
 });
 
-export const setLang = lang => ({
-  type: 'SET_LANG',
-  payload: {lang}
-});
-
 export const setKeyboardVisible = keyboardVisible => ({
   type: 'SET_VALUE_KEYBOARD_VISIBLE',
   payload: {keyboardVisible}

@@ -10,12 +10,12 @@ export const setIsSelected = (value, include) => ({
   payload: {value, include}
 });
 
-export const setSelectedRestaurants = (values, include) => dispatch => {
+export const setSelectedRestaurants = (values, include) => (dispatch, getState) => {
   dispatch({
     type: SET_SELECTED_RESTAURANTS,
     payload: {values, include}
   });
-  dispatch(fetchMenus());
+  dispatch(fetchMenus(getState().preferences.lang));
 };
 
 export const setFavoritedRestaurants = (values, include) => ({

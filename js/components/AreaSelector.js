@@ -5,11 +5,12 @@ import {View, Text} from 'react-native';
 
 import Button from './reusable/Button';
 import {setSelectedRestaurants} from '../store/actions/preferences';
+import {selectLang} from '../store/selectors';
 
-const AreaSelector = ({areas, setSelectedRestaurants}) => (
+const AreaSelector = ({areas, lang, setSelectedRestaurants}) => (
   <View style={{justifyContent: 'center', flex: 1}}>
     <Text style={[defaultStyles.bigText, {textAlign: 'center', padding: spaces.big, marginBottom: spaces.medium}]}>
-      Aloita valitsemalla kampuksesi alta
+      {translations.beginMessage[lang]}
     </Text>
     {areas.map(a =>
       <Button
@@ -24,13 +25,14 @@ const AreaSelector = ({areas, setSelectedRestaurants}) => (
     )}
     <Text
       style={[defaultStyles.smallText, {textAlign: 'center', marginTop: spaces.medium}]}>
-      Voit muuttaa asetuksia myöhemmin "Ravintolat" välilehdestä.
+      {translations.changeSettingsLaterText[lang]}
     </Text>
   </View>
 );
 
 const mapState = state => ({
-  areas: state.data.areas || []
+  areas: state.data.areas || [],
+  lang: selectLang(state)
 });
 
 const mapDispatch = dispatch => bindActionCreators({setSelectedRestaurants}, dispatch);

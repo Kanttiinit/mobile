@@ -5,7 +5,7 @@ const API_BASE = 'https://kitchen.kanttiinit.fi';
 
 export default {
   get(key, url, lang, maxAge) {
-    key = `HTCache-${key}-${lang}`;
+    key = `HTTPCache-${key}-${lang}`;
     url = `${url}&lang=${lang}`;
     return AsyncStorage.getItem(key)
     .then(item => {

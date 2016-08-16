@@ -1,10 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Animated, View, Alert} from 'react-native';
+import {Animated, ActivityIndicator, View, Alert} from 'react-native';
 import {Makiko} from 'react-native-textinput-effects';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import Loader from './Loader';
 import Button from './Button';
 import {selectLang} from '../../store/selectors';
 
@@ -13,7 +12,7 @@ class ContactForm extends React.Component {
     super();
     this.state = {
       message: '',
-      width: new Animated.Value(0)
+      phase: new Animated.Value(0)
     };
   }
   sendFeedback() {
@@ -55,18 +54,26 @@ class ContactForm extends React.Component {
     }
   }
   onFocus() {
-    Animated.spring(this.state.width, {toValue: 24 + spaces.medium * 2}).start();
+    Animated.spring(this.state.phase, {toValue: 1}).start();
   }
   onBlur() {
     if (this.state.message === '') {
-      Animated.spring(this.state.width, {toValue: 0}).start();
+      Animated.spring(this.state.phase, {toValue: 0}).start();
     }
   }
   render() {
     const {label, style} = this.props;
-    const {message, width, sending} = this.state;
+    const {message, phase, sending} = this.state;
+    const borderColor = phase.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['#cbcbcb', colors.accent]
+    });
+    const scale = phase.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0.4, 1]
+    });
     return (
-      <View style={[style, {flexDirection: 'row', alignItems: 'center'}]}>
+      <Animated.View style={[style, {borderColor, borderWidth: 3}]}>
         <Makiko
           label={label}
           iconName="comment"
@@ -76,9 +83,19 @@ class ContactForm extends React.Component {
           onFocus={() => this.onFocus()}
           onBlur={() => this.onBlur()}
           onChangeText={message => this.setState({message})}
+          inputStyle={{paddingRight: 30}}
+          autoCorrect={false}
           style={{flex: 1}} />
-        <Animated.View style={{width: width}}>
-          {sending ? <Loader /> :
+        <Animated.View
+          style={{
+            backgroundColor: 'transparent',
+            position: 'absolute',
+            right: 4,
+            top: 12,
+            opacity: phase,
+            transform: [{scale}]
+          }}>
+          {sending ? <ActivityIndicator style={{paddingTop: 2, paddingRight: 6}} animating={true} color={colors.accent} /> :
           <Button
             style={{paddingHorizontal: spaces.medium}}
             onPress={() => this.sendFeedback()}>
@@ -89,7 +106,7 @@ class ContactForm extends React.Component {
           </Button>
           }
         </Animated.View>
-      </View>
+      </Animated.View>
     );
   }
 }

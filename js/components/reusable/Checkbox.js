@@ -30,8 +30,8 @@ export default class Checkbox extends React.Component {
       <Button
         onPress={() => onCheckedChange(!checked)}
         style={{
-          height: 24,
-          width: 24,
+          height: 20,
+          width: 20,
           margin: 6,
           borderRadius: 12,
           backgroundColor: '#c1c1c1'

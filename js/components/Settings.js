@@ -26,9 +26,9 @@ const Settings = ({setLang, lang, areas, loading}) => (
       {loading || !areas ? <Loader color={colors.accent}/> :
       areas.map(area => <Area key={area.id} area={area} />)}
       <ContactForm
-      type="missing-restaurant"
-      style={{marginVertical: spaces.medium}}
-      label={translations.whichRestaurantIsMissing[lang] }/>
+        type="missing-restaurant"
+        style={{marginVertical: spaces.medium, marginBottom: 300}}
+        label={translations.whichRestaurantIsMissing[lang] }/>
     </View>
   </ScrollView>
 );

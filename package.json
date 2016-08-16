@@ -15,8 +15,8 @@
     "lodash": "^4.13.1",
     "moment": "2.14.1",
     "react": "^15.2.1",
-    "react-native": "^0.30.0",
-    "react-native-code-push": "^1.13.5-beta",
+    "react-native": "^0.31.0",
+    "react-native-code-push": "^1.14.2-beta",
     "react-native-google-analytics-bridge": "^3.0.0",
     "react-native-maps": "github:skellock/react-native-maps#friends-with-30",
     "react-native-simple-modal": "^4.0.1",
@@ -28,11 +28,11 @@
     "redux-promise-middleware": "^3.3.2",
     "redux-thunk": "^2.1.0",
     "redux-watch": "^1.1.1",
-    "remote-redux-devtools": "^0.3.4",
+    "remote-redux-devtools": "^0.4.2",
     "reselect": "^2.5.3"
   },
   "devDependencies": {
     "eslint": "^3.2.0",
-    "eslint-plugin-react": "^5.2.2"
+    "eslint-plugin-react": "^6.1.1"
   }
 }

@@ -1,7 +1,4 @@
 <resources>
-
-
-
-    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">pY4DaRT7RYoXSQOpRSPtQapIdipb4y8NxonCg</string>
+    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">RM-NdFrMO2JO7eZlngHs4bqeD_sR4y8NxonCg</string>
     <string name="app_name">Kanttiinit</string>
 </resources>

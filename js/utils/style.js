@@ -14,7 +14,8 @@ const colors = {
   grey: white.darkenByRatio(0.3),
   lightGrey: white.darkenByRatio(0.03),
   mediumGrey: white.darkenByRatio(0.1),
-  darkGrey: black.lightenByRatio(0.1),
+  darkGrey: white.darkenByRatio(0.8),
+  almostBlack: black.lightenByRatio(0.1),
   lightRed: red.setLightness(0.97).desaturateByRatio(0.2)
 };
 

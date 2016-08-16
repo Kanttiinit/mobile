@@ -50,7 +50,7 @@ export class Restaurant extends React.Component {
   }
   render() {
     const {day, isToday, restaurant, openModal, courses} = this.props;
-    const metaColor = isToday && restaurant.isOpen ? colors.darkAccent : colors.darkGrey;
+    const metaColor = isToday && restaurant.isOpen ? colors.darkAccent : colors.almostBlack;
 
     return (
       <View style={[defaultStyles.card, !courses.length && {opacity: 0.7}]}>
@@ -60,7 +60,7 @@ export class Restaurant extends React.Component {
           style={{flexDirection: 'row', flex: 1, alignItems: 'center'}}
           containerStyle={styles.header}>
           <View style={{flex: 1}}>
-            <Text style={[styles.restaurantName, !(isToday && restaurant.isOpen) && {color: colors.darkGrey}]}>
+            <Text style={[styles.restaurantName, !(isToday && restaurant.isOpen) && {color: colors.almostBlack}]}>
               {restaurant.name}
             </Text>
             <View style={{flex: 1, marginTop: 2, flexDirection: 'row'}}>
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   metaText: {
-    color: colors.darkGrey,
+    color: colors.almostBlack,
     fontSize: 11,
     marginVertical: 2,
     opacity: 0.8

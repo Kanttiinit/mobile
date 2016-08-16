@@ -51,6 +51,10 @@ global.translations = {
     en: 'Which restaurant is missing?',
     fi: 'Mikä ravintola puuttuu?'
   },
+  visibleRestaurants: {
+    en: 'Visible restaurants',
+    fi: 'Näkyvät ravintolat'
+  },
   tooShortMessage: {
     en: 'Your message is too short!',
     fi: 'Viestisi on liian lyhyt!'

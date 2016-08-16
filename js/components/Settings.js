@@ -27,6 +27,7 @@ const Settings = ({setLang, lang, areas, loading}) => (
         type="missing-restaurant"
         style={{marginVertical: spaces.medium}}
         label={translations.whichRestaurantIsMissing[lang] }/>
+      <Text style={styles.settingLabel}>{translations.visibleRestaurants[lang]}</Text>
       {loading || !areas ? <Loader color={colors.accent}/> :
       areas.map(area => <Area key={area.id} area={area} />)}
     </View>
@@ -44,6 +45,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white
   },
   settingLabel: {
+    color: colors.darkGrey,
     marginVertical: spaces.small
   }
 });

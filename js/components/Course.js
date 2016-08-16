@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   },
   courseTitle: {
     flex: 1,
-    color: colors.darkGrey,
+    color: colors.almostBlack,
     fontSize: 12
   }
 });

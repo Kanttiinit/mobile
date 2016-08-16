@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   },
   restaurantName: {
     alignSelf: 'flex-end',
-    color: colors.darkGrey,
+    color: colors.almostBlack,
     flex: 1
   }
 });

@@ -17,7 +17,7 @@ const Settings = ({setLang, lang, areas, loading}) => (
       <Text style={styles.settingLabel}>{translations.lang[lang]}</Text>
       <Dropdown
         value={lang}
-        options={[{value: 'fi', label: 'Suomi'}, {value: 'en', label: 'English'}]}
+        options={[{value: 'fi', label: 'Finnish'}, {value: 'en', label: 'English'}]}
         selected={lang}
         onSelect={value => setLang(value)} />
     </View>

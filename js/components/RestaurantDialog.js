@@ -35,8 +35,8 @@ function getInitialRegion(restaurant, location) {
   return {
     latitude: Number(center.latitude),
     longitude: Number(center.longitude),
-    latitudeDelta: Math.max(2.5 * Math.abs(center.latitude - restaurant.latitude), 0.01),
-    longitudeDelta: Math.max(2.5 * Math.abs(center.longitude - restaurant.longitude), 0.01)
+    latitudeDelta: Math.max(4 * Math.abs(center.latitude - restaurant.latitude), 0.01),
+    longitudeDelta: Math.max(4 * Math.abs(center.longitude - restaurant.longitude), 0.01)
   };
 }
 

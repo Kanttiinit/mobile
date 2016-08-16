@@ -59,6 +59,10 @@ global.translations = {
     en: 'Report missing restaurant',
     fi: 'Ilmoita puuttuvasta ravintolasta'
   },
+  visibleRestaurants: {
+    en: 'Visible restaurants',
+    fi: 'Näkyvät ravintolat'
+  },
   whichRestaurantIsMissing: {
     en: 'Which restaurants is missing?',
     fi: 'Mikä ravintola puuttuu?'

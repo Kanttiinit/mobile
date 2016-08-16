@@ -9,7 +9,7 @@ import {setSelectedRestaurants} from '../store/actions/preferences';
 import Restaurant from './AreaRestaurant';
 
 const Area = ({isAreaChecked, area, setSelectedRestaurants}) => (
-  <View style={defaultStyles.card}>
+  <View style={{marginBottom: spaces.medium}}>
     <View style={styles.area}>
       <Text style={styles.areaTitle}>{area.name}</Text>
       <Checkbox
@@ -29,7 +29,6 @@ const Area = ({isAreaChecked, area, setSelectedRestaurants}) => (
 
 const styles = StyleSheet.create({
   area: {
-    padding: spaces.small,
     flexDirection: 'row',
     alignItems: 'center'
   },
@@ -40,8 +39,6 @@ const styles = StyleSheet.create({
     fontFamily: Platform.OS === 'android' ? 'sans-serif-light' : undefined
   },
   restaurant: {
-    marginLeft: spaces.small,
-    marginRight: spaces.small,
     flexDirection: 'row',
     alignItems: 'center'
   },

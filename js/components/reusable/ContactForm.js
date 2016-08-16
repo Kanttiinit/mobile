@@ -1,18 +1,18 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {View, Alert, Text, StyleSheet} from 'react-native';
+import {Animated, View, Alert, Text, StyleSheet} from 'react-native';
 import {Makiko} from 'react-native-textinput-effects';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
+import Loader from './Loader';
 import Button from './Button';
-import {dismissModal} from '../../store/actions/modal';
-import {selectLang} from '../../store/selectors';
 
-class ContactForm extends React.Component {
+export default class ContactForm extends React.Component {
   constructor() {
     super();
-    this.state = {message: ''};
+    this.state = {
+      message: '',
+      width: new Animated.Value(0)
+    };
   }
   sendFeedback() {
     const {type} = this.props;
@@ -34,10 +34,16 @@ class ContactForm extends React.Component {
         })
       })
       .then(() => {
-        this.setState({sending: false, sent: true});
+        this.setState({sending: false, message: ''});
+        this.onBlur();
+        Alert.alert(
+          'Kiitos palautteestasi!',
+          '',
+          [{text: 'OK'}]
+        );
       })
       .catch(() => {
-        this.setState({sending: false, sent: true});
+        this.setState({sending: false});
         Alert.alert(
           'Tapahtui odottamaton virhe!',
           'Yritä myöhemmin uudestaan.',
@@ -45,38 +51,45 @@ class ContactForm extends React.Component {
         );
       });
     }
-
+  }
+  onFocus() {
+    console.log('focus');
+    Animated.spring(this.state.width, {toValue: 24 + spaces.medium * 2}).start();
+  }
+  onBlur() {
+    console.log('blur');
+    if (this.state.message === '') {
+      Animated.spring(this.state.width, {toValue: 0}).start();
+    }
   }
   render() {
-    const {lang, children, dismissModal} = this.props;
-    const {message, sent, sending} = this.state;
-
-    if (sent)
-      return <Text style={styles.confirmation}>Kiitos palautteestasi!</Text>;
+    const {label, style} = this.props;
+    const {message, width, sending} = this.state;
 
     return (
-      <View style={{padding: 8}}>
+      <View style={[style, {flexDirection: 'row', alignItems: 'center'}]}>
         <Makiko
-          label={children || 'Anna palautetta'}
+          label={label}
           iconName="comment"
-          iconClass={FontAwesome}
+          iconClass={Icon}
           iconColor={colors.white}
           value={message}
+          onFocus={() => this.onFocus()}
+          onBlur={() => this.onBlur()}
           onChangeText={message => this.setState({message})}
-          style={{backgroundColor: colors.accent}} />
-        <View style={{marginTop: spaces.big, flexDirection: 'row'}}>
+          style={{flex: 1}} />
+        <Animated.View style={{width: width}}>
+          {sending ? <Loader /> :
           <Button
-            containerStyle={{flex: 1}}
+            style={{paddingHorizontal: spaces.medium}}
             onPress={() => this.sendFeedback()}>
-            <Text style={defaultStyles.lightButtonText}>
-            {sending ? translations.sending[lang] + '...' : translations.send[lang].toUpperCase()}
-            </Text>
+            <Icon
+              color={colors.accent}
+              size={24}
+              name="paper-plane" />
           </Button>
-          <Button
-            onPress={() => dismissModal()}>
-            <Text style={defaultStyles.lightButtonText}>{translations.close[lang].toUpperCase()}</Text>
-          </Button>
-        </View>
+          }
+        </Animated.View>
       </View>
     );
   }
@@ -97,11 +110,3 @@ const styles = StyleSheet.create({
     marginTop: 8
   }
 });
-
-const mapState = state => ({
-  lang: selectLang(state)
-});
-
-const dispatchToProps = dispatch => bindActionCreators({dismissModal}, dispatch);
-
-export default connect(mapState, dispatchToProps)(ContactForm);

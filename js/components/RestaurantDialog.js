@@ -111,7 +111,7 @@ const RestaurantDialog = ({lang, restaurant, isFavorited, location, dismissModal
       {getOpeningHourString(restaurant.openingHours, lang).map((_, i) =>
         <View key={i} style={{flexDirection: 'row'}}>
           <Text style={{fontWeight: '500', width: 64}}>{_.startDay + (_.endDay ? ' – ' + _.endDay : '')}</Text>
-          <Text style={{color: colors.darkGrey}}>{_.hour}</Text>
+          <Text style={{color: colors.almostBlack}}>{_.hour}</Text>
         </View>
       )}
 

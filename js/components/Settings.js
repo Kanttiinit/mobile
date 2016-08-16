@@ -23,13 +23,12 @@ const Settings = ({setLang, lang, areas, loading}) => (
     </View>
     <View style={styles.settingGroup}>
       <Text style={defaultStyles.bigText}>{translations.restaurants[lang]}</Text>
-      <ContactForm
-        type="missing-restaurant"
-        style={{marginVertical: spaces.medium}}
-        label={translations.whichRestaurantIsMissing[lang] }/>
-      <Text style={styles.settingLabel}>{translations.visibleRestaurants[lang]}</Text>
       {loading || !areas ? <Loader color={colors.accent}/> :
       areas.map(area => <Area key={area.id} area={area} />)}
+      <ContactForm
+      type="missing-restaurant"
+      style={{marginVertical: spaces.medium}}
+      label={translations.whichRestaurantIsMissing[lang] }/>
     </View>
   </ScrollView>
 );

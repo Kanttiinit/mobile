@@ -34,10 +34,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   areaTitle: {
-    fontSize: 20,
     flex: 1,
-    fontWeight: '500',
-    fontFamily: Platform.OS === 'android' ? 'sans-serif-light' : undefined
+    color: colors.darkGrey
   },
   restaurant: {
     flexDirection: 'row',

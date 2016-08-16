@@ -24,7 +24,7 @@ const Restaurant = ({restaurant, setSelectedRestaurants, setFavoritedRestaurants
     <Button
       containerStyle={{flex: 1}}
       onPress={() => openModal(<RestaurantDialog restaurant={restaurant} />, {padding: 0})}>
-      <Text style={{fontSize: 14, flex: 1}}>{restaurant.name}</Text>
+      <Text style={{flex: 1}}>{restaurant.name}</Text>
     </Button>
     <Checkbox
       onCheckedChange={selected => setSelectedRestaurants([restaurant.id], selected)}

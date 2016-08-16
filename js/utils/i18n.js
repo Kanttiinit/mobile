@@ -62,5 +62,25 @@ global.translations = {
   whichRestaurantIsMissing: {
     en: 'Which restaurants is missing?',
     fi: 'Mikä ravintola puuttuu?'
+  },
+  tooShortMessage: {
+    en: 'Your message is too short!',
+    fi: 'Viestisi on liian lyhyt!'
+  },
+  tryAgain: {
+    en: 'Please try again.',
+    fi: 'Ole hyvä ja yritä uudestaan.'
+  },
+  thanksForFeedback: {
+    en: 'Thank you for the feedback!',
+    fi: 'Kiitos palautteestasi!'
+  },
+  unexpectedError: {
+    en: 'An unexpected error occurred!',
+    fi: 'Tapahtui odottamaton virhe!'
+  },
+  tryAgainLater: {
+    en: 'Try again later.',
+    fi: 'Yritä myöhemmin uudestaan.'
   }
 };

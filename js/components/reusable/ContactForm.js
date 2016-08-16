@@ -1,12 +1,14 @@
 import React from 'react';
-import {Animated, View, Alert, Text, StyleSheet} from 'react-native';
+import {connect} from 'react-redux';
+import {Animated, View, Alert} from 'react-native';
 import {Makiko} from 'react-native-textinput-effects';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Loader from './Loader';
 import Button from './Button';
+import {selectLang} from '../../store/selectors';
 
-export default class ContactForm extends React.Component {
+class ContactForm extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -15,13 +17,13 @@ export default class ContactForm extends React.Component {
     };
   }
   sendFeedback() {
-    const {type} = this.props;
+    const {type, lang} = this.props;
     const {message, sending} = this.state;
 
     if (message.length < 3) {
       Alert.alert(
-        'Viestisi on liian lyhyt!',
-        'Ole hyvä, ja yritä uudestaan.',
+        translations.tooShortMessage[lang],
+        translations.tryAgain[lang],
         [{text: 'OK'}]
       );
     } else if (!sending) {
@@ -37,7 +39,7 @@ export default class ContactForm extends React.Component {
         this.setState({sending: false, message: ''});
         this.onBlur();
         Alert.alert(
-          'Kiitos palautteestasi!',
+          translations.thanksForFeedback[lang],
           '',
           [{text: 'OK'}]
         );
@@ -45,19 +47,17 @@ export default class ContactForm extends React.Component {
       .catch(() => {
         this.setState({sending: false});
         Alert.alert(
-          'Tapahtui odottamaton virhe!',
-          'Yritä myöhemmin uudestaan.',
+          translations.unexpectedError[lang],
+          translations.tryAgainLater[lang],
           [{text: 'OK'}]
         );
       });
     }
   }
   onFocus() {
-    console.log('focus');
     Animated.spring(this.state.width, {toValue: 24 + spaces.medium * 2}).start();
   }
   onBlur() {
-    console.log('blur');
     if (this.state.message === '') {
       Animated.spring(this.state.width, {toValue: 0}).start();
     }
@@ -65,7 +65,6 @@ export default class ContactForm extends React.Component {
   render() {
     const {label, style} = this.props;
     const {message, width, sending} = this.state;
-
     return (
       <View style={[style, {flexDirection: 'row', alignItems: 'center'}]}>
         <Makiko
@@ -95,18 +94,8 @@ export default class ContactForm extends React.Component {
   }
 }
 
-ContactForm.displayName = 'ContactForm';
-
-const styles = StyleSheet.create({
-  confirmation: {
-    fontSize: 16,
-    margin: 6,
-    textAlign: 'center'
-  },
-  button: {
-    backgroundColor: colors.accent,
-    padding: 8,
-    borderRadius: 2,
-    marginTop: 8
-  }
+const mapState = state => ({
+  lang: selectLang(state)
 });
+
+export default connect(mapState)(ContactForm);

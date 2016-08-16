@@ -40,9 +40,9 @@ export class Restaurant extends React.Component {
       return true;
 
     return props.restaurant.id !== this.props.restaurant.id
-    || props.restaurant.isOpen !== this.props.restaurant.isOpen
-    || props.restaurant.favorited !== this.props.restaurant.favorited
-    || props.restaurant.distance !== this.props.restaurant.distance;
+      || props.restaurant.isOpen !== this.props.restaurant.isOpen
+      || props.restaurant.favorited !== this.props.restaurant.favorited
+      || props.restaurant.distance !== this.props.restaurant.distance;
   }
   render() {
     const {day, isToday, restaurant, openModal, courses} = this.props;

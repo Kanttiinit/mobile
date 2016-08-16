@@ -12,14 +12,14 @@ import {dismissModal} from '../store/actions/modal';
 import {selectLang} from '../store/selectors';
 import Menu from './Menu';
 import Favorites from './Favorites';
-import Areas from './Areas';
+import Settings from './Settings';
 import Map from './Map';
 
 const views = [
   { key: 'menus', icon: 'md-restaurant', component: Menu },
   { key: 'favorites', icon: 'md-heart', component: Favorites },
   { key: 'map', icon: 'md-map', component: Map},
-  { key: 'settings', icon: 'md-settings', component: Areas }
+  { key: 'settings', icon: 'md-settings', component: Settings }
 ];
 
 

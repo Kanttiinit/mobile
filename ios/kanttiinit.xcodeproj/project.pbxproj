@@ -824,6 +824,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = fi.vaaraj.kanttiinit;
 				PRODUCT_NAME = kanttiinit;
 			};
 			name = Debug;
@@ -848,6 +849,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = fi.vaaraj.kanttiinit;
 				PRODUCT_NAME = kanttiinit;
 			};
 			name = Release;

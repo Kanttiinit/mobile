@@ -18,7 +18,7 @@ const CourseDetails = ({course, lang, courseFavorites, restaurant, setIsSelected
     <View style={styles.courseListWrapper}>
       {course.properties && !!course.properties.length &&
         course.properties.map(p =>
-          <Property key={p} containerStyle={{marginTop: spaces.medium}} large={true}>{p}</Property>
+          <Property key={p} containerStyle={{marginTop: spaces.medium}} large={true} lang={lang}>{p}</Property>
         )
       }
     </View>

@@ -3,6 +3,7 @@ import Checkbox from './reusable/Checkbox';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Text, View, StyleSheet, Platform} from 'react-native';
+import sortBy from 'lodash/sortBy';
 
 import {isAreaChecked} from '../store/selectors';
 import {setSelectedRestaurants} from '../store/actions/preferences';
@@ -18,7 +19,7 @@ const Area = ({isAreaChecked, area, setSelectedRestaurants}) => (
         checked={isAreaChecked}
         onCheckedChange={checked => setSelectedRestaurants(area.restaurants.map(r => r.id), checked)} />
     </View>
-    {area.restaurants.sort((a, b) => a.name > b.name ? 1 : -1).map((r, i) =>
+    {sortBy(area.restaurants, 'name').map((r, i) =>
       <Restaurant
         key={r.id}
         restaurant={r}

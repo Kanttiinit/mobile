@@ -27,14 +27,6 @@ global.translations = {
     en: 'Settings',
     fi: 'Asetukset'
   },
-  send: {
-    en: 'Send',
-    fi: 'Lähetä'
-  },
-  sending: {
-    en: 'Sending',
-    fi: 'Lähetetään'
-  },
   close: {
     en: 'Close',
     fi: 'Sulje'
@@ -55,17 +47,13 @@ global.translations = {
     en: 'You can change your choice later',
     fi: 'Voit muuttaa valintaasi myöhemmin'
   },
-  missingRestaurant: {
-    en: 'Report missing restaurant',
-    fi: 'Ilmoita puuttuvasta ravintolasta'
+  whichRestaurantIsMissing: {
+    en: 'Which restaurant is missing?',
+    fi: 'Mikä ravintola puuttuu?'
   },
   visibleRestaurants: {
     en: 'Visible restaurants',
     fi: 'Näkyvät ravintolat'
-  },
-  whichRestaurantIsMissing: {
-    en: 'Which restaurants is missing?',
-    fi: 'Mikä ravintola puuttuu?'
   },
   tooShortMessage: {
     en: 'Your message is too short!',

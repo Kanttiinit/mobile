@@ -12,6 +12,7 @@ const RestaurantList = ({day, isToday, restaurants}) => (
     style={{backgroundColor: colors.lightGrey}}
     initialListSize={1}
     pageSize={2}
+    removeClippedSubviews={false}
     dataSource={dataSource.cloneWithRows(restaurants)}
     renderRow={restaurant =>
       <Restaurant

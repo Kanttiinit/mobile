@@ -45,16 +45,6 @@ export default class Dropdown extends React.Component {
               translateY: translate
             }]
           }}>
-          <View
-            onPress={() => this.setState({opened: false})}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              height: 1000,
-              backgroundColor: 'rgba(0, 0, 0, 0.5)'
-            }} />
           <ScrollView style={{
             backgroundColor: 'white',
             shadowColor: 'rgba(0, 0, 0, 0.5)',

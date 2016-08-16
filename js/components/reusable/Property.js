@@ -3,17 +3,17 @@ import React from 'react';
 import {View, Text} from 'react-native';
 
 const names = {
-  'L': 'laktoositon',
-  'G': 'gluteeniton',
-  'VS': 'sisältää tuoretta valkosipulia',
-  'M': 'maidoton',
-  'VL': 'vähälaktoosinen',
-  'A': 'sisältää allergeenejä',
-  'K': 'kasvis',
-  'MU': 'munaton',
-  'VE': 'vegaani',
-  'T': 'terveellisempi valinta',
-  'S': 'ei soijaa'
+  'L': {'fi': 'laktoositon', 'en': 'lactose-free'},
+  'G': {'fi': 'gluteeniton', 'en': 'glutein-free'},
+  'VS': {'fi': 'sisältää tuoretta valkosipulia', 'en': 'includes fresh garlic'},
+  'M': {'fi': 'maidoton', 'en': 'dairy-free'},
+  'VL': {'fi': 'vähälaktoosinen', 'en': 'low-lactose'},
+  'A': {'fi': 'sisältää allergeenejä', 'en': 'includes allergens'},
+  'K': {'fi': 'kasvis', 'en': 'vegetarian'},
+  'MU': {'fi': 'munaton', 'en': 'egg-free'},
+  'VE': {'fi': 'vegaani', 'en': 'vegan'},
+  'T': {'fi': 'terveellisempi valinta', 'en': 'more healthy choice'},
+  'S': {'fi': 'ei soijaa', 'en': 'soy-free'}
 };
 
 const colors = {
@@ -27,9 +27,9 @@ const colors = {
   'VE': '#4CAF50'
 };
 
-function getName(p) {
+function getName(p, lang) {
   if (p in names)
-    return names[p];
+    return names[p][lang];
 
   return 'tuntematon';
 }
@@ -46,7 +46,7 @@ export default class Property extends React.Component {
     return props.children !== this.props.children;
   }
   render() {
-    const {children, large} = this.props;
+    const {children, large, lang} = this.props;
     const color = getColor(children);
     const fontSize = large ? 12 : 10;
     const width = large ? 18 : undefined;
@@ -54,7 +54,7 @@ export default class Property extends React.Component {
     return (
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Text style={{fontSize, width, fontWeight: 'bold', marginLeft: 3, color, backgroundColor: 'transparent'}}>{children}</Text>
-        {large && <Text style={{marginLeft: 6}}>{getName(children)}</Text>}
+        {large && <Text style={{marginLeft: 6}}>{getName(children, lang)}</Text>}
       </View>
     );
   }

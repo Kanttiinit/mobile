@@ -37,7 +37,7 @@ public class MainApplication extends Application implements ReactApplication {
             new VectorIconsPackage(),
             new MapsPackage(),
             new GoogleAnalyticsBridgePackage(),
-            new CodePush(this.getResources().getString(R.strings.reactNativeCodePush_androidDeploymentKey), getApplicationContext(), BuildConfig.DEBUG)
+            new CodePush("RM-NdFrMO2JO7eZlngHs4bqeD_sR4y8NxonCg", MainApplication.this, BuildConfig.DEBUG)
       );
     }
   };

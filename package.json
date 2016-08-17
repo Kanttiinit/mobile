@@ -18,7 +18,7 @@
     "react-native": "^0.31.0",
     "react-native-code-push": "^1.14.2-beta",
     "react-native-google-analytics-bridge": "^3.0.0",
-    "react-native-maps": "skellock/react-native-maps#friends-with-30",
+    "react-native-maps": "bodyflex/react-native-maps#master",
     "react-native-simple-modal": "^4.0.1",
     "react-native-textinput-effects": "^0.1.3",
     "react-native-vector-icons": "^2.0.3",

@@ -12,8 +12,9 @@ import Button from './reusable/Button';
 import RestaurantDialog from './RestaurantDialog';
 import {colors, spaces, defaultStyles} from '../utils/style';
 import type {Restaurant as RestaurantType} from '../utils/types';
+import translations from '../utils/i18n';
 
-const Courses = ({courses, restaurant}) => {
+const Courses = ({courses, restaurant, lang}) => {
   if (courses.length) {
     return (
       <View>
@@ -29,7 +30,7 @@ const Courses = ({courses, restaurant}) => {
   }
   return (
     <View style={{padding: 10}}>
-      <Text style={styles.emptyMenuText}>Ei menua saatavilla.</Text>
+      <Text style={styles.emptyMenuText}>{translations.noMenu[lang]}</Text>
     </View>
   );
 };
@@ -39,6 +40,7 @@ type Props = {
   day: string,
   courses: Course[],
   isToday: boolean,
+  lang: string,
   openModal: () => void
 };
 
@@ -51,17 +53,14 @@ export class Restaurant extends React.Component {
     if (this.props.day !== props.day)
       return true;
 
-    // for lang change
-    if (props.courses.length && props.courses.length === this.props.courses.length && props.courses[0].title !== this.props.courses[0].title)
-      return true;
-
     return props.restaurant.id !== this.props.restaurant.id
       || props.restaurant.isOpen !== this.props.restaurant.isOpen
       || props.restaurant.favorited !== this.props.restaurant.favorited
-      || props.restaurant.distance !== this.props.restaurant.distance;
+      || props.restaurant.distance !== this.props.restaurant.distance
+      || props.lang !== this.props.lang;
   }
   render() {
-    const {day, isToday, restaurant, openModal, courses} = this.props;
+    const {day, isToday, restaurant, openModal, courses, lang} = this.props;
 
     return (
       <View style={[defaultStyles.card, !courses.length && {opacity: 0.7}]}>
@@ -92,7 +91,7 @@ export class Restaurant extends React.Component {
           {restaurant.favorited && <Icon size={22} color={colors.yellow} name="md-star" />}
         </Button>
 
-        <Courses courses={courses} restaurant={restaurant} />
+        <Courses courses={courses} restaurant={restaurant} lang={lang}/>
 
       </View>
     );

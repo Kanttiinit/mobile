@@ -3,13 +3,13 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {ListView} from 'react-native';
 
-import {formatRestaurants, isToday} from '../store/selectors';
+import {formatRestaurants, isToday, selectLang} from '../store/selectors';
 import Restaurant from './RestaurantCourses';
 import {colors} from '../utils/style';
 
 const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-const RestaurantList = ({day, isToday, restaurants}) => (
+const RestaurantList = ({day, isToday, restaurants, lang}) => (
   <ListView
     style={{backgroundColor: colors.lightGrey}}
     initialListSize={1}
@@ -21,13 +21,15 @@ const RestaurantList = ({day, isToday, restaurants}) => (
         day={day}
         restaurant={restaurant}
         courses={restaurant.courses}
-        isToday={isToday} />
+        isToday={isToday}
+        lang={lang} />
     } />
 );
 
 const mapState = (state, props) => ({
   isToday: isToday(state, props),
-  restaurants: formatRestaurants(state, props)
+  restaurants: formatRestaurants(state, props),
+  lang: selectLang(state)
 });
 
 export default connect(mapState)(RestaurantList);

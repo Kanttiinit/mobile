@@ -40,6 +40,10 @@ const translations = {
     en: 'Homepage',
     fi: 'Kotisivut'
   },
+  noMenu: {
+    en: 'No menu available',
+    fi: 'Ei ruokalistaa saatavilla'
+  },
   beginMessage: {
     en: 'Begin by choosing your campus',
     fi: 'Aloita valitsemalla kampuksesi'

@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import moment from 'moment';
 import 'moment/locale/fi';
@@ -11,6 +12,7 @@ import AreaSelector from './AreaSelector';
 import {setDayOffset} from '../store/actions/values';
 import {orderedRestaurants, selectLang} from '../store/selectors';
 import Dropdown from './reusable/Dropdown';
+import {colors} from '../utils/style';
 
 class Menu extends React.Component {
   shouldComponentUpdate(props) {

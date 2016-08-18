@@ -1,8 +1,16 @@
+// @flow
 import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Animated, View, Text, ScrollView, TouchableHighlight} from 'react-native';
+import {colors, spaces} from '../../utils/style';
 
 export default class Dropdown extends React.Component {
+  state: {
+    opened: boolean,
+    height: number,
+    opacity: any,
+    translate: any
+  };
   constructor() {
     super();
     this.state = {

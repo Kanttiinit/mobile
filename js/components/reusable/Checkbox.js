@@ -1,11 +1,24 @@
+// @flow
 import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import Button from './Button';
+import {colors} from '../../utils/style';
 
 import {Animated, View, Platform} from 'react-native';
 
+type Props = {
+  checked: boolean,
+  onCheckedChange: (checked: boolean) => void,
+  color?: string,
+  backgroundColor?: string
+};
+
 export default class Checkbox extends React.Component {
+  props: Props;
+  state: {
+    checkedPhase: any
+  };
   constructor() {
     super();
     this.state = {checkedPhase: new Animated.Value(1)};
@@ -14,10 +27,10 @@ export default class Checkbox extends React.Component {
     const {checked} = this.props;
     this.setState({checkedPhase: new Animated.Value(checked ? 1 : 0)});
   }
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps(props: Props) {
     this.animateCheckSymbol(props.checked);
   }
-  animateCheckSymbol(active) {
+  animateCheckSymbol(active: boolean) {
     Animated.spring(
       this.state.checkedPhase,
       {toValue: active ? 1 : 0, tension: 200}

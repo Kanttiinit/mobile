@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -10,6 +11,7 @@ import {setFavoritedRestaurants, setSelectedRestaurants} from '../store/actions/
 import RestaurantDialog from './RestaurantDialog';
 import Checkbox from './reusable/Checkbox';
 import Button from './reusable/Button';
+import {colors, spaces} from '../utils/style';
 
 const Restaurant = ({restaurant, setSelectedRestaurants, setFavoritedRestaurants, style, selected, favorited, openModal}) => (
   <View style={style}>

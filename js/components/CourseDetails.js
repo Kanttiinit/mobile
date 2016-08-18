@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -9,6 +10,8 @@ import Button from './reusable/Button';
 import {getCourseFavorites, selectLang} from '../store/selectors';
 import {dismissModal} from '../store/actions/modal';
 import {setIsSelected} from '../store/actions/preferences';
+import {colors, spaces, defaultStyles} from '../utils/style';
+import translations from '../utils/i18n';
 
 const CourseDetails = ({course, lang, courseFavorites, restaurant, setIsSelected, dismissModal}) => (
   <View>

@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import MapView from 'react-native-maps';
 import geolib from 'geolib';
@@ -14,6 +15,8 @@ import Button from './reusable/Button';
 import {dismissModal} from '../store/actions/modal';
 import {setFavoritedRestaurants} from '../store/actions/preferences';
 import {isRestaurantFavorited, selectLang} from '../store/selectors';
+import {colors, spaces, defaultStyles} from '../utils/style';
+import translations from '../utils/i18n';
 
 const dayNumberToDayOfWeek = (n, lang) => moment().locale(lang).day(n + 1).format('ddd').toUpperCase();
 
@@ -57,12 +60,14 @@ function openDirections(address) {
   }
 }
 
+let map;
+
 const RestaurantDialog = ({lang, restaurant, isFavorited, location, dismissModal, setFavoritedRestaurants}) => (
   <View>
 
     <View>
       <MapView
-        ref={c => this.map = c}
+        ref={c => map = c}
         style={{height: 300, borderRadius: 2}}
         rotateEnabled={false}
         showsUserLocation={true}
@@ -78,7 +83,7 @@ const RestaurantDialog = ({lang, restaurant, isFavorited, location, dismissModal
       </MapView>
       <View style={styles.header}>
         <TouchableWithoutFeedback
-          onPress={() => this.map.animateToCoordinate({
+          onPress={() => map.animateToCoordinate({
             latitude: restaurant.latitude,
             longitude: restaurant.longitude
           })}>

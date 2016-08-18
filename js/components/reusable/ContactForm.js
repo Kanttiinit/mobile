@@ -1,18 +1,33 @@
+// @flow
 import React from 'react';
 import {connect} from 'react-redux';
 import {Animated, ActivityIndicator, View, Alert} from 'react-native';
 import {Makiko} from 'react-native-textinput-effects';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import {colors, spaces} from '../../utils/style';
+import translations from '../../utils/i18n';
 import Button from './Button';
 import {selectLang} from '../../store/selectors';
 
 class ContactForm extends React.Component {
+  props: {
+    type: string,
+    lang: Lang,
+    style: any,
+    label: string
+  };
+  state: {
+    message: string,
+    sending: boolean,
+    phase: any
+  };
   constructor() {
     super();
     this.state = {
       message: '',
-      phase: new Animated.Value(0)
+      phase: new Animated.Value(0),
+      sending: false
     };
   }
   sendFeedback() {

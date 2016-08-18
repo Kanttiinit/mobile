@@ -1,3 +1,4 @@
+// @flow
 import GA from 'react-native-google-analytics-bridge';
 import {AsyncStorage} from 'react-native';
 import {SET_VALUE_CURRENT_VIEW, SET_VALUE_DAY_OFFSET} from '../store/actions/values';
@@ -20,7 +21,7 @@ AsyncStorage.getItem('userId')
 });
 
 export default function analyticsMiddleware() {
-  return next => action => {
+  return (next: (action: Action) => {}) => (action: Action) => {
     switch (action.type) {
       case SET_VALUE_CURRENT_VIEW:
         GA.trackScreenView(action.payload.currentView);

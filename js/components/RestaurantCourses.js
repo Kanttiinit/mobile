@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import moment from 'moment';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -9,6 +10,7 @@ import {openModal} from '../store/actions/modal';
 import Course from './Course';
 import Button from './reusable/Button';
 import RestaurantDialog from './RestaurantDialog';
+import {colors, spaces, defaultStyles} from '../utils/style';
 
 const Courses = ({courses, restaurant}) => {
   if (courses.length) {
@@ -31,11 +33,17 @@ const Courses = ({courses, restaurant}) => {
   );
 };
 
+type Props = {
+  restaurant: Restaurant,
+  day: string,
+  courses: Course[]
+};
+
 export class Restaurant extends React.Component {
   static formatDistance(distance) {
     return distance < 1 ? (distance * 1000).toFixed(0) + ' m' : (distance).toFixed(1) + ' km';
   }
-  shouldComponentUpdate(props) {
+  shouldComponentUpdate(props: Props) {
     if (this.props.day !== props.day)
       return true;
 
@@ -50,7 +58,6 @@ export class Restaurant extends React.Component {
   }
   render() {
     const {day, isToday, restaurant, openModal, courses} = this.props;
-    const metaColor = isToday && restaurant.isOpen ? colors.darkAccent : colors.almostBlack;
 
     return (
       <View style={[defaultStyles.card, !courses.length && {opacity: 0.7}]}>
@@ -64,13 +71,13 @@ export class Restaurant extends React.Component {
               {restaurant.name}
             </Text>
             <View style={{flex: 1, marginTop: 2, flexDirection: 'row'}}>
-              <Text style={[styles.metaText, {color: metaColor}]}>
+              <Text style={styles.metaText}>
                 <Icon size={10} name="md-time" />
                 {' '}
                 {restaurant.openingHours[moment(day).weekday()] || 'suljettu'}
               </Text>
               {restaurant.distance &&
-                <Text style={[styles.metaText, {marginLeft: 8, color: metaColor}]}>
+                <Text style={[styles.metaText, {marginLeft: 8}]}>
                   <Icon size={10} name="md-walk" />
                   {' '}
                   {Restaurant.formatDistance(restaurant.distance)}

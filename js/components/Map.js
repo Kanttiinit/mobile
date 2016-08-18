@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import MapView from 'react-native-maps';
 import {connect} from 'react-redux';
@@ -6,6 +7,7 @@ import {View, StyleSheet} from 'react-native';
 import RestaurantDialog from './RestaurantDialog';
 import {openModal} from '../store/actions/modal';
 import {selectRestaurants} from '../store/selectors';
+import {colors} from '../utils/style';
 
 const Map = ({restaurants, openRestaurantModal}) => (
   <View

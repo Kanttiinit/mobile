@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import Loader from './reusable/Loader';
 import {connect} from 'react-redux';
@@ -5,6 +6,7 @@ import {View, ScrollView, LayoutAnimation, UIManager} from 'react-native';
 
 import {formatFavorites} from '../store/selectors';
 import Favorite from './Favorite';
+import {colors} from '../utils/style';
 
 UIManager.setLayoutAnimationEnabledExperimental
 && UIManager.setLayoutAnimationEnabledExperimental(true);

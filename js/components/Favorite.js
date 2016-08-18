@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
@@ -6,6 +7,7 @@ import {Text, StyleSheet, Platform} from 'react-native';
 
 import {setIsSelected} from '../store/actions/preferences';
 import Button from './reusable/Button';
+import {colors, spaces} from '../utils/style';
 
 class Favorite extends React.Component {
   shouldComponentUpdate(props) {

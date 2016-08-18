@@ -1,10 +1,11 @@
+// @flow
 import moment from 'moment';
 import {AsyncStorage} from 'react-native';
 
 const API_BASE = 'https://kitchen.kanttiinit.fi';
 
 export default {
-  get(key, url, lang, maxAge) {
+  get(key: string, url: string, lang: string, maxAge: any) {
     key = `HTTPCache-${key}-${lang}`;
     url = `${url}&lang=${lang}`;
     return AsyncStorage.getItem(key)
@@ -27,7 +28,7 @@ export default {
       .then(() => r);
     });
   },
-  reset(key) {
+  reset(key: string) {
     return AsyncStorage.removeItem(key);
   }
 };

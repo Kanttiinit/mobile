@@ -1,3 +1,4 @@
+// @flow
 import '../utils/style';
 import '../utils/i18n';
 import React from 'react';
@@ -26,6 +27,7 @@ const actions = bindActionCreators({
 }, store.dispatch);
 
 class Main extends React.Component {
+  updateInterval: any;
   componentWillMount() {
     if (Platform.OS === 'ios')
       StatusBar.setBarStyle('light-content');

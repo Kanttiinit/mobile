@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
@@ -9,6 +10,7 @@ import {isFavorite} from '../store/selectors';
 import CourseDetails from './CourseDetails';
 import Property from './reusable/Property';
 import Button from './reusable/Button';
+import {colors, spaces} from '../utils/style';
 
 const Course = ({course, openModal, isFavorite, restaurant, style}) => (
   <Button

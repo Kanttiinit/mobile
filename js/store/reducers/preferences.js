@@ -1,5 +1,6 @@
+// @flow
 import {combineReducers} from 'redux';
-import Immutable from 'immutable';
+import {Set} from 'immutable';
 import {REHYDRATE} from 'redux-persist/constants';
 
 import {
@@ -10,15 +11,21 @@ import {
 } from '../actions/preferences';
 
 const createNumberListReducer = (actionType, key) =>
-(state = Immutable.Set([-1]), {type, payload}) => {
+(state = Set([-1]), {type, payload}) => {
   if (type === REHYDRATE && payload.preferences) {
-    return Immutable.Set(payload.preferences[key]);
+    return Set(payload.preferences[key]);
   } else if (type === actionType) {
     const {include, value, values} = payload;
     if (value) {
-      return state[include ? 'add' : 'delete'](value);
+      if (include)
+        return state.add(value);
+      else
+        return state.delete(value);
     } else if (values) {
-      return state[include ? 'union' : 'subtract'](values);
+      if (include)
+        return state.union(values);
+      else
+        return state.subtract(values);
     }
   }
   return state;

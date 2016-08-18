@@ -1,6 +1,7 @@
+// @flow
 import HttpCache from '../../utils/HttpCache';
 
-export const fetchAreas = lang => ({
+export const fetchAreas = (lang: Lang) => ({
   type: 'FETCH_AREAS',
   payload: HttpCache.get('areas', '/areas?', lang, {days: '1'}),
   meta: {
@@ -8,7 +9,7 @@ export const fetchAreas = lang => ({
   }
 });
 
-export const fetchFavorites = lang => ({
+export const fetchFavorites = (lang: Lang) => ({
   type: 'FETCH_FAVORITES',
   payload: HttpCache.get('favorites', '/favorites?', lang, {hours: 1}),
   meta: {
@@ -22,13 +23,13 @@ export const fetchLocation = () => ({
     navigator.geolocation.getCurrentPosition(
       position => resolve(position.coords),
       error => console.log('could not get location', error),
-      {timeout: 3000, maximumAge: 60000}
+      {timeout: 3000, maximumAge: 60000, enableHighAccuracy: true}
     );
   }),
   meta: {data: 'location'}
 });
 
-export const fetchMenus = lang => (dispatch, getState) => {
+export const fetchMenus = (lang: Lang) => (dispatch: Dispatch, getState: GetState) => {
   const idString = getState().preferences.selectedRestaurants.join(',');
   return dispatch({
     type: 'FETCH_MENUS',
@@ -39,7 +40,7 @@ export const fetchMenus = lang => (dispatch, getState) => {
   });
 };
 
-export const fetchRestaurants = lang => ({
+export const fetchRestaurants = (lang: Lang) => ({
   type: 'FETCH_RESTAURANTS',
   payload: HttpCache.get('restaurants', '/restaurants?', lang, {days: 1}),
   meta: {

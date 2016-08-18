@@ -24,13 +24,13 @@ const Settings = ({setLang, lang, areas, loading}) => (
         selected={lang}
         onSelect={value => setLang(value)} />
     </View>
-    <View style={styles.settingGroup}>
+    <View style={[styles.settingGroup, {marginBottom: 300}]}>
       <Text style={defaultStyles.bigText}>{translations.restaurants[lang]}</Text>
       {loading || !areas ? <Loader color={colors.accent}/> :
       areas.map(area => <Area key={area.id} area={area} />)}
       <ContactForm
         type="missing-restaurant"
-        style={{marginVertical: spaces.medium, marginBottom: 300}}
+        style={{marginVertical: spaces.medium}}
         label={translations.whichRestaurantIsMissing[lang] }/>
     </View>
   </ScrollView>

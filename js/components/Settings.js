@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   },
   settingGroup: {
     padding: spaces.medium,
-    marginBottom: spaces.medium,
+    marginTop: spaces.big,
     backgroundColor: colors.white
   },
   settingLabel: {

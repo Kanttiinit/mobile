@@ -12,7 +12,7 @@ import Restaurant from './AreaRestaurant';
 import {colors, spaces} from '../utils/style';
 
 const Area = ({isAreaChecked, area, setSelectedRestaurants}) => (
-  <View style={{marginBottom: spaces.medium}}>
+  <View style={{marginBottom: spaces.big}}>
     <View style={styles.area}>
       <Text style={styles.areaTitle}>{area.name}</Text>
       <Checkbox

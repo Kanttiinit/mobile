@@ -53,11 +53,14 @@ export class Restaurant extends React.Component {
     if (this.props.day !== props.day)
       return true;
 
+    // for lang change
+    if (props.courses.length && props.courses.length === this.props.courses.length && props.courses[0].title !== this.props.courses[0].title)
+      return true;
+
     return props.restaurant.id !== this.props.restaurant.id
       || props.restaurant.isOpen !== this.props.restaurant.isOpen
       || props.restaurant.favorited !== this.props.restaurant.favorited
-      || props.restaurant.distance !== this.props.restaurant.distance
-      || props.lang !== this.props.lang;
+      || props.restaurant.distance !== this.props.restaurant.distance;
   }
   render() {
     const {day, isToday, restaurant, openModal, courses, lang} = this.props;

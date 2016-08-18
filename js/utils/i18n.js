@@ -75,6 +75,14 @@ const translations = {
   tryAgainLater: {
     en: 'Try again later.',
     fi: 'Yritä myöhemmin uudestaan.'
+  },
+  feedback: {
+    en: 'Feedback',
+    fi: 'Palaute'
+  },
+  additionalFeedback: {
+    en: 'Send feedback to the developers :)',
+    fi: 'Lähetä palautetta tekijöille :)'
   }
 };
 export default translations;

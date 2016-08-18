@@ -3,6 +3,7 @@ import {createSelector} from 'reselect';
 import _ from 'lodash';
 import moment from 'moment';
 import haversine from 'haversine';
+import type {State} from '../utils/types';
 
 const now = state => moment(state.value.now);
 const location = state => state.data.location;

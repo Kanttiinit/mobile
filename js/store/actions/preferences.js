@@ -1,5 +1,6 @@
 // @flow
 import {fetchMenus} from './async';
+import type {Lang} from '../../utils/types';
 
 export const SET_SELECTED_RESTAURANTS = 'SET_SELECTED_RESTAURANTS';
 export const SET_FAVORITED_RESTAURANTS = 'SET_FAVORITED_RESTAURANTS';
@@ -11,7 +12,7 @@ export const setIsSelected = (value: number, include: boolean) => ({
   payload: {value, include}
 });
 
-export const setSelectedRestaurants = (values: number, include: boolean) => (dispatch: Dispatch, getState: GetState) => {
+export const setSelectedRestaurants = (values: number, include: boolean) => (dispatch: any, getState: any) => {
   dispatch({
     type: SET_SELECTED_RESTAURANTS,
     payload: {values, include}

@@ -1,10 +1,11 @@
 // @flow
 import React from 'react';
 import {connect} from 'react-redux';
-import {Animated, ActivityIndicator, View, Alert} from 'react-native';
+import {Animated, ActivityIndicator, Alert} from 'react-native';
 import {Makiko} from 'react-native-textinput-effects';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import type {Lang} from '../../utils/types';
 import {colors, spaces} from '../../utils/style';
 import translations from '../../utils/i18n';
 import Button from './Button';

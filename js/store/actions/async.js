@@ -1,5 +1,6 @@
 // @flow
 import HttpCache from '../../utils/HttpCache';
+import type {Lang} from '../../utils/types';
 
 export const fetchAreas = (lang: Lang) => ({
   type: 'FETCH_AREAS',
@@ -29,7 +30,7 @@ export const fetchLocation = () => ({
   meta: {data: 'location'}
 });
 
-export const fetchMenus = (lang: Lang) => (dispatch: Dispatch, getState: GetState) => {
+export const fetchMenus = (lang: Lang) => (dispatch: any, getState: any) => {
   const idString = getState().preferences.selectedRestaurants.join(',');
   return dispatch({
     type: 'FETCH_MENUS',

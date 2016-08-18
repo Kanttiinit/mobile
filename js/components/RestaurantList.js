@@ -1,9 +1,11 @@
+// @flow
 import React from 'react';
 import {connect} from 'react-redux';
 import {ListView} from 'react-native';
 
 import {formatRestaurants, isToday} from '../store/selectors';
 import Restaurant from './RestaurantCourses';
+import {colors} from '../utils/style';
 
 const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 

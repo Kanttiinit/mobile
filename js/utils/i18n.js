@@ -1,4 +1,5 @@
-global.translations = {
+// @flow
+const translations = {
   general: {
     en: 'General',
     fi: 'Yleiset'
@@ -76,3 +77,4 @@ global.translations = {
     fi: 'Yritä myöhemmin uudestaan.'
   }
 };
+export default translations;

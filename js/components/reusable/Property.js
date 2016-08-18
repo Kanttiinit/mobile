@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 
 import {View, Text} from 'react-native';
@@ -28,21 +29,28 @@ const colors = {
 };
 
 function getName(p, lang) {
-  if (p in names)
+  if (p && p in names)
     return names[p][lang];
 
   return 'tuntematon';
 }
 
 function getColor(p) {
-  if (p in colors)
+  if (p && p in colors)
     return colors[p];
 
   return '#9E9E9E';
 }
 
+type Props = {
+  children?: string,
+  large?: boolean,
+  lang?: string
+};
+
 export default class Property extends React.Component {
-  shouldComponentUpdate(props) {
+  props: Props;
+  shouldComponentUpdate(props: Props) {
     return props.children !== this.props.children;
   }
   render() {

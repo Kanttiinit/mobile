@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import Loader from './reusable/Loader';
 import {connect} from 'react-redux';
@@ -9,6 +10,8 @@ import {selectLang} from '../store/selectors';
 import Area from './Area';
 import Dropdown from './reusable/Dropdown';
 import ContactForm from './reusable/ContactForm';
+import {colors, spaces, defaultStyles} from '../utils/style';
+import translations from '../utils/i18n';
 
 const Settings = ({setLang, lang, areas, loading}) => (
   <ScrollView style={styles.container}>

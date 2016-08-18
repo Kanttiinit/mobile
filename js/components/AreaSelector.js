@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -6,6 +7,8 @@ import {View, Text} from 'react-native';
 import Button from './reusable/Button';
 import {setSelectedRestaurants} from '../store/actions/preferences';
 import {selectLang} from '../store/selectors';
+import {colors, spaces, defaultStyles} from '../utils/style';
+import translations from '../utils/i18n';
 
 const AreaSelector = ({areas, lang, setSelectedRestaurants}) => (
   <View style={{justifyContent: 'center', flex: 1}}>

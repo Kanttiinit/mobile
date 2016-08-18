@@ -1,3 +1,4 @@
+// @flow
 import {StyleSheet} from 'react-native';
 import Color from 'color-js';
 
@@ -7,7 +8,7 @@ const white = Color('#fff');
 const black = Color('#000');
 const yellow = Color('#FDD835');
 
-const colors = {
+const rawColors = {
   accent, white, black, red, yellow,
   accentLight: accent.lightenByRatio(0.1),
   accentDark: accent.darkenByRatio(0.3),
@@ -19,7 +20,12 @@ const colors = {
   lightRed: red.setLightness(0.97).desaturateByRatio(0.2)
 };
 
-const spaces = {
+export const colors = Object.keys(rawColors).reduce((acc, colorName) => {
+  acc[colorName] = rawColors[colorName].toString();
+  return acc;
+}, {});
+
+export const spaces = {
   big: 20,
   medium: 10,
   small: 6,
@@ -37,7 +43,7 @@ const roundedElevated = {
   borderRadius: 2
 };
 
-const defaultStyles = StyleSheet.create({
+export const defaultStyles = StyleSheet.create({
   card: {
     ...roundedElevated,
     backgroundColor: colors.white,
@@ -72,10 +78,3 @@ const defaultStyles = StyleSheet.create({
     right: 0
   }
 });
-
-global.colors = Object.keys(colors).reduce((acc, colorName) => {
-  acc[colorName] = colors[colorName].toString();
-  return acc;
-}, {});
-global.defaultStyles = defaultStyles;
-global.spaces = spaces;

@@ -1,6 +1,7 @@
+// @flow
 import {MODAL_OPEN, MODAL_DISMISS} from '../actions/modal';
 
-export default function(state = {}, {type, payload}) {
+export default function(state: State = {}, {type, payload}: Action) {
   switch (type) {
     case MODAL_OPEN:
       return {

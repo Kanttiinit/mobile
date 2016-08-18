@@ -1,3 +1,4 @@
+// @flow
 import moment from 'moment';
 import _ from 'lodash';
 
@@ -12,22 +13,22 @@ export const updateNow = () => ({
   }
 });
 
-export const setCurrentView = currentView => ({
+export const setCurrentView = (currentView: string) => ({
   type: SET_VALUE_CURRENT_VIEW,
   payload: {currentView}
 });
 
-export const setKeyboardVisible = keyboardVisible => ({
+export const setKeyboardVisible = (keyboardVisible: boolean) => ({
   type: 'SET_VALUE_KEYBOARD_VISIBLE',
   payload: {keyboardVisible}
 });
 
-export const setDayOffset = dayOffset => ({
+export const setDayOffset = (dayOffset: number) => ({
   type: SET_VALUE_DAY_OFFSET,
   payload: {dayOffset}
 });
 
-export const setInitializing = initializing => ({
+export const setInitializing = (initializing: boolean) => ({
   type: 'SET_VALUE_INITIALIZING',
   payload: {initializing}
 });

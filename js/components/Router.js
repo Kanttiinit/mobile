@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-simple-modal';
@@ -14,6 +15,8 @@ import Menu from './Menu';
 import Favorites from './Favorites';
 import Settings from './Settings';
 import Map from './Map';
+import {colors, spaces, defaultStyles} from '../utils/style';
+import translations from '../utils/i18n';
 
 const views = [
   { key: 'menus', icon: 'md-restaurant', component: Menu },

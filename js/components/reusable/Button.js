@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 
 import {
@@ -6,7 +7,16 @@ import {
   TouchableHighlight
 } from 'react-native';
 
-const Button = props => {
+type Props = {
+  onPress: () => any,
+  containerStyle?: any,
+  pointerEvents?: 'all' | 'none' | 'auto',
+  highlightColor?: string,
+  style?: any,
+  children?: any
+};
+
+const Button = (props: Props) => {
   const {onPress, containerStyle, pointerEvents, highlightColor, style} = props;
   const children = <View style={style}>{props.children}</View>;
 

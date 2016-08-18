@@ -1,6 +1,9 @@
+// @flow
 import React from 'react';
 import _ from 'lodash';
 import {View, StyleSheet} from 'react-native';
+import {colors, spaces, defaultStyles} from '../utils/style';
+
 
 const LaunchScreen = () => (
   <View style={[defaultStyles.overlay, styles.container]}>

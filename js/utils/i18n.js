@@ -32,6 +32,10 @@ const translations = {
     en: 'Close',
     fi: 'Sulje'
   },
+  cancel: {
+    en: 'Cancel',
+    fi: 'Peruuta'
+  },
   directions: {
     en: 'Directions',
     fi: 'Reittiohjeet'

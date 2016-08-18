@@ -8,7 +8,7 @@ import haversine from 'haversine';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Color from 'color-js';
-import {Platform, Linking, View, Text, TouchableWithoutFeedback, StyleSheet} from 'react-native';
+import {Platform, Linking, View, Text, ActionSheetIOS, TouchableWithoutFeedback, StyleSheet} from 'react-native';
 
 import {Restaurant} from './RestaurantCourses';
 import Button from './reusable/Button';
@@ -43,16 +43,29 @@ function getInitialRegion(restaurant, location) {
   };
 }
 
-function openDirections(address) {
+function openDirections(address, lang) {
   const encodedAddress = encodeURIComponent(address);
 
   if (Platform.OS === 'ios') {
-    const googleMapsUri = 'comgooglemaps://?daddr=' + encodedAddress;
+    const googleMapsUri = 'comgooglemaps://daddr=' + encodedAddress;
     const appleMapsUrl = 'http://maps.apple.com/?daddr=' + encodedAddress;
+    const options = [appleMapsUrl, googleMapsUri];
 
     Linking.canOpenURL(googleMapsUri)
     .then(supported => {
-      Linking.openURL(supported ? googleMapsUri : appleMapsUrl);
+      if (supported) {
+        ActionSheetIOS.showActionSheetWithOptions({
+          options: ['Apple Maps', 'Google Maps', translations.cancel[lang]],
+          cancelButtonIndex: 2,
+          tintColor: colors.accent
+        },
+        (buttonIndex) => {
+          if (buttonIndex != 2)
+            Linking.openURL(options[buttonIndex]);
+        });
+      } else {
+        Linking.openURL(appleMapsUrl);
+      }
     })
     .catch(err => console.error('An error occurred', err));
   } else {
@@ -130,7 +143,7 @@ const RestaurantDialog = ({lang, restaurant, isFavorited, location, dismissModal
         </Button>
         {restaurant.address &&
           <Button
-            onPress={() => openDirections(restaurant.address)}>
+            onPress={() => openDirections(restaurant.address, lang)}>
             <Text style={defaultStyles.lightButtonText}>
               <Icon name="md-compass" />{' ' + translations.directions[lang].toUpperCase()}
             </Text>

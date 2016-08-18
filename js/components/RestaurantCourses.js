@@ -11,6 +11,7 @@ import Course from './Course';
 import Button from './reusable/Button';
 import RestaurantDialog from './RestaurantDialog';
 import {colors, spaces, defaultStyles} from '../utils/style';
+import type {Restaurant as RestaurantType} from '../utils/types';
 
 const Courses = ({courses, restaurant}) => {
   if (courses.length) {
@@ -34,12 +35,15 @@ const Courses = ({courses, restaurant}) => {
 };
 
 type Props = {
-  restaurant: Restaurant,
+  restaurant: RestaurantType,
   day: string,
-  courses: Course[]
+  courses: Course[],
+  isToday: boolean,
+  openModal: () => void
 };
 
 export class Restaurant extends React.Component {
+  props: Props;
   static formatDistance(distance) {
     return distance < 1 ? (distance * 1000).toFixed(0) + ' m' : (distance).toFixed(1) + ' km';
   }

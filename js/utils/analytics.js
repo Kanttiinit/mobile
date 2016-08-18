@@ -21,7 +21,7 @@ AsyncStorage.getItem('userId')
 });
 
 export default function analyticsMiddleware() {
-  return (next: (action: Action) => {}) => (action: Action) => {
+  return (next: (action: any) => {}) => (action: any) => {
     switch (action.type) {
       case SET_VALUE_CURRENT_VIEW:
         GA.trackScreenView(action.payload.currentView);

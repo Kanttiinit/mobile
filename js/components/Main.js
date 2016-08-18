@@ -4,7 +4,7 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {Provider} from 'react-redux';
 import Router from './Router';
-//import codePush from 'react-native-code-push';
+import codePush from 'react-native-code-push';
 import {AsyncStorage, AppState, AppRegistry, Platform, StatusBar, Keyboard} from 'react-native';
 import {persistStore} from 'redux-persist';
 import watch from 'redux-watch';
@@ -39,7 +39,7 @@ class Main extends React.Component {
 
     AppState.addEventListener('change', currentAppState => {
       if (currentAppState === 'active') {
-        //codePush.sync({installMode: codePush.InstallMode.ON_NEXT_RESUME});
+        codePush.sync({installMode: codePush.InstallMode.ON_NEXT_RESUME});
         this.refresh();
         this.startAutoUpdate();
       } else if (currentAppState === 'background' && this.updateInterval) {

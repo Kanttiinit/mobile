@@ -89,8 +89,8 @@ const translations = {
     fi: 'Palaute'
   },
   additionalFeedback: {
-    en: 'Send feedback to the developers :)',
-    fi: 'Lähetä palautetta tekijöille :)'
+    en: 'Send feedback to the developers',
+    fi: 'Lähetä palautetta tekijöille'
   }
 };
 export default translations;

@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {Animated, View, Text, ScrollView, TouchableHighlight} from 'react-native';
+import {Animated, View, Text, ScrollView, Platform, TouchableHighlight, Picker} from 'react-native';
 import {colors, spaces} from '../../utils/style';
 
 export default class Dropdown extends React.Component {
@@ -23,6 +23,23 @@ export default class Dropdown extends React.Component {
   render() {
     const {onSelect, selected, options, style} = this.props;
     const {opacity, translate, height, opened} = this.state;
+
+    if (Platform.OS === 'android') {
+      return (
+        <Picker
+          style={style}
+          selectedValue={selected}
+          mode="dropdown"
+          onValueChange={value => onSelect(value)}>
+          {options.map(({value, label}) =>
+          <Picker.Item
+            key={value}
+            value={value}
+            label={label}/>
+          )}
+        </Picker>
+      );
+    }
 
     return (
       <View style={[style, {zIndex: 2}]}>
@@ -51,7 +68,8 @@ export default class Dropdown extends React.Component {
             opacity: opacity,
             transform: [{
               translateY: translate
-            }]
+            }],
+            zIndex: 2
           }}>
           <ScrollView style={{
             backgroundColor: 'white',

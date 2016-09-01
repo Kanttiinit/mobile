@@ -2,7 +2,7 @@
 import React from 'react';
 import MapView from 'react-native-maps';
 import {connect} from 'react-redux';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Platform} from 'react-native';
 
 import RestaurantDialog from './RestaurantDialog';
 import {openModal} from '../store/actions/modal';
@@ -25,7 +25,7 @@ const Map = ({restaurants, openRestaurantModal}) => (
       {restaurants.map(restaurant =>
         <MapView.Marker
           key={restaurant.id}
-          pinColor={colors.accent}
+          pinColor={Platform.OS === 'ios' ? colors.accent : undefined}
           onSelect={() => openRestaurantModal(restaurant)}
           onPress={() => openRestaurantModal(restaurant)}
           coordinate={restaurant} />

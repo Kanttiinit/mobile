@@ -24,7 +24,6 @@ class Menu extends React.Component {
   }
   render() {
     const {dayOffset, lang, setDayOffset, loading, days, restaurants} = this.props;
-
     const renderContent = () => {
       if (loading) {
         return <Loader color={colors.accent} />;

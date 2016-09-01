@@ -26,7 +26,7 @@ const Settings = ({setLang, lang, areas, loading}) => (
     </View>
     <View style={styles.settingGroup}>
       <Text style={defaultStyles.bigText}>{translations.restaurants[lang]}</Text>
-      {loading || !areas ? <Loader color={colors.accent}/> :
+      {loading || !areas ? <View style={{height: 100}}><Loader color={colors.accent}/></View> :
       areas.map(area => <Area key={area.id} area={area} />)}
       <ContactForm
         type="missing-restaurant"

@@ -2,7 +2,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Animated, ActivityIndicator, Alert} from 'react-native';
-import {Makiko} from 'react-native-textinput-effects';
+import {Fumi} from 'react-native-textinput-effects';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import type {Lang} from '../../utils/types';
@@ -89,17 +89,17 @@ class ContactForm extends React.Component {
       outputRange: [0.4, 1]
     });
     return (
-      <Animated.View style={[style, {borderColor, borderWidth: 3}]}>
-        <Makiko
+      <Animated.View style={[style]}>
+        <Fumi
           label={label}
           iconName="comment"
           iconClass={Icon}
-          iconColor={colors.white}
+          iconColor={colors.accent}
           value={message}
           onFocus={() => this.onFocus()}
           onBlur={() => this.onBlur()}
           onChangeText={message => this.setState({message})}
-          inputStyle={{paddingRight: 30}}
+          inputStyle={{paddingRight: 50}}
           autoCorrect={false}
           style={{flex: 1}} />
         <Animated.View
@@ -107,7 +107,7 @@ class ContactForm extends React.Component {
             backgroundColor: 'transparent',
             position: 'absolute',
             right: 4,
-            top: 12,
+            top: 28,
             opacity: phase,
             transform: [{scale}]
           }}>

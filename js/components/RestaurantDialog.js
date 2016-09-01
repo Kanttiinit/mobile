@@ -88,7 +88,7 @@ const RestaurantDialog = ({lang, restaurant, isFavorited, location, dismissModal
         <MapView.Marker
           title={restaurant.name}
           description={restaurant.address}
-          pinColor={colors.accent}
+          pinColor={Platform.OS === 'ios' ? colors.accent : undefined}
           coordinate={{
             latitude: restaurant.latitude,
             longitude: restaurant.longitude

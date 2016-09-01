@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-simple-modal';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {StyleSheet, Text, View, Navigator, Platform} from 'react-native';
+import {StyleSheet, Text, View, Platform} from 'react-native';
 
 import Button from './reusable/Button';
 import LaunchScreen from './LaunchScreen';
@@ -19,10 +19,10 @@ import {colors, spaces, defaultStyles} from '../utils/style';
 import translations from '../utils/i18n';
 
 const views = [
-  { key: 'menus', icon: 'md-restaurant', component: Menu },
-  { key: 'favorites', icon: 'md-heart', component: Favorites },
-  { key: 'map', icon: 'md-map', component: Map},
-  { key: 'settings', icon: 'md-settings', component: Settings }
+  { key: 'menus', icon: 'md-restaurant', component: React.createElement(Menu) },
+  { key: 'favorites', icon: 'md-heart', component: React.createElement(Favorites) },
+  { key: 'map', icon: 'md-map', component: React.createElement(Map) },
+  { key: 'settings', icon: 'md-settings', component: React.createElement(Settings) }
 ];
 
 
@@ -36,61 +36,40 @@ const TabButton = ({title, onPress, style, color, icon}) => (
   </Button>
 );
 
-const NavBar = ({lang, currentView, changeScene, initializing}) => {
-  return (
-    <View style={styles.tabBar}>
-      {views.map(v =>
-        <TabButton
-          color={currentView === v.key ? colors.accent : '#b0b0b0'}
-          style={{backgroundColor: currentView === v.key ? '#f8f8f8' : colors.lightGrey}}
-          onPress={() => changeScene(v)}
-          icon={v.icon}
-          key={v.key}
-          title={translations[v.key][lang]} />
-      )}
-      {initializing && <View style={[defaultStyles.overlay, {backgroundColor: colors.grey}]} />}
-    </View>
-  );
-};
+const NavBar = ({lang, currentView, onButtonPress, initializing}) => (
+  <View style={styles.tabBar}>
+    {views.map(v =>
+      <TabButton
+        color={currentView === v.key ? colors.accent : '#b0b0b0'}
+        style={{backgroundColor: currentView === v.key ? '#f8f8f8' : colors.lightGrey}}
+        onPress={() => onButtonPress(v)}
+        icon={v.icon}
+        key={v.key}
+        title={translations[v.key][lang]} />
+    )}
+    {initializing && <View style={[defaultStyles.overlay, {backgroundColor: colors.grey}]} />}
+  </View>
+);
 
-class Router extends React.Component {
-  changeScene(data) {
-    try {
-      this.refs.navigator.jumpTo(data);
-    } catch(e) {
-      this.refs.navigator.push(data);
-    }
-    this.props.setCurrentView(data.key);
-  }
-  render() {
-    const {lang, currentView, modal, keyboardVisible, initializing} = this.props;
-
-    return (
-      <View style={styles.wrapper}>
-        {Platform.OS === 'ios' ? <View style={{height:20, backgroundColor:colors.accent}}></View> : null}
-        <Navigator
-          ref="navigator"
-          style={{flex: 1}}
-          initialRoute={views[0]}
-          initialRouteStack={views}
-          renderScene={route => React.createElement(route.component)} />
-        {initializing && <LaunchScreen />}
-        <NavBar
-          lang={lang}
-          initializing={initializing}
-          changeScene={this.changeScene.bind(this)}
-          currentView={currentView} />
-        <Modal
-          modalStyle={modal.style}
-          open={modal.visible}
-          offset={keyboardVisible ? -100 : 0}
-          modalDidClose={() => this.props.dismissModal()}>
-          {modal.component}
-        </Modal>
-      </View>
-    );
-  }
-}
+const Router = ({lang, currentView, modal, keyboardVisible, initializing, setCurrentView, dismissModal}) => (
+  <View style={styles.wrapper}>
+    {Platform.OS === 'ios' ? <View style={{height:20, backgroundColor:colors.accent}}></View> : null}
+    {views.find(v => v.key === currentView).component}
+    {initializing && <LaunchScreen />}
+    <NavBar
+      lang={lang}
+      initializing={initializing}
+      onButtonPress={view => setCurrentView(view.key)}
+      currentView={currentView} />
+    <Modal
+      modalStyle={modal.style}
+      open={modal.visible}
+      offset={keyboardVisible ? -100 : 0}
+      modalDidClose={() => dismissModal()}>
+      {modal.component}
+    </Modal>
+  </View>
+);
 
 const styles = StyleSheet.create({
   wrapper: {

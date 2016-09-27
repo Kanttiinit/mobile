@@ -19,10 +19,10 @@ import {colors, spaces, defaultStyles} from '../utils/style';
 import translations from '../utils/i18n';
 
 const views = [
-  { key: 'menus', icon: 'md-restaurant', component: React.createElement(Menu) },
-  { key: 'favorites', icon: 'md-heart', component: React.createElement(Favorites) },
-  { key: 'map', icon: 'md-map', component: React.createElement(Map) },
-  { key: 'settings', icon: 'md-settings', component: React.createElement(Settings) }
+  { key: 'menus', icon: 'md-restaurant', component: Menu },
+  { key: 'favorites', icon: 'md-heart', component: Favorites },
+  //{ key: 'map', icon: 'md-map', component: React.createElement(Map) },
+  { key: 'settings', icon: 'md-settings', component: Settings }
 ];
 
 
@@ -54,7 +54,16 @@ const NavBar = ({lang, currentView, onButtonPress, initializing}) => (
 const Router = ({lang, currentView, modal, keyboardVisible, initializing, setCurrentView, dismissModal}) => (
   <View style={styles.wrapper}>
     {Platform.OS === 'ios' ? <View style={{height:20, backgroundColor:colors.accent}}></View> : null}
-    {views.find(v => v.key === currentView).component}
+    <View style={{flex: 1}}>
+      {views.map(view =>
+        <View
+          key={view.key}
+          pointerEvents={view.key === currentView ? 'auto' : 'none'}
+          style={[styles.view, {opacity: view.key === currentView ? 1 : 0}]}>
+          {React.createElement(view.component)}
+        </View>
+      )}
+    </View>
     {initializing && <LaunchScreen />}
     <NavBar
       lang={lang}
@@ -87,6 +96,13 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: spaces.medium,
     alignItems: 'center'
+  },
+  view: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0
   }
 });
 

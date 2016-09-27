@@ -93,6 +93,7 @@ android {
         targetSdkVersion 22
         versionCode 16
         versionName "4.1.2"
+        multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }

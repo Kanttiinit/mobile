@@ -4,6 +4,7 @@ import Loader from './reusable/Loader';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {ScrollView, View, Text, StyleSheet} from 'react-native';
+import sortBy from 'lodash/sortBy';
 
 import {setLang} from '../store/actions/preferences';
 import {selectLang} from '../store/selectors';
@@ -16,8 +17,7 @@ import translations from '../utils/i18n';
 const Settings = ({setLang, lang, areas, loading}) => (
   <ScrollView style={styles.container}>
     <View style={[styles.settingGroup, {zIndex: 999}]}>
-      <Text style={defaultStyles.bigText}>{translations.general[lang]}</Text>
-      <Text style={styles.settingLabel}>{translations.lang[lang]}</Text>
+      <Text style={defaultStyles.bigText}>{translations.lang[lang]}</Text>
       <Dropdown
         value={lang}
         options={[{value: 'fi', label: 'Finnish'}, {value: 'en', label: 'English'}]}
@@ -27,7 +27,7 @@ const Settings = ({setLang, lang, areas, loading}) => (
     <View style={styles.settingGroup}>
       <Text style={defaultStyles.bigText}>{translations.restaurants[lang]}</Text>
       {loading || !areas ? <View style={{height: 100}}><Loader color={colors.accent}/></View> :
-      areas.map(area => <Area key={area.id} area={area} />)}
+      sortBy(areas, 'name').map(area => <Area key={area.id} area={area} />)}
       <ContactForm
         type="missing-restaurant"
         style={{marginVertical: spaces.medium}}

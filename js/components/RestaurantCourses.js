@@ -108,6 +108,7 @@ export default connect(null, mapDispatch)(Restaurant);
 const styles = StyleSheet.create({
   header: {
     padding: spaces.medium,
+    paddingTop: spaces.small,
     justifyContent: 'center'
   },
   borderTop: {

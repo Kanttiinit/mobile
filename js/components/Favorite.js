@@ -25,7 +25,7 @@ class Favorite extends React.Component {
         style={styles.favorite}
         onPress={this.toggle.bind(this)}>
         <Icon
-          size={24}
+          size={26}
           color={favorite.selected ? colors.red : colors.grey}
           name={'md-heart' + (favorite.selected ? '' : '-outline')} />
         <Text style={styles.foodTitle}>{favorite.name}</Text>
@@ -44,13 +44,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingLeft: spaces.big,
     paddingVertical: spaces.medium,
-    marginBottom: 2
+    marginBottom: 2,
+    alignItems: 'center'
   },
   foodTitle: {
     fontWeight: '300',
     fontSize: 20,
     marginLeft: spaces.big,
     flex: 1,
+    paddingBottom: 3,
     fontFamily: Platform.OS === 'android' ? 'sans-serif-light' : undefined
   }
 });

@@ -1,9 +1,8 @@
 // @flow
 import React from 'react';
-import Checkbox from './reusable/Checkbox';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet, Switch} from 'react-native';
 import sortBy from 'lodash/sortBy';
 
 import {isAreaChecked} from '../store/selectors';
@@ -15,11 +14,9 @@ const Area = ({isAreaChecked, area, setSelectedRestaurants}) => (
   <View style={{marginBottom: spaces.big}}>
     <View style={styles.area}>
       <Text style={styles.areaTitle}>{area.name}</Text>
-      <Checkbox
-        backgroundColor={colors.accentDark}
-        color={colors.white}
-        checked={isAreaChecked}
-        onCheckedChange={checked => setSelectedRestaurants(area.restaurants.map(r => r.id), checked)} />
+      <Switch
+        value={isAreaChecked}
+        onValueChange={checked => setSelectedRestaurants(area.restaurants.map(r => r.id), checked)} />
     </View>
     {sortBy(area.restaurants, 'name').map((r, i) =>
       <Restaurant
@@ -37,7 +34,9 @@ const styles = StyleSheet.create({
   },
   areaTitle: {
     flex: 1,
-    color: colors.darkGrey
+    color: colors.darkGrey,
+    fontSize: 18,
+    marginVertical: spaces.medium
   },
   restaurant: {
     flexDirection: 'row',

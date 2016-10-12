@@ -7,7 +7,6 @@ import {bindActionCreators} from 'redux';
 import {StyleSheet, Text, View, Platform} from 'react-native';
 
 import Button from './reusable/Button';
-import LaunchScreen from './LaunchScreen';
 import {setCurrentView} from '../store/actions/values';
 import {dismissModal} from '../store/actions/modal';
 import {selectLang} from '../store/selectors';
@@ -45,9 +44,8 @@ const NavBar = ({lang, currentView, onButtonPress, initializing}) => (
         onPress={() => onButtonPress(v)}
         icon={v.icon}
         key={v.key}
-        title={translations[v.key][lang]} />
+        title={initializing ? null : translations[v.key][lang]} />
     )}
-    {initializing && <View style={[defaultStyles.overlay, {backgroundColor: colors.grey}]} />}
   </View>
 );
 
@@ -64,7 +62,6 @@ const Router = ({lang, currentView, modal, keyboardVisible, initializing, setCur
         </View>
       )}
     </View>
-    {initializing && <LaunchScreen />}
     <NavBar
       lang={lang}
       initializing={initializing}

@@ -12,7 +12,7 @@ const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2
 const RestaurantList = ({day, isToday, restaurants, lang}) => (
   <ListView
     style={{backgroundColor: colors.lightGrey}}
-    initialListSize={1}
+    initialListSize={2}
     pageSize={2}
     removeClippedSubviews={false}
     dataSource={dataSource.cloneWithRows(restaurants)}

@@ -32,7 +32,7 @@ const CourseDetails = ({course, lang, courseFavorites, restaurant, setIsSelected
           onPress={() => setIsSelected(f.id, !f.selected)}
           style={[styles.favoriteButton, {backgroundColor: f.selected ? colors.red : 'transparent'}]}>
           <Text style={{color: f.selected ? colors.white : colors.red}}>
-            <Icon name={'md-heart' + (f.selected ? '' : '-outline')} />
+            <Icon size={14} name={'md-heart' + (f.selected ? '' : '-outline')} />
             {' ' + f.name}
           </Text>
         </Button>

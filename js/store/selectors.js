@@ -33,7 +33,7 @@ export const isFavorite = createSelector(
   favorites, selectedFavoriteIds, (state, props) => props.course.title,
   (all, selected, title) => selected.some(selectedId => {
     const favorite = all.find(f => f.id === selectedId);
-    if (favorite) {
+    if (favorite && title) {
       return title.match(new RegExp(favorite.regexp, 'i'));
     }
   })

@@ -2,7 +2,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {View, Text} from 'react-native';
+import {View, Text, ScrollView} from 'react-native';
 
 import Button from './reusable/Button';
 import {setSelectedRestaurants} from '../store/actions/preferences';
@@ -15,19 +15,21 @@ const AreaSelector = ({areas, lang, setSelectedRestaurants}) => (
     <Text style={[defaultStyles.bigText, {textAlign: 'center', padding: spaces.big, marginBottom: spaces.medium}]}>
       {translations.beginMessage[lang]}
     </Text>
-    {areas.map(a =>
-      <Button
-        key={a.id}
-        onPress={() => setSelectedRestaurants(a.restaurants.map(r => r.id), true)}
-        style={[defaultStyles.button, {padding: spaces.big, marginVertical: spaces.small, marginHorizontal: spaces.medium}]}>
-        <Text
-          style={[defaultStyles.bigText, {color: colors.white}]}>
-          {a.name}
-        </Text>
-      </Button>
-    )}
+    <ScrollView style={{flex: 1}}>
+      {areas.map(a =>
+        <Button
+          key={a.id}
+          onPress={() => setSelectedRestaurants(a.restaurants.map(r => r.id), true)}
+          style={[defaultStyles.button, {padding: spaces.big, marginVertical: spaces.small, marginHorizontal: spaces.medium}]}>
+          <Text
+            style={[defaultStyles.bigText, {color: colors.white}]}>
+            {a.name}
+          </Text>
+        </Button>
+      )}
+    </ScrollView>
     <Text
-      style={[defaultStyles.smallText, {textAlign: 'center', marginTop: spaces.medium}]}>
+      style={[defaultStyles.smallText, {textAlign: 'center', marginVertical: spaces.medium}]}>
       {translations.changeSettingsLaterText[lang]}
     </Text>
   </View>

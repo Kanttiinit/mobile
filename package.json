@@ -1,6 +1,6 @@
 {
   "name": "kanttiinit",
-  "version": "4.1.3",
+  "version": "4.2.0",
   "private": true,
   "scripts": {
     "start": "react-native start",

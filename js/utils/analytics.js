@@ -6,7 +6,7 @@ import {MODAL_OPEN, MODAL_DISMISS} from '../store/actions/modal';
 import {SET_SELECTED_FAVORITE} from '../store/actions/preferences';
 import _ from 'lodash';
 
-GA.setTrackerId('UA-55969084-5');
+GA.setTrackerId('UA-85003235-2');
 GA.setAppName('Kanttiinit');
 
 const uuid = () => _.times(128, () => (Math.random() * 16 | 0).toString(16)).join('');

@@ -4,14 +4,13 @@ import moment from 'moment';
 import 'moment/locale/fi';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {View} from 'react-native';
+import {View, ScrollView, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import _ from 'lodash';
 
 import RestaurantList from './RestaurantList';
 import AreaSelector from './AreaSelector';
 import {setDayOffset} from '../store/actions/values';
 import {orderedRestaurants, selectLang} from '../store/selectors';
-import Dropdown from './reusable/Dropdown';
 import PlaceholderText from './reusable/PlaceholderText';
 import {colors, spaces, defaultStyles} from '../utils/style';
 
@@ -34,7 +33,7 @@ class Menu extends React.Component {
   }
   renderDayTitle(day, lang) {
     day = moment(day).locale(lang);
-    return `${day.format('dddd').toUpperCase()} ${day.format('D.M.')}`;
+    return `${day.format('ddd').toUpperCase()} ${day.format('D.M.')}`;
   }
   render() {
     const {dayOffset, lang, setDayOffset, initializing, loading, days, restaurants} = this.props;
@@ -46,11 +45,19 @@ class Menu extends React.Component {
       } else {
         return (
           <View style={{flex: 1}}>
-            <Dropdown
-              style={{marginHorizontal: spaces.medium, marginVertical: spaces.small}}
-              options={days.map((day, i) => ({value: i, label: this.renderDayTitle(day, lang)}))}
-              selected={dayOffset}
-              onSelect={value => setDayOffset(value)} />
+            <ScrollView
+              style={styles.dayPillContainer}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}>
+              {days.map((day, i) =>
+              <TouchableOpacity
+                key={day}
+                style={[styles.dayPill, dayOffset === i && styles.selectedDayPill]}
+                onPress={() => setDayOffset(i)}>
+                <Text style={{color: colors.accent}}>{this.renderDayTitle(day, lang)}</Text>
+              </TouchableOpacity>
+              )}
+            </ScrollView>
             {loading || initializing ? <PlaceholderList /> :
             <RestaurantList
               day={days[dayOffset]}
@@ -68,6 +75,20 @@ class Menu extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  dayPillContainer: {
+    flex: 0,
+    margin: spaces.medium
+  },
+  dayPill: {
+    padding: spaces.medium,
+    borderRadius: spaces.small
+  },
+  selectedDayPill: {
+    backgroundColor: colors.accentOpaque
+  }
+});
 
 const mapState = state => ({
   restaurants: orderedRestaurants(state),

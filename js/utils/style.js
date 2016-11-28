@@ -12,6 +12,7 @@ const rawColors = {
   accent, white, black, red, yellow,
   accentLight: accent.lightenByRatio(0.1),
   accentDark: accent.darkenByRatio(0.3),
+  accentOpaque: accent.setAlpha(0.1),
   grey: white.darkenByRatio(0.3),
   lightGrey: white.darkenByRatio(0.03),
   mediumGrey: white.darkenByRatio(0.1),
